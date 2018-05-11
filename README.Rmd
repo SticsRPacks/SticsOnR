@@ -54,7 +54,7 @@ This is a basic example using the default dummy simulation (parameters and meteo
 
 ```{r example1, eval=FALSE}
 library("sticRs")
-set_USM(plant= c("wheat","wheat"))
+set_usm(plant= c("wheat","wheat"))
 set_param(file= "tec", plant= 2, param= "interrang", value= 0.01)
 ```
 
