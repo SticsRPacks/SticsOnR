@@ -8,21 +8,30 @@
 #' @param dir.orig  Path to the directory from which copy the simulation files. If
 #'                  \code{NULL} (the default), uses the package dummy USM.
 #' @param dir.targ  Path to the target directory for simulation. Created if missing.
-#' @param dir.stics Path to the STICS model executable.
+#' @param dir.stics Path to the STICS model executable (optional, only needed if not present
+#'                  in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
 #'
 #' @details This function is a helper function used by other package functions
 #'
 #' @examples
+#'\dontrun{
+#' # Set a dummy simulation in the folder "1-Simulations", relative to the
+#' # project path:
+#'
+#' library(sticRs)
+#' set_usm(dir.targ = "1-Simulations")
+#'
+#'}
 #'
 #' @export
 set_usm= function(dir.orig=NULL, dir.targ= getwd(),
-                  dir.stics= dir.targ,usm_name= NULL){
+                  dir.stics= NULL,usm_name= NULL){
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
   }else{
-    Files= list.files(dir.dummy, full.names = T)
+    Files= list.files(dir.orig, full.names = T)
   }
 
   if(is.null(usm_name)){
@@ -35,13 +44,15 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(),
     }
   }
 
-  if(!dir.exists(dir.targ)){
-    dir.create(dir.targ)
+  usm_path= file.path(dir.targ,usm_name)
+
+  if(!dir.exists(usm_path)){
+    dir.create(usm_path)
     overw= F
   }else{
     File_already=
       basename(Files)[file.exists(
-        list.files(dir.targ, full.names = T),basename(Files))]
+        list.files(usm_path, full.names = T),basename(Files))]
     if(length(File_already)>0){
       overw= NULL
       count= 1
@@ -62,19 +73,22 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(),
     }
   }
 
-  written= file.copy(from = Files, to= dir.targ,
+  written= file.copy(from = Files, to= usm_path,
                      recursive = T,overwrite = overw)
-  if(dir.stics!=dir.targ){
-    written= c(written, file.copy(from = dir.stics, to= dir.targ,
+  if(!is.null(dir.stics)){
+    written= c(written, file.copy(from = dir.stics, to= usm_path,
                                   recursive = T, overwrite = overw))
   }
-  cat(paste("Files:\n",
-            paste(basename(Files[written]), collapse = ", "),
-            "\nwere all sucessfully written in",dir.targ))
-  if(any(!written)){
+  if(any(written)){
     cat(paste("Files:\n",
               paste(basename(Files[written]), collapse = ", "),
-              "\nwere not replaced in",dir.targ,
+              "\nwere all sucessfully written in",usm_path))
+  }
+
+  if(any(!written)){
+    cat(paste("\nFiles:\n",
+              paste(basename(Files[!written]), collapse = ", "),
+              "\nwere not replaced in",usm_path,
               "following your request to not overwrite"))
   }
 

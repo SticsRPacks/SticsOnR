@@ -6,7 +6,9 @@ Version: 0.1.0
 Authors@R: c(person("Remi", "Vezy",, "vezy.remi@gmail.com", c("aut", "cre", "cph"),comment = c(ORCID = "0000-0002-0808-1461")))
 Description: sticRs allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,
   to import the outputs and analyse them from R. The package also provide default reports.
-License: file LICENCE
+URL: https://github.com/VEZY/sticRs
+BugReports: https://github.com/VEZY/sticRs/issues
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true

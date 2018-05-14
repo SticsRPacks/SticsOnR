@@ -4,7 +4,7 @@
 \alias{set_usm}
 \title{Create a simulation unit (USM) for the STICS model}
 \usage{
-set_usm(dir.orig = NULL, dir.targ = getwd(), dir.stics = dir.targ,
+set_usm(dir.orig = NULL, dir.targ = getwd(), dir.stics = NULL,
   usm_name = NULL)
 }
 \arguments{
@@ -13,7 +13,8 @@ set_usm(dir.orig = NULL, dir.targ = getwd(), dir.stics = dir.targ,
 
 \item{dir.targ}{Path to the target directory for simulation. Created if missing.}
 
-\item{dir.stics}{Path to the STICS model executable.}
+\item{dir.stics}{Path to the STICS model executable (optional, only needed if not present
+in dir.orig)}
 
 \item{usm_name}{Vector name of the USM(s).}
 }
@@ -26,5 +27,13 @@ Uses a pre-existing USM, copy files to target folder(s) of simulation,
 This function is a helper function used by other package functions
 }
 \examples{
+\dontrun{
+# Set a dummy simulation in the folder "1-Simulations", relative to the
+# project path:
+
+library(sticRs)
+set_usm(dir.targ = "1-Simulations")
+
+}
 
 }
