@@ -16,8 +16,8 @@
 #' @examples
 #'
 #' @export
-set_usm= function(dir.orig=NULL, dir.targ= getwd(), dir.stics= dir.targ,
-                  usm_name= NULL){
+set_usm= function(dir.orig=NULL, dir.targ= getwd(),
+                  dir.stics= dir.targ,usm_name= NULL){
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
@@ -40,13 +40,15 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(), dir.stics= dir.targ,
     overw= F
   }else{
     File_already=
-      basename(Files)[file.exists(list.files(dir.targ, full.names = T),basename(Files))]
+      basename(Files)[file.exists(
+        list.files(dir.targ, full.names = T),basename(Files))]
     if(length(File_already)>0){
       overw= NULL
       count= 1
       while(is.null(overw)){
         if(count==1){
-          cat(paste("Files:\n",paste(File_already, collapse = "\n "),
+          cat(paste("Files:\n",
+                    paste(File_already, collapse = "\n "),
                     "\nalready in the target folder, overwrite (y/n)?"))
         }
         count= count+1
@@ -60,15 +62,20 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(), dir.stics= dir.targ,
     }
   }
 
-  written= file.copy(from = Files, to= dir.targ, recursive = T,overwrite = overw)
-  cat(paste("Files:\n",paste(basename(Files[written]), collapse = ", "),
+  written= file.copy(from = Files, to= dir.targ,
+                     recursive = T,overwrite = overw)
+  if(dir.stics!=dir.targ){
+    written= c(written, file.copy(from = dir.stics, to= dir.targ,
+                                  recursive = T, overwrite = overw))
+  }
+  cat(paste("Files:\n",
+            paste(basename(Files[written]), collapse = ", "),
             "\nwere all sucessfully written in",dir.targ))
   if(any(!written)){
-    cat(paste("Files:\n",paste(basename(Files[written]), collapse = ", "),
-              "\nwere not replaced in",dir.targ,"following your request to not overwrite"))
+    cat(paste("Files:\n",
+              paste(basename(Files[written]), collapse = ", "),
+              "\nwere not replaced in",dir.targ,
+              "following your request to not overwrite"))
   }
 
 }
-
-dir.targ= "1-Simulations/Test"
-dir.stics= "1-Simulations/Test"
