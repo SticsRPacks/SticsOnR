@@ -93,3 +93,35 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(),
   }
 
 }
+
+
+#' Replace STICS input file parameter
+#'
+#' @description Replace or set an input parameter from a pre-existing STICS input
+#'              file. Generally used after calling \code{\link{set_usm}}.
+#'
+#' @param filepath File path
+#' @param param    Parameter name
+#' @param value    New value
+#'
+#' @seealso \code{\link{set_usm}}.
+#'
+#' @examples
+#'\dontrun{
+#' # Replace the interrow distance parameter to 0.01:
+#'
+#' library(sticRs)
+#' set_param(filepath = "fictec1.txt", param= "interrang", value= 0.01)
+#'
+#'}
+#'
+#' @export
+set_param= function(filepath, param= "interrang", value= 0.01){
+
+  # write (fictec,'(A6,i1,A4)') 'fictec',i,'.txt'
+  # read.fortran(file = filepath,format = 'A50')
+}
+
+
+filepath= "1-Simulations/stics_usm/fictec1.txt"
+param= "interrang"
