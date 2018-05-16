@@ -360,7 +360,17 @@ read_plant= function(filepath,max_variety=30){
   }else{
     plant$nbVariete = i-1
   }
-  return(plant)
+
+
+  # Transform into numeric:
+  plant_out= suppressWarnings(lapply(plant, as.numeric))
+  # Two parameters are not numeric, resetting them
+  # to their original value:
+  plant_out$P_codevar= plant$P_codevar
+  plant_out$P_stoprac= plant$P_stoprac
+  plant_out$P_codeplante= plant$P_codeplante
+
+  return(plant_out)
 }
 
 
