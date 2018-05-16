@@ -30,7 +30,13 @@ read_station(filepath)
 \item{param}{Parameter name. Optional, if not provided, the function
 return an object with all parameters}
 
+\item{...}{Helper to pass arguments from \code{\link{read_param}} to the
+other functions}
+
 \item{filepath}{File path}
+
+\item{max_variety}{Maximum number of variety authorized (this is only for STICS
+compatibility)}
 
 \item{several_fert}{Is there several fertilization in the USM ?}
 
@@ -46,7 +52,7 @@ A list of all parameters:
         \item{plant}{Plant parameters}
         \item{soil}{Soil parameters}
         \item{station}{Station parameters}
-The function can return several \code(plant) and \code{tec} if mixed crops,
+The function can return several \code{plant} and \code{tec} if mixed crops,
 numbered by usage
 }
 \description{

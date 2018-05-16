@@ -10,6 +10,10 @@
 #' @param several_fert Is there several fertilization in the USM ?
 #' @param several_thin Is there several thinning in the USM ?
 #' @param is_pasture   Is the plant a pasture ?
+#' @param max_variety  Maximum number of variety authorized (this is only for STICS
+#'                     compatibility)
+#' @param ...          Helper to pass arguments from \code{\link{read_param}} to the
+#'                     other functions
 #'
 #' @note Users generally only use \code{read_param} that identify parameters for
 #'       other functions and call them.
@@ -21,9 +25,11 @@
 #'         \item{plant}{Plant parameters}
 #'         \item{soil}{Soil parameters}
 #'         \item{station}{Station parameters}
-#' The function can return several \code(plant) and \code{tec} if mixed crops,
+#' The function can return several \code{plant} and \code{tec} if mixed crops,
 #' numbered by usage
 #' @seealso \code{\link{set_usm}}.
+#'
+#' @importFrom stats setNames
 #'
 #' @examples
 #'\dontrun{
@@ -69,7 +75,7 @@ read_param= function(dirpath,param=NULL,...){
       list(read_tec(file.path(dirpath,paste0("fictec",i,".txt")),
                several_fert = several_fert, several_thin = several_thin,
                is_pasture = is_pasture))
-    plant[[grep(paste0("plant",i),names(plant))]]=
+    plant[paste0("plant",i)]=
       list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt"))))
   }
   station= read_station(file.path(dirpath,"station.txt"))
@@ -77,7 +83,8 @@ read_param= function(dirpath,param=NULL,...){
                    plant=plant, soil= soil, station= station)
 
   if(!is.null(param)){
-    parameters= parameters[grep(param,parameters)]
+    parameters= unlist(parameters)
+    parameters= parameters[grep(param,names(parameters))]
   }
   return(parameters)
 }
@@ -879,7 +886,7 @@ read_tec= function(filepath,several_fert=T,several_thin=T,is_pasture=F){
 #' @export
 read_soil= function(filepath){
 
-  params= readLines(filepath)
+  params= readLines(filepath,warn=F)
   soil= vector(mode='list', length = 0)
 
   index= 1
