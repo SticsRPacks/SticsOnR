@@ -34,8 +34,8 @@ read_param= function(dirpath,param=NULL){
   # 2. Read tec+plant files
   # 3. Return the output as a list
   ini= read_ini(file.path(dirpath,"ficini.txt"))
-
-  tec= plant=  setNames(vector(mode = "list", length = ini$nbplantes),
+  soil= read_soil(file.path(dirpath,"param.sol"))
+  tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
   for(i in 1:ini$nbplantes){
     tec[paste0("plant",i)]=
@@ -675,5 +675,45 @@ read_tec= function(filepath,several_fert=T,several_thin=T,is_pasture=F){
   itk_out$P_stadecoupedf= itk$P_stadecoupedf
   itk_out$P_ressuite= itk$P_ressuite
 
-  invisible(itk_out)
+  return(itk_out)
+}
+
+
+#' @rdname read_param
+#' @export
+read_soil= function(filepath){
+
+  params= readLines(filepath)
+  soil= vector(mode='list', length = 0)
+
+  index= 1
+  val= function(){
+    index<<- index+1
+    vec= strsplit(x = params[index-1],split = " ")[[1]]
+    vec= vec[vec!=""]
+    return(vec)
+  }
+
+  soil$nbcouchessol_max= 1000
+
+  soil[c("P_numsol","P_typsol","P_argi","P_Norg","P_profhum","P_calc","P_pH",
+         "P_concseuil","P_albedo","P_q0","P_ruisolnu","P_obstarac","P_pluiebat",
+         "P_mulchbat","P_zesx","P_cfes","P_z0solnu","P_CsurNsol", "P_penterui")]= val()
+
+  soil[c("P_numsol","P_codecailloux","P_codemacropor","P_codefente",
+         "P_codrainage","P_coderemontcap","P_codenitrif","P_codedenit")]= val()
+
+  soil[c("P_numsol","P_profimper","P_ecartdrain","P_ksol","P_profdrain",
+         "P_capiljour","P_humcapil","P_profdenit","P_vpotdenit")]= val()
+
+  vec= matrix(data = NA,nrow = 9, ncol = 5)
+  for(i in 1:5){
+    vec[,i]= val()
+  }
+  vec= apply(vec,MARGIN = 1,FUN = list)
+
+  soil[c("P_numsol","P_epc","P_hccf","P_hminf","P_DAF",
+         "P_cailloux","P_typecailloux","P_infil","P_epd")]= vec
+
+  return(soil)
 }

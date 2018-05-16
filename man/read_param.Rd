@@ -5,6 +5,7 @@
 \alias{read_ini}
 \alias{read_plant}
 \alias{read_tec}
+\alias{read_soil}
 \title{Read STICS input parameters}
 \usage{
 read_param(dirpath, param = NULL)
@@ -14,6 +15,8 @@ read_ini(filepath)
 read_plant(filepath, max_variety = 30)
 
 read_tec(filepath, several_fert = T, several_thin = T, is_pasture = F)
+
+read_soil(filepath)
 }
 \arguments{
 \item{dirpath}{Directory path}
