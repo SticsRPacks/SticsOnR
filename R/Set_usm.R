@@ -121,7 +121,3 @@ set_param= function(filepath, param= "interrang", value= 0.01){
   # write (fictec,'(A6,i1,A4)') 'fictec',i,'.txt'
   # read.fortran(file = filepath,format = 'A50')
 }
-
-
-filepath= "1-Simulations/stics_usm/fictec1.txt"
-param= "interrang"
