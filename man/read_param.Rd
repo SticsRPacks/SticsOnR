@@ -38,6 +38,17 @@ return an object with all parameters}
 
 \item{is_pasture}{Is the plant a pasture ?}
 }
+\value{
+A list of all parameters:
+        \item{ini}{Initialization parameters}
+        \item{general}{General parameters}
+        \item{tec}{Technical parameters}
+        \item{plant}{Plant parameters}
+        \item{soil}{Soil parameters}
+        \item{station}{Station parameters}
+The function can return several \code(plant) and \code{tec} if mixed crops,
+numbered by usage
+}
 \description{
 Read STICS model input parameters from a pre-existing STICS input
              file. Generally used after calling \code{\link{set_usm}}.

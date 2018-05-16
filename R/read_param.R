@@ -14,6 +14,15 @@
 #' @note Users generally only use \code{read_param} that identify parameters for
 #'       other functions and call them.
 #'
+#' @return A list of all parameters:
+#'         \item{ini}{Initialization parameters}
+#'         \item{general}{General parameters}
+#'         \item{tec}{Technical parameters}
+#'         \item{plant}{Plant parameters}
+#'         \item{soil}{Soil parameters}
+#'         \item{station}{Station parameters}
+#' The function can return several \code(plant) and \code{tec} if mixed crops,
+#' numbered by usage
 #' @seealso \code{\link{set_usm}}.
 #'
 #' @examples
