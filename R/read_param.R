@@ -28,23 +28,44 @@
 #'
 #' @export
 #'
-read_param= function(dirpath,param=NULL){
+read_param= function(dirpath,param=NULL,...){
   # Make this function read all parameters from STICS automatically
   # 1. Detect how much plants there are
   # 2. Read tec+plant files
   # 3. Return the output as a list
+  dot_args= list(...)
+  if(isTRUE(dot_args$several_fert)){
+    several_fert= dot_args$several_fert
+  }else{
+    several_fert= F
+  }
+  if(isTRUE(dot_args$several_thin)){
+    several_thin= dot_args$several_thin
+  }else{
+    several_thin= F
+  }
+  if(isTRUE(dot_args$is_pasture)){
+    is_pasture= dot_args$is_pasture
+  }else{
+    is_pasture= F
+  }
+
   ini= read_ini(file.path(dirpath,"ficini.txt"))
+  general= read_general(file.path(dirpath,"ficini.txt"))
   soil= read_soil(file.path(dirpath,"param.sol"))
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
   for(i in 1:ini$nbplantes){
     tec[paste0("plant",i)]=
       list(read_tec(file.path(dirpath,paste0("fictec",i,".txt")),
-               several_fert = F,several_thin = F,is_pasture = F))
+               several_fert = several_fert, several_thin = several_thin,
+               is_pasture = is_pasture))
     plant[[grep(paste0("plant",i),names(plant))]]=
       list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt"))))
   }
-  parameters= list(ini=ini,tec=tec,plant=plant)
+  station= read_station(file.path(dirpath,"station.txt"))
+  parameters= list(ini=ini,general= general, tec=tec,
+                   plant=plant, soil= soil, station= station)
 
   if(!is.null(param)){
     parameters= parameters[grep(param,parameters)]
@@ -67,6 +88,172 @@ read_ini= function(filepath){
 
   ini$nbplantes= as.numeric(val())
   return(ini)
+}
+
+#' @rdname read_param
+#' @export
+read_general= function(filepath){
+
+  params= readLines(filepath)
+  pg= vector(mode='list', length = 0)
+  values= params[!seq_along(params)%%2]
+
+  index= 1
+  val= function(){
+    index<<- index+1
+    return(values[index-1])
+  }
+
+  pg$nbresidus= 21 # added at import, not in the file
+
+  pg$P_codeinnact= val()
+  pg$P_codeh2oact= val()
+  pg$P_codeminopt= val()
+  pg$P_iniprofil= val()
+  pg$P_codeprofmes= val()
+  pg$P_codeinitprec= val()
+  pg$P_codemsfinal= val()
+  pg$P_codeactimulch= val()
+  pg$P_codefrmur= val()
+  pg$P_codemicheur= val()
+  pg$P_codeoutscient= val()
+  pg$P_codeseprapport= val()
+  pg$P_separateurrapport= val()
+  pg$P_codesensibilite= val()
+  pg$P_flagEcriture= val()
+  pg$P_parsurrg= val()
+  pg$P_coefb= val()
+  pg$P_proprac= val()
+  pg$P_y0msrac= val()
+  pg$P_khaut= val()
+  pg$P_dacohes= val()
+  pg$P_daseuilbas= val()
+  pg$P_daseuilhaut= val()
+  pg$P_beta= val()
+  pg$P_lvopt= val()
+  pg$P_rayon= val()
+  pg$P_difN= val()
+  pg$P_concrr= val()
+  pg$P_plNmin= val()
+  pg$P_irrlev= val()
+  pg$P_QNpltminINN= val()
+  pg$P_codesymbiose= val()
+  pg$P_codefxn= val()
+  pg$P_FTEMh= val()
+  pg$P_FTEMha= val()
+  pg$P_TREFh= val()
+  pg$P_FTEMr= val()
+  pg$P_FTEMra= val()
+  pg$P_trefr= val()
+  pg$P_finert= val()
+  pg$P_fmin1= val()
+  pg$P_fmin2= val()
+  pg$P_fmin3= val()
+  pg$P_Wh= val()
+  pg$P_pHminvol= val()
+  pg$P_pHmaxvol= val()
+  pg$P_Vabs2= val()
+  pg$P_Xorgmax= val()
+  pg$P_hminm= val()
+  pg$P_hoptm= val()
+  pg$P_alphapH= val()
+  pg$P_dpHvolmax= val()
+  pg$P_pHvols= val()
+  pg$P_fhminsat= val()
+  pg$P_fredkN= val()
+  pg$P_fredlN= val()
+  pg$P_fNCBiomin= val()
+  pg$P_fredNsup= val()
+  pg$P_Primingmax= val()
+  pg$P_hminn= val()
+  pg$P_hoptn= val()
+  pg$P_pHminnit= val()
+  pg$P_pHmaxnit= val()
+  pg$P_nh4_min= val()
+  pg$P_pHminden= val()
+  pg$P_pHmaxden= val()
+  pg$P_wfpsc= val()
+  pg$P_tdenitopt_gauss= val()
+  pg$P_scale_tdenitopt= val()
+  pg$P_Kd= val()
+  pg$P_kdesat= val()
+  pg$P_code_vnit= val()
+  pg$P_fnx= val()
+  pg$P_vnitmax= val()
+  pg$P_Kamm= val()
+  pg$P_code_tnit= val()
+  pg$P_tnitmin= val()
+  pg$P_tnitopt= val()
+  pg$P_tnitopt2= val()
+  pg$P_tnitmax= val()
+  pg$P_tnitopt_gauss= val()
+  pg$P_scale_tnitopt= val()
+  pg$P_code_rationit= val()
+  pg$P_rationit= val()
+  pg$P_code_hourly_wfps_nit= val()
+  pg$P_code_pdenit= val()
+  pg$P_cmin_pdenit= val()
+  pg$P_cmax_pdenit= val()
+  pg$P_min_pdenit= val()
+  pg$P_max_pdenit= val()
+  pg$P_code_ratiodenit= val()
+  pg$P_ratiodenit= val()
+  pg$P_code_hourly_wfps_denit= val()
+  pg$P_pminruis= val()
+  pg$P_diftherm= val()
+  pg$P_Bformnappe= val()
+  pg$P_rdrain= val()
+  pg$P_psihumin= val()
+  pg$P_psihucc= val()
+  pg$P_prophumtasssem= val()
+  pg$P_prophumtassrec= val()
+  pg$P_codhnappe= val()
+  pg$P_distdrain= val()
+  pg$P_proflabour= val()
+  pg$P_proftravmin= val()
+  pg$P_codetycailloux= val()
+
+  for(i in 1:10){
+    pg$P_masvolcx= c(pg$P_masvolcx,val())
+    pg$P_hcccx= c(pg$P_hcccx,val())
+  }
+
+  pg$P_codetypeng= val()
+
+  for(i in 1:8){
+    pg$P_engamm= c(pg$P_engamm,val())
+    pg$P_orgeng= c(pg$P_orgeng,val())
+    pg$P_deneng= c(pg$P_deneng,val())
+    pg$P_voleng= c(pg$P_voleng,val())
+  }
+
+  pg$P_codetypres= val()
+
+  for(i in 1:pg$nbresidus){
+    pg$P_CroCo= c(pg$P_CroCo,val())
+    pg$P_akres= c(pg$P_akres,val())
+    pg$P_bkres= c(pg$P_bkres,val())
+    pg$P_awb= c(pg$P_awb,val())
+    pg$P_bwb= c(pg$P_bwb,val())
+    pg$P_cwb= c(pg$P_cwb,val())
+    pg$P_ahres= c(pg$P_ahres,val())
+    pg$P_bhres= c(pg$P_bhres,val())
+    pg$P_kbio= c(pg$P_kbio,val())
+    pg$P_yres= c(pg$P_yres,val())
+    pg$P_CNresmin= c(pg$P_CNresmin,val())
+    pg$P_cnresmax= c(pg$P_cnresmax,val())
+    pg$P_qmulchruis0= c(pg$P_qmulchruis0,val())
+    pg$P_mouillabilmulch= c(pg$P_mouillabilmulch,val())
+    pg$P_kcouvmlch= c(pg$P_kcouvmlch,val())
+    pg$P_albedomulchresidus= c(pg$P_albedomulchresidus,val())
+    pg$P_Qmulchdec= c(pg$P_Qmulchdec,val())
+  }
+
+  # Transform into numeric:
+  pg_out= suppressWarnings(lapply(pg, as.numeric))
+  pg_out$P_separateurrapport= pg$P_separateurrapport
+
+  return(pg)
 }
 
 #' @rdname read_param
@@ -713,7 +900,64 @@ read_soil= function(filepath){
   vec= apply(vec,MARGIN = 1,FUN = list)
 
   soil[c("P_numsol","P_epc","P_hccf","P_hminf","P_DAF",
-         "P_cailloux","P_typecailloux","P_infil","P_epd")]= vec
+         "P_cailloux","P_typecailloux","P_infil","P_epd")]=
+    lapply(vec, unlist)
 
-  return(soil)
+  # Transform into numeric:
+  soil_out= suppressWarnings(lapply(soil, as.numeric))
+  soil_out$P_typsol= soil$P_typsol
+
+  return(soil_out)
+}
+
+#' @rdname read_param
+#' @export
+read_station= function(filepath){
+
+  params= readLines(filepath)
+  sta= vector(mode='list', length = 0)
+  values= params[!seq_along(params)%%2]
+
+  index= 1
+  val= function(){
+    index<<- index+1
+    return(values[index-1])
+  }
+
+  sta$P_zr= val()
+  sta$P_NH3ref= val()
+  sta$P_latitude= val()
+  sta$P_patm= val()
+  sta$P_aclim= val()
+  sta$P_codeetp= val()
+  sta$P_alphapt= val()
+  sta$P_codeclichange= val()
+  sta$P_codaltitude= val()
+  sta$P_altistation= val()
+  sta$P_altisimul= val()
+  sta$P_gradtn= val()
+  sta$P_gradtx= val()
+  sta$P_altinversion= val()
+  sta$P_gradtninv= val()
+  sta$P_cielclair= val()
+  sta$P_codadret= val()
+  sta$P_ombragetx= val()
+  sta$P_ra= val()
+  sta$P_albveg= val()
+  sta$P_aangst= val()
+  sta$P_bangst= val()
+  sta$P_corecTrosee= val()
+  sta$P_codecaltemp= val()
+  sta$P_codernet= val()
+  sta$P_coefdevil= val()
+  sta$P_aks= val()
+  sta$P_bks= val()
+  sta$P_cvent= val()
+  sta$P_phiv0= val()
+  sta$P_coefrnet= val()
+
+  # Transform into numeric:
+  sta_out= suppressWarnings(lapply(sta, as.numeric))
+  # sta_out$P_separateurrapport= sta$P_separateurrapport
+  return(sta_out)
 }
