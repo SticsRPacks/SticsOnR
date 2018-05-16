@@ -2,19 +2,40 @@
 % Please edit documentation in R/read_param.R
 \name{read_param}
 \alias{read_param}
+\alias{read_ini}
+\alias{read_plant}
+\alias{read_tec}
 \title{Read STICS input parameters}
 \usage{
-read_param(filepath, param = NULL)
+read_param(dirpath, param = NULL)
+
+read_ini(filepath)
+
+read_plant(filepath, max_variety = 30)
+
+read_tec(filepath, several_fert = T, several_thin = T, is_pasture = F)
 }
 \arguments{
-\item{filepath}{File path}
+\item{dirpath}{Directory path}
 
 \item{param}{Parameter name. Optional, if not provided, the function
 return an object with all parameters}
+
+\item{filepath}{File path}
+
+\item{several_fert}{Is there several fertilization in the USM ?}
+
+\item{several_thin}{Is there several thinning in the USM ?}
+
+\item{is_pasture}{Is the plant a pasture ?}
 }
 \description{
-Read an input parameter from a pre-existing STICS input
+Read STICS model input parameters from a pre-existing STICS input
              file. Generally used after calling \code{\link{set_usm}}.
+}
+\note{
+Users generally only use \code{read_param} that identify parameters for
+      other functions and call them.
 }
 \examples{
 \dontrun{
