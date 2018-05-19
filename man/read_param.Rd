@@ -10,7 +10,7 @@
 \alias{read_station}
 \title{Read STICS input parameters}
 \usage{
-read_param(dirpath, param = NULL, ...)
+read_param(dirpath = getwd(), param = NULL, ...)
 
 read_ini(filepath)
 
@@ -52,8 +52,8 @@ A list of all parameters:
         \item{plant}{Plant parameters}
         \item{soil}{Soil parameters}
         \item{station}{Station parameters}
-The function can return several \code{plant} and \code{tec} if mixed crops,
-numbered by usage
+The function can return several sub-lists for each \code{plant} and \code{tec}
+ if mixed crops, numbered by usage
 }
 \description{
 Read STICS model input parameters from a pre-existing STICS input
@@ -65,11 +65,10 @@ Users generally only use \code{read_param} that identify parameters for
 }
 \examples{
 \dontrun{
-# Replace the interrow distance parameter to 0.01:
+# Read the interrow distance parameter:
 
 library(sticRs)
-filepath= '1-Simulations/IC_Wheat_Wheat/fictec1.txt'
-Param= read_param(filepath = filepath)
+read_param(param='interrang')
 
 }
 

@@ -25,25 +25,25 @@
 #'         \item{plant}{Plant parameters}
 #'         \item{soil}{Soil parameters}
 #'         \item{station}{Station parameters}
-#' The function can return several \code{plant} and \code{tec} if mixed crops,
-#' numbered by usage
+#' The function can return several sub-lists for each \code{plant} and \code{tec}
+#'  if mixed crops, numbered by usage
+#'
 #' @seealso \code{\link{set_usm}}.
 #'
 #' @importFrom stats setNames
 #'
 #' @examples
 #'\dontrun{
-#' # Replace the interrow distance parameter to 0.01:
+#' # Read the interrow distance parameter:
 #'
 #' library(sticRs)
-#' filepath= '1-Simulations/IC_Wheat_Wheat/fictec1.txt'
-#' Param= read_param(filepath = filepath)
+#' read_param(param='interrang')
 #'
 #'}
 #'
 #' @export
 #'
-read_param= function(dirpath,param=NULL,...){
+read_param= function(dirpath=getwd(),param=NULL,...){
   # Make this function read all parameters from STICS automatically
   # 1. Detect how much plants there are
   # 2. Read tec+plant files
@@ -64,6 +64,11 @@ read_param= function(dirpath,param=NULL,...){
   }else{
     is_pasture= F
   }
+  if(isTRUE(dot_args$max_variety)){
+    max_variety= dot_args$max_variety
+  }else{
+    max_variety= F
+  }
 
   ini= read_ini(file.path(dirpath,"ficini.txt"))
   general= read_general(file.path(dirpath,"ficini.txt"))
@@ -76,7 +81,8 @@ read_param= function(dirpath,param=NULL,...){
                several_fert = several_fert, several_thin = several_thin,
                is_pasture = is_pasture))
     plant[paste0("plant",i)]=
-      list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt"))))
+      list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt")),
+                      max_variety = max_variety))
   }
   station= read_station(file.path(dirpath,"station.txt"))
   parameters= list(ini=ini,general= general, tec=tec,
@@ -269,7 +275,7 @@ read_general= function(filepath){
   pg_out= suppressWarnings(lapply(pg, as.numeric))
   pg_out$P_separateurrapport= pg$P_separateurrapport
 
-  return(pg)
+  return(pg_out)
 }
 
 #' @rdname read_param

@@ -121,3 +121,41 @@ set_param= function(filepath, param= "interrang", value= 0.01){
   # write (fictec,'(A6,i1,A4)') 'fictec',i,'.txt'
   # read.fortran(file = filepath,format = 'A50')
 }
+
+
+
+
+#' @rdname set_param
+#' @export
+set_station= function(filepath,param,value){
+  params= readLines(filepath)
+  ref= read_station(filepath)
+  ref_index= grep(param,names(ref))
+  params[ref_index*2]= value
+  writeLines(params,filepath)
+}
+
+
+#' @rdname set_param
+#' @export
+set_ini= function(filepath,param,value){
+  params= readLines(filepath)
+  ref= read_ini(filepath)
+  ref_index= grep(param,names(ref))
+  params[ref_index*2]= value
+  writeLines(params,filepath)
+}
+
+
+#' @rdname set_param
+#' @export
+set_general= function(filepath,param,value){
+  params= readLines(filepath)
+  ref_index= grep(gsub('P_','',param),params)+1
+  if(!length(ref_index)>1){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }
+
+  params[ref_index]= value
+  writeLines(params,filepath)
+}

@@ -2,9 +2,18 @@
 % Please edit documentation in R/set_usm.R
 \name{set_param}
 \alias{set_param}
+\alias{set_station}
+\alias{set_ini}
+\alias{set_general}
 \title{Replace STICS input file parameter}
 \usage{
 set_param(filepath, param = "interrang", value = 0.01)
+
+set_station(filepath, param, value)
+
+set_ini(filepath, param, value)
+
+set_general(filepath, param, value)
 }
 \arguments{
 \item{filepath}{File path}
