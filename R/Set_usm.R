@@ -167,6 +167,7 @@ set_general= function(filepath,param,value){
 #' @rdname set_param
 #' @export
 set_plant= function(filepath,param,value){
+
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
 
@@ -179,7 +180,7 @@ set_plant= function(filepath,param,value){
                "\ninput:\n",paste(value,collapse= ", ")))
   }
   params[ref_index]= value
-  writeLines(params,filepath)
+  write(params,filepath)
 }
 
 #' @rdname set_param
@@ -205,33 +206,31 @@ set_tec= function(filepath,param,value){
 #' @export
 set_soil= function(filepath,param,value){
   ref= read_soil(filepath)
-  ref[param]= value
+  ref[[param]]= value
 
-  writeLines(c(ref$P_typsol,ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
-               ref$P_pH,ref$P_concseuil,ref$P_albedo,ref$P_q0,ref$P_ruisolnu,
-               ref$P_obstarac,ref$P_pluiebat,ref$P_mulchbat,ref$P_zesx,
-               ref$P_cfes,ref$P_z0solnu ,ref$P_CsurNsol,ref$P_penterui),
+  writeLines(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_typsol,
+                   ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
+                   ref$P_pH,ref$P_concseuil,ref$P_albedo,ref$P_q0,
+                   ref$P_ruisolnu,ref$P_obstarac,ref$P_pluiebat,
+                   ref$P_mulchbat,ref$P_zesx,ref$P_cfes,
+                   ref$P_z0solnu ,ref$P_CsurNsol,ref$P_penterui),
              filepath)
 
-  write(c(ref$P_typsol,ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
-          ref$P_pH,ref$P_concseuil,ref$P_albedo,ref$P_q0,ref$P_ruisolnu,
-          ref$P_obstarac,ref$P_pluiebat,ref$P_mulchbat,ref$P_zesx,
-          ref$P_cfes,ref$P_z0solnu ,ref$P_CsurNsol,ref$P_penterui),
+  write(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_codecailloux,ref$P_codemacropor,
+              ref$P_codefente,ref$P_codrainage,ref$P_coderemontcap,
+              ref$P_codenitrif,ref$P_codedenit),
         filepath,append = T)
 
-  write(c(ref$P_codecailloux,ref$P_codemacropor,ref$P_codefente,
-          ref$P_codrainage,ref$P_coderemontcap,ref$P_codenitrif,
-          ref$P_codedenit),
-        filepath,append = T)
-
-  write(c(ref$P_profimper,ref$P_ecartdrain,ref$P_ksol,ref$P_profdrain,
-          ref$P_capiljour,ref$P_humcapil,ref$P_profdenit,ref$P_vpotdenit),
+  write(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_profimper,ref$P_ecartdrain,ref$P_ksol,
+              ref$P_profdrain,ref$P_capiljour,ref$P_humcapil,
+              ref$P_profdenit,ref$P_vpotdenit),
         filepath,append = T)
 
   for(icou in 1:5){
-    writeLines(c(ref$P_epc[icou],ref$P_hccf[icou],ref$P_hminf[icou],
-                 ref$P_DAF[icou],ref$P_cailloux[icou],ref$P_typecailloux[icou],
-                 ref$P_infil[icou],ref$P_epd[icou]),
-               filepath,append = T)
+    write(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_epc[icou],ref$P_hccf[icou],
+                ref$P_hminf[icou],ref$P_DAF[icou],ref$P_cailloux[icou],
+                ref$P_typecailloux[icou],ref$P_infil[icou],
+                ref$P_epd[icou]),
+          filepath,append = T)
   }
 }
