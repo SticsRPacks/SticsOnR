@@ -131,7 +131,7 @@ set_station= function(filepath,param,value){
   params= readLines(filepath)
   ref= read_station(filepath)
   ref_index= grep(param,names(ref))
-  params[ref_index*2]= value
+  params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
 }
 
@@ -142,7 +142,7 @@ set_ini= function(filepath,param,value){
   params= readLines(filepath)
   ref= read_ini(filepath)
   ref_index= grep(param,names(ref))
-  params[ref_index*2]= value
+  params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
 }
 
@@ -160,7 +160,7 @@ set_general= function(filepath,param,value){
                "Original values:\n",paste(params[ref_index],collapse= ", "),
                "\ninput:\n",paste(value,collapse= ", ")))
   }
-  params[ref_index]= value
+  params[ref_index]= format(value, scientific=F)
   writeLines(params,filepath)
 }
 
@@ -179,7 +179,7 @@ set_plant= function(filepath,param,value){
                "Original values:\n",paste(params[ref_index],collapse= ", "),
                "\ninput:\n",paste(value,collapse= ", ")))
   }
-  params[ref_index]= value
+  params[ref_index]= format(value, scientific=F)
   write(params,filepath)
 }
 
@@ -197,7 +197,7 @@ set_tec= function(filepath,param,value){
                "Original values:\n",paste(params[ref_index],collapse= ", "),
                "\ninput:\n",paste(value,collapse= ", ")))
   }
-  params[ref_index]= value
+  params[ref_index]= format(value, scientific=F)
   writeLines(params,filepath)
 }
 
@@ -206,7 +206,7 @@ set_tec= function(filepath,param,value){
 #' @export
 set_soil= function(filepath,param,value){
   ref= read_soil(filepath)
-  ref[[param]]= value
+  ref[[param]]= format(value, scientific=F)
 
   writeLines(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_typsol,
                    ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
