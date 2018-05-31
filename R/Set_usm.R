@@ -152,10 +152,86 @@ set_ini= function(filepath,param,value){
 set_general= function(filepath,param,value){
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
-  if(!length(ref_index)>1){
+  if(!length(ref_index)>0){
     stop(paste(param,"parameter not found in:\n",filepath))
   }
-
+  if(length(ref_index)!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(params[ref_index],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
   params[ref_index]= value
   writeLines(params,filepath)
+}
+
+#' @rdname set_param
+#' @export
+set_plant= function(filepath,param,value){
+  params= readLines(filepath)
+  ref_index= grep(gsub('P_','',param),params)+1
+
+  if(!length(ref_index)>0){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }
+  if(length(ref_index)!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(params[ref_index],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
+  params[ref_index]= value
+  writeLines(params,filepath)
+}
+
+#' @rdname set_param
+#' @export
+set_tec= function(filepath,param,value){
+  params= readLines(filepath)
+  ref_index= grep(gsub('P_','',param),params)+1
+
+  if(!length(ref_index)>0){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }
+  if(length(ref_index)!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(params[ref_index],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
+  params[ref_index]= value
+  writeLines(params,filepath)
+}
+
+
+#' @rdname set_param
+#' @export
+set_soil= function(filepath,param,value){
+  ref= read_soil(filepath)
+  ref[param]= value
+
+  writeLines(c(ref$P_typsol,ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
+               ref$P_pH,ref$P_concseuil,ref$P_albedo,ref$P_q0,ref$P_ruisolnu,
+               ref$P_obstarac,ref$P_pluiebat,ref$P_mulchbat,ref$P_zesx,
+               ref$P_cfes,ref$P_z0solnu ,ref$P_CsurNsol,ref$P_penterui),
+             filepath)
+
+  write(c(ref$P_typsol,ref$P_argi,ref$P_Norg,ref$P_profhum,ref$P_calc,
+          ref$P_pH,ref$P_concseuil,ref$P_albedo,ref$P_q0,ref$P_ruisolnu,
+          ref$P_obstarac,ref$P_pluiebat,ref$P_mulchbat,ref$P_zesx,
+          ref$P_cfes,ref$P_z0solnu ,ref$P_CsurNsol,ref$P_penterui),
+        filepath,append = T)
+
+  write(c(ref$P_codecailloux,ref$P_codemacropor,ref$P_codefente,
+          ref$P_codrainage,ref$P_coderemontcap,ref$P_codenitrif,
+          ref$P_codedenit),
+        filepath,append = T)
+
+  write(c(ref$P_profimper,ref$P_ecartdrain,ref$P_ksol,ref$P_profdrain,
+          ref$P_capiljour,ref$P_humcapil,ref$P_profdenit,ref$P_vpotdenit),
+        filepath,append = T)
+
+  for(icou in 1:5){
+    writeLines(c(ref$P_epc[icou],ref$P_hccf[icou],ref$P_hminf[icou],
+                 ref$P_DAF[icou],ref$P_cailloux[icou],ref$P_typecailloux[icou],
+                 ref$P_infil[icou],ref$P_epd[icou]),
+               filepath,append = T)
+  }
 }

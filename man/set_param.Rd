@@ -5,6 +5,9 @@
 \alias{set_station}
 \alias{set_ini}
 \alias{set_general}
+\alias{set_plant}
+\alias{set_tec}
+\alias{set_soil}
 \title{Replace STICS input file parameter}
 \usage{
 set_param(filepath, param = "interrang", value = 0.01)
@@ -14,6 +17,12 @@ set_station(filepath, param, value)
 set_ini(filepath, param, value)
 
 set_general(filepath, param, value)
+
+set_plant(filepath, param, value)
+
+set_tec(filepath, param, value)
+
+set_soil(filepath, param, value)
 }
 \arguments{
 \item{filepath}{File path}
