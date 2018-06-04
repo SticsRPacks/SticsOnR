@@ -2,7 +2,7 @@
 #' Create a simulation unit (USM) for the STICS model
 #'
 #' @description Uses a pre-existing USM, copy files to target folder(s) of simulation,
-#'              set the USMs ready for simulation. \code{set_usm} create as many sub-folders
+#'              set the USMs ready for simulation. \code{import_usm} create as many sub-folders
 #'              as USM neede in the target folder.
 #'
 #' @param dir.orig  Path to the directory from which copy the simulation files. If
@@ -20,12 +20,12 @@
 #' # project path:
 #'
 #' library(sticRs)
-#' set_usm(dir.targ = "1-Simulations")
+#' import_usm(dir.targ = "1-Simulations")
 #'
 #'}
 #'
 #' @export
-set_usm= function(dir.orig=NULL, dir.targ= getwd(),
+import_usm= function(dir.orig=NULL, dir.targ= getwd(),
                   dir.stics= NULL,usm_name= NULL){
   if(is.null(dir.orig)){
     # Add example data files:
@@ -98,39 +98,105 @@ set_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #' Replace STICS input file parameter
 #'
 #' @description Replace or set an input parameter from a pre-existing STICS input
-#'              file. Generally used after calling \code{\link{set_usm}}.
+#'              file. Generally used after calling \code{\link{import_usm}}.
 #'
-#' @param filepath File path
+#' @param dirpath  USM directory path
+#' @param filepath Path to the parameter file
 #' @param param    Parameter name
-#' @param value    New value
+#' @param value    New parameter value
+#' @param plant    Plant index. Optional, only for plant or technical parameters
 #'
-#' @seealso \code{\link{set_usm}}.
+#'
+#' @seealso \code{\link{import_usm}}.
+#'
+#' @importFrom magrittr "%>%" "%<>%"
 #'
 #' @examples
 #'\dontrun{
 #' # Replace the interrow distance parameter to 0.01:
 #'
 #' library(sticRs)
-#' set_param(filepath = "fictec1.txt", param= "interrang", value= 0.01)
+#' set_param(dirpath = "stics_usm/usm_1", param= "interrang", value= 0.01)
 #'
 #'}
 #'
 #' @export
-set_param= function(filepath, param= "interrang", value= 0.01){
+set_param= function(dirpath=getwd(),param,value,plant=1){
+  param_val= read_param(dirpath = dirpath, param = param)
+  file_type=
+    lapply(strsplit(names(param_val),"\\."), function(x){x[1]})%>%
+    unlist%>%unique
 
-  # write (fictec,'(A6,i1,A4)') 'fictec',i,'.txt'
-  # read.fortran(file = filepath,format = 'A50')
+  if(file_type=="ini"){
+    set_ini(filepath = file.path(dirpath,"ficini.txt"),
+            param = param, value = value)
+  }
+
+  if(file_type=="general"){
+    set_general(filepath = file.path(dirpath,"tempopar.sti"),
+                param = param, value = value)
+  }
+
+  if(file_type=="soil"){
+    set_soil(filepath = file.path(dirpath,"param.sol"),
+                param = param, value = value)
+  }
+
+  if(file_type=="usm"){
+    set_usm(filepath = file.path(dirpath,"new_travail.usm"),
+             param = param, value = value)
+  }
+
+  if(file_type=="station"){
+    set_station(filepath = file.path(dirpath,"station.txt"),
+            param = param, value = value)
+  }
+
+  if(file_type=="tec"){
+    set_tec(filepath = file.path(dirpath,paste0("fictec",plant,".txt")),
+            param = param, value = value)
+  }
+
+  if(file_type=="plant"){
+    set_plant(filepath = file.path(dirpath,paste0("ficplt",plant,".txt")),
+              param = param, value = value)
+  }
+
 }
-
-
 
 
 #' @rdname set_param
 #' @export
-set_station= function(filepath,param,value){
+set_usm= function(filepath="new_travail.usm",param,value){
+  params= readLines(filepath)
+  ref= read_usm(filepath)
+  ref_index= grep(param,names(ref))
+  if(ref_index<grep("P_fplt",names(ref))){
+    if(!length(ref_index)>0){
+      stop(paste(param,"parameter not found in:\n",filepath))
+    }
+    params[ref_index*2]= format(value, scientific=F)
+  }else{
+    par_index= grep(gsub("P_","",param),params)
+    if(length(par_index)!=length(value)){
+      stop(paste("Length of input value different from parameter value length.\n",
+                 "Original values:\n",paste(params[par_index+1],collapse= ", "),
+                 "\ninput:\n",paste(value,collapse= ", ")))
+    }
+    params[par_index+1]= value
+  }
+  writeLines(params,filepath)
+}
+
+#' @rdname set_param
+#' @export
+set_station= function(filepath="station.txt",param,value){
   params= readLines(filepath)
   ref= read_station(filepath)
   ref_index= grep(param,names(ref))
+  if(!length(ref_index)>0){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }
   params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
 }
@@ -138,10 +204,13 @@ set_station= function(filepath,param,value){
 
 #' @rdname set_param
 #' @export
-set_ini= function(filepath,param,value){
+set_ini= function(filepath= "ficini.txt",param,value){
   params= readLines(filepath)
   ref= read_ini(filepath)
   ref_index= grep(param,names(ref))
+  if(!length(ref_index)>0){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }
   params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
 }
@@ -149,7 +218,7 @@ set_ini= function(filepath,param,value){
 
 #' @rdname set_param
 #' @export
-set_general= function(filepath,param,value){
+set_general= function(filepath= "tempopar.sti",param,value){
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
   if(!length(ref_index)>0){
@@ -166,7 +235,7 @@ set_general= function(filepath,param,value){
 
 #' @rdname set_param
 #' @export
-set_plant= function(filepath,param,value){
+set_plant= function(filepath="ficplt1.txt",param,value){
 
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
@@ -185,7 +254,7 @@ set_plant= function(filepath,param,value){
 
 #' @rdname set_param
 #' @export
-set_tec= function(filepath,param,value){
+set_tec= function(filepath="fictec1.txt",param,value){
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
 
@@ -204,8 +273,13 @@ set_tec= function(filepath,param,value){
 
 #' @rdname set_param
 #' @export
-set_soil= function(filepath,param,value){
+set_soil= function(filepath="param.sol",param,value){
   ref= read_soil(filepath)
+  if(length(ref[[param]])!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(ref[[param]],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
   ref[[param]]= format(value, scientific=F)
 
   writeLines(paste(" "," "," ",ref$P_numsol[1]," "," "," ",ref$P_typsol,

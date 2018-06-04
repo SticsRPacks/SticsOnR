@@ -71,8 +71,11 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   }
 
   ini= read_ini(file.path(dirpath,"ficini.txt"))
-  general= read_general(file.path(dirpath,"ficini.txt"))
+  general= read_general(file.path(dirpath,"tempopar.sti"))
   soil= read_soil(file.path(dirpath,"param.sol"))
+  station= read_station(file.path(dirpath,"station.txt"))
+  usm= read_usm(file.path(dirpath,"new_travail.usm"))
+
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
   for(i in 1:ini$nbplantes){
@@ -84,8 +87,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
       list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt")),
                       max_variety = max_variety))
   }
-  station= read_station(file.path(dirpath,"station.txt"))
-  usm= read_usm(file.path(dirpath,"new_travail.usm"))
+
   parameters= list(usm=usm, ini=ini, general=general, tec=tec,
                    plant=plant, soil= soil, station= station)
 
@@ -1020,4 +1022,5 @@ read_usm= function(filepath){
     usm$P_ftec[i]= val()
     usm$P_flai[i]= val()
   }
+  return(usm)
 }

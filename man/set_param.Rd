@@ -2,6 +2,7 @@
 % Please edit documentation in R/set_usm.R
 \name{set_param}
 \alias{set_param}
+\alias{set_usm}
 \alias{set_station}
 \alias{set_ini}
 \alias{set_general}
@@ -10,7 +11,9 @@
 \alias{set_soil}
 \title{Replace STICS input file parameter}
 \usage{
-set_param(filepath, param = "interrang", value = 0.01)
+set_param(dirpath = getwd(), param, value, plant = 1)
+
+set_usm(filepath, param, value)
 
 set_station(filepath, param, value)
 
@@ -25,26 +28,30 @@ set_tec(filepath, param, value)
 set_soil(filepath, param, value)
 }
 \arguments{
-\item{filepath}{File path}
+\item{dirpath}{USM directory path}
 
 \item{param}{Parameter name}
 
-\item{value}{New value}
+\item{value}{Parameter new value}
+
+\item{plant}{Plant index. Optional, only for plant or technical parameters}
+
+\item{filepath}{Parameter file path}
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input
-             file. Generally used after calling \code{\link{set_usm}}.
+             file. Generally used after calling \code{\link{import_usm}}.
 }
 \examples{
 \dontrun{
 # Replace the interrow distance parameter to 0.01:
 
 library(sticRs)
-set_param(filepath = "fictec1.txt", param= "interrang", value= 0.01)
+set_param(dirpath = "stics_usm/usm_1", param= "interrang", value= 0.01)
 
 }
 
 }
 \seealso{
-\code{\link{set_usm}}.
+\code{\link{import_usm}}.
 }
