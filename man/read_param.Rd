@@ -8,6 +8,7 @@
 \alias{read_tec}
 \alias{read_soil}
 \alias{read_station}
+\alias{read_usm}
 \title{Read STICS input parameters}
 \usage{
 read_param(dirpath = getwd(), param = NULL, ...)
@@ -23,6 +24,8 @@ read_tec(filepath, several_fert = T, several_thin = T, is_pasture = F)
 read_soil(filepath)
 
 read_station(filepath)
+
+read_usm(filepath)
 }
 \arguments{
 \item{dirpath}{Directory path}

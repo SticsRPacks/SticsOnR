@@ -85,7 +85,8 @@ read_param= function(dirpath=getwd(),param=NULL,...){
                       max_variety = max_variety))
   }
   station= read_station(file.path(dirpath,"station.txt"))
-  parameters= list(ini=ini,general= general, tec=tec,
+  usm= read_usm(file.path(dirpath,"new_travail.usm"))
+  parameters= list(usm=usm, ini=ini, general=general, tec=tec,
                    plant=plant, soil= soil, station= station)
 
   if(!is.null(param)){
@@ -982,4 +983,41 @@ read_station= function(filepath){
   sta_out= suppressWarnings(lapply(sta, as.numeric))
   # sta_out$P_separateurrapport= sta$P_separateurrapport
   return(sta_out)
+}
+
+
+#' @rdname read_param
+#' @export
+read_usm= function(filepath){
+  params= readLines(filepath)
+  usm= vector(mode='list', length = 0)
+  values= params[!seq_along(params)%%2]
+
+  index= 1
+  val= function(){
+    index<<- index+1
+    return(values[index-1])
+  }
+
+  usm$P_codesimul= val()
+  usm$codoptim= val()
+  usm$P_codesuite= val()
+  usm$P_nbplantes= val()
+  usm$P_nomSimulation= val()
+  usm$P_iwater= val()
+  usm$P_ifwater= val()
+  usm$P_ficInit= val()
+  usm$P_ichsl= val()
+  usm$P_nomsol= val()
+  usm$P_ficStation= val()
+  usm$P_wdata1= val()
+  usm$P_wdata2= val()
+  usm$nbans= val()
+  usm$P_culturean= val()
+
+  for(i in 1:usm$P_nbplantes){
+    usm$P_fplt[i]= val()
+    usm$P_ftec[i]= val()
+    usm$P_flai[i]= val()
+  }
 }
