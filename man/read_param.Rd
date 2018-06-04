@@ -13,19 +13,20 @@
 \usage{
 read_param(dirpath = getwd(), param = NULL, ...)
 
-read_ini(filepath)
+read_ini(filepath = "ficini.txt")
 
-read_general(filepath)
+read_general(filepath = "tempopar.sti")
 
-read_plant(filepath, max_variety = 30)
+read_plant(filepath = "ficplt1.txt", max_variety = 30)
 
-read_tec(filepath, several_fert = T, several_thin = T, is_pasture = F)
+read_tec(filepath = "fictec1.txt", several_fert = T, several_thin = T,
+  is_pasture = F)
 
-read_soil(filepath)
+read_soil(filepath = "param.sol")
 
-read_station(filepath)
+read_station(filepath = "station.txt")
 
-read_usm(filepath)
+read_usm(filepath = "new_travail.usm")
 }
 \arguments{
 \item{dirpath}{Directory path}
@@ -79,5 +80,5 @@ read_param(param='interrang')
 
 }
 \seealso{
-\code{\link{set_usm}}.
+\code{\link{set_param}}.
 }

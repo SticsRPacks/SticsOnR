@@ -43,6 +43,8 @@ set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"))
 \item{value}{New parameter value}
 
 \item{plant}{Plant index. Optional, only for plant or technical parameters}
+
+\item{vars}{Vector of variable names for STICS output requirements}
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input

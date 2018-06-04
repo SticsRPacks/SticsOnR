@@ -29,7 +29,7 @@
 #' The function can return several sub-lists for each \code{plant} and \code{tec}
 #'  if mixed crops, numbered by usage
 #'
-#' @seealso \code{\link{set_usm}}.
+#' @seealso \code{\link{set_param}}.
 #'
 #' @importFrom stats setNames
 #'
