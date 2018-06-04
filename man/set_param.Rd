@@ -13,30 +13,30 @@
 \usage{
 set_param(dirpath = getwd(), param, value, plant = 1)
 
-set_usm(filepath, param, value)
+set_usm(filepath = "new_travail.usm", param, value)
 
-set_station(filepath, param, value)
+set_station(filepath = "station.txt", param, value)
 
-set_ini(filepath, param, value)
+set_ini(filepath = "ficini.txt", param, value)
 
-set_general(filepath, param, value)
+set_general(filepath = "tempopar.sti", param, value)
 
-set_plant(filepath, param, value)
+set_plant(filepath = "ficplt1.txt", param, value)
 
-set_tec(filepath, param, value)
+set_tec(filepath = "fictec1.txt", param, value)
 
-set_soil(filepath, param, value)
+set_soil(filepath = "param.sol", param, value)
 }
 \arguments{
 \item{dirpath}{USM directory path}
 
 \item{param}{Parameter name}
 
-\item{value}{Parameter new value}
+\item{value}{New parameter value}
 
 \item{plant}{Plant index. Optional, only for plant or technical parameters}
 
-\item{filepath}{Parameter file path}
+\item{filepath}{Path to the parameter file}
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input

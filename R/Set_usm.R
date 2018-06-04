@@ -109,8 +109,6 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #'
 #' @seealso \code{\link{import_usm}}.
 #'
-#' @importFrom magrittr "%>%" "%<>%"
-#'
 #' @examples
 #'\dontrun{
 #' # Replace the interrow distance parameter to 0.01:
