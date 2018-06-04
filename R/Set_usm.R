@@ -95,7 +95,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 }
 
 
-#' Replace STICS input file parameter
+#' Set (replace) STICS input file parameters
 #'
 #' @description Replace or set an input parameter from a pre-existing STICS input
 #'              file. Generally used after calling \code{\link{import_usm}}.
@@ -106,6 +106,8 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #' @param value    New parameter value
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #'
+#' @details \code{set_out_var} is not used by \code{set_param}. To replace the output
+#'          variables required from STICS, please directly call \code{set_out_var}.
 #'
 #' @seealso \code{\link{import_usm}}.
 #'
@@ -306,3 +308,11 @@ set_soil= function(filepath="param.sol",param,value){
           filepath,append = T)
   }
 }
+
+
+#' @rdname set_param
+#' @export
+set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)")){
+  writeLines(vars,filepath)
+}
+

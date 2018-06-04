@@ -14,7 +14,7 @@
 #'                     compatibility)
 #' @param ...          Helper to pass arguments from \code{\link{read_param}} to the
 #'                     other functions
-#'
+#'#'
 #' @note Users generally only use \code{read_param} that identify parameters for
 #'       other functions and call them.
 #'
@@ -25,6 +25,7 @@
 #'         \item{plant}{Plant parameters}
 #'         \item{soil}{Soil parameters}
 #'         \item{station}{Station parameters}
+#'         \code{output}{The output variables the user require from STICS}
 #' The function can return several sub-lists for each \code{plant} and \code{tec}
 #'  if mixed crops, numbered by usage
 #'
@@ -75,7 +76,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   soil= read_soil(file.path(dirpath,"param.sol"))
   station= read_station(file.path(dirpath,"station.txt"))
   usm= read_usm(file.path(dirpath,"new_travail.usm"))
-
+  output= read_out_var(file.path(dirpath,"var.mod"))
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
   for(i in 1:ini$nbplantes){
@@ -88,8 +89,9 @@ read_param= function(dirpath=getwd(),param=NULL,...){
                       max_variety = max_variety))
   }
 
-  parameters= list(usm=usm, ini=ini, general=general, tec=tec,
-                   plant=plant, soil= soil, station= station)
+  parameters= list(usm= usm, ini= ini, general= general, tec= tec,
+                   plant= plant, soil= soil, station= station,
+                   output= output)
 
   if(!is.null(param)){
     parameters= unlist(parameters)
@@ -100,7 +102,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
 
 #' @rdname read_param
 #' @export
-read_ini= function(filepath){
+read_ini= function(filepath="ficini.txt"){
   params= readLines(filepath)
   ini= vector(mode='list', length = 0)
   values= params[!seq_along(params)%%2]
@@ -117,7 +119,7 @@ read_ini= function(filepath){
 
 #' @rdname read_param
 #' @export
-read_general= function(filepath){
+read_general= function(filepath="tempopar.sti"){
 
   params= readLines(filepath)
   pg= vector(mode='list', length = 0)
@@ -283,7 +285,7 @@ read_general= function(filepath){
 
 #' @rdname read_param
 #' @export
-read_plant= function(filepath,max_variety=30){
+read_plant= function(filepath="ficplt1.txt",max_variety=30){
 
   params= readLines(filepath)
   plant= vector(mode='list', length = 0)
@@ -588,7 +590,7 @@ read_plant= function(filepath,max_variety=30){
 
 #' @rdname read_param
 #' @export
-read_tec= function(filepath,several_fert=T,several_thin=T,is_pasture=F){
+read_tec= function(filepath="fictec1.txt",several_fert=T,several_thin=T,is_pasture=F){
 
   params= readLines(filepath)
   itk= vector(mode='list', length = 0)
@@ -893,7 +895,7 @@ read_tec= function(filepath,several_fert=T,several_thin=T,is_pasture=F){
 
 #' @rdname read_param
 #' @export
-read_soil= function(filepath){
+read_soil= function(filepath= "param.sol"){
 
   params= readLines(filepath,warn=F)
   soil= vector(mode='list', length = 0)
@@ -937,7 +939,7 @@ read_soil= function(filepath){
 
 #' @rdname read_param
 #' @export
-read_station= function(filepath){
+read_station= function(filepath="station.txt"){
 
   params= readLines(filepath)
   sta= vector(mode='list', length = 0)
@@ -990,7 +992,7 @@ read_station= function(filepath){
 
 #' @rdname read_param
 #' @export
-read_usm= function(filepath){
+read_usm= function(filepath="new_travail.usm"){
   params= readLines(filepath)
   usm= vector(mode='list', length = 0)
   values= params[!seq_along(params)%%2]
@@ -1023,4 +1025,12 @@ read_usm= function(filepath){
     usm$P_flai[i]= val()
   }
   return(usm)
+}
+
+
+#' @rdname set_param
+#' @export
+read_out_var= function(filepath="var.mod"){
+  Vars= readLines(filepath)
+  return(Vars)
 }

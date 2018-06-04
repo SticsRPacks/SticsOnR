@@ -26,7 +26,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Overview
 
-This package allows the user to set one or more simulations (USM), to call STICS to run them in sequence or in separate folders (if input has to be saved), to import the results for analyses and to generate automatic reports.
+This package allows the user to programmatically set one or more simulations (USM), to call STICS to run them in sequence or in separate folders (if input has to be saved), to import the results for analyses and to generate automatic reports.
 
 ## Installation
 
@@ -67,7 +67,7 @@ Enjoy !!
 
 ## Acknowledgments
 
-The STICS (Simulateur mulTIdisciplinaire pour les Cultures Standard, or multidisciplinary simulator for standard crops) model is a dynamic, generic and robust model aiming to simulate the soil-crop-atmosphere system. It was created at INRA, the French national institute for agricultural research, in 1996 on the initiative of Nadine Brisson with informatics support from Dominique Ripoche. An overview of the model is available [here](https://www6.paca.inra.fr/stics_eng/About-us/Stics-model-overview).
+The STICS (Simulateur mulTIdisciplinaire pour les Cultures Standard, or multidisciplinary simulator for standard crops) model is a dynamic, generic and robust model aiming to simulate the soil-crop-atmosphere system. It was first developed in 1996 by INRA -the French National Institute for Agricultural research-  by Nadine Brisson and Dominique Ripoche. An overview of the model is available [here](https://www6.paca.inra.fr/stics_eng/About-us/Stics-model-overview).
 
 The sticRs package was developed thanks to the European H2020 funded [ReMIX project](https://www.remix-intercrops.eu/).
 
