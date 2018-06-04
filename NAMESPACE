@@ -3,6 +3,7 @@
 export(import_usm)
 export(read_general)
 export(read_ini)
+export(read_obs)
 export(read_out_var)
 export(read_output)
 export(read_param)
