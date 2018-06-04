@@ -55,7 +55,10 @@ This is a basic example using the default dummy simulation (parameters and meteo
 ```{r example1, eval=FALSE}
 library("sticRs")
 set_usm(plant= c("wheat","wheat"))
-set_param(file= "tec", plant= 2, param= "interrang", value= 0.01)
+# Reading the interrang parameter:
+read_param(param='interrang')
+# Setting the interrang parameter to 0.01 meter:
+set_param(param= "interrang", value= 0.01)
 ```
 
 To use your own data, simply use the folder of your simulation as the reference path; like you would do with javaSTICS.
