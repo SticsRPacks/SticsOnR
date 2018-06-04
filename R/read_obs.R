@@ -14,7 +14,7 @@
 #'          tries to read the number of species from the input files.
 #'
 #' @return A data.frame (sole crop) or a list of two data.frames (mixed crops) of
-#'         the STICS-formated obserations.
+#'         the STICS-formated observations.
 #'
 #' @seealso \code{\link{read_output}}
 #'
@@ -68,6 +68,7 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       obs_files= list.files(dirpath)%>%.[grep("\\.obs$",.)]
       if(length(obs_files)==1){
         Table_obs= data.table::fread(file.path(dirpath,obs_files), data.table = F)
+        if(mixed){Table_obs= list(Table_obs,Table_obs)}
       }else{
         stop("\nObservation file names do not match mod_s* file names and several *.obs ",
              "file names are present. Please provide the *.obs file names using the ",

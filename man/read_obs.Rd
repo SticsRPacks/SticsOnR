@@ -15,7 +15,7 @@ read_obs(dirpath = getwd(), filename = NULL, mixed = NULL)
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) of
-        the STICS-formated obserations.
+        the STICS-formated observations.
 }
 \description{
 Read STICS observation file for sole or mixed crops.
