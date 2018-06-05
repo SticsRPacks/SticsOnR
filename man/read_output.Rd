@@ -4,12 +4,15 @@
 \alias{read_output}
 \title{Read STICS outputs (mod_s*)}
 \usage{
-read_output(dirpath = getwd(), mixed = NULL)
+read_output(dirpath = getwd(), mixed = NULL, name = NULL)
 }
 \arguments{
 \item{dirpath}{Directory path}
 
 \item{mixed}{(optional) Is the simulation on mixed species (boolean)}
+
+\item{name}{Plant name for the output. Especially usefull for mixed crops.
+If \code{NULL}, the function tries to read it using \code{\link{read_usm}}}
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) of

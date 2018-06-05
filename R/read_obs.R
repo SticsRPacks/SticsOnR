@@ -59,10 +59,11 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       Table_obs= lapply(Plant_name, function(x){
         Out= data.table::fread(file.path(dirpath,paste0(x,".obs")), data.table = F)
         Out[Out<=-999.99]= NA
+        Out$Plant= x
         Del_spe_col(Out)
       })
-      names(Table_obs)= paste0("Plant_",seq_along(Plant_name))
-
+      Table_obs= rbind(Table_obs)
+      attrfiles= Plant_name
       cat("Observation file names read from matching mod_s* file names.\nmod_s* names:",
           Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
     }else{
@@ -70,10 +71,10 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       obs_files= list.files(dirpath)%>%.[grep("\\.obs$",.)]
       if(length(obs_files)==1){
         Table_obs= data.table::fread(file.path(dirpath,obs_files), data.table = F)
-        Table_obs= list(Table_1= Del_spe_col(Table_obs))
-        names(Table_obs)= obs_files
+        Table_obs= Del_spe_col(Table_obs)
+        attrfiles= obs_files
         Table_obs[Table_obs<=-999.99]= NA
-        if(mixed){Table_obs= list(Table_obs,Table_obs)}
+        Table_obs$Plant= obs_files
       }else{
         stop("\nObservation file names do not match mod_s* file names and several *.obs ",
              "file names are present. Please provide the *.obs file names using the ",
@@ -84,11 +85,16 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
     Table_obs= lapply(filename, function(x){
       Out= data.table::fread(file.path(dirpath,x), data.table = F)
       Out[Out<=-999.99]= NA
+      Out$Plant= x
       Del_spe_col(Out)
     })
-    names(Table_obs)= filename
+    Table_obs= rbind(Table_obs)
+    attrfiles= filename
   }
-
+  Date= data.frame(Date=as.POSIXct(x = paste(Table_obs$ian,Table_obs$mo,Table_obs$jo, sep="-"),
+                                   format = "%Y-%m-%d", tz="UTC"))
+  Table_obs= cbind(Date,Table_obs)
+  attr(Table_obs, "file")= attrfiles
 
   return(Table_obs)
 }
