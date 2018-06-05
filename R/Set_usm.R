@@ -315,7 +315,7 @@ set_soil= function(filepath="param.sol",param,value){
 
 #' @rdname set_param
 #' @export
-set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)")){
-  writeLines(vars,filepath)
+set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),app= F){
+  cat(vars,file=filepath, sep="\n",append = app)
 }
 

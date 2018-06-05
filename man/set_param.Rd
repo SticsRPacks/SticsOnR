@@ -31,7 +31,7 @@ set_tec(filepath = "fictec1.txt", param, value)
 
 set_soil(filepath = "param.sol", param, value)
 
-set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"))
+set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), app = F)
 }
 \arguments{
 \item{filepath}{Path to the parameter file}
