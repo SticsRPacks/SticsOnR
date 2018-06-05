@@ -16,7 +16,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 ```
   
 
-# sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package <img src="man/figures/logo.jpg" alt="logo" width="300" align="right" />
+# sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package for developers <img src="man/figures/logo.jpg" alt="logo" width="300" align="right" />
 <!-- <img src="man/figures/logo.png" alt="logo" style="width:30%;height:auto;" align="right" /> -->
 <!-- [![Travis build status](https://travis-ci.com/VEZY/DynACof.svg?branch=master)](https://travis-ci.org/VEZY/DynACof)   -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)

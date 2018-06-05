@@ -31,22 +31,26 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
 
 
   if(is.list(sim)&length(sim)>1){
-    # The simulations are made on mixed species
+    # (1) The simulations were made on mixed species
     Table_comp= lapply(1:length(names(sim)), function(x){
       Out= merge(sim[[x]],meas[[x]],by = c("ian","jul"),
-                 suffixes = c('_meas','_sim'))%>%
+                 suffixes = c('_sim','_meas'))%>%
         .[,-grep("mo_sim|jo_sim",colnames(.))]
       colnames(Out)[grep("mo_meas|jo_meas",colnames(Out))]=
         c("mo","jo")
       Out
     })
+    names(Table_comp)= names(sim)
+    attr(Table_comp, 'files')= data.frame(sim= names(sim), obs= names(meas))
   }else{
-    # The simulations are made on a sole crop
+    # (2) The simulations were made on a sole crop
     Table_comp= merge(sim,meas,by = c("ian","jul"),
-                      suffixes = c('_meas','_sim'))%>%
+                      suffixes = c('_sim','_meas'))%>%
       .[,-grep("mo_sim|jo_sim",colnames(.))]
     colnames(Out)[grep("mo_meas|jo_meas",colnames(Out))]=
       c("mo","jo")
+    names(Table_comp)= names(sim)
+    attr(Table_comp, 'files')= data.frame(sim= names(sim), obs= names(meas))
   }
 
   return(Table_comp)

@@ -41,12 +41,13 @@ read_output= function(dirpath=getwd(), mixed= NULL){
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_2= data.table::fread(file.path(dirpath,Plant_2_mod), data.table = F)
     output= list(Table_1=Table_1,Table_2=Table_2)
-
+    names(output)= c(Plant_1_mod, Plant_2_mod)
   }else{
     Plant_1_mod= list.files(dirpath)%>%.[grep("mod_s",.)]
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
-    output= Table_1
+    output= list(Table_1= Table_1)
+    names(output)= Plant_1_mod
   }
-
+  output= lapply(output,Del_spe_col)
   return(output)
 }

@@ -57,7 +57,9 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
     # If the *.obs names are the same used for mod_s* files, read them accordingly...
     if(all(file.exists(file.path(dirpath,paste0(Plant_name,".obs"))))){
       Table_obs= lapply(Plant_name, function(x){
-        data.table::fread(file.path(dirpath,paste0(x,".obs")), data.table = F)
+        Out= data.table::fread(file.path(dirpath,paste0(x,".obs")), data.table = F)
+        Out[Out<=-999.99]= NA
+        Del_spe_col(Out)
       })
       names(Table_obs)= paste0("Plant_",seq_along(Plant_name))
 
@@ -68,6 +70,9 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       obs_files= list.files(dirpath)%>%.[grep("\\.obs$",.)]
       if(length(obs_files)==1){
         Table_obs= data.table::fread(file.path(dirpath,obs_files), data.table = F)
+        Table_obs= list(Table_1= Del_spe_col(Table_obs))
+        names(Table_obs)= obs_files
+        Table_obs[Table_obs<=-999.99]= NA
         if(mixed){Table_obs= list(Table_obs,Table_obs)}
       }else{
         stop("\nObservation file names do not match mod_s* file names and several *.obs ",
@@ -76,14 +81,14 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       }
     }
   }else{
-    Table_obs= lapply(Plant_name, function(x){
-      data.table::fread(file.path(dirpath,paste0(x,".obs")), data.table = F)
+    Table_obs= lapply(filename, function(x){
+      Out= data.table::fread(file.path(dirpath,x), data.table = F)
+      Out[Out<=-999.99]= NA
+      Del_spe_col(Out)
     })
+    names(Table_obs)= filename
   }
 
-  if(length(Table_obs)==1){
-    Table_obs= Table_obs[[1]]
-  }
 
   return(Table_obs)
 }
