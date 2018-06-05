@@ -4,7 +4,7 @@
 \alias{all_out_var}
 \title{Return all possible STICS outputs for var.mod}
 \usage{
-all_out_var(x)
+all_out_var()
 }
 \description{
 Helper function to print the list of all possible variables to set as output

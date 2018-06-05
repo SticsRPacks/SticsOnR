@@ -16,6 +16,7 @@
 #' @export
 #'
 Del_spe_col= function(x){
+  .=NULL
   colnames(x)=
     gsub("\\(","_",colnames(x))%>%
     gsub("\\)","",.)

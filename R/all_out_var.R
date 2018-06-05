@@ -11,7 +11,7 @@
 #'
 #' @export
 #'
-all_out_var= function(x){
+all_out_var= function(){
   c("abso(n)",
     "age_prairie",
     "airg(n)",

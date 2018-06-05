@@ -106,6 +106,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #' @param value    New parameter value
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #' @param vars     Vector of variable names for STICS output requirements
+#' @param app      Append \code{vars} to var.mod ?
 #'
 #' @details \code{set_out_var} is not used by \code{set_param}. To replace the output
 #'          variables required from STICS, please directly call \code{set_out_var}.
