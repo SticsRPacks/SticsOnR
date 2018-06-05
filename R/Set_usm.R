@@ -109,6 +109,8 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #'
 #' @details \code{set_out_var} is not used by \code{set_param}. To replace the output
 #'          variables required from STICS, please directly call \code{set_out_var}.
+#'          \code{\link{all_out_var}} is a helper function that returns all possible
+#'          output variables.
 #'
 #' @seealso \code{\link{import_usm}}.
 #'

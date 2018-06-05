@@ -53,6 +53,8 @@ Replace or set an input parameter from a pre-existing STICS input
 \details{
 \code{set_out_var} is not used by \code{set_param}. To replace the output
          variables required from STICS, please directly call \code{set_out_var}.
+         \code{\link{all_out_var}} is a helper function that returns all possible
+         output variables.
 }
 \examples{
 \dontrun{
