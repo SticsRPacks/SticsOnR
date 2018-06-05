@@ -18,7 +18,7 @@
 #'
 #' @seealso \code{\link{read_output}}
 #'
-#' @importFrom data.table fread
+#' @importFrom data.table fread rbindlist
 #'
 #' @examples
 #'\dontrun{
@@ -62,7 +62,7 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
         Out$Plant= x
         Del_spe_col(Out)
       })
-      Table_obs= rbind(Table_obs)
+      Table_obs= data.table::rbindlist(Table_obs)
       attrfiles= Plant_name
       cat("Observation file names read from matching mod_s* file names.\nmod_s* names:",
           Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
@@ -88,7 +88,7 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       Out$Plant= x
       Del_spe_col(Out)
     })
-    Table_obs= rbind(Table_obs)
+    Table_obs= data.table::rbindlist(Table_obs)
     attrfiles= filename
   }
   Date= data.frame(Date=as.POSIXct(x = paste(Table_obs$ian,Table_obs$mo,Table_obs$jo, sep="-"),

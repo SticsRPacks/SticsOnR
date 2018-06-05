@@ -9,7 +9,8 @@ eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL)
 \arguments{
 \item{dirpath}{Directory path}
 
-\item{obs_name}{A vector of observation file name(s). Optional, see details.}
+\item{obs_name}{A vector of observation file name(s). It must have the form
+\code{c(Dominant,Dominated)} for mixed crops. See details.}
 
 \item{mixed}{(optional) Is the simulation made on mixed species (boolean)}
 }
@@ -22,7 +23,9 @@ A data.frame (sole crop) or a list of two data.frames (mixed crops) with
 Compare STICS simulation outputs to observations for sole or mixed crops.
 }
 \details{
-If \code{obs_name} is not provided, the function try to guess it using the
+For mixed crops, the \code{obs_name} argument should have the dominant plant
+         observations first in the character vector, and then the dominated plant.
+         If \code{obs_name} is not provided, the function try to guess it using the
          built-in algorithm from \code{\link{read_obs}}. Idem for the \code{mixed}
          argument. See documentation for more details.
 }
