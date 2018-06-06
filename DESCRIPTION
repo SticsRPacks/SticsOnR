@@ -17,4 +17,6 @@ RoxygenNote: 6.0.1
 Imports: 
     magrittr,
     stats,
-    data.table
+    data.table,
+    ggplot2,
+    reshape2

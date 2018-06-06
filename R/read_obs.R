@@ -76,9 +76,10 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
         Table_obs[Table_obs<=-999.99]= NA
         Table_obs$Plant= obs_files
       }else{
-        stop("\nObservation file names do not match mod_s* file names and several *.obs ",
+        warning("\nObservation file names do not match mod_s* file names and several *.obs ",
              "file names are present. Please provide the *.obs file names using the ",
              "filename parameter")
+        Table_obs= NULL
       }
     }
   }else{
@@ -91,10 +92,13 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
     Table_obs= data.table::rbindlist(Table_obs)
     attrfiles= filename
   }
-  Date= data.frame(Date=as.POSIXct(x = paste(Table_obs$ian,Table_obs$mo,Table_obs$jo, sep="-"),
-                                   format = "%Y-%m-%d", tz="UTC"))
-  Table_obs= cbind(Date,Table_obs)
-  attr(Table_obs, "file")= attrfiles
+
+  if(!is.null(Table_obs)){
+    Date= data.frame(Date=as.POSIXct(x = paste(Table_obs$ian,Table_obs$mo,Table_obs$jo, sep="-"),
+                                     format = "%Y-%m-%d", tz="UTC"))
+    Table_obs= cbind(Date,Table_obs)
+    attr(Table_obs, "file")= attrfiles
+  }
 
   return(Table_obs)
 }
