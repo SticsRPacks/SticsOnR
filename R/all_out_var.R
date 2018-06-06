@@ -555,3 +555,24 @@ all_out_var= function(){
     "tsol(10)",
     "hur_10_vol")
 }
+
+
+#' Find output variable names for STICS
+#'
+#' @description Helper function that return the name used as input
+#' for the STICS model with a partial match.
+#'
+#' @param Var Character vector with a (partial) STICS output variable name
+#'
+#' @seealso \code{\link{all_out_var}}
+#'
+#' @examples
+#' library(sticRs)
+#' find_STICS_var("lai")
+#'
+#' @export
+#'
+find_STICS_var= function(Var){
+  All_vars= all_out_var()
+  All_vars[grep(Var, All_vars,ignore.case = TRUE)]
+}

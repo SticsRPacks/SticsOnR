@@ -27,7 +27,6 @@
 #'}
 #'
 #' @export
-#'
 read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
   .=NULL # to avoid CRAN note for pipe
   if(is.null(mixed)){

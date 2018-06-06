@@ -31,6 +31,10 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
   .= NULL
   sim= read_output(dirpath = dirpath, mixed = mixed)
   meas= read_obs(dirpath = dirpath, filename = obs_name, mixed = mixed)
+  colnames(sim)[-grep("Date|Dominance",colnames(sim))]=
+    paste0(colnames(sim[-grep("Date|Dominance",colnames(sim))]),"_sim")
+  colnames(meas)[-grep("Date",colnames(meas))]=
+    paste0(colnames(meas[-grep("Date",colnames(meas))]),"_meas")
   meas$Dominance= "Dominant"
   meas$Dominance[meas$Plant==unique(meas$Plant)[2]]= "Dominated"
   Equiv= data.frame(Dominance= c("Dominant","Dominated"), Measurement= unique(meas$Plant),
@@ -42,9 +46,9 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
     # (1) The simulations were made on mixed species
     Table_comp= merge(sim,meas,by = c("Dominance","Date"),
                       suffixes = c('_sim','_meas'),all.x = T)%>%
-      .[,-grep("ian_meas|mo_meas|jo_meas|jul_meas",colnames(.))]
-    colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim",colnames(Table_comp))]=
-      c("ian","mo","jo","jul")
+      .[,-grep("ian_meas|mo_meas|jo_meas|jul_meas|Plant_meas",colnames(.))]
+    colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim|Plant_sim",colnames(Table_comp))]=
+      c("ian","mo","jo","jul","Plant")
     attr(Table_comp, 'files')=
       data.frame(sim_Plant= attr(sim, "file")$Plant,
                  sim_file= attr(sim, "file")$file,
@@ -53,9 +57,10 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
     # (2) The simulations were made on a sole crop
     Table_comp= merge(sim,meas,by = c("Date"),
                       suffixes = c('_sim','_meas'))%>%
-      .[,-grep("mo_sim|jo_sim",colnames(.))]
-    colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim",colnames(Table_comp))]=
-      c("ian","mo","jo","jul")
+      .[,-grep("ian_sim|mo_sim|jo_sim|jul_sim|Plant_meas",colnames(.))]
+    colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim|Plant_sim",
+                              colnames(Table_comp))]=
+      c("ian","mo","jo","jul","Plant")
     attr(Table_comp, 'files')=
       data.frame(sim_Plant= attr(sim, "file")$Plant,
                  sim_file= attr(sim, "file")$file,

@@ -4,7 +4,7 @@
 \alias{import_usm}
 \title{Create a simulation unit (USM) for the STICS model}
 \usage{
-import_usm(dir.orig = NULL, dir.targ = getwd(), dir.stics = NULL,
+import_usm(dir.orig = NULL, dir.targ = getwd(), stics = NULL,
   usm_name = NULL)
 }
 \arguments{
@@ -13,8 +13,8 @@ import_usm(dir.orig = NULL, dir.targ = getwd(), dir.stics = NULL,
 
 \item{dir.targ}{Path to the target directory for simulation. Created if missing.}
 
-\item{dir.stics}{Path to the STICS model executable (optional, only needed if not present
-in dir.orig)}
+\item{stics}{Path to the STICS model executable (optional, only needed if not
+present in dir.orig)}
 
 \item{usm_name}{Vector name of the USM(s).}
 }

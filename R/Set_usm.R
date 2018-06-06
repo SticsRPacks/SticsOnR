@@ -8,8 +8,8 @@
 #' @param dir.orig  Path to the directory from which copy the simulation files. If
 #'                  \code{NULL} (the default), uses the package dummy USM.
 #' @param dir.targ  Path to the target directory for simulation. Created if missing.
-#' @param dir.stics Path to the STICS model executable (optional, only needed if not present
-#'                  in dir.orig)
+#' @param stics     Path to the STICS model executable (optional, only needed if not
+#'                  present in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
 #'
 #' @details This function is a helper function used by other package functions
@@ -26,7 +26,7 @@
 #'
 #' @export
 import_usm= function(dir.orig=NULL, dir.targ= getwd(),
-                  dir.stics= NULL,usm_name= NULL){
+                  stics= NULL,usm_name= NULL){
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
@@ -53,6 +53,12 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
     File_already=
       basename(Files)[file.exists(
         list.files(usm_path, full.names = T),basename(Files))]
+    if(!is.null(stics)){
+    File_already=
+      c(File_already,
+        basename(stics)[file.exists(stics)])
+    }
+
     if(length(File_already)>0){
       overw= NULL
       count= 1
@@ -75,19 +81,35 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 
   written= file.copy(from = Files, to= usm_path,
                      recursive = T,overwrite = overw)
-  if(!is.null(dir.stics)){
-    written= c(written, file.copy(from = dir.stics, to= usm_path,
+  Filenames= basename(Files[written])
+  if(!is.null(stics)){
+    Already_stic= file.exists(stics)
+    if(Already_stic){
+      overw= NULL ; count= 1
+      while(is.null(overw)){
+        if(count==1){
+          cat(paste("Stics executable already in the folder, overwrite (y/n)?"))
+        }
+        count= count+1
+        ans= readline()
+        if(ans=="y"){overw= T}else if(ans=="n"){overw= F}else{
+          cat("Please type y for yes, n for no\n")
+        }
+      }
+    }
+    written= c(written, file.copy(from = stics, to= usm_path,
                                   recursive = T, overwrite = overw))
+    Filenames= c(Filenames, "stics executable")
   }
   if(any(written)){
     cat(paste("Files:\n",
-              paste(basename(Files[written]), collapse = ", "),
+              paste(Filenames[written], collapse = ", "),
               "\nwere all sucessfully written in",usm_path))
   }
 
   if(any(!written)){
-    cat(paste("\nFiles:\n",
-              paste(basename(Files[!written]), collapse = ", "),
+    cat(paste("\n\nFiles:\n",
+              paste(Filenames[!written], collapse = ", "),
               "\nwere not replaced in",usm_path,
               "following your request to not overwrite"))
   }
