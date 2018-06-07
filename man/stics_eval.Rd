@@ -4,9 +4,8 @@
 \alias{stics_eval}
 \title{Evaluate STICS version}
 \usage{
-stics_eval(dir.orig = NULL, dir.targ = getwd(), usm_name = NULL, stics,
-  obs_name = NULL, Out_var = NULL, plot_it = T, Parallel = T,
-  mixed = NULL)
+stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, obs_name = NULL,
+  Out_var = NULL, plot_it = T, Parallel = T, mixed = NULL)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -17,7 +16,8 @@ stics_eval(dir.orig = NULL, dir.targ = getwd(), usm_name = NULL, stics,
 \item{stics}{STICS executable path named list.}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
-\code{c(Dominant,Dominated)} for mixed crops. See details.}
+\code{c(Dominant,Dominated)} for mixed crops.
+See \code{\link{read_obs}} \code{filename} parameter for more details.}
 
 \item{Out_var}{The variables needed as output}
 

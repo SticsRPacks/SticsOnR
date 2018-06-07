@@ -15,16 +15,18 @@ read_obs(dirpath = getwd(), filename = NULL, mixed = NULL)
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) of
-        the STICS-formated observations.
+        the STICS-formated observations. Return \code{NULL} if no files were found,
+        or more files than useable.
 }
 \description{
 Read STICS observation file for sole or mixed crops.
 }
 \details{
 If \code{filename} is not specified (or equal to \code{NULL}), the
-         function tries first to match the \code{mod_s*} names, and then to
-         use the \code{.obs} file if there is one only (used for sole crops or
-         for both mixed crops).
+         function tries first to match the \code{mod_s*} names for the same \*.obs
+         names, and then to use the \code{.obs} file if there is one only
+         (used for sole crops or for both mixed crops). If there are no .obs files,
+         or two but not specified for reading, the function returns \code{NULL}
          If \code{mixed} is not specified (or equal to \code{NULL}), the function
          tries to read the number of species from the input files.
 }

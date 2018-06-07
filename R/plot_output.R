@@ -20,6 +20,7 @@
 #'
 #' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid
 #' @importFrom reshape2 melt
+#' @importFrom parallel parLapply stopCluster
 #'
 #' @examples
 #'\dontrun{
@@ -29,7 +30,7 @@
 #' @export
 #'
 plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
-  Date= Dominance= value= Version= NULL
+  Date= Dominance= value= Version= .= NULL
   dot_args= list(...)
 
   Isdf= all(lapply(dot_args, is.data.frame)%>%unlist)
@@ -51,6 +52,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
                          Names)]
       }
     )%>%unlist%>%unique
+  }else{
+    Vars= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
   }
 
   x_sim_= x_meas_= .= NULL
@@ -81,15 +84,19 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
 
   }
 
+  levels(x_sim_$variable)= gsub("_n","",levels(x_sim_$variable))
+
   ggstics=
     ggplot(x_sim_,aes(x=Date))+
-    facet_grid(variable~., scale='free_y') +
+    facet_grid(variable~., scales='free_y') +
     geom_line(aes(y= value, colour= Dominance,linetype= Version))+
     labs(linetype='Model Version',colour='Plant dominance')
 
   if(!is.null(x_meas_)){
-    ggstics= ggstics+geom_point(data= x_meas_,aes(y= value, colour= Dominance,
-                                                  pch= Version))+
+    levels(x_meas_$variable)= gsub("_n","",levels(x_meas_$variable))
+    ggstics= ggstics+
+      geom_point(data= x_meas_,aes(y= value, colour= Dominance,
+                                   pch= Version))+
       labs(pch='Observation source')
   }
   if(plot_it){print(ggstics)}

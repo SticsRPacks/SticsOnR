@@ -8,7 +8,8 @@
 #' @param dir.targ  Path to the target directory for evaluation. Created if missing.
 #' @param stics     STICS executable path named list.
 #' @param obs_name  A vector of observation file name(s). It must have the form
-#'                  \code{c(Dominant,Dominated)} for mixed crops. See details.
+#'                  \code{c(Dominant,Dominated)} for mixed crops.
+#'                  See \code{\link{read_obs}} \code{filename} parameter for more details.
 #' @param Out_var   The variables needed as output
 #' @param plot_it   Boolean. Do the plot as to be pinted ?
 #' @param Parallel  Are the simulations to be executed in parallel ?
@@ -33,9 +34,8 @@
 #'}
 #'
 #' @export
-stics_eval= function(dir.orig=NULL, dir.targ= getwd(), usm_name=NULL,
-                     stics, obs_name= NULL,Out_var=NULL, plot_it=T,
-                     Parallel=T,mixed= NULL){
+stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
+                     Out_var=NULL, plot_it=T,Parallel=T,mixed= NULL){
   if(is.list(stics)){
     usm_name= names(stics)
   }else{
@@ -61,7 +61,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(), usm_name=NULL,
     stopCluster(cl)
   }else{
     outputs=
-      lapply(cl,seq_along(stics),
+      lapply(seq_along(stics),
              function(x){
                USM_path= file.path(dir.targ,usm_name[x])
                import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
@@ -74,7 +74,9 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(), usm_name=NULL,
                output
              })
   }
+  names(outputs)= usm_name
   outputs[["plot_it"]]= plot_it
+  outputs[["Vars"]]= Out_var
   gg_stics= do.call(plot_output,outputs)
   return(list(outputs= outputs[[1]], gg_object= gg_stics))
 }
