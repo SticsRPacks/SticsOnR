@@ -64,7 +64,7 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
         Out$Plant= x
         Del_spe_col(Out)
       })
-      Table_obs= data.table::rbindlist(Table_obs)
+      Table_obs= data.table::rbindlist(Table_obs, fill=T)
       attrfiles= Plant_name
       cat("Observation file names read from matching mod_s* file names.\nmod_s* names:",
           Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
@@ -91,7 +91,7 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       Out$Plant= x
       Del_spe_col(Out)
     })
-    Table_obs= data.table::rbindlist(Table_obs)
+    Table_obs= data.table::rbindlist(Table_obs, fill=T)
     attrfiles= filename
   }
 

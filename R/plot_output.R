@@ -8,6 +8,7 @@
 #' @param Vars     Character vector of variables required for plotting.
 #' @param obs_name A vector of observation file name(s). It must have the form
 #'                 \code{c(Dominant,Dominated)} for mixed crops. See details.
+#' @param Title    A title for the plot (optional)
 #' @param plot_it  Boolean. Do the plot as to be pinted ?
 #'
 #' @details if \code{Vars} is NULL (the default), the function plots all variables
@@ -18,7 +19,7 @@
 #'
 #' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
 #'
-#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid
+#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar
 #' @importFrom reshape2 melt
 #' @importFrom parallel parLapply stopCluster
 #'
@@ -29,7 +30,7 @@
 #'}
 #' @export
 #'
-plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
+plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
   Date= Dominance= value= Version= .= NULL
   dot_args= list(...)
 
@@ -90,14 +91,38 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
     ggplot(x_sim_,aes(x=Date))+
     facet_grid(variable~., scales='free_y') +
     geom_line(aes(y= value, colour= Dominance,linetype= Version))+
-    labs(linetype='Model Version',colour='Plant dominance')
+    labs(linetype='Model Version',colour='Plant dominance')+
+    ggtitle(Title)
 
   if(!is.null(x_meas_)){
     levels(x_meas_$variable)= gsub("_n","",levels(x_meas_$variable))
+    x_meas_no_sd= x_meas_[!grepl("_sd",x_meas_$variable),]
     ggstics= ggstics+
-      geom_point(data= x_meas_,aes(y= value, colour= Dominance,
-                                   pch= Version))+
+      geom_point(data= x_meas_no_sd,
+                 aes(y= value, colour= Dominance,pch= Version))+
       labs(pch='Observation source')
+    # If there are sd values in the observation file:
+    if(any(!grepl("_sd",x_meas_$variable))){
+
+      x_meas_sd_tmp= x_meas_[grepl("_sd",x_meas_$variable),]
+      x_meas_sd= x_meas_no_sd
+      x_meas_sd$value_min= NA
+      x_meas_sd$value_max= NA
+      sdvars= unique(x_meas_$variable[grep("_sd",x_meas_$variable)])
+
+      for(i in length(sdvars)){
+        x_meas_sd$value_min[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]=
+          x_meas_sd$value[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]-
+          x_meas_sd_tmp$value[grep(sdvars[i],x_meas_sd_tmp$variable)]
+        x_meas_sd$value_max[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]=
+          x_meas_sd$value[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]+
+          x_meas_sd_tmp$value[grep(sdvars[i],x_meas_sd_tmp$variable)]
+
+      }
+      ggstics= ggstics+
+        geom_errorbar(data= x_meas_sd,aes(ymin= value_min, ymax= value_max,
+                                          colour= Dominance,pch= Version))
+    }
   }
   if(plot_it){print(ggstics)}
   invisible(ggstics)

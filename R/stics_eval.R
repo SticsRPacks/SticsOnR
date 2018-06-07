@@ -3,17 +3,18 @@
 #' @description Wrapper function to run STICS simulations and evaluate
 #'  outputs using observations and/or other model versions.
 #'
-#' @param dir.orig  Path to the directory from which to copy the simulation files. If
-#'                  \code{NULL} (the default), uses the package dummy USM.
-#' @param dir.targ  Path to the target directory for evaluation. Created if missing.
-#' @param stics     STICS executable path named list.
-#' @param obs_name  A vector of observation file name(s). It must have the form
-#'                  \code{c(Dominant,Dominated)} for mixed crops.
-#'                  See \code{\link{read_obs}} \code{filename} parameter for more details.
-#' @param Out_var   The variables needed as output
-#' @param plot_it   Boolean. Do the plot as to be pinted ?
-#' @param Parallel  Are the simulations to be executed in parallel ?
-#' @param mixed     (optional) Is the simulation made on mixed species (boolean)
+#' @param dir.orig   Path to the directory from which to copy the simulation files. If
+#'                   \code{NULL} (the default), uses the package dummy USM.
+#' @param dir.targ   Path to the target directory for evaluation. Created if missing.
+#' @param stics      STICS executable path named list.
+#' @param obs_name   A vector of observation file name(s). It must have the form
+#'                   \code{c(Dominant,Dominated)} for mixed crops.
+#'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
+#' @param Out_var    The variables needed as output
+#' @param plot_it    Boolean. Do the plot as to be pinted ?
+#' @param Parallel   Are the simulations to be executed in parallel ?
+#' @param mixed      (optional) Is the simulation made on mixed species (boolean)
+#' @param Title      A title for the evaluation. This will be used on the ggplot object.
 #'
 #' @details The names in the \code{stics} parameter list are used for reference in the outputs
 #' (data.frames and plots). If no names are provided, the function give a dummy name for each.
@@ -35,7 +36,7 @@
 #'
 #' @export
 stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
-                     Out_var=NULL, plot_it=T,Parallel=T,mixed= NULL){
+                     Out_var=NULL, plot_it=T,Parallel=T,mixed= NULL,Title=NULL){
   if(is.list(stics)){
     usm_name= names(stics)
   }else{
@@ -77,6 +78,8 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
   names(outputs)= usm_name
   outputs[["plot_it"]]= plot_it
   outputs[["Vars"]]= Out_var
+  outputs[["Title"]]= Title
+
   gg_stics= do.call(plot_output,outputs)
   return(list(outputs= outputs[[1]], gg_object= gg_stics))
 }

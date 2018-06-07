@@ -5,7 +5,8 @@
 \title{Evaluate STICS version}
 \usage{
 stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, obs_name = NULL,
-  Out_var = NULL, plot_it = T, Parallel = T, mixed = NULL)
+  Out_var = NULL, plot_it = T, Parallel = T, mixed = NULL,
+  Title = NULL)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -26,6 +27,8 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \item{Parallel}{Are the simulations to be executed in parallel ?}
 
 \item{mixed}{(optional) Is the simulation made on mixed species (boolean)}
+
+\item{Title}{A title for the evaluation. This will be used on the ggplot object.}
 }
 \value{
 A list of two. The first object is a list of the outputs of

@@ -4,7 +4,8 @@
 \alias{plot_output}
 \title{Plot STICS outputs}
 \usage{
-plot_output(..., Vars = NULL, obs_name = NULL, plot_it = T)
+plot_output(..., Vars = NULL, obs_name = NULL, Title = NULL,
+  plot_it = T)
 }
 \arguments{
 \item{...}{Either a file path or the output from \code{\link{eval_output}}
@@ -14,6 +15,8 @@ If several objects are detected, make a comparison between them.}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
 \code{c(Dominant,Dominated)} for mixed crops. See details.}
+
+\item{Title}{A title for the plot (optional)}
 
 \item{plot_it}{Boolean. Do the plot as to be pinted ?}
 }
