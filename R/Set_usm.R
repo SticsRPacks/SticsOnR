@@ -11,8 +11,11 @@
 #' @param stics     Path to the STICS model executable (optional, only needed if not
 #'                  present in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
+#' @param overwrite Boolean. Overwrite files and folders if already present. See details.
 #'
-#' @details This function is a helper function used by other package functions
+#' @details This function is a helper function used by other package functions.
+#'  If \code{overwrite= F}, the function show to the user which files
+#'  are already present, and asks the user what to do.
 #'
 #' @examples
 #'\dontrun{
@@ -26,7 +29,7 @@
 #'
 #' @export
 import_usm= function(dir.orig=NULL, dir.targ= getwd(),
-                  stics= NULL,usm_name= NULL){
+                  stics= NULL,usm_name= NULL,overwrite= F){
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
@@ -46,8 +49,8 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 
   usm_path= file.path(dir.targ,usm_name)
 
-  if(!dir.exists(usm_path)){
-    dir.create(usm_path)
+  if(!dir.exists(usm_path)|overwrite){
+    dir.create(usm_path,recursive = T)
     overw= F
   }else{
     File_already=
@@ -84,7 +87,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
   Filenames= basename(Files[written])
   if(!is.null(stics)){
     Already_stic= file.exists(stics)
-    if(Already_stic){
+    if(Already_stic&!overwrite){
       overw= NULL ; count= 1
       while(is.null(overw)){
         if(count==1){
@@ -96,6 +99,8 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
           cat("Please type y for yes, n for no\n")
         }
       }
+    }else{
+      overw= T
     }
     written= c(written, file.copy(from = stics, to= usm_path,
                                   recursive = T, overwrite = overw))

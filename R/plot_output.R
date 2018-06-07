@@ -8,12 +8,15 @@
 #' @param Vars     Character vector of variables required for plotting.
 #' @param obs_name A vector of observation file name(s). It must have the form
 #'                 \code{c(Dominant,Dominated)} for mixed crops. See details.
+#' @param plot_it  Boolean. Do the plot as to be pinted ?
 #'
 #' @details if \code{Vars} is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
 #' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function try
 #' to guess it using the built-in algorithm from \code{\link{read_obs}}. Idem for
 #' the \code{mixed} argument. See documentation for more details.
+#'
+#' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
 #'
 #' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid
 #' @importFrom reshape2 melt
@@ -25,7 +28,7 @@
 #'}
 #' @export
 #'
-plot_output= function(..., Vars=NULL,obs_name=NULL){
+plot_output= function(..., Vars=NULL,obs_name=NULL,plot_it=T){
   Date= Dominance= value= Version= NULL
   dot_args= list(...)
 
@@ -55,7 +58,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL){
     x= dot_args[[i]]
     x_sim=
       x[,-grep("_meas|ian|mo|jo|jul",colnames(x))]
-    x_sim$Version= x_meas$Version= V_names[i]
+    x_sim$Version= V_names[i]
     colnames(x_sim)= gsub("_sim","",colnames(x_sim))
     Vars= paste("Date|Dominance|Version",paste(Vars,collapse = "|"),sep="|")
     x_sim_=
@@ -68,6 +71,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL){
     # If x_meas as more than Dominance, Date and Plant columns:
     if(ncol(x_meas)>3){
       x_meas[,-grep("_meas|Date|Dominance|Plant",colnames(x_meas))]= NA
+      x_meas$Version= V_names[i]
       colnames(x_meas)= gsub("_meas","",colnames(x_meas))
       x_meas_=
         x_meas[,grep(Vars,colnames(x_meas))]%>%
@@ -88,7 +92,6 @@ plot_output= function(..., Vars=NULL,obs_name=NULL){
                                                   pch= Version))+
       labs(pch='Observation source')
   }
-
-  print(ggstics)
+  if(plot_it){print(ggstics)}
   invisible(ggstics)
 }

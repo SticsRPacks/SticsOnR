@@ -5,7 +5,7 @@
 \title{Create a simulation unit (USM) for the STICS model}
 \usage{
 import_usm(dir.orig = NULL, dir.targ = getwd(), stics = NULL,
-  usm_name = NULL)
+  usm_name = NULL, overwrite = F)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which copy the simulation files. If
@@ -17,6 +17,8 @@ import_usm(dir.orig = NULL, dir.targ = getwd(), stics = NULL,
 present in dir.orig)}
 
 \item{usm_name}{Vector name of the USM(s).}
+
+\item{overwrite}{Boolean. Overwrite files and folders if already present. See details.}
 }
 \description{
 Uses a pre-existing USM, copy files to target folder(s) of simulation,
@@ -24,7 +26,9 @@ Uses a pre-existing USM, copy files to target folder(s) of simulation,
              as USM neede in the target folder.
 }
 \details{
-This function is a helper function used by other package functions
+This function is a helper function used by other package functions.
+ If \code{overwrite= F}, the function show to the user which files
+ are already present, and asks the user what to do.
 }
 \examples{
 \dontrun{
