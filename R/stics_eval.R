@@ -46,9 +46,14 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
   if(Parallel){
     NbCores= parallel::detectCores()-1
     cl= parallel::makeCluster(min(NbCores,length(stics)))
+    parallel::clusterExport(cl=cl,
+                  varlist=c("dir.orig","dir.targ","usm_name","stics",
+                            "obs_name","Out_var","import_usm","set_out_var",
+                            "run_stics","eval_output"),
+                  envir=environment())
     outputs=
-      parLapply(cl,seq_along(stics),
-                function(x){
+      parallel::parLapply(cl,seq_along(stics),
+                function(x,dir.orig,dir.targ,usm_name,stics,obs_name){
                   USM_path= file.path(dir.targ,usm_name[x])
                   import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                              usm_name = usm_name[x], overwrite = T,
@@ -58,8 +63,8 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
                   run_stics(dirpath = USM_path)
                   output= eval_output(dirpath= USM_path, obs_name= obs_name)
                   output
-                })
-    stopCluster(cl)
+                },dir.orig,dir.targ,usm_name,stics,obs_name)
+    parallel::stopCluster(cl)
   }else{
     outputs=
       lapply(seq_along(stics),
@@ -81,5 +86,6 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
   outputs[["Title"]]= Title
 
   gg_stics= do.call(plot_output,outputs)
-  return(list(outputs= outputs[[1]], gg_object= gg_stics))
+  return(list(outputs= outputs[-grep("plot_it|Vars|Title",names(outputs))],
+              gg_object= gg_stics))
 }

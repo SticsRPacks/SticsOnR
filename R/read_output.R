@@ -51,14 +51,14 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_2= data.table::fread(file.path(dirpath,Plant_2_mod), data.table = F)
     Table_1$Plant= name[1] ; Table_2$Plant= name[2]
-    Table_1$Dominance= "Dominant" ; Table_2$Dominance= "Dominated"
+    Table_1$Dominance= "Principal" ; Table_2$Dominance= "Associated"
     output= rbind(Table_1,Table_2)
     attrfiles= data.frame(Plant= name, file= c(Plant_1_mod, Plant_2_mod))
   }else{
     Plant_1_mod= list.files(dirpath)%>%.[grep("mod_s",.)]
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_1$Plant= name[1]
-    Table_1$Dominance= "Dominant"
+    Table_1$Dominance= "Principal"
     output= Table_1
     attrfiles= Plant_1_mod
   }

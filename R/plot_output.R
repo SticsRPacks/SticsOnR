@@ -31,7 +31,7 @@
 #' @export
 #'
 plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
-  Date= Dominance= value= Version= .= NULL
+  Date= Dominance= value= Version= .= value_min= value_max= NULL
   dot_args= list(...)
 
   Isdf= all(lapply(dot_args, is.data.frame)%>%unlist)
@@ -58,7 +58,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
   }
 
   x_sim_= x_meas_= .= NULL
-  for(i in 1:length(dot_args)){
+  for(i in seq_along(dot_args)){
     x= dot_args[[i]]
     x_sim=
       x[,-grep("_meas|ian|mo|jo|jul",colnames(x))]
@@ -102,7 +102,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
                  aes(y= value, colour= Dominance,pch= Version))+
       labs(pch='Observation source')
     # If there are sd values in the observation file:
-    if(any(!grepl("_sd",x_meas_$variable))){
+    if(any(grepl("_sd",x_meas_$variable))){
 
       x_meas_sd_tmp= x_meas_[grepl("_sd",x_meas_$variable),]
       x_meas_sd= x_meas_no_sd
@@ -110,7 +110,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
       x_meas_sd$value_max= NA
       sdvars= unique(x_meas_$variable[grep("_sd",x_meas_$variable)])
 
-      for(i in length(sdvars)){
+      for(i in seq_along(sdvars)){
         x_meas_sd$value_min[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]=
           x_meas_sd$value[grep(gsub("_sd","",sdvars[i]),x_meas_sd$variable)]-
           x_meas_sd_tmp$value[grep(sdvars[i],x_meas_sd_tmp$variable)]

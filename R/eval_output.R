@@ -4,11 +4,11 @@
 #'
 #' @param dirpath  Directory path
 #' @param obs_name A vector of observation file name(s). It must have the form
-#'                 \code{c(Dominant,Dominated)} for mixed crops. See details.
+#'                 \code{c(Principal,Associated)} for mixed crops. See details.
 #' @param mixed    (optional) Is the simulation made on mixed species (boolean)
 #'
-#' @details For mixed crops, the \code{obs_name} argument should have the dominant plant
-#'          observations first in the character vector, and then the dominated plant.
+#' @details For mixed crops, the \code{obs_name} argument should have the principal plant
+#'          observations first in the character vector, and then the associated plant.
 #'          If \code{obs_name} is not provided, the function try to guess it using the
 #'          built-in algorithm from \code{\link{read_obs}}. Idem for the \code{mixed}
 #'          argument. See documentation for more details.
@@ -37,19 +37,19 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
   if(!is.null(meas)){
     colnames(meas)[-grep("Date",colnames(meas))]=
       paste0(colnames(meas[-grep("Date",colnames(meas))]),"_meas")
-    meas$Dominance= "Dominant"
-    meas$Dominance[meas$Plant==unique(meas$Plant)[2]]= "Dominated"
-    Equiv= data.frame(Dominance= c("Dominant","Dominated"), Measurement= unique(meas$Plant),
+    meas$Dominance= "Principal"
+    meas$Dominance[meas$Plant==unique(meas$Plant)[2]]= "Associated"
+    Equiv= data.frame(Dominance= c("Principal","Associated"), Measurement= unique(meas$Plant),
                       Simulation= unique(sim$Plant))
   }else{
-    Equiv= data.frame(Dominance= c("Dominant","Dominated"), Measurement= rep(NA,2),
+    Equiv= data.frame(Dominance= c("Principal","Associated"), Measurement= rep(NA,2),
                       Simulation= unique(sim$Plant))
     meas= data.frame(Date= sim$Date,
-                     Dominance= rep(c("Dominant","Dominated"),each=nrow(sim)/2))
+                     Dominance= rep(c("Principal","Associated"),each=nrow(sim)/2))
     attr(meas, "file")= rep(NA,2)
   }
 
-  cat("Equivalence dominant/dominated plants between measurement and simulation files:\n")
+  cat("Equivalence Principal/Associated plants between measurement and simulation files:\n")
   print(Equiv)
 
   if(is.list(sim)&length(sim)>1){
