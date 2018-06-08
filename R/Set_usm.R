@@ -50,6 +50,9 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
   usm_path= file.path(dir.targ,usm_name)
 
   if(!dir.exists(usm_path)|overwrite){
+    if(overwrite){
+      unlink(usm_path,recursive = T)
+    }
     dir.create(usm_path,recursive = T)
     overw= F
   }else{
