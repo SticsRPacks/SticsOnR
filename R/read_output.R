@@ -61,6 +61,7 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
     Table_1$Dominance= "Principal"
     output= Table_1
     attrfiles= Plant_1_mod
+    attrfiles= data.frame(Plant= name, file= c(Plant_1_mod))
   }
   output= Del_spe_col(output)
   Date= data.frame(Date=as.POSIXct(x = paste(output$ian,output$mo,output$jo, sep="-"),

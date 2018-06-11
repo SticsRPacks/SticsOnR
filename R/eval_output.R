@@ -34,26 +34,40 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
   colnames(sim)[-grep("Date|Dominance",colnames(sim))]=
     paste0(colnames(sim[-grep("Date|Dominance",colnames(sim))]),"_sim")
 
+  mixed= !is.data.frame(sim)&length(sim)>1
+
   if(!is.null(meas)){
     colnames(meas)[-grep("Date",colnames(meas))]=
       paste0(colnames(meas[-grep("Date",colnames(meas))]),"_meas")
-    meas$Dominance= "Principal"
-    meas$Dominance[meas$Plant==unique(meas$Plant)[2]]= "Associated"
-    Equiv= data.frame(Dominance= c("Principal","Associated"), Measurement= unique(meas$Plant),
+    if(mixed){
+      meas$Dominance= "Principal"
+      meas$Dominance[meas$Plant==unique(meas$Plant)[2]]= "Associated"
+    }else{
+      meas$Dominance= "Sole crop"
+    }
+    Equiv= data.frame(Dominance= unique(meas$Dominance), Measurement= unique(meas$Plant),
                       Simulation= unique(sim$Plant))
+
   }else{
-    Equiv= data.frame(Dominance= c("Principal","Associated"), Measurement= rep(NA,2),
-                      Simulation= unique(sim$Plant))
-    meas= data.frame(Date= sim$Date,
-                     Dominance= rep(c("Principal","Associated"),each=nrow(sim)/2))
-    attr(meas, "file")= rep(NA,2)
+    if(mixed){
+      Equiv= data.frame(Dominance= c("Principal","Associated"), Measurement= rep(NA,2),
+                        Simulation= unique(sim$Plant))
+      meas= data.frame(Date= sim$Date,
+                       Dominance= rep(c("Principal","Associated"),each=nrow(sim)/2))
+      attr(meas, "file")= rep(NA,2)
+    }else{
+      Equiv= data.frame(Dominance= c("Sole crop"), Measurement= NA,
+                        Simulation= unique(sim$Plant))
+      meas= data.frame(Date= sim$Date,
+                       Dominance= rep(c("Sole crop"),each=nrow(sim)))
+      attr(meas, "file")= NA
+    }
   }
 
-  cat("Equivalence Principal/Associated plants between measurement and simulation files:\n")
+  cat("Input/Output files used for simulation:\n")
   print(Equiv)
 
-  if(is.list(sim)&length(sim)>1){
-    # (1) The simulations were made on mixed species
+  if(mixed){
     Table_comp= merge(sim,meas,by = c("Dominance","Date"),
                       suffixes = c('_sim','_meas'),all.x = T, all.y = F)
     Table_comp[,grep("ian_meas|mo_meas|jo_meas|jul_meas|Plant_meas",
@@ -66,18 +80,17 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
                  sim_file= attr(sim, "file")$file,
                  obs_file= attr(meas, "file"))
   }else{
-    # (2) The simulations were made on a sole crop
     Table_comp= merge(sim,meas,by = c("Date"),
                       suffixes = c('_sim','_meas'),all.x = T, all.y = F)
-      Table_comp[,grep("ian_meas|mo_meas|jo_meas|jul_meas|Plant_meas",
-                       colnames(Table_comp))]= NULL
-      colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim|Plant_sim",
-                                colnames(Table_comp))]=
-        c("ian","mo","jo","jul","Plant")
-      attr(Table_comp, 'files')=
-        data.frame(sim_Plant= attr(sim, "file")$Plant,
-                   sim_file= attr(sim, "file")$file,
-                   obs_file= attr(meas, "file"))
+    Table_comp[,grep("ian_meas|mo_meas|jo_meas|jul_meas|Plant_meas",
+                     colnames(Table_comp))]= NULL
+    colnames(Table_comp)[grep("ian_sim|mo_sim|jo_sim|jul_sim|Plant_sim",
+                              colnames(Table_comp))]=
+      c("ian","mo","jo","jul","Plant")
+    attr(Table_comp, 'files')=
+      data.frame(sim_Plant= attr(sim, "file"),
+                 sim_file= attr(sim, "file"),
+                 obs_file= attr(meas, "file"))
   }
 
   return(Table_comp)
