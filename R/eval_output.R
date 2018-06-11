@@ -34,7 +34,7 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
   colnames(sim)[-grep("Date|Dominance",colnames(sim))]=
     paste0(colnames(sim[-grep("Date|Dominance",colnames(sim))]),"_sim")
 
-  mixed= !is.data.frame(sim)&length(sim)>1
+  mixed= length(unique(sim$Dominance))>1
 
   if(!is.null(meas)){
     colnames(meas)[-grep("Date",colnames(meas))]=
