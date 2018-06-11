@@ -112,14 +112,14 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
   if(any(written)){
     cat(paste("Files:\n",
               paste(Filenames[written], collapse = ", "),
-              "\nwere all sucessfully written in",usm_path))
+              "\nwere all sucessfully written in",usm_path,"\n"))
   }
 
   if(any(!written)){
     cat(paste("\n\nFiles:\n",
               paste(Filenames[!written], collapse = ", "),
               "\nwere not replaced in",usm_path,
-              "following your request to not overwrite"))
+              "following your request to not overwrite","\n"))
   }
 
 }
