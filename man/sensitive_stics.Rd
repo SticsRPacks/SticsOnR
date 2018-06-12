@@ -26,7 +26,8 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \item{method}{The sensitivity method to use, see \pkg{sensitivity} package}
 
 \item{Plant}{On which plant (\emph{i.e.} Principal or associated) the parameters
-have to be set (only for mixed simulations, using plant parameters)}
+have to be set (only for mixed simulations, using plant parameters)
+Set to \code{NULL} if using STICS in sole crop}
 
 \item{...}{Further parameters to give to the sensitivity function used
 (see \pkg{sensitivity} package)}

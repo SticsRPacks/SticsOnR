@@ -14,6 +14,7 @@
 #' @param method     The sensitivity method to use, see \pkg{sensitivity} package
 #' @param Plant      On which plant (\emph{i.e.} Principal or associated) the parameters
 #'                   have to be set (only for mixed simulations, using plant parameters)
+#'                   Set to \code{NULL} if using STICS in sole crop
 #' @param ...        Further parameters to give to the sensitivity function used
 #'                   (see \pkg{sensitivity} package)
 #'
@@ -82,7 +83,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
                           lapply(Parameters, function(pa){
                             set_param(dirpath = USM_path, param = pa,
-                                      value = DOE[x,pa],plant = plant)
+                                      value = DOE[x,pa],plant = Plant)
                           })
                           run_stics(dirpath = USM_path)
                           output= eval_output(dirpath= USM_path,
