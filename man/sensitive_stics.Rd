@@ -33,7 +33,13 @@ Set to \code{NULL} if using STICS in sole crop}
 (see \pkg{sensitivity} package)}
 }
 \value{
-The sensitivity analysis output
+A list of two :
+\itemize{
+  \item A list of ggplot objects to plot the sensitivity of each variable to the
+  parameter(s) along the rotation
+  \item A list of the output from the method function, *e.g.* a list of class
+  `fast99` for the `fast99` method. sensitivity analysis output
+}
 }
 \description{
 Make sensitivity analysis on a particular output given STICS input

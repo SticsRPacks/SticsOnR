@@ -18,7 +18,13 @@
 #' @param ...        Further parameters to give to the sensitivity function used
 #'                   (see \pkg{sensitivity} package)
 #'
-#' @return The sensitivity analysis output
+#' @return A list of two :
+#' \itemize{
+#'   \item A list of ggplot objects to plot the sensitivity of each variable to the
+#'   parameter(s) along the rotation
+#'   \item A list of the output from the method function, *e.g.* a list of class
+#'   `fast99` for the `fast99` method. sensitivity analysis output
+#' }
 #'
 #' @importFrom sensitivity fast99 sobol tell
 #' @importFrom dplyr group_by summarise

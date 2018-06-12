@@ -11,7 +11,24 @@ sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package for de
 Overview
 --------
 
-This package allows the user to programmatically set one or more simulations (USM), to call STICS to run them in sequence or in separate folders (if input has to be saved), to import the results for analyses and to generate automatic reports.
+This package allows the user to programmatically:
+\* read ([`read_param`](R/read_param.R)) or set ([`set_param`](R/read_param.R)) parameters
+
+-   set ([`set_usm`](R/set_usm.R)) one or more simulations (USM)
+
+-   call STICS to run them ([`run_stics`](R/run_stics.R))
+
+-   import the results for analyses ([`read_output`](R/read_output.R)), or the observations available in the USM ([`read_obs`](R/read_obs.R))
+
+-   compare observations and simulations ([`eval_output`](R/eval_output.R))
+
+-   make all previous at once in parallel for comparison between STICS versions ([`stics_eval`](R/stics_eval.R))
+
+-   generate automatic reports (only available for one experiment, development terminated but still under evaluation)
+
+-   and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)).
+
+The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time.
 
 Installation
 ------------
@@ -38,6 +55,8 @@ install.packages("sticRs")
 Example
 -------
 
+### Setting a parameter and running the model
+
 This is a basic example using the default dummy simulation (parameters and meteorology) for a mixed crop of wheat-wheat (not a real mixed crop, for testing the model behavior) :
 
 ``` r
@@ -47,11 +66,35 @@ set_usm(plant= c("wheat","wheat"))
 read_param(param='interrang')
 # Setting the interrang parameter to 0.01 meter:
 set_param(param= "interrang", value= 0.01)
+# Running the model:
+run_stics(dirpath = "Your_path_goes_here")
 ```
 
 To use your own data, simply use the folder of your simulation as the reference path; like you would do with javaSTICS.
 
-Enjoy !!
+### Making a sensitivity analysis
+
+Make a sensitivity analysis using the `fast99` algorithm for the interrow (`interrang` parameter) for three main variables: the intercepted radiation (`raint`), the leaf area index (`lai(n)`), and the dry mass (`masec(n)`):
+
+``` r
+library("sticRs")
+sens= sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
+                      dir.targ = "2-Simulations/Sensitivity2",
+                      stics = "0-DATA/stics_executable/EquDens_trg/stics.exe",
+                      obs_name = "Wheat_N0.obs",Parameters = "interrang",
+                      Vars = c("raint", "lai(n)", "masec(n)"),
+                      method= "fast99", n= 10,
+                      q= "qunif",q.arg = list(list(min=0.05, max=0.25),
+                                              list(min=140, max=280)))
+```
+
+NB: `n`, `q`, and `q.arg` are parameters from the [`fast99`](https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf) function.
+
+The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
+
+-   A list of ggplot objects to plot the sensitivity of each variable to the parameter(s) along the rotation
+
+-   A list of the output from the method function, *e.g.* a list of class `fast99` for the `fast99` method.
 
 Acknowledgments
 ---------------
