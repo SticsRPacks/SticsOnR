@@ -26,7 +26,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Overview
 
-This package allows the user to programmatically:  
+This package allows the user to programmatically: 
+
 * read ([`read_param`](R/read_param.R)) or set ([`set_param`](R/read_param.R)) parameters  
 
 * set ([`set_usm`](R/set_usm.R)) one or more simulations (USM)
@@ -65,7 +66,7 @@ You will soon be able to run this command to install the package:
 install.packages("sticRs")
 ```
 
-## Example
+## Examples
 
 ### Setting a parameter and running the model
 

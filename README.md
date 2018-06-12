@@ -12,7 +12,8 @@ Overview
 --------
 
 This package allows the user to programmatically:
-\* read ([`read_param`](R/read_param.R)) or set ([`set_param`](R/read_param.R)) parameters
+
+-   read ([`read_param`](R/read_param.R)) or set ([`set_param`](R/read_param.R)) parameters
 
 -   set ([`set_usm`](R/set_usm.R)) one or more simulations (USM)
 
@@ -52,8 +53,8 @@ For the moment, there is no [CRAN](https://CRAN.R-project.org) release of sticRs
 install.packages("sticRs")
 ```
 
-Example
--------
+Examples
+--------
 
 ### Setting a parameter and running the model
 
