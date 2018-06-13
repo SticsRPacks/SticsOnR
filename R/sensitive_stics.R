@@ -177,7 +177,9 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                             grep("_meas$",colnames(output_Var))]
                colnames(output_Var_meas)=
                  gsub(paste0(Vars_R[x],"_"),"",colnames(output_Var_meas))
-               output_Var_sim= data.frame(output_Var_sim,output_Var_meas)
+               output_Var_meas$Date= outputs$Date[outputs$Design==1]
+               output_Var_meas$Dominance= outputs$Dominance[outputs$Design==1]
+               output_Var_sim= merge(output_Var_sim,output_Var_meas,all.x = T)
              }
 
              gg_sens= ggplot2::ggplot(output_Var_sim,aes(x= Date))+

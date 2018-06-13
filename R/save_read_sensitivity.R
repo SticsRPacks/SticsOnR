@@ -57,7 +57,7 @@ save_sensi= function(x,dirpath= getwd(), device="png",
                      width, height, units,...){
 
   units= match.arg(units,c("in", "cm", "mm"))
-  if(!dir.exists(dirpath)){dir.create(dirpath)}
+  if(!dir.exists(dirpath)){dir.create(dirpath,recursive= T)}
   lapply(seq_along(x$gg_objects), function(i){
     ggplot2::ggsave(filename= paste0(names(x$gg_objects)[i],".",device),
                     plot= x$gg_objects[[i]],device= device,path= dirpath,

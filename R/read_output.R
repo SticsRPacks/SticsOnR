@@ -58,7 +58,7 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
     Plant_1_mod= list.files(dirpath)%>%.[grep("mod_s",.)]
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_1$Plant= name[1]
-    Table_1$Dominance= "Principal"
+    Table_1$Dominance= "Sole crop"
     output= Table_1
     attrfiles= Plant_1_mod
     attrfiles= data.frame(Plant= name, file= c(Plant_1_mod))
