@@ -39,12 +39,14 @@
 #'  its data is imported.
 #'
 #'
-#' @return A list of two :
+#' @return A list of three :
 #' \itemize{
-#'   \item A list of ggplot objects to plot the sensitivity of each variable to the
-#'   parameter(s) along the rotation
-#'   \item A list of the output from the method function, *e.g.* a list of class
-#'   `fast99` for the `fast99` method. sensitivity analysis output
+#'   \item gg_objects: A list of ggplot objects to plot the sensitivity of each
+#'   variable to the parameter(s) along the rotation
+#'   \item sensi_objects: A list of the output from the method function, *e.g.* a
+#'   list of class `fast99` for the `fast99` method. sensitivity analysis output
+#'   \item DOE: A list of the design of experiment, with parameter values used for
+#'   each simulation.
 #' }
 #'
 #' @importFrom sensitivity fast99 sobol tell
@@ -105,6 +107,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     X1= DOE[Sample_index,,drop=F]
     X2= DOE[-Sample_index,,drop=F]
     Design_experiment= sensitivity::sobol(model= NULL,X1= X1,X2= X2, ...)
+    DOE= Design_experiment$X
   }
 
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
@@ -116,12 +119,12 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                                     "obs_name","Vars","import_usm",
                                     "set_out_var","DOE","Parameters",
                                     "run_stics","eval_output",
-                                    "set_param","plant","Erase"),
+                                    "set_param","Plant","Erase"),
                           envir=environment())
   outputs=
     parallel::parLapply(cl,seq_len(nrow(DOE)),
                         function(x,dir.orig,dir.targ,stics,obs_name,
-                                 DOE,Parameters,plant,Erase){
+                                 DOE,Parameters,Plant,Erase){
                           usm_name= paste0("stics_usm","_",x)
                           USM_path= file.path(dir.targ,usm_name)
                           import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
@@ -143,7 +146,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           output$Design= x
                           output
                         },dir.orig,dir.targ,stics,obs_name,DOE,
-                        Parameters,plant,Erase)
+                        Parameters,Plant,Erase)
   parallel::stopCluster(cl)
   outputs= as.data.frame(data.table::rbindlist(outputs))
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
@@ -207,13 +210,19 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     lapply(seq_along(Vars),
            function(x){
              output_Var= outputs[,grep(Vars_R[x],colnames(outputs)), drop=F]
-             output_Var= output_Var[,!grepl('meas',colnames(output_Var))]
-             sensitivity::tell(Design_experiment,output_Var)
+             output_Var= output_Var[,!grepl('meas',colnames(output_Var)), drop=F]
+             output_Var$Design= outputs$Design
+             output_Var%>%
+               group_by(Design)%>%
+               summarise_all(mean)%>%
+               select(-Design)%>%.[,1,drop=T]%>%
+               sensitivity::tell(Design_experiment,.)
            }
     )
   names(sensitivity_stics)= Vars
-
-  return(list(gg_objects=gg_output, sensi_objects=sensitivity_stics))
+  row.names(DOE)= NULL
+  return(list(gg_objects=gg_output, sensi_objects=sensitivity_stics,
+              DOE= DOE))
 
 }
 
