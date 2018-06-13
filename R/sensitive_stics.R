@@ -165,7 +165,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
              is_sd= any(grepl("_sd",colnames(output_Var)))
              output_Var_sim=
                data.frame(Date= outputs$Date,
-                          Dominance= outputs$Dominance_sim,
+                          Dominance= outputs$Dominance,
                           Sim= output_Var[,grep("_sim",colnames(output_Var))],
                           Design= outputs$Design)%>%
                dplyr::group_by(Date,Dominance)%>%
@@ -186,12 +186,16 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                ggplot2::geom_ribbon(aes(ymin= S_Min, ymax=S_Max,
                                         color= "Max/Min simulation"),
                                     alpha=0.3)+
-               ggplot2::labs(colour="Simulation",
-                             title=paste("Sensitivity analysis for the",
-                                         Vars_R[x],"variable"),
-                             subtitle= paste("Parameter(s) tested:",
-                                             paste(names(Parameters),
-                                                   collapse = ", ")))
+               ggplot2::labs(
+                 colour="Simulation",
+                 title=paste("Sensitivity analysis for the",
+                             Vars_R[x],"variable"),
+                 subtitle= paste("Parameter(s) tested:",paste(names(Parameters),
+                                                              collapse = ", "),
+                                 "on the ",ifelse(Plant==1,"Principal","Associated"),
+                                 "plant")
+                 )
+
              if(is_meas){
                gg_sens=
                  gg_sens+

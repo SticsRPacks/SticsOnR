@@ -80,7 +80,7 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
                  sim_file= attr(sim, "file")$file,
                  obs_file= attr(meas, "file"))
   }else{
-    Table_comp= merge(sim,meas,by = c("Date"),
+    Table_comp= merge(sim,meas,by = c("Dominance","Date"),
                       suffixes = c('_sim','_meas'),all.x = T, all.y = F)
     Table_comp[,grep("ian_meas|mo_meas|jo_meas|jul_meas|Plant_meas",
                      colnames(Table_comp))]= NULL
