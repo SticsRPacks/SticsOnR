@@ -5,7 +5,8 @@
 \title{Make sensitivity analysis of STICS output}
 \usage{
 sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
-  Vars, method = c("fast99", "sobol"), Plant = 1, ...)
+  Vars, method = c("fast99", "sobol"), n = 10 * length(Vars), q = "qunif",
+  Plant = 1, ...)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -19,11 +20,19 @@ sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
 \code{c(Dominant,Dominated)} for mixed crops.
 See \code{\link{read_obs}} \code{filename} parameter for more details.}
 
-\item{Parameters}{A vector of input parameter names}
+\item{Parameters}{A list of list of min and max values for each parameters, named after
+them (see details and example)}
 
 \item{Vars}{Output variables on which the sensitivity is performed}
 
 \item{method}{The sensitivity method to use, see \pkg{sensitivity} package}
+
+\item{n}{Sample size for simulation (must an even number for `sobol` alike
+methods)}
+
+\item{q}{A vector of quantile functions names corresponding to wanted factors
+distributions (see \code{\link[sensitivity]{fast99}} and details).
+\code{\link[sensitivity]{fast99}} and details).}
 
 \item{Plant}{On which plant (\emph{i.e.} Principal or associated) the parameters
 have to be set (only for mixed simulations, using plant parameters)
@@ -44,17 +53,45 @@ A list of two :
 \description{
 Make sensitivity analysis on a particular output given STICS input
 }
+\details{
+The function uses the \pkg{sensitivity} package functions under the hood to
+ create the DOE (design of experiment) and then to compute the sensitivity index. For
+ `sobol` alike methods, the DOE is first computed using the
+ \code{\link[sensitivity]{fast99}} function using the `q` and `Parameters` (for
+ `q.arg`) parameters. The DOE is then splitted in two to fill the `X1`` and `X2`
+ parameters.
+ The `Parameters` should take the form of a list of arguments to pass to the `q`
+ function for each parameter, named after the parameter of interest (see example).
+}
 \examples{
 \dontrun{
 library(sticRs)
-# Example using the fast99 method:
+# Example using the fast99 method for a sensitivity analysis on the
+# "interrang" and "P_densitesem" parameters:
+
 sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
                 dir.targ = "2-Simulations/Sensitivity2",
                 stics = "0-DATA/stics_executable/EquDens_trg/stics.exe",
-                obs_name = "Wheat_N0.obs",Parameters = "interrang",
+                obs_name = "Wheat_N0.obs",
+                Parameters= list(interrang= list(min=0.05, max=0.25),
+                                 P_densitesem= list(min=140, max=280)),
                 Vars = c("raint", "lai(n)", "masec(n)"),
                 method= "fast99", n= 10,
                 q= "qunif",q.arg = list(list(min=0.05, max=0.25),
+                list(min=140, max=280)))
+
+# Example using the sobol method for a sensitivity analysis on the
+# "interrang" and "P_densitesem" parameters with different quantile functions:
+
+sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
+                dir.targ = "2-Simulations/Sensitivity2",
+                stics = "0-DATA/stics_executable/EquDens_trg/stics.exe",
+                obs_name = "Wheat_N0.obs",
+                Parameters= list(interrang= list(min=0.05, max=0.25),
+                                 P_densitesem= list(mean=210, sd=30)),
+                Vars = c("raint", "lai(n)", "masec(n)"),
+                method= "fast99", n= 10,
+                q= c("qunif","qnorm"),q.arg = list(list(min=0.05, max=0.25),
                 list(min=140, max=280)))
 }
 
