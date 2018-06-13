@@ -21,6 +21,7 @@
 #' @param Plant      On which plant (\emph{i.e.} Principal or associated) the parameters
 #'                   have to be set (only for mixed simulations, using plant parameters)
 #'                   Set to \code{NULL} if using STICS in sole crop
+#' @param Erase      Should the simulations data be erased upon import  (see details)?
 #' @param ...        Further parameters to give to the sensitivity function used
 #'                   (see \pkg{sensitivity} package)
 #'
@@ -32,6 +33,9 @@
 #'  parameters.
 #'  The `Parameters` should take the form of a list of arguments to pass to the `q`
 #'  function for each parameter, named after the parameter of interest (see example).
+#'  As the simulations can take a lot of space on disk while augmenting the parameters
+#'  number, the `Erase` parameter allow the user to erase each simulation as soon as
+#'  its data is imported.
 #'
 #'
 #' @return A list of two :
@@ -44,7 +48,6 @@
 #'
 #' @importFrom sensitivity fast99 sobol tell
 #' @importFrom dplyr group_by summarise
-#' @importFrom caret createDataPartition
 #'
 #' @seealso \code{\link[stats]{Distributions}} if you use \code{\link[sensitivity]{fast99}}.
 #'
@@ -84,7 +87,7 @@
 #'
 sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           Vars,method=c("fast99","sobol"),n=10*length(Vars),
-                          q="qunif",Plant=1,...){
+                          q="qunif",Plant=1,Erase=T,...){
   .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=NULL
   method= match.arg(method,c("fast99","sobol"))
 
@@ -112,12 +115,12 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                                     "obs_name","Vars","import_usm",
                                     "set_out_var","DOE","Parameters",
                                     "run_stics","eval_output",
-                                    "set_param","plant"),
+                                    "set_param","plant","Erase"),
                           envir=environment())
   outputs=
     parallel::parLapply(cl,seq_len(nrow(DOE)),
                         function(x,dir.orig,dir.targ,stics,obs_name,
-                                 DOE,Parameters,plant){
+                                 DOE,Parameters,plant,Erase){
                           usm_name= paste0("stics_usm","_",x)
                           USM_path= file.path(dir.targ,usm_name)
                           import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
@@ -133,14 +136,20 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           run_stics(dirpath = USM_path)
                           output= eval_output(dirpath= USM_path,
                                               obs_name= obs_name)
+                          if(Erase){
+                            unlink(x = USM_path, recursive = T, force = T)
+                          }
                           output$Design= x
                           output
                         },dir.orig,dir.targ,stics,obs_name,DOE,
-                        Parameters,plant)
+                        Parameters,plant,Erase)
   parallel::stopCluster(cl)
   outputs= as.data.frame(data.table::rbindlist(outputs))
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
 
+  if(Erase){
+    unlink(x = dir.targ, recursive = T, force = T)
+  }
 
   # Making the plots --------------------------------------------------------
 

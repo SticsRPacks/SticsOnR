@@ -6,7 +6,7 @@
 \usage{
 sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
   Vars, method = c("fast99", "sobol"), n = 10 * length(Vars), q = "qunif",
-  Plant = 1, ...)
+  Plant = 1, Erase = T, ...)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -38,6 +38,8 @@ distributions (see \code{\link[sensitivity]{fast99}} and details).
 have to be set (only for mixed simulations, using plant parameters)
 Set to \code{NULL} if using STICS in sole crop}
 
+\item{Erase}{Should the simulations data be erased upon import  (see details)?}
+
 \item{...}{Further parameters to give to the sensitivity function used
 (see \pkg{sensitivity} package)}
 }
@@ -62,6 +64,9 @@ The function uses the \pkg{sensitivity} package functions under the hood to
  parameters.
  The `Parameters` should take the form of a list of arguments to pass to the `q`
  function for each parameter, named after the parameter of interest (see example).
+ As the simulations can take a lot of space on disk while augmenting the parameters
+ number, the `Erase` parameter allow the user to erase each simulation as soon as
+ its data is imported.
 }
 \examples{
 \dontrun{
