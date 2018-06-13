@@ -45,19 +45,47 @@ Wrapper function to run STICS simulations and evaluate
  outputs using observations and/or other model versions.
 }
 \details{
-The names in the \code{stics} parameter list are used for reference in the outputs
-(data.frames and plots). If no names are provided, the function give a dummy name for each.
-The function run STICS executable in parrallel using all cores from the
-machine but one.
+The function evaluate STICS outputs either along different model versions \strong{OR}
+parameter values, not both at the same time. The method is automatically chosen using the
+\code{stics} and \code{Parameter} length. The parameter with a length > 1 will be evaluated.
+The names of the \code{stics} or the \code{Parameter} list are used for reference in the outputs
+(data.frames and plots). The names are mandatory for \code{Parameter}, but are optionnal for
+\code{stics}. If no names are provided for \code{stics}, the function give a dummy name for each
+model evaluation.
+The format of both \code{stics} or \code{Parameter} parameters is the same: a named list of either
+STICS executable path or a named list of parameters value(s).
+Please set the \code{Parameter} argument to \code{NULL} (the default) for no parameter changes.
+The function run STICS executable in parrallel using all cores from the machine but one.
 }
 \examples{
 \dontrun{
 library(sticRs)
-stics_eval()
-}
+# Evaluating a change in a parameter:
 
+Eval_parameter=
+ stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea",
+            dir.targ = "2-Simulations/Parameterization",
+            stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
+            Parameter =  list(interrang= c(0.05, 0.25)),
+            obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
+            Out_var = c("raint", "trg(n)", "rsoleil", "lai(n)", "masec(n)",
+            "hauteur", "cumraint", "fapar", "eai"),
+            Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)
+
+
+# Evaluating a change in the executable:
+Eval_stics=
+stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea",
+           dir.targ = "2-Simulations/Parameterization",
+           stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
+           obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
+           Out_var = c("raint", "trg(n)", "rsoleil", "lai(n)", "masec(n)",
+           "hauteur", "cumraint", "fapar", "eai"),
+           Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)
+}
 }
 \seealso{
-\code{\link{eval_output}}, \code{\link{import_usm}},
- \code{\link{run_stics}}, and \code{\link{set_out_var}}
+\code{\link{sensitive_stics}} to evaluate STICS sensitivity to parameter(s), and other
+functions used under the hood: \code{\link{eval_output}}, \code{\link{import_usm}},
+\code{\link{run_stics}}, and \code{\link{set_out_var}}.
 }

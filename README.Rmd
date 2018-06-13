@@ -38,11 +38,11 @@ This package allows the user to programmatically:
 
 * compare observations and simulations ([`eval_output`](R/eval_output.R))
 
-* make all previous at once in parallel for comparison between STICS versions ([`stics_eval`](R/stics_eval.R))
+* make all previous at once in parallel to evaluate and compare the output of STICS versions or parameter values effect ([`stics_eval`](R/stics_eval.R))
 
 * generate automatic reports (only available for one experiment, development terminated but still under evaluation)
 
-* and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)) for one or more input parameters (and their possible interactions) effect on one or more output variables
+* and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyses. 
 
 The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues ) at any time. 
 
