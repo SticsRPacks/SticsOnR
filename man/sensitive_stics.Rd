@@ -53,7 +53,8 @@ A list of two :
 }
 }
 \description{
-Make sensitivity analysis on a particular output given STICS input
+Make sensitivity analysis on a particular output(s) given STICS input
+             parameter(s) and their intercation if several are given.
 }
 \details{
 The function uses the \pkg{sensitivity} package functions under the hood to

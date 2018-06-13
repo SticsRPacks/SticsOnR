@@ -1,6 +1,7 @@
 #' Make sensitivity analysis of STICS output
 #'
-#' @description Make sensitivity analysis on a particular output given STICS input
+#' @description Make sensitivity analysis on a particular output(s) given STICS input
+#'              parameter(s) and their intercation if several are given.
 #'
 #' @param dir.orig   Path to the directory from which to copy the simulation files. If
 #'                   \code{NULL} (the default), uses the package dummy USM.

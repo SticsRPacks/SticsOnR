@@ -27,7 +27,7 @@ This package allows the user to programmatically:
 
 -   generate automatic reports (only available for one experiment, development terminated but still under evaluation)
 
--   and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)).
+-   and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)) of on or more input parameters (and their possible interactions) on one or more output variables
 
 The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time.
 
