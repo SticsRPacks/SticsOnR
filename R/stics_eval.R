@@ -6,7 +6,10 @@
 #' @param dir.orig   Path to the directory from which to copy the simulation files. If
 #'                   \code{NULL} (the default), uses the package dummy USM.
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
-#' @param stics      STICS executable path named list.
+#' @param stics      STICS executable path named list (see details).
+#' @param Parameter  STICS input parameter named list (see details).
+#' @param Plant      Integer value of the plant on which to set the parameter if STICS
+#'                   is run on mixed crop (1= Principal, 2= Associated)
 #' @param obs_name   A vector of observation file name(s). It must have the form
 #'                   \code{c(Dominant,Dominated)} for mixed crops.
 #'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
@@ -35,46 +38,80 @@
 #'}
 #'
 #' @export
-stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics, obs_name= NULL,
-                     Out_var=NULL, plot_it=T,Parallel=T,mixed= NULL,Title=NULL){
-  if(is.list(stics)){
-    usm_name= names(stics)
-  }else{
-    stop("stics parameter must be a list")
+stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
+                     Plant=1,obs_name= NULL,Out_var=NULL, plot_it=T,
+                     Parallel=T,mixed= NULL,Title=NULL){
+
+  Param_val= Parameter[[1]]
+  if(length(stics)>1&length(Param_val)>1){
+    stop("stics_eval only evaluate several STICS executables OR parameter values",
+         " not both at a time.", "\nPlease provide only one with several values")
   }
+
+  # Setting usm name to either parameter values or stics names
+  if(length(Param_val)>1){
+    if(is.list(Parameter)){
+      usm_name= paste(names(Parameter),Param_val, sep="_")
+      method= "Parameter"
+    }else{
+      stop("The Parameter parameter must be a list")
+    }
+  }else{
+    if(is.list(stics)){
+      usm_name= names(stics)
+      method= "stics"
+    }else{
+      stop("The stics parameter must be a list")
+    }
+  }
+
 
   if(Parallel){
     NbCores= parallel::detectCores()-1
     cl= parallel::makeCluster(min(NbCores,length(stics)))
     parallel::clusterExport(cl=cl,
                   varlist=c("dir.orig","dir.targ","usm_name","stics",
-                            "obs_name","Out_var","import_usm","set_out_var",
-                            "run_stics","eval_output"),
+                            "obs_name","Out_var","import_usm",
+                            "set_out_var","Plant","run_stics",
+                            "eval_output","Parameter"),
                   envir=environment())
+    # The apply function runs either along parameter values or stics exe.
     outputs=
-      parallel::parLapply(cl,seq_along(stics),
-                function(x,dir.orig,dir.targ,usm_name,stics,obs_name){
+      parallel::parLapply(cl,seq_along(usm_name),
+                function(x,dir.orig,dir.targ,usm_name,stics,
+                         obs_name,Parameter,Plant){
                   USM_path= file.path(dir.targ,usm_name[x])
                   import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                              usm_name = usm_name[x], overwrite = T,
-                             stics = stics[[x]])
+                             stics = ifelse(method=="stics",stics[[x]],
+                                            stics[[1]]))
                   set_out_var(filepath= file.path(USM_path,"var.mod"),
                               vars=Out_var, app=F)
+                  set_param(dirpath = USM_path,
+                            param = names(Parameter),
+                            value = ifelse(method=="Parameter",Param_val[[x]],
+                                           Param_val),plant = Plant)
                   run_stics(dirpath = USM_path)
                   output= eval_output(dirpath= USM_path, obs_name= obs_name)
                   output
-                },dir.orig,dir.targ,usm_name,stics,obs_name)
+                },dir.orig,dir.targ,usm_name,stics,obs_name,
+                Parameter,Plant)
     parallel::stopCluster(cl)
   }else{
     outputs=
-      lapply(seq_along(stics),
+      lapply(seq_along(usm_name),
              function(x){
                USM_path= file.path(dir.targ,usm_name[x])
                import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                           usm_name = usm_name[x], overwrite = T,
-                          stics = stics[[x]])
+                          stics = ifelse(method=="Parameter",
+                                         stics[[x]],stics[[1]]))
                set_out_var(filepath= file.path(USM_path,"var.mod"),
                            vars=Out_var, app=F)
+               set_param(dirpath = USM_path,
+                         param = names(Parameter),
+                         value = ifelse(method=="stics",Param_val[[x]],
+                                        Param_val),plant = Plant)
                run_stics(dirpath = USM_path)
                output= eval_output(dirpath= USM_path, obs_name= obs_name)
                output

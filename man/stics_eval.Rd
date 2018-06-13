@@ -4,9 +4,9 @@
 \alias{stics_eval}
 \title{Evaluate STICS version}
 \usage{
-stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, obs_name = NULL,
-  Out_var = NULL, plot_it = T, Parallel = T, mixed = NULL,
-  Title = NULL)
+stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, Parameter = NULL,
+  Plant = 1, obs_name = NULL, Out_var = NULL, plot_it = T,
+  Parallel = T, mixed = NULL, Title = NULL)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -14,7 +14,12 @@ stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, obs_name = NULL,
 
 \item{dir.targ}{Path to the target directory for evaluation. Created if missing.}
 
-\item{stics}{STICS executable path named list.}
+\item{stics}{STICS executable path named list (see details).}
+
+\item{Parameter}{STICS input parameter named list (see details).}
+
+\item{Plant}{Integer value of the plant on which to set the parameter if STICS
+is run on mixed crop (1= Principal, 2= Associated)}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
 \code{c(Dominant,Dominated)} for mixed crops.
