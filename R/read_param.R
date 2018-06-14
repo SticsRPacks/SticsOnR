@@ -14,7 +14,7 @@
 #'                     compatibility)
 #' @param ...          Helper to pass arguments from \code{\link{read_param}} to the
 #'                     other functions
-#'#'
+#'
 #' @note Users generally only use \code{read_param} that identify parameters for
 #'       other functions and call them.
 #'
@@ -281,6 +281,17 @@ read_general= function(filepath="tempopar.sti"){
   pg_out$P_separateurrapport= pg$P_separateurrapport
 
   return(pg_out)
+}
+
+#' @rdname read_param
+#' @export
+read_tmp= function(filepath="tempoparv6.sti"){
+  params= readLines(filepath)
+  p_tmp= vector(mode='list', length = 0)
+  p_tmp= as.list(params[seq_along(params)%%2==0])
+  names(p_tmp)= params[seq_along(params)%%2==1]
+
+  return(p_tmp)
 }
 
 #' @rdname read_param

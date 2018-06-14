@@ -271,6 +271,26 @@ set_general= function(filepath= "tempopar.sti",param,value){
 
 #' @rdname set_param
 #' @export
+set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
+  params= readLines(filepath)
+  ref_index= grep(gsub('P_','',param),params)+1
+  if(!length(ref_index)>0&!add){
+    stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
+  }
+  if(length(ref_index)!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(params[ref_index],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
+  params[ref_index]= format(value, scientific=F)
+  writeLines(params,filepath)
+}
+
+#' @rdname set_param
+#' @export
 set_plant= function(filepath="ficplt1.txt",param,value){
 
   params= readLines(filepath)
