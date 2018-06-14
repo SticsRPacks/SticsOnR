@@ -123,10 +123,10 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                               value = Param_val[[x]])
                   }
                   run_stics(dirpath = USM_path)
+                  output= eval_output(dirpath= USM_path, obs_name= obs_name)
                   if(Erase){
                     unlink(x = USM_path, recursive = T, force = T)
                   }
-                  output= eval_output(dirpath= USM_path, obs_name= obs_name)
                   output
                 },dir.orig,dir.targ,usm_name,stics,obs_name,
                 Parameter,Plant,Erase)
@@ -138,7 +138,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                USM_path= file.path(dir.targ,usm_name[x])
                import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                           usm_name = usm_name[x], overwrite = T,
-                          stics = ifelse(method=="Parameter",
+                          stics = ifelse(method=="stics",
                                          stics[[x]],stics[[1]]))
                set_out_var(filepath= file.path(USM_path,"var.mod"),
                            vars=Out_var, app=F)
@@ -148,10 +148,10 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                            value = Param_val[[x]])
                }
                run_stics(dirpath = USM_path)
+               output= eval_output(dirpath= USM_path, obs_name= obs_name)
                if(Erase){
                  unlink(x = USM_path, recursive = T, force = T)
                }
-               output= eval_output(dirpath= USM_path, obs_name= obs_name)
                output
              })
   }
