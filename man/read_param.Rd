@@ -4,6 +4,7 @@
 \alias{read_param}
 \alias{read_ini}
 \alias{read_general}
+\alias{read_tmp}
 \alias{read_plant}
 \alias{read_tec}
 \alias{read_soil}
@@ -16,6 +17,8 @@ read_param(dirpath = getwd(), param = NULL, ...)
 read_ini(filepath = "ficini.txt")
 
 read_general(filepath = "tempopar.sti")
+
+read_tmp(filepath = "tempoparv6.sti")
 
 read_plant(filepath = "ficplt1.txt", max_variety = 30)
 
@@ -35,8 +38,7 @@ read_usm(filepath = "new_travail.usm")
 return an object with all parameters}
 
 \item{...}{Helper to pass arguments from \code{\link{read_param}} to the
-                    other functions
-#'}
+other functions}
 
 \item{filepath}{File path}
 

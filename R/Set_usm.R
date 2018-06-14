@@ -29,7 +29,7 @@
 #'
 #' @export
 import_usm= function(dir.orig=NULL, dir.targ= getwd(),
-                  stics= NULL,usm_name= NULL,overwrite= F){
+                     stics= NULL,usm_name= NULL,overwrite= F){
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
@@ -60,9 +60,9 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
       basename(Files)[file.exists(
         list.files(usm_path, full.names = T),basename(Files))]
     if(!is.null(stics)){
-    File_already=
-      c(File_already,
-        basename(stics)[file.exists(stics)])
+      File_already=
+        c(File_already,
+          basename(stics)[file.exists(stics)])
     }
 
     if(length(File_already)>0){
@@ -136,7 +136,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #' @param value    New parameter value
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #' @param vars     Vector of variable names for STICS output requirements
-#' @param app      Append \code{vars} to var.mod ?
+#' @param add      Boolean. Append input to existing file (add to the list)
 #'
 #' @details \code{set_out_var} is not used by \code{set_param}. To replace the output
 #'          variables required from STICS, please directly call \code{set_out_var}.
@@ -157,7 +157,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #'}
 #'
 #' @export
-set_param= function(dirpath=getwd(),param,value,plant=1){
+set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
   param_val= read_param(dirpath = dirpath, param = param)
   file_type=
     lapply(strsplit(names(param_val),"\\."), function(x){x[1]})%>%
@@ -165,37 +165,37 @@ set_param= function(dirpath=getwd(),param,value,plant=1){
 
   if(file_type=="ini"){
     set_ini(filepath = file.path(dirpath,"ficini.txt"),
-            param = param, value = value)
+            param = param, value = value, add= add)
   }
 
   if(file_type=="general"){
     set_general(filepath = file.path(dirpath,"tempopar.sti"),
-                param = param, value = value)
+                param = param, value = value, add= add)
   }
 
   if(file_type=="soil"){
     set_soil(filepath = file.path(dirpath,"param.sol"),
-                param = param, value = value)
+             param = param, value = value)
   }
 
   if(file_type=="usm"){
     set_usm(filepath = file.path(dirpath,"new_travail.usm"),
-             param = param, value = value)
+            param = param, value = value)
   }
 
   if(file_type=="station"){
     set_station(filepath = file.path(dirpath,"station.txt"),
-            param = param, value = value)
+                param = param, value = value, add= add)
   }
 
   if(file_type=="tec"){
     set_tec(filepath = file.path(dirpath,paste0("fictec",plant,".txt")),
-            param = param, value = value)
+            param = param, value = value, add= add)
   }
 
   if(file_type=="plant"){
     set_plant(filepath = file.path(dirpath,paste0("ficplt",plant,".txt")),
-              param = param, value = value)
+              param = param, value = value, add= add)
   }
 
 }
@@ -208,7 +208,7 @@ set_usm= function(filepath="new_travail.usm",param,value){
   ref= read_usm(filepath)
   ref_index= grep(param,names(ref))
   if(ref_index<grep("P_fplt",names(ref))){
-    if(!length(ref_index)>0){
+    if(!length(ref_index)>0&!add){
       stop(paste(param,"parameter not found in:\n",filepath))
     }
     params[ref_index*2]= format(value, scientific=F)
@@ -226,12 +226,15 @@ set_usm= function(filepath="new_travail.usm",param,value){
 
 #' @rdname set_param
 #' @export
-set_station= function(filepath="station.txt",param,value){
+set_station= function(filepath="station.txt",param,value,add=F){
   params= readLines(filepath)
   ref= read_station(filepath)
   ref_index= grep(param,names(ref))
-  if(!length(ref_index)>0){
+  if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
   }
   params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
@@ -240,12 +243,15 @@ set_station= function(filepath="station.txt",param,value){
 
 #' @rdname set_param
 #' @export
-set_ini= function(filepath= "ficini.txt",param,value){
+set_ini= function(filepath= "ficini.txt",param,value,add=F){
   params= readLines(filepath)
   ref= read_ini(filepath)
   ref_index= grep(param,names(ref))
-  if(!length(ref_index)>0){
+  if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
   }
   params[ref_index*2]= format(value, scientific=F)
   writeLines(params,filepath)
@@ -254,11 +260,14 @@ set_ini= function(filepath= "ficini.txt",param,value){
 
 #' @rdname set_param
 #' @export
-set_general= function(filepath= "tempopar.sti",param,value){
+set_general= function(filepath= "tempopar.sti",param,value,add=F){
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
-  if(!length(ref_index)>0){
+  if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
   }
   if(length(ref_index)!=length(value)){
     stop(paste("Length of input value different from parameter value length.\n",
@@ -291,13 +300,16 @@ set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
 
 #' @rdname set_param
 #' @export
-set_plant= function(filepath="ficplt1.txt",param,value){
+set_plant= function(filepath="ficplt1.txt",param,value,add=F){
 
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
 
-  if(!length(ref_index)>0){
+  if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
   }
   if(length(ref_index)!=length(value)){
     stop(paste("Length of input value different from parameter value length.\n",
@@ -310,12 +322,15 @@ set_plant= function(filepath="ficplt1.txt",param,value){
 
 #' @rdname set_param
 #' @export
-set_tec= function(filepath="fictec1.txt",param,value){
+set_tec= function(filepath="fictec1.txt",param,value,add=F){
   params= readLines(filepath)
   ref_index= grep(gsub('P_','',param),params)+1
 
-  if(!length(ref_index)>0){
+  if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
+  }else{
+    params= c(params,param,value)
+    ref_index= grep(gsub('P_','',param),params)+1
   }
   if(length(ref_index)!=length(value)){
     stop(paste("Length of input value different from parameter value length.\n",
@@ -368,7 +383,7 @@ set_soil= function(filepath="param.sol",param,value){
 
 #' @rdname set_param
 #' @export
-set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),app= F){
-  cat(vars,file=filepath, sep="\n",append = app)
+set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
+  cat(vars,file=filepath, sep="\n",append = add)
 }
 

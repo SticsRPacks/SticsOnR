@@ -7,6 +7,7 @@
 \alias{set_station}
 \alias{set_ini}
 \alias{set_general}
+\alias{set_tmp}
 \alias{set_plant}
 \alias{set_tec}
 \alias{set_soil}
@@ -15,23 +16,25 @@
 \usage{
 read_out_var(filepath = "var.mod")
 
-set_param(dirpath = getwd(), param, value, plant = 1)
+set_param(dirpath = getwd(), param, value, add = F, plant = 1)
 
 set_usm(filepath = "new_travail.usm", param, value)
 
-set_station(filepath = "station.txt", param, value)
+set_station(filepath = "station.txt", param, value, add = F)
 
-set_ini(filepath = "ficini.txt", param, value)
+set_ini(filepath = "ficini.txt", param, value, add = F)
 
-set_general(filepath = "tempopar.sti", param, value)
+set_general(filepath = "tempopar.sti", param, value, add = F)
 
-set_plant(filepath = "ficplt1.txt", param, value)
+set_tmp(filepath = "tempoparv6.sti", param, value, add = F)
 
-set_tec(filepath = "fictec1.txt", param, value)
+set_plant(filepath = "ficplt1.txt", param, value, add = F)
+
+set_tec(filepath = "fictec1.txt", param, value, add = F)
 
 set_soil(filepath = "param.sol", param, value)
 
-set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), app = F)
+set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), add = F)
 }
 \arguments{
 \item{filepath}{Path to the parameter file}
@@ -42,11 +45,11 @@ set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), app = F)
 
 \item{value}{New parameter value}
 
+\item{add}{Boolean. Append input to existing file (add to the list)}
+
 \item{plant}{Plant index. Optional, only for plant or technical parameters}
 
 \item{vars}{Vector of variable names for STICS output requirements}
-
-\item{app}{Append \code{vars} to var.mod ?}
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input
