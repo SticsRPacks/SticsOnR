@@ -38,7 +38,7 @@ distributions (see \code{\link[sensitivity]{fast99}} and details).
 have to be set (only for mixed simulations, using plant parameters)
 Set to \code{NULL} if using STICS in sole crop}
 
-\item{Erase}{Should the simulations data be erased upon import  (see details)?}
+\item{Erase}{Should the simulations data be erased upon import (see details)?}
 
 \item{...}{Further parameters to give to the sensitivity function used
 (see \pkg{sensitivity} package)}

@@ -6,7 +6,7 @@
 \usage{
 stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, Parameter = NULL,
   Plant = 1, obs_name = NULL, Out_var = NULL, plot_it = T,
-  Parallel = T, mixed = NULL, Title = NULL)
+  Parallel = T, mixed = NULL, Title = NULL, Erase = TRUE)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -34,6 +34,8 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \item{mixed}{(optional) Is the simulation made on mixed species (boolean)}
 
 \item{Title}{A title for the evaluation. This will be used on the ggplot object.}
+
+\item{Erase}{Should the simulations data be erased upon import (see details)?}
 }
 \value{
 A list of two. The first object is a list of the outputs of
