@@ -77,6 +77,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   station= read_station(file.path(dirpath,"station.txt"))
   usm= read_usm(file.path(dirpath,"new_travail.usm"))
   output= read_out_var(file.path(dirpath,"var.mod"))
+  tmp= read_tmp(file.path(dirpath,"tempoparV6.sti"))
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
   for(i in 1:ini$nbplantes){
@@ -91,7 +92,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
 
   parameters= list(usm= usm, ini= ini, general= general, tec= tec,
                    plant= plant, soil= soil, station= station,
-                   output= output)
+                   output= output,tmp=tmp)
 
   if(!is.null(param)){
     parameters= unlist(parameters)

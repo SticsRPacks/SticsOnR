@@ -173,6 +173,11 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
                 param = param, value = value, add= add)
   }
 
+  if(file_type=="tmp"){
+    set_tmp(filepath = file.path(dirpath,"tempoparV6.sti"),
+                param = param, value = value, add= add)
+  }
+
   if(file_type=="soil"){
     set_soil(filepath = file.path(dirpath,"param.sol"),
              param = param, value = value)
