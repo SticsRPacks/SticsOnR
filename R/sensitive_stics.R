@@ -22,7 +22,7 @@
 #' @param Plant      On which plant (\emph{i.e.} Principal or associated) the parameters
 #'                   have to be set (only for mixed simulations, using plant parameters)
 #'                   Set to \code{NULL} if using STICS in sole crop
-#' @param Erase      Should the simulations data be erased upon import  (see details)?
+#' @param Erase      Should the simulations data be erased upon import (see details)?
 #' @param ...        Further parameters to give to the sensitivity function used
 #'                   (see \pkg{sensitivity} package)
 #'
@@ -94,6 +94,8 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=Design=NULL
   method= match.arg(method,c("fast99","sobol"))
 
+  if(!dir.exists(dir.targ)){erase_dir=T}else{erase_dir=F}
+
   Design_experiment= sensitivity::fast99(model= NULL,factors = names(Parameters),
                                          n=n,q=q,q.arg=Parameters)
   DOE= Design_experiment$X
@@ -151,7 +153,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   outputs= as.data.frame(data.table::rbindlist(outputs))
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
 
-  if(Erase){
+  if(erase_dir){
     unlink(x = dir.targ, recursive = T, force = T)
   }
 

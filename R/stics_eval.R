@@ -18,6 +18,7 @@
 #' @param Parallel   Are the simulations to be executed in parallel ?
 #' @param mixed      (optional) Is the simulation made on mixed species (boolean)
 #' @param Title      A title for the evaluation. This will be used on the ggplot object.
+#' @param Erase      Should the simulations data be erased upon import (see details)?
 #'
 #' @details The function evaluate STICS outputs either along different model versions \strong{OR}
 #' parameter values, not both at the same time. The method is automatically chosen using the
@@ -68,8 +69,9 @@
 #' @export
 stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                      Plant=1,obs_name= NULL,Out_var=NULL, plot_it=T,
-                     Parallel=T,mixed= NULL,Title=NULL){
+                     Parallel=T,mixed= NULL,Title=NULL,Erase=TRUE){
 
+  if(!dir.exists(dir.targ)){erase_dir=T}else{erase_dir=F}
   Param_val= Parameter[[1]]
   if(length(stics)>1&length(Param_val)>1){
     stop("stics_eval only evaluate several STICS executables OR parameter values",
@@ -101,13 +103,13 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                   varlist=c("dir.orig","dir.targ","usm_name","stics",
                             "obs_name","Out_var","import_usm",
                             "set_out_var","Plant","run_stics",
-                            "eval_output","Parameter"),
+                            "eval_output","Parameter","Erase"),
                   envir=environment())
     # The apply function runs either along parameter values or stics exe.
     outputs=
       parallel::parLapply(cl,seq_along(usm_name),
                 function(x,dir.orig,dir.targ,usm_name,stics,
-                         obs_name,Parameter,Plant){
+                         obs_name,Parameter,Plant,Erase){
                   USM_path= file.path(dir.targ,usm_name[x])
                   import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                              usm_name = usm_name[x], overwrite = T,
@@ -121,10 +123,13 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                               value = Param_val[[x]])
                   }
                   run_stics(dirpath = USM_path)
+                  if(Erase){
+                    unlink(x = USM_path, recursive = T, force = T)
+                  }
                   output= eval_output(dirpath= USM_path, obs_name= obs_name)
                   output
                 },dir.orig,dir.targ,usm_name,stics,obs_name,
-                Parameter,Plant)
+                Parameter,Plant,Erase)
     parallel::stopCluster(cl)
   }else{
     outputs=
@@ -143,10 +148,18 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                            value = Param_val[[x]])
                }
                run_stics(dirpath = USM_path)
+               if(Erase){
+                 unlink(x = USM_path, recursive = T, force = T)
+               }
                output= eval_output(dirpath= USM_path, obs_name= obs_name)
                output
              })
   }
+
+  if(erase_dir){
+    unlink(x = dir.targ, recursive = T, force = T)
+  }
+
   names(outputs)= usm_name
   outputs[["plot_it"]]= plot_it
   outputs[["Vars"]]= Out_var
