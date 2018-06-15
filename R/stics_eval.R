@@ -116,7 +116,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                              stics = ifelse(method=="stics",stics[[x]],
                                             stics[[1]]))
                   set_out_var(filepath= file.path(USM_path,"var.mod"),
-                              vars=Out_var, app=F)
+                              vars=Out_var, add=F)
                   if(method=="Parameter"){
                     set_param(dirpath = USM_path,
                               param = names(Parameter),
@@ -141,7 +141,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                           stics = ifelse(method=="stics",
                                          stics[[x]],stics[[1]]))
                set_out_var(filepath= file.path(USM_path,"var.mod"),
-                           vars=Out_var, app=F)
+                           vars=Out_var, add=F)
                if(method=="Parameter"){
                  set_param(dirpath = USM_path,
                            param = names(Parameter),

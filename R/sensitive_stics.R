@@ -133,7 +133,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                                      usm_name = usm_name, overwrite = T,
                                      stics = stics)
                           set_out_var(filepath= file.path(USM_path,"var.mod"),
-                                      vars=Vars, app=F)
+                                      vars=Vars, add=F)
 
                           lapply(names(Parameters), function(pa){
                             set_param(dirpath = USM_path, param = pa,
