@@ -237,7 +237,7 @@ set_station= function(filepath="station.txt",param,value,add=F){
   ref_index= grep(param,names(ref))
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
@@ -254,7 +254,7 @@ set_ini= function(filepath= "ficini.txt",param,value,add=F){
   ref_index= grep(param,names(ref))
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
@@ -270,7 +270,7 @@ set_general= function(filepath= "tempopar.sti",param,value,add=F){
   ref_index= grep(gsub('P_','',param),params)+1
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
@@ -290,7 +290,7 @@ set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
   ref_index= grep(gsub('P_','',param),params)+1
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
@@ -312,7 +312,7 @@ set_plant= function(filepath="ficplt1.txt",param,value,add=F){
 
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
@@ -333,7 +333,7 @@ set_tec= function(filepath="fictec1.txt",param,value,add=F){
 
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else{
+  }else if(add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
   }
