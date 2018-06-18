@@ -208,7 +208,7 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
 
 #' @rdname set_param
 #' @export
-set_usm= function(filepath="new_travail.usm",param,value){
+set_usm= function(filepath="new_travail.usm",param,value,add){
   params= readLines(filepath)
   ref= read_usm(filepath)
   ref_index= grep(param,names(ref))

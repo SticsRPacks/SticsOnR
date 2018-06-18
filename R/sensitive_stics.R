@@ -197,7 +197,8 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                  subtitle= paste("Parameter(s) tested:",paste(names(Parameters),
                                                               collapse = ", "),
                                  "on the ",ifelse(Plant==1,"Principal","Associated"),
-                                 "plant")
+                                 "plant"),
+                 y= "Value"
                  )
 
              if(is_meas){

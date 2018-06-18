@@ -18,7 +18,7 @@ read_out_var(filepath = "var.mod")
 
 set_param(dirpath = getwd(), param, value, add = F, plant = 1)
 
-set_usm(filepath = "new_travail.usm", param, value)
+set_usm(filepath = "new_travail.usm", param, value, add)
 
 set_station(filepath = "station.txt", param, value, add = F)
 
