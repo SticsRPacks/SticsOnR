@@ -51,6 +51,7 @@
 #'
 #' @importFrom sensitivity fast99 sobol tell
 #' @importFrom dplyr group_by summarise summarise_all select
+#' @importFrom magrittr "%<>%"
 #'
 #' @seealso \code{\link[stats]{Distributions}} if you use \code{\link[sensitivity]{fast99}}.
 #'
@@ -91,7 +92,8 @@
 sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           Vars,method=c("fast99","sobol"),n=10*length(Vars),
                           q="qunif",Plant=1,Erase=T,...){
-  .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=Design=NULL
+  .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=Design=
+    Parameter=NULL
   method= match.arg(method,c("fast99","sobol"))
 
   if(!dir.exists(dir.targ)){erase_dir=T}else{erase_dir=F}
