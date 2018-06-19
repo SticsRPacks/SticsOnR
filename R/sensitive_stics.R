@@ -165,13 +165,27 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
              output_Var= outputs[,grep(Vars_R[x],colnames(outputs)), drop=F]
              is_meas= any(grepl("_meas",colnames(output_Var)))
              is_sd= any(grepl("_sd",colnames(output_Var)))
-             output_Var_sim=
+             output_Var_all=
                data.frame(Date= outputs$Date,
                           Dominance= outputs$Dominance,
                           Sim= output_Var[,grep("_sim",colnames(output_Var))],
-                          Design= outputs$Design)%>%
+                          Design= outputs$Design)
+             output_Var_sim=
+               output_Var_all%>%
                dplyr::group_by(Date,Dominance)%>%
                dplyr::summarise(S_Min= min(Sim),S_Mean= mean(Sim),S_Max= max(Sim))
+
+             param_val= DOE
+             for(i in seq_len(ncol(param_val))){
+               param_val[,i]= paste(colnames(param_val)[i],
+                                    formatC(param_val[,i], width= 4), sep = "=")
+             }
+
+             param_val=
+               data.frame(Design= 1:nrow(DOE),
+                          Parameter= as.factor(apply(param_val, 1,
+                                                     paste, collapse=", ")))
+             output_Var_all%<>%merge(param_val)
 
              if(is_meas){
                output_Var_meas=
@@ -190,6 +204,9 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                ggplot2::geom_ribbon(aes(ymin= S_Min, ymax=S_Max,
                                         color= "Max/Min simulation"),
                                     alpha=0.3)+
+               ggplot2::geom_line(data=output_Var_all,
+                                  aes(y=Sim, color= "simulations",
+                                      group= Parameter),alpha=0.1)+
                ggplot2::labs(
                  colour="Simulation",
                  title=paste("Sensitivity analysis for the",
@@ -199,8 +216,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                                  "on the ",ifelse(Plant==1,"Principal","Associated"),
                                  "plant"),
                  y= "Value"
-                 )
-
+               )
              if(is_meas){
                gg_sens=
                  gg_sens+
