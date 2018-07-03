@@ -94,7 +94,9 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
     labs(linetype='Model Version',colour='Plant dominance')+
     ggtitle(Title)
 
-  if(!is.null(x_meas_)){
+  if(!is.null(x_meas_)&
+     length(colnames(x_meas_)[
+       -grep("Date|Dominance|Version",colnames(x_meas_))])>0){
     levels(x_meas_$variable)= gsub("_n","",levels(x_meas_$variable))
     x_meas_no_sd= x_meas_[!grepl("_sd",x_meas_$variable),]
     ggstics= ggstics+
