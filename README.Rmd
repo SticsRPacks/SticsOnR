@@ -34,7 +34,7 @@ This package allows the user to programmatically:
 
 * call STICS to run them ([`run_stics`](R/run_stics.R))
 
-* import the results for analyses ([`read_output`](R/read_output.R)), or the observations available in the USM ([`read_obs`](R/read_obs.R))
+* import the results for analyzes ([`read_output`](R/read_output.R)), or the observations available in the USM ([`read_obs`](R/read_obs.R))
 
 * compare observations and simulations ([`eval_output`](R/eval_output.R))
 
@@ -42,7 +42,7 @@ This package allows the user to programmatically:
 
 * generate automatic reports (only available for one experiment, development terminated but still under evaluation)
 
-* and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyses. 
+* and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes. 
 
 The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues ) at any time. 
 
