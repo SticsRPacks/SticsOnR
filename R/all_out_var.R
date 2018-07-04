@@ -564,6 +564,8 @@ all_out_var= function(){
 #'
 #' @param Var Character vector with a (partial) STICS output variable name
 #'
+#' @details The function understand \code{\link[base]{regex}} as input.
+#'
 #' @seealso \code{\link{all_out_var}}
 #'
 #' @examples

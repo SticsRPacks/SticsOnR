@@ -13,6 +13,9 @@ find_STICS_var(Var)
 Helper function that return the name used as input
 for the STICS model with a partial match.
 }
+\details{
+The function understand \code{\link[base]{regex}} as input.
+}
 \examples{
 library(sticRs)
 find_STICS_var("lai")
