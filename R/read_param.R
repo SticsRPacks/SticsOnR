@@ -68,7 +68,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   if(isTRUE(dot_args$max_variety)){
     max_variety= dot_args$max_variety
   }else{
-    max_variety= F
+    max_variety= 30
   }
 
   ini= read_ini(file.path(dirpath,"ficini.txt"))
@@ -80,7 +80,7 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   tmp= read_tmp(file.path(dirpath,"tempoparV6.sti"))
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
-  for(i in 1:ini$nbplantes){
+  for(i in seq_len(ini$nbplantes)){
     tec[paste0("plant",i)]=
       list(read_tec(file.path(dirpath,paste0("fictec",i,".txt")),
                several_fert = several_fert, several_thin = several_thin,
