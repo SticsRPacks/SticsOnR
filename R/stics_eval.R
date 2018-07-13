@@ -71,7 +71,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                      Plant=1,obs_name= NULL,Out_var=NULL, plot_it=T,
                      Parallel=T,mixed= NULL,Title=NULL,Erase=TRUE){
 
-  if(!dir.exists(dir.targ)){erase_dir=T}else{erase_dir=F}
+  if(!dir.exists(dir.targ)&Erase){erase_dir=T}else{erase_dir=F}
   Param_val= Parameter[[1]]
   if(length(stics)>1&length(Param_val)>1){
     stop("stics_eval only evaluate several STICS executables OR parameter values",
