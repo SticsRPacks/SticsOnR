@@ -290,9 +290,12 @@ set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
   ref_index= grep(gsub('P_','',param),params)+1
   if(!length(ref_index)>0&!add){
     stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
+  }else if(!length(ref_index)>0&add){
     params= c(params,param,value)
     ref_index= grep(gsub('P_','',param),params)+1
+  }else{
+    stop(paste("Parameter",param,"already present in the file, try to replace its value",
+               "instead of adding the parameter"))
   }
   if(length(ref_index)!=length(value)){
     stop(paste("Length of input value different from parameter value length.\n",

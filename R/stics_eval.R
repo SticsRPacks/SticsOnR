@@ -103,13 +103,15 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                   varlist=c("dir.orig","dir.targ","usm_name","stics",
                             "obs_name","Out_var","import_usm",
                             "set_out_var","Plant","run_stics",
-                            "eval_output","Parameter","Erase","method"),
+                            "eval_output","Parameter","Erase","method",
+                            "set_param","Param_val"),
                   envir=environment())
     # The apply function runs either along parameter values or stics exe.
     outputs=
       parallel::parLapply(cl,seq_along(usm_name),
                 function(x,dir.orig,dir.targ,usm_name,stics,
-                         obs_name,Parameter,Plant,Erase,method){
+                         obs_name,Parameter,Plant,Erase,method,
+                         Param_val){
                   USM_path= file.path(dir.targ,usm_name[x])
                   import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
                              usm_name = usm_name[x], overwrite = T,
@@ -129,7 +131,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                   }
                   output
                 },dir.orig,dir.targ,usm_name,stics,obs_name,
-                Parameter,Plant,Erase,method)
+                Parameter,Plant,Erase,method,Param_val)
     parallel::stopCluster(cl)
   }else{
     outputs=
