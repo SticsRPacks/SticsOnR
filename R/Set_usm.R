@@ -163,46 +163,45 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
     lapply(strsplit(names(param_val),"\\."), function(x){x[1]})%>%
     unlist%>%unique
 
-  if(file_type=="ini"){
-    set_ini(filepath = file.path(dirpath,"ficini.txt"),
-            param = param, value = value, add= add)
+  if(length(file_type)>1){
+    stop("Parameter found in several files:",paste(file_type,collapse = ", "),
+         "\nPlease use the set_* functions directly to set the parameter value.")
   }
-
-  if(file_type=="general"){
-    set_general(filepath = file.path(dirpath,"tempopar.sti"),
-                param = param, value = value, add= add)
-  }
-
-  if(file_type=="tmp"){
-    set_tmp(filepath = file.path(dirpath,"tempoparV6.sti"),
-                param = param, value = value, add= add)
-  }
-
-  if(file_type=="soil"){
-    set_soil(filepath = file.path(dirpath,"param.sol"),
-             param = param, value = value)
-  }
-
-  if(file_type=="usm"){
-    set_usm(filepath = file.path(dirpath,"new_travail.usm"),
-            param = param, value = value)
-  }
-
-  if(file_type=="station"){
-    set_station(filepath = file.path(dirpath,"station.txt"),
-                param = param, value = value, add= add)
-  }
-
-  if(file_type=="tec"){
-    set_tec(filepath = file.path(dirpath,paste0("fictec",plant,".txt")),
-            param = param, value = value, add= add)
-  }
-
-  if(file_type=="plant"){
-    set_plant(filepath = file.path(dirpath,paste0("ficplt",plant,".txt")),
-              param = param, value = value, add= add)
-  }
-
+  switch(file_type,
+         ini= {
+           set_ini(filepath = file.path(dirpath,"ficini.txt"),
+                   param = param, value = value, add= add)
+         },
+         general= {
+           set_general(filepath = file.path(dirpath,"tempopar.sti"),
+                       param = param, value = value, add= add)
+         },
+         tmp= {
+           set_tmp(filepath = file.path(dirpath,"tempoparV6.sti"),
+                   param = param, value = value, add= add)
+         },
+         soil= {
+           set_soil(filepath = file.path(dirpath,"param.sol"),
+                    param = param, value = value)
+         },
+         usm= {
+           set_usm(filepath = file.path(dirpath,"new_travail.usm"),
+                   param = param, value = value)
+         },
+         station= {
+           set_station(filepath = file.path(dirpath,"station.txt"),
+                       param = param, value = value, add= add)
+         },
+         tec= {
+           set_tec(filepath = file.path(dirpath,paste0("fictec",plant,".txt")),
+                   param = param, value = value, add= add)
+         },
+         plant= {
+           set_plant(filepath = file.path(dirpath,paste0("ficplt",plant,".txt")),
+                     param = param, value = value, add= add)
+         },
+         stop("Parameter not found")
+  )
 }
 
 
