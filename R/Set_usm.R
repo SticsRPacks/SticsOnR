@@ -221,7 +221,7 @@ set_station= function(filepath="station.txt",param,value,add=F){
 #' @rdname set_param
 #' @export
 set_ini= function(filepath= "ficini.txt",param,value,add=F){
-  set_file(filepath,param,value,add,type = "set_ini")
+  set_file(filepath,param,value,add)
 }
 
 
@@ -318,7 +318,7 @@ set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
 #' @export
 set_file= function(filepath,param,value,add){
   # access the function name from which set_file was called
-  type= gsub("\\(|\\)","",deparse(sys.call(-1)))
+  type= strsplit(deparse(sys.call(-1)),split = "\\(")[[1]][1]
   params= readLines(filepath)
 
   switch(type,
