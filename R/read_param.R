@@ -1040,7 +1040,7 @@ read_usm= function(filepath="new_travail.usm"){
 }
 
 
-#' @rdname set_param
+#' @rdname read_param
 #' @export
 read_out_var= function(filepath="var.mod"){
   Vars= readLines(filepath)

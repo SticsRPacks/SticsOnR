@@ -208,147 +208,47 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
 
 #' @rdname set_param
 #' @export
-set_usm= function(filepath="new_travail.usm",param,value,add){
-  params= readLines(filepath)
-  ref= read_usm(filepath)
-  ref_index= grep(param,names(ref))
-  if(ref_index<grep("P_fplt",names(ref))){
-    if(!length(ref_index)>0&!add){
-      stop(paste(param,"parameter not found in:\n",filepath))
-    }
-    params[ref_index*2]= format(value, scientific=F)
-  }else{
-    par_index= grep(gsub("P_","",param),params)
-    if(length(par_index)!=length(value)){
-      stop(paste("Length of input value different from parameter value length.\n",
-                 "Original values:\n",paste(params[par_index+1],collapse= ", "),
-                 "\ninput:\n",paste(value,collapse= ", ")))
-    }
-    params[par_index+1]= value
-  }
-  writeLines(params,filepath)
+set_usm= function(filepath="new_travail.usm",param,value,add=F){
+  set_file(filepath,param,value,add)
 }
 
 #' @rdname set_param
 #' @export
 set_station= function(filepath="station.txt",param,value,add=F){
-  params= readLines(filepath)
-  ref= read_station(filepath)
-  ref_index= grep(param,names(ref))
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }
-  params[ref_index*2]= format(value, scientific=F)
-  writeLines(params,filepath)
+  set_file(filepath,param,value,add)
 }
 
 
 #' @rdname set_param
 #' @export
 set_ini= function(filepath= "ficini.txt",param,value,add=F){
-  params= readLines(filepath)
-  ref= read_ini(filepath)
-  ref_index= grep(param,names(ref))
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }
-  params[ref_index*2]= format(value, scientific=F)
-  writeLines(params,filepath)
+  set_file(filepath,param,value,add,type = "set_ini")
 }
 
 
 #' @rdname set_param
 #' @export
 set_general= function(filepath= "tempopar.sti",param,value,add=F){
-  params= readLines(filepath)
-  ref_index= grep(gsub('P_','',param),params)+1
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }
-  if(length(ref_index)!=length(value)){
-    stop(paste("Length of input value different from parameter value length.\n",
-               "Original values:\n",paste(params[ref_index],collapse= ", "),
-               "\ninput:\n",paste(value,collapse= ", ")))
-  }
-  params[ref_index]= format(value, scientific=F)
-  writeLines(params,filepath)
+  set_file(filepath,param,value,add)
 }
 
 #' @rdname set_param
 #' @export
 set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
-  params= readLines(filepath)
-  ref_index= grep(gsub('P_','',param),params)+1
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(!length(ref_index)>0&add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }else{
-    stop(paste("Parameter",param,"already present in the file, try to replace its value",
-               "instead of adding the parameter"))
-  }
-  if(length(ref_index)!=length(value)){
-    stop(paste("Length of input value different from parameter value length.\n",
-               "Original values:\n",paste(params[ref_index],collapse= ", "),
-               "\ninput:\n",paste(value,collapse= ", ")))
-  }
-  params[ref_index]= format(value, scientific=F)
-  writeLines(params,filepath)
+  set_file(filepath,param,value,add)
 }
 
 #' @rdname set_param
 #' @export
 set_plant= function(filepath="ficplt1.txt",param,value,add=F){
-
-  params= readLines(filepath)
-  ref_index= grep(gsub('P_','',param),params)+1
-
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }
-  if(length(ref_index)!=length(value)){
-    stop(paste("Length of input value different from parameter value length.\n",
-               "Original values:\n",paste(params[ref_index],collapse= ", "),
-               "\ninput:\n",paste(value,collapse= ", ")))
-  }
-  params[ref_index]= format(value, scientific=F)
-  write(params,filepath)
+  set_file(filepath,param,value,add)
 }
 
 #' @rdname set_param
 #' @export
 set_tec= function(filepath="fictec1.txt",param,value,add=F){
-  params= readLines(filepath)
-  ref_index= grep(gsub('P_','',param),params)+1
-
-  if(!length(ref_index)>0&!add){
-    stop(paste(param,"parameter not found in:\n",filepath))
-  }else if(add){
-    params= c(params,param,value)
-    ref_index= grep(gsub('P_','',param),params)+1
-  }
-  if(length(ref_index)!=length(value)){
-    stop(paste("Length of input value different from parameter value length.\n",
-               "Original values:\n",paste(params[ref_index],collapse= ", "),
-               "\ninput:\n",paste(value,collapse= ", ")))
-  }
-  params[ref_index]= format(value, scientific=F)
-  writeLines(params,filepath)
+  set_file(filepath,param,value,add)
 }
-
 
 #' @rdname set_param
 #' @export
@@ -388,10 +288,83 @@ set_soil= function(filepath="param.sol",param,value){
   }
 }
 
-
 #' @rdname set_param
 #' @export
 set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
   cat(vars,file=filepath, sep="\n",append = add)
 }
 
+
+
+#' Internal function to set some STICS input file parameters
+#'
+#' @description Replace or set an input parameter from a pre-existing STICS input
+#'              file. This function is called by some of the generic \code{set_*}
+#'              functions under the hood.
+#'
+#' @param filepath Path to the parameter file
+#' @param param    Parameter name
+#' @param value    New parameter value
+#' @param add      Boolean. Append input to existing file (add to the list)
+#'
+#' @details The function uses \code{\link[base]{sys.call}} to know from which function
+#'          of the \code{set_*} family it is called, so it won't work properly if called
+#'          by the user directly. This is why this function is internal.
+#'
+#' @note This function is not used for \code{\link{set_soil}}.
+#'
+#' @seealso \code{\link{set_param}}.
+#'
+#' @keywords internal
+#' @export
+set_file= function(filepath,param,value,add){
+  # access the function name from which set_file was called
+  type= gsub("\\(|\\)","",deparse(sys.call(-1)))
+  params= readLines(filepath)
+
+  switch(type,
+         set_usm = {
+           ref= read_usm(filepath)
+           if(grep(param,names(ref))<grep("P_fplt",names(ref))){
+             ref_index= grep(param,names(ref))*2
+           }else{
+             ref_index= grep(gsub("P_","",param),params)+1
+           }
+         },
+         set_station= {
+           ref= read_station(filepath)
+           ref_index= grep(param,names(ref))*2
+         },
+         set_ini= {
+           ref= read_ini(filepath)
+           ref_index= grep(param,names(ref))*2
+         },
+         # Default here
+         {
+           ref_index= grep(gsub('P_','',param),params)+1
+         }
+  )
+
+  if(!length(ref_index)>0){
+    if(add){
+      value= paste(value, collapse = " ")
+      params= c(params,param,value)
+      ref_index= grep(gsub('P_','',param),params)+1
+    }else{
+      stop(paste(param,"parameter not found in:\n",filepath))
+    }
+  }else{
+    if(add){
+      stop(paste("Parameter",param,"already present in the file, try to replace its value",
+                 "instead of adding the parameter"))
+    }
+  }
+
+  if(length(ref_index)!=length(value)){
+    stop(paste("Length of input value different from parameter value length.\n",
+               "Original values:\n",paste(params[ref_index],collapse= ", "),
+               "\ninput:\n",paste(value,collapse= ", ")))
+  }
+  params[ref_index]= format(value, scientific=F)
+  writeLines(params,filepath)
+}

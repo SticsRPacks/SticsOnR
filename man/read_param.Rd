@@ -10,6 +10,7 @@
 \alias{read_soil}
 \alias{read_station}
 \alias{read_usm}
+\alias{read_out_var}
 \title{Read STICS input parameters}
 \usage{
 read_param(dirpath = getwd(), param = NULL, ...)
@@ -30,6 +31,8 @@ read_soil(filepath = "param.sol")
 read_station(filepath = "station.txt")
 
 read_usm(filepath = "new_travail.usm")
+
+read_out_var(filepath = "var.mod")
 }
 \arguments{
 \item{dirpath}{Directory path}
