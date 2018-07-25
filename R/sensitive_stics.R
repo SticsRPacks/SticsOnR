@@ -248,7 +248,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     )
   names(sensitivity_stics)= Vars
   row.names(DOE)= NULL
-  return(list(gg_objects=gg_output, sensi_objects=sensitivity_stics,
+  invisible(list(gg_objects=gg_output, sensi_objects=sensitivity_stics,
               DOE= DOE))
 }
 

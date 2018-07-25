@@ -89,7 +89,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
                      recursive = T,overwrite = overw)
   Filenames= basename(Files[written])
   if(!is.null(stics)){
-    Already_stic= file.exists(stics)
+    Already_stic= file.exists(stics[[1]])
     if(Already_stic&!overwrite){
       overw= NULL ; count= 1
       while(is.null(overw)){
