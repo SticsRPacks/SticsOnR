@@ -24,7 +24,7 @@
 #' @export
 #'
 read_met= function(dirpath=getwd(), filename="climat.txt"){
-  Met= data.table::fread(file.path(dirpath,x), data.table = F)
+  Met= data.table::fread(file.path(dirpath,filename), data.table = F)
   colnames(Met)= c("station","year","month","day","julian","ttmin","ttmax",
                    "ttrg","ttetp","ttrr","ttvent","ttpm","ttco2")
   Date= data.frame(Date=as.POSIXct(x = paste(Met$year,Met$month,Met$day, sep="-"),
