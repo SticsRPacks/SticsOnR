@@ -53,16 +53,18 @@
 #'
 #' @export
 #'
-save_sensi= function(x,dirpath= getwd(), device="png",
-                     width, height, units,...){
+save_sensi= function(x,dirpath= getwd(), device="png",width=NULL,
+                     height=NULL, units=c("in", "cm", "mm"),...){
 
   units= match.arg(units,c("in", "cm", "mm"))
   if(!dir.exists(dirpath)){dir.create(dirpath,recursive= T)}
-  lapply(seq_along(x$gg_objects), function(i){
-    ggplot2::ggsave(filename= paste0(names(x$gg_objects)[i],".",device),
-                    plot= x$gg_objects[[i]],device= device,path= dirpath,
-                    width= width, height= height, units= units,...)
-  })
+  if(!is.null(width)&!is.null(height)){
+    lapply(seq_along(x$gg_objects), function(i){
+      ggplot2::ggsave(filename= paste0(names(x$gg_objects)[i],".",device),
+                      plot= x$gg_objects[[i]],device= device,path= dirpath,
+                      width= width, height= height, units= units,...)
+    })
+  }
   saveRDS(object = x, file = file.path(dirpath,"sensitivity.rds"))
   writeLines(
     text= paste0("Sensitivity analysis on the STICS model using the ",
