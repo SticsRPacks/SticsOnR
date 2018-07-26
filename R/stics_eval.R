@@ -121,7 +121,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                               vars=Out_var, add=F)
                   if(method=="Parameter"){
                     set_param(dirpath = USM_path,
-                              param = names(Parameter),
+                              param = names(Parameter),plant = Plant,
                               value = Param_val[[x]])
                   }
                   run_stics(dirpath = USM_path)
@@ -146,7 +146,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                            vars=Out_var, add=F)
                if(method=="Parameter"){
                  set_param(dirpath = USM_path,
-                           param = names(Parameter),
+                           param = names(Parameter),plant = Plant,
                            value = Param_val[[x]])
                }
                run_stics(dirpath = USM_path)

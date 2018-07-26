@@ -138,10 +138,14 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
 #' @param vars     Vector of variable names for STICS output requirements
 #' @param add      Boolean. Append input to existing file (add to the list)
 #'
-#' @details \code{set_out_var} is not used by \code{set_param}. To replace the output
-#'          variables required from STICS, please directly call \code{set_out_var}.
+#' @details The \code{plant} parameter can be either equal to \code{1}, \code{2} for
+#'          the associated plant in the case of intercrop, or \code{c(1,2)} for both
+#'          Princiapl and associated plants.
 #'          \code{\link{all_out_var}} is a helper function that returns all possible
 #'          output variables.
+#'
+#' @note \code{set_out_var} is not used by \code{set_param}. To replace the output
+#'       variables required from STICS, please directly call \code{set_out_var}.
 #'
 #' @seealso \code{\link{import_usm}}.
 #'
@@ -193,15 +197,20 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
                        param = param, value = value, add= add)
          },
          tec= {
-           set_tec(filepath = file.path(dirpath,paste0("fictec",plant,".txt")),
-                   param = param, value = value, add= add)
+           tmp= lapply(plant, function(x){
+             set_tec(filepath = file.path(dirpath,paste0("fictec",x,".txt")),
+                     param = param, value = value, add= add)
+           })
          },
          plant= {
-           set_plant(filepath = file.path(dirpath,paste0("ficplt",plant,".txt")),
-                     param = param, value = value, add= add)
+           tmp= lapply(plant, function(x){
+             set_plant(filepath = file.path(dirpath,paste0("ficplt",x,".txt")),
+                       param = param, value = value, add= add)
+           })
          },
          stop("Parameter not found")
   )
+
 }
 
 
