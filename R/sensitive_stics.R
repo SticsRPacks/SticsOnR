@@ -96,7 +96,7 @@ sensitive_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     Parameter=NULL
   method= match.arg(method,c("fast99","sobol"))
 
-  if(!dir.exists(dir.targ)){erase_dir=T}else{erase_dir=F}
+  if(!dir.exists(dir.targ)&Erase){erase_dir=T}else{erase_dir=F}
 
   Design_experiment= sensitivity::fast99(model= NULL,factors = names(Parameters),
                                          n=n,q=q,q.arg=Parameters)
