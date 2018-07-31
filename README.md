@@ -19,7 +19,7 @@ This package allows the user to programmatically:
 
 -   call STICS to run them ([`run_stics`](R/run_stics.R))
 
--   import the results for analyses ([`read_output`](R/read_output.R)), or the observations available in the USM ([`read_obs`](R/read_obs.R))
+-   import the results for analyzes ([`read_output`](R/read_output.R)), or the observations available in the USM ([`read_obs`](R/read_obs.R))
 
 -   compare observations and simulations ([`eval_output`](R/eval_output.R))
 
@@ -27,7 +27,7 @@ This package allows the user to programmatically:
 
 -   generate automatic reports (only available for one experiment, development terminated but still under evaluation)
 
--   and run sensitivity analyses ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyses.
+-   and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes.
 
 The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time.
 
@@ -56,22 +56,100 @@ install.packages("sticRs")
 Examples
 --------
 
-### Setting a parameter and running the model
+### Setting a parameter, running the model and compare with observations
+
+#### Manually
 
 This is a basic example using the default dummy simulation (parameters and meteorology) for a mixed crop of wheat-wheat (not a real mixed crop, for testing the model behavior) :
 
 ``` r
 library("sticRs")
-set_usm(plant= c("wheat","wheat"))
-# Reading the interrang parameter:
-read_param(param='interrang')
-# Setting the interrang parameter to 0.01 meter:
-set_param(param= "interrang", value= 0.01)
+# Path to a preconfigured USM:
+path_origin_USM= "Your_path_goes_here"
+# Path where the simulation will be made:
+path_simulation= "Your_path_goes_here_again"
+# Path to the STICS model executable:
+path_STICS= "Your_path_goes_here_again_and_again"
+# Importing the preconfigured USM into a new folder:
+import_usm(dir.orig = path_origin_USM, 
+           dir.targ = path_simulation,
+           stics = path_STICS, 
+           usm_name = "test")
+# Reading the interrang parameter for both plants (= interrow):
+read_param(dirpath = file.path(path_simulation,"test"),
+           param='interrang')
+# Setting the interrang parameter to 0.30m for both plants:
+set_param(dirpath = file.path(path_simulation,"test"),
+          param= "interrang", value= 0.3,plant = c(1,2))
+# Setting the outputs needed from STICS:
+set_out_var(filepath = file.path(path_simulation,"test","var.mod"),
+            vars = c("hauteur","lai(n)",'masec(n)'))
 # Running the model:
-run_stics(dirpath = "Your_path_goes_here")
+run_stics(dirpath= file.path(path_simulation,"test"))
+# Reading the model outputs:
+out= read_output(dirpath= file.path(path_simulation,"test"))
+# Plotting automatically the outputs along the observations: 
+plot_output(file.path(path_simulation,"test"),
+            obs_name = c("wheat.obs","pea.obs"))
 ```
 
 To use your own data, simply use the folder of your simulation as the reference path; like you would do with javaSTICS.
+
+#### Automatically
+
+You can run all previous code using the simple, standardized `stics_eval` function:
+
+``` r
+library("sticRs")
+out= 
+  stics_eval(dir.orig = path_origin_USM, 
+             dir.targ = path_simulation,
+             stics = path_STICS,
+             Parameter = list(interrang= 0.3),Plant = c(1,2),
+             obs_name = c("wheat.obs","pea.obs"),
+             Out_var = c("hauteur","lai(n)",'masec(n)'),
+             Title = "Wheat-Wheat", plot_it = T)
+```
+
+This function will import the USM in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot object) and plot it.
+
+### Comparing model simulations
+
+#### Comparing STICS outputs with different parameter values
+
+If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the `stics_eval` function. Here is an exemple with the `P_rapforme` parameter:
+
+``` r
+Eval_stics= 
+  stics_eval(dir.orig = path_origin_USM, 
+             dir.targ = path_simulation,
+             stics = path_STICS,
+             Parameter = list(P_rapforme= list(1.5,2,4)),Plant = c(1,2),
+             obs_name = c("wheat.obs","pea.obs"),
+             Out_var = c("hauteur","laisen(n)","lai(n)","eai","largeur",
+                         "varrapforme","dfol","dominant"),
+             Title = "Wheat-Wheat", plot_it = T)
+```
+
+The function will return a list of STICS outputs for each parameter value, and a plot comparing the model simulations.
+
+#### Comparing STICS outputs with different STICS versions
+
+If you want to compare different versions of the model after modifying the code for exemple, you can give different stics values to the `stics_eval` function. Here is an exemple:
+
+``` r
+Eval_stics= 
+  stics_eval(dir.orig = path_origin_USM, 
+             dir.targ = path_simulation,
+             stics = list(Original= path_STICS,
+                          Modified= "Path_to_modified_stics/stics.exe"),
+             obs_name = c("wheat.obs","pea.obs"),
+             Out_var = c("hauteur","laisen(n)","lai(n)","eai","largeur",
+                         "varrapforme","dfol","dominant"),
+             Title = "Wheat-Wheat", plot_it = T)
+```
+
+The function will return a list of STICS outputs for each stics executable provided, and a plot comparing the model simulations.
 
 ### Making a sensitivity analysis
 
@@ -79,10 +157,10 @@ Make a sensitivity analysis using the `fast99` algorithm for the interrow (`inte
 
 ``` r
 library("sticRs")
-sens= sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
-                      dir.targ = "2-Simulations/Sensitivity2",
-                      stics = "0-DATA/stics_executable/EquDens_trg/stics.exe",
-                      obs_name = "Wheat_N0.obs",Parameters = "interrang",
+sens= sensitive_stics(dir.orig = path_origin_USM,
+                      dir.targ = path_simulation,
+                      stics = path_STICS,
+                      obs_name = "Wheat.obs",Parameters = "interrang",
                       Vars = c("raint", "lai(n)", "masec(n)"),
                       method= "fast99", n= 10,
                       q= "qunif",q.arg = list(list(min=0.05, max=0.25),
