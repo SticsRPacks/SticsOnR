@@ -209,6 +209,8 @@ all_out_var= function(){
     "H2Orec",
     "H2Orec_percent",
     "hauteur",
+    "dominant",
+    "varrapforme",
     "Hmax",
     "Hnappe",
     "Hpb",
