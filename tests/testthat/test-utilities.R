@@ -1,4 +1,4 @@
-context("Test utilities/hleper functions")
+context("Test utilities/helper functions")
 library(sticRs)
 
 test_that("Test Del_spe_col output", {
@@ -9,4 +9,9 @@ test_that("Test Del_spe_col output", {
 test_that("Test all_out_var output", {
   expect_equal(class(all_out_var()), "character")
   expect_gte(length(all_out_var()),542)
+})
+
+test_that("Test find_STICS_var output", {
+  expect_equal(class(find_STICS_var("hauteur")), "character")
+  expect_equal(find_STICS_var("ulai\\(n\\)"),"ulai(n)")
 })
