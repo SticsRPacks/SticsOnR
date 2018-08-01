@@ -175,6 +175,11 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 
 -   A list of the output from the method function, *e.g.* a list of class `fast99` for the `fast99` method.
 
+Example data
+------------
+
+Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data). It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation. **Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
+
 Acknowledgments
 ---------------
 
