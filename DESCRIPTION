@@ -14,7 +14,7 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 RoxygenNote: 6.0.1
-Imports: 
+Imports:
     magrittr,
     stats,
     data.table,
@@ -22,3 +22,4 @@ Imports:
     reshape2,
     dplyr,
     sensitivity
+Suggests: testthat
