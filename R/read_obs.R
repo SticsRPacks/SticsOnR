@@ -43,8 +43,8 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
         # If there is only one .obs file, the value of mixed doesn't matter
         mixed=F
       }else{
-        stop("mixed= NULL and new_travail.usm cannot be found,",
-             " please set the mixed parameter")
+        stop("mixed= NULL, there are several .obs files, and new_travail.usm",
+             " cannot be found, please set the mixed parameter")
       }
     }
   }
