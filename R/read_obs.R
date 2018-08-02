@@ -33,10 +33,20 @@
 read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
   .=NULL # to avoid CRAN note for pipe
   if(is.null(mixed)){
-    nbplants=
-      read_usm(filepath = file.path(dirpath,"new_travail.usm"))$P_nbplantes%>%
-      as.numeric
-    if(nbplants>1){mixed= T}else{mixed= F}
+    if(file.exists(file.path(dirpath,"new_travail.usm"))){
+      nbplants=
+        read_usm(filepath = file.path(dirpath,"new_travail.usm"))$P_nbplantes%>%
+        as.numeric
+      if(nbplants>1){mixed= T}else{mixed= F}
+    }else{
+      if(length(list.files(dirpath)%>%.[grep("\\.obs$",.)])==1){
+        # If there is only one .obs file, the value of mixed doesn't matter
+        mixed=F
+      }else{
+        stop("mixed= NULL and new_travail.usm cannot be found,",
+             " please set the mixed parameter")
+      }
+    }
   }
 
   # If no filename is given, trying to:
