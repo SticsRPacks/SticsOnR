@@ -51,8 +51,8 @@ test_that("Test that read_obs returns right errors", {
 })
 
 test_that("Test read_obs output consistancy", {
-  expect_known_hash(read_obs(dirpath = "example_data",filename = "wheat_1.obs"),
-                    hash = "ba41d7f5fc")
+  tmp <- tempfile()
+  expect_known_output(read_obs(dirpath = "example_data",filename = "wheat_1.obs"),tmp)
 })
 
 # read_output -------------------------------------------------------------
@@ -78,16 +78,16 @@ test_that("Test that read_output returns the right format", {
 })
 
 test_that("Test read_output consistancy", {
-  expect_known_hash(read_output(dirpath = "example_data"),
-                    hash = "e8feb1b7d9")
+  tmp <- tempfile()
+  expect_known_output(read_output(dirpath = "example_data"),tmp)
 })
 
 
 # read_param --------------------------------------------------------------
 
 test_that("Test read_param output consistancy", {
-  expect_known_hash(read_param(dirpath = "example_data"),
-                    hash = "3e7f3f5f03")
+  tmp <- tempfile()
+  expect_known_output(read_param(dirpath = "example_data"),tmp)
 })
 
 test_that("Test that read_param returns right errors", {
