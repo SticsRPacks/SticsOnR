@@ -12,10 +12,12 @@
 #'                  present in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
 #' @param overwrite Boolean. Overwrite files and folders if already present. See details.
+#' @param verbose   Boolean. Does the function output success and failure messages ?
 #'
 #' @details This function is a helper function used by other package functions.
 #'  If \code{overwrite= F}, the function show to the user which files
-#'  are already present, and asks the user what to do.
+#'  are already present, and asks the user what to do, so be careful while using
+#'  this function for programming.
 #'
 #' @examples
 #'\dontrun{
@@ -28,8 +30,9 @@
 #'}
 #'
 #' @export
-import_usm= function(dir.orig=NULL, dir.targ= getwd(),
-                     stics= NULL,usm_name= NULL,overwrite= F){
+import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
+                     usm_name= NULL,overwrite= T,verbose=NULL){
+  if(is.null(verbose)&!interactive()){verbose=F}else{verbose=T}
   if(is.null(dir.orig)){
     # Add example data files:
     Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
@@ -109,13 +112,13 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),
                                   recursive = T, overwrite = overw))
     Filenames= c(Filenames, "stics executable")
   }
-  if(any(written)){
+  if(any(written)&verbose){
     cat(paste("Files:\n",
               paste(Filenames[written], collapse = ", "),
               "\nwere all sucessfully written in",usm_path,"\n"))
   }
 
-  if(any(!written)){
+  if(any(!written)&verbose){
     cat(paste("\n\nFiles:\n",
               paste(Filenames[!written], collapse = ", "),
               "\nwere not replaced in",usm_path,

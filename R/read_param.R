@@ -97,7 +97,11 @@ read_param= function(dirpath=getwd(),param=NULL,...){
   if(!is.null(param)){
     parameters= unlist(parameters)
     parameters= parameters[grep(param,names(parameters))]
+    if(length(parameters)==0){
+      stop(param," parameter not found")
+    }
   }
+
   return(parameters)
 }
 

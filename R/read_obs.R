@@ -76,8 +76,8 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
       })
       Table_obs= data.table::rbindlist(Table_obs, fill=T)
       attrfiles= Plant_name
-      cat("Observation file names read from matching mod_s* file names.\nmod_s* names:",
-          Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
+      warning("Observation file names read from matching mod_s* file names.\nmod_s* names:",
+              Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
     }else{
     # ...else try to read a single *.obs file (multiple .obs file are not allowed)
       obs_files= list.files(dirpath)%>%.[grep("\\.obs$",.)]
@@ -87,6 +87,8 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
         attrfiles= obs_files
         Table_obs[Table_obs<=-999.99]= NA
         Table_obs$Plant= obs_files
+        warning("Observation file guessed from the only '.obs' file in dirpath",
+                Plant_name, "\n*.obs:",paste0(Plant_name,".obs"))
       }else{
         warning("\nObservation file names do not match mod_s* file names and several *.obs ",
              "file names are present. Please provide the *.obs file names using the ",

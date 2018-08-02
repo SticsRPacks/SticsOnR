@@ -23,6 +23,38 @@ test_that("Test read_output consistancy", {
                     hash = "62633fe9a0")
 })
 
+# read_obs ----------------------------------------------------------------
+
+test_that("Test that read_obs returns a data.frame", {
+  expect_true(is.data.frame(read_obs(dirpath = "example_data",
+                                     filename = "wheat_1.obs")))
+})
+
+test_that("Test read_obs automatic filename", {
+  # Reading from the mod file names:
+  obs= suppressWarnings(read_obs(dirpath = "example_data_tests/obs_mod",mixed = T))
+  expect_true(is.data.frame(obs))
+  # Reading from the unique obs directly:
+  obs= suppressWarnings(read_obs(dirpath = "example_data_tests/obs_alone"))
+  expect_true(is.data.frame(obs))
+})
+
+test_that("Test that read_obs returns right errors", {
+  # Mixed=T but no filename but obs filenames match mod filenames
+  expect_warning(read_obs(dirpath = "example_data_tests/obs_mod",mixed = T))
+  # Mixed=T but no filename + obs filenames do not match mod filenames
+  expect_warning(read_obs(dirpath = "example_data_tests/obs_mod2",mixed = T))
+  # Mixed=T but no filename but one obs file in dirpath
+  expect_warning(read_obs(dirpath = "example_data_tests/obs_alone",mixed = T))
+  # No mixed parameter and no filename + no new_travail.usm
+  expect_error(read_obs(dirpath = "example_data_tests/obs_two"))
+})
+
+test_that("Test read_obs output consistancy", {
+  expect_known_hash(read_obs(dirpath = "example_data",filename = "wheat_1.obs"),
+                    hash = "ba41d7f5fc")
+})
+
 # read_output -------------------------------------------------------------
 
 test_that("Test that read_output returns a data.frame", {
@@ -51,32 +83,14 @@ test_that("Test read_output consistancy", {
 })
 
 
-# read_obs ----------------------------------------------------------------
+# read_param --------------------------------------------------------------
 
-test_that("Test that read_obs returns a data.frame", {
-  expect_true(is.data.frame(read_obs(dirpath = "example_data",
-                                     filename = "wheat_1.obs")))
+test_that("Test read_param output consistancy", {
+  expect_known_hash(read_param(dirpath = "example_data"),
+                    hash = "3e7f3f5f03")
 })
 
-test_that("Test read_obs automatic filename", {
-  # Reading from the mod file names:
-  obs= read_obs(dirpath = "example_data_tests/obs_mod",mixed = T)
-  expect_true(is.data.frame(obs))
-  # Reading from the unique obs directly:
-  obs= read_obs(dirpath = "example_data_tests/obs_alone")
-  expect_true(is.data.frame(obs))
+test_that("Test that read_param returns right errors", {
+  expect_error(read_param(dirpath = "example_data",param= "zdklji"))
 })
-
-test_that("Test that read_obs returns right errors", {
-  # Mixed=T but no filename + obs filenames do not match mod filenames
-  expect_warning(read_obs(dirpath = "example_data_tests/obs_mod2",mixed = T))
-  # No mixed parameter and no filename + no new_travail.usm
-  expect_error(read_obs(dirpath = "example_data_tests/obs_two"))
-})
-
-test_that("Test read_obs output consistancy", {
-  expect_known_hash(read_obs(dirpath = "example_data",filename = "wheat_1.obs"),
-                    hash = "ba41d7f5fc")
-})
-
 
