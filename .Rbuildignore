@@ -5,3 +5,4 @@ man/figures
 ^\.Rproj\.user$
 ^appveyor\.yml$
 ^README-.*\.png$
+^codecov\.yml$

@@ -22,4 +22,6 @@ Imports:
     reshape2,
     dplyr,
     sensitivity
-Suggests: testthat
+Suggests: 
+    testthat,
+    covr
