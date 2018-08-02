@@ -6,7 +6,7 @@ sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package for de
 
 <!-- <img src="man/figures/logo.png" alt="logo" style="width:30%;height:auto;" align="right" /> -->
 <!-- [![Travis build status](https://travis-ci.com/VEZY/DynACof.svg?branch=master)](https://travis-ci.org/VEZY/DynACof)   -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Travis Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Travis Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master)
 
 Overview
 --------
@@ -178,7 +178,8 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 Example data
 ------------
 
-Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data). It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation. **Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
+Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data). It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
+**Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
 
 Acknowledgments
 ---------------
