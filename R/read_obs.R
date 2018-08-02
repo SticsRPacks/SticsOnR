@@ -46,14 +46,14 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
     if(mixed){
       Plant_name=
         list.files(dirpath)%>%.[grep("mod_sp",.)]%>%gsub("mod_sp","",.)%>%
-        strsplit(.,"\\.")%>%.[[1]]%>%.[1]
+        strsplit(.,"\\.")%>%{if(length(.)>0){.[[1]]%>%.[1]}}
       Plant_name=
         list.files(dirpath)%>%.[grep("mod_sa",.)]%>%gsub("mod_sa","",.)%>%
-        strsplit(.,"\\.")%>%.[[1]]%>%.[1]%>%c(Plant_name,.)
+        strsplit(.,"\\.")%>%{if(length(.)>0){.[[1]]%>%.[1]}}%>%c(Plant_name,.)
     }else{
       Plant_name=
         list.files(dirpath)%>%.[grep("mod_s",.)]%>%gsub("mod_s","",.)%>%
-        strsplit(.,"\\.")%>%.[[1]]%>%.[1]
+        strsplit(.,"\\.")%>%{if(length(.)>0){.[[1]]%>%.[1]}}
     }
 
     # If the *.obs names are the same used for mod_s* files, read them accordingly...
