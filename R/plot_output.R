@@ -72,7 +72,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
 
     x_meas=
       x[,-grep("_sim|ian|mo|jo|jul",colnames(x))]
-    # If x_meas as more than Dominance, Date and Plant columns:
+    # If x_meas has more than Dominance, Date and Plant columns:
     if(ncol(x_meas)>3){
       x_meas[,-grep("_meas|Date|Dominance|Plant",colnames(x_meas))]= NA
       x_meas$Version= V_names[i]
