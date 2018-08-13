@@ -6,9 +6,7 @@ sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package for de
 
 <!-- <img src="man/figures/logo.png" alt="logo" style="width:30%;height:auto;" align="right" /> -->
 <!-- [![Travis build status](https://travis-ci.com/VEZY/DynACof.svg?branch=master)](https://travis-ci.org/VEZY/DynACof)   -->
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Travis Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master)
-
-The package documentation is available on the sticRs website: <https://vezy.github.io/sticRs/>
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Travis Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
 
 Overview
 --------
@@ -179,6 +177,11 @@ Example data
 Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data). It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
 **Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
 
+Code of conduct
+---------------
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
 Authors and acknowledgments
 ---------------------------
 
@@ -187,10 +190,4 @@ The STICS (Simulateur mulTIdisciplinaire pour les Cultures Standard, or multidis
 The sticRs package was developed by [Rémi Vezy](https://remi-vezy.netlify.com/) and the [STICS group](https://www6.paca.inra.fr/stics_eng/) thanks to the European H2020 funded [ReMIX project](https://www.remix-intercrops.eu/).
 
 ![ReMIX logo](man/figures/remix_logo.jpg)
-
-Code of conduct
----------------
-
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
-
-------------------------------------------------------------------------
+-----------------------------------------
