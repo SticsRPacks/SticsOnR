@@ -6,3 +6,5 @@ man/figures
 ^appveyor\.yml$
 ^README-.*\.png$
 ^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
