@@ -60,12 +60,7 @@ Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) pack
 # install.packages("remotes")
 remotes::install_github("VEZY/sticRs")
 ```
-For the moment, there is no [CRAN](https://CRAN.R-project.org) release of sticRs, but we work on that.
-You will soon be able to run this command to install the package:
-
-``` r
-install.packages("sticRs")
-```
+The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe sticRs users are not widespread enough to bother CRAN people and server time.
 
 ## Examples
 
