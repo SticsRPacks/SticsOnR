@@ -108,6 +108,8 @@ plot_output(file.path(path_simulation,"test"),
 
 To use your own data, simply use the folder of your simulation as the reference path; like you would do with javaSTICS.
 
+> To find a possible output variable with a partial match, you can use the `find_STICS_var` function.
+
 #### Automatically
 
 You can run all previous code using the simple, standardized `stics_eval` function:
