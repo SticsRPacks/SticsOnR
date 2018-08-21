@@ -47,7 +47,7 @@ Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) pack
 remotes::install_github("VEZY/sticRs")
 ```
 
-The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe sticRs users are not widespread enough to bother CRAN people and server time.
+The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe sticRs users are not widespread enough to bother CRAN people and use their free server time.
 
 Examples
 --------
