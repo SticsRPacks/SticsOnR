@@ -265,6 +265,7 @@ set_tec= function(filepath="fictec1.txt",param,value,add=F){
 #' @export
 set_soil= function(filepath="param.sol",param,value){
   ref= read_soil(filepath)
+  param= paste0(param,"$")
   if(length(ref[[param]])!=length(value)){
     stop(paste("Length of input value different from parameter value length.\n",
                "Original values:\n",paste(ref[[param]],collapse= ", "),
@@ -332,7 +333,7 @@ set_file= function(filepath,param,value,add){
   # access the function name from which set_file was called
   type= strsplit(deparse(sys.call(-1)),split = "\\(")[[1]][1]
   params= readLines(filepath)
-
+  param= paste0(param,"$")
   switch(type,
          set_usm = {
            ref= read_usm(filepath)

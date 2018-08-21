@@ -8,3 +8,4 @@ man/figures
 ^codecov\.yml$
 ^_pkgdown\.yml$
 ^docs$
+CODE_OF_CONDUCT.md
