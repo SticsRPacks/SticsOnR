@@ -89,6 +89,9 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
   }else{
     if(is.list(stics)){
       usm_name= names(stics)
+      if(is.null(usm_name)){
+        usm_name= paste0("STICS_",seq_along(stics))
+      }
       method= "stics"
     }else{
       stop("The stics parameter must be a list")
