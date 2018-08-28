@@ -22,6 +22,9 @@ Imports:
     reshape2,
     dplyr,
     sensitivity
-Suggests: 
+Suggests:
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

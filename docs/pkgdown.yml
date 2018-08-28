@@ -1,7 +1,8 @@
 pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
-articles: []
+articles:
+  Introduction_to_sticRs: Introduction_to_sticRs.html
 urls:
   reference: https://vezy.github.io/sticRs//reference
   article: https://vezy.github.io/sticRs//articles

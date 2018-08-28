@@ -45,6 +45,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -102,7 +114,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"VEZY/sticRs"</span>)</code></pre></div>
 <p>Or using the lightweight <a href="https://github.com/r-lib/remotes#readme">remotes</a> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("remotes")</span>
-remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"VEZY/sticRs"</span>)</code></pre></div>
+remotes<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"VEZY/sticRs"</span>)</code></pre></div>
 <p>The package is tested routinely to pass all <a href="https://CRAN.R-project.org">CRAN</a> tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe sticRs users are not widespread enough to bother CRAN people and use their free server time.</p>
 </div>
 <div id="examples" class="section level2">
@@ -170,7 +182,7 @@ out=<span class="st"> </span>
 <div id="comparing-stics-outputs-with-different-parameter-values" class="section level4">
 <h4 class="hasAnchor">
 <a href="#comparing-stics-outputs-with-different-parameter-values" class="anchor"></a>Comparing STICS outputs with different parameter values</h4>
-<p>If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the <code>stics_eval</code> function. Here is an exemple with the <code>P_rapforme</code> parameter:</p>
+<p>If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the <code>stics_eval</code> function. Here is an example with the <code>P_rapforme</code> parameter:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Eval_stics=<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/stics_eval.html">stics_eval</a></span>(<span class="dt">dir.orig =</span> path_origin_USM, 
              <span class="dt">dir.targ =</span> path_simulation,
@@ -185,7 +197,7 @@ out=<span class="st"> </span>
 <div id="comparing-stics-outputs-with-different-stics-versions" class="section level4">
 <h4 class="hasAnchor">
 <a href="#comparing-stics-outputs-with-different-stics-versions" class="anchor"></a>Comparing STICS outputs with different STICS versions</h4>
-<p>If you want to compare different versions of the model after modifying the code for exemple, you can give different stics values to the <code>stics_eval</code> function. Here is an exemple:</p>
+<p>If you want to compare different versions of the model after modifying the code for example, you can give different stics values to the <code>stics_eval</code> function. Here is an example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Eval_stics=<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/stics_eval.html">stics_eval</a></span>(<span class="dt">dir.orig =</span> path_origin_USM, 
              <span class="dt">dir.targ =</span> path_simulation,
@@ -222,7 +234,8 @@ sens=<span class="st"> </span><span class="kw"><a href="reference/sensitive_stic
 <div id="example-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h2>
-<p>Example data are available in the <a href="https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data">tests folder</a>. It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.<br><strong>Warning</strong>: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.</p>
+<p>Example data are available in the <a href="https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data">tests folder</a>, but also as a <a href="https://github.com/VEZY/STICS_dummy">separate repository</a> for download convenience. Download instructions are available on the companion repository.<br>
+This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.<br><strong>Warning</strong>: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

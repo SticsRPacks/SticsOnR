@@ -128,3 +128,9 @@ P_hauteur_threshold_2
 0.8
 P_eqdens_max
 240 240
+P_code_shape
+2 2
+P_hautK
+0.2350462 0.2350462
+P_hautA
+0.5695172 0.5695172

@@ -62,7 +62,7 @@ A list of all parameters:
         \item{plant}{Plant parameters}
         \item{soil}{Soil parameters}
         \item{station}{Station parameters}
-        \code{output}{The output variables the user require from STICS}
+        \item{output}{The output variables the user require from STICS}
 The function can return several sub-lists for each \code{plant} and \code{tec}
  if mixed crops, numbered by usage
 }

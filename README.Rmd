@@ -131,7 +131,7 @@ This function will import the USM in a new folder, change the parameter values, 
 
 #### Comparing STICS outputs with different parameter values
 
-If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the `stics_eval` function. Here is an exemple with the `P_rapforme` parameter:
+If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the `stics_eval` function. Here is an example with the `P_rapforme` parameter:
 
 ```{r, eval=FALSE}
 Eval_stics= 
@@ -149,7 +149,7 @@ The function will return a list of STICS outputs for each parameter value, and a
 
 #### Comparing STICS outputs with different STICS versions
 
-If you want to compare different versions of the model after modifying the code for exemple, you can give different stics values to the `stics_eval` function. Here is an exemple:
+If you want to compare different versions of the model after modifying the code for example, you can give different stics values to the `stics_eval` function. Here is an example:
 
 ```{r, eval=FALSE}
 Eval_stics= 
@@ -189,7 +189,8 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 
 ## Example data
 
-Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data). It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.  
+Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/VEZY/STICS_dummy) for download convenience. Download instructions are available on the companion repository.  
+This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.  
 **Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.  
 
 ## Code of conduct

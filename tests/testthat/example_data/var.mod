@@ -1,10 +1,3 @@
-raint
-trg(n)
-rsoleil
+hauteur
 lai(n)
 masec(n)
-hauteur
-cumraint
-fapar
-eai
-tauxcouv(n)

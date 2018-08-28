@@ -25,7 +25,7 @@
 #'         \item{plant}{Plant parameters}
 #'         \item{soil}{Soil parameters}
 #'         \item{station}{Station parameters}
-#'         \code{output}{The output variables the user require from STICS}
+#'         \item{output}{The output variables the user require from STICS}
 #' The function can return several sub-lists for each \code{plant} and \code{tec}
 #'  if mixed crops, numbered by usage
 #'
@@ -44,11 +44,7 @@
 #'
 #' @export
 #'
-read_param= function(dirpath=getwd(),param=NULL,...){
-  # Make this function read all parameters from STICS automatically
-  # 1. Detect how much plants there are
-  # 2. Read tec+plant files
-  # 3. Return the output as a list
+read_param= function(dirpath= getwd(),param= NULL,...){
   dot_args= list(...)
   if(isTRUE(dot_args$several_fert)){
     several_fert= dot_args$several_fert
