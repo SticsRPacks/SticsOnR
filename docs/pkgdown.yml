@@ -3,7 +3,7 @@ pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   Introduction_to_sticRs: Introduction_to_sticRs.html
-  Sensitivity_analyzes: Sensitivity_analyzes.html
+  Sensitivity_analyses: Sensitivity_analyses.html
 urls:
   reference: https://vezy.github.io/sticRs//reference
   article: https://vezy.github.io/sticRs//articles

@@ -1,10 +1,10 @@
 ---
-title: "Sensitivity analyzes"
+title: "Sensitivity analyses"
 author: "Rémi Vezy"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Sensitivity analyze}
+  %\VignetteIndexEntry{Sensitivity analyses}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Sensitivity analyzes
+## Sensitivity analyses
 
 Sensitivity analyses are critical steps for model evaluation. This step is often complicated because it is hard to implement and hard to understand. One purpose of the [sticRs](https://vezy.github.io/sticRs/) package is to make this step easy by abstracting all the complex code and reduce it to only one main function.
 Currently, the package supports two different and well known algorithms: fast99 and sobol. Both functions come from the excellent [sensitivity](https://cran.r-project.org/web/packages/sensitivity/index.html) package.
