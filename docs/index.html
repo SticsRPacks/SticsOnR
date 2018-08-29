@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sticRs</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
       <a href="articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
     </li>
     <li>
-      <a href="articles/Sensitivity%20analyses.html">Vignette Title</a>
+      <a href="articles/Sensitivity_analyzes.html">Sensitivity analyzes</a>
     </li>
   </ul>
 </li>
@@ -224,9 +224,9 @@ sens=<span class="st"> </span><span class="kw"><a href="reference/sensitive_stic
                       <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,<span class="dt">Parameters =</span> <span class="st">"interrang"</span>,
                       <span class="dt">Vars =</span> <span class="kw">c</span>(<span class="st">"raint"</span>, <span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),
                       <span class="dt">method=</span> <span class="st">"fast99"</span>, <span class="dt">n=</span> <span class="dv">10</span>,
-                      <span class="dt">q=</span> <span class="st">"qunif"</span>,<span class="dt">q.arg =</span> <span class="kw">list</span>(<span class="kw">list</span>(<span class="dt">min=</span><span class="fl">0.05</span>, <span class="dt">max=</span><span class="fl">0.25</span>),
-                                              <span class="kw">list</span>(<span class="dt">min=</span><span class="dv">140</span>, <span class="dt">max=</span><span class="dv">280</span>)))</code></pre></div>
-<p>NB: <code>n</code>, <code>q</code>, and <code>q.arg</code> are parameters from the <a href="https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf"><code>fast99</code></a> function.</p>
+                      <span class="dt">q=</span> <span class="st">"qunif"</span>,<span class="dt">Parameters =</span> <span class="kw">list</span>(<span class="dt">interrang=</span> <span class="kw">list</span>(<span class="dt">min=</span><span class="fl">0.05</span>, <span class="dt">max=</span><span class="fl">0.25</span>),
+                                              <span class="dt">interrang=</span> <span class="kw">list</span>(<span class="dt">min=</span><span class="dv">140</span>, <span class="dt">max=</span><span class="dv">280</span>)))</code></pre></div>
+<p>NB: <code>n</code> and <code>q</code> are parameters from the <a href="https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf"><code>fast99</code></a> function, and the <code>Parameters</code> argument is passed to the <code>q.arg</code> parameter from <code>fast99</code>.</p>
 <p>The output from <a href="R/sensitive_stics.R"><code>sensitive_stics</code></a> is a list of two:</p>
 <ul>
 <li><p>A list of ggplot objects to plot the sensitivity of each variable to the parameter(s) along the rotation</p></li>

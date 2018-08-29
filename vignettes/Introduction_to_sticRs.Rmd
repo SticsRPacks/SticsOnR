@@ -22,22 +22,22 @@ library(sticRs)
 ```
 
 The [sticRs](https://vezy.github.io/sticRs/) package provides tools for [STICS](https://www6.paca.inra.fr/stics_eng/) developers and users.  
-The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developper (or user) often experience can be summarized as:
+The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developer (or user) often experience can be summarized as:
 
 * Reading / Writing parameter values
 * Adding new parameters to files
 * Evaluate STICS outputs with different parameter values using observations
-* Use different formalisms in STICS (or new ones for developpers), and then evaluate them using observations
+* Use different formalisms in STICS (or new ones for developers), and then evaluate them using observations
 * Make a sensitivity analysis
 
-The package was developed to make these steps fast, reproducible and easy. 
+The package was developed to make these steps fast, reproducible and easy.
 
-This vignette is meant to introduce the concepts of STICS development and parameterization using the [sticRs](https://vezy.github.io/sticRs/) package. 
+This vignette is meant to introduce the concepts of STICS development and parameterization using the [sticRs](https://vezy.github.io/sticRs/) package.
 
 ## STICS Inputs / outputs
 
 STICS uses a minimum of ten input files that group parameters for soil, plants, site, climate etc...
-An addition of two other files are needed if [STICS](https://www6.paca.inra.fr/stics_eng/) is used to model intercrops: one more for the extra plant and one for its technical parameters. One (sole crop) or two (intercrop) optional observation files can also be added for model assessment. 
+An addition of two other files are needed if [STICS](https://www6.paca.inra.fr/stics_eng/) is used to model intercrops: one more for the extra plant and one for its technical parameters. One (sole crop) or two (intercrop) optional observation files can also be added for model assessment.
 
 Among all outputs from STICS, one (or two for intercrops) is particularly useful: `mod_s*` (`mod_sp*` and `mod_sa*` for principal and associated plants respectively for intercrops). This file is the most complete output as it contains all outputs needed at daily time-scale.
 
@@ -72,7 +72,7 @@ To download the data, you can either
 ```{bash eval=FALSE}
 git clone https://github.com/VEZY/STICS_dummy.git
 ```
-  
+
 * Or direct download the [zip file here](https://github.com/VEZY/STICS_dummy/archive/master.zip).
 
 * Or use the [git2r](https://github.com/ropensci/git2r) package from R:
@@ -82,7 +82,7 @@ git clone https://github.com/VEZY/STICS_dummy.git
 target_path= "path_where_to_download_folder"
 git2r::clone("https://github.com/VEZY/STICS_dummy", target_path)
 ```
- 
+
 However, it is important to note that this exemple dataset should not be used for model assessment because the observation data were not measured but randomly generated, as were the input parameters.
 
 ### Using your own data
@@ -90,11 +90,9 @@ However, it is important to note that this exemple dataset should not be used fo
 It is strongly encouraged to use your own data instead of the dummy data set. The [sticRs](https://vezy.github.io/sticRs/) package uses the above-mentioned files, so if you want to use your own data, you simply have to create a USM using javaSTICS for example, and to make a first run with it to create all files needed. After completion, it is encouraged to copy the folder to a new location before using [sticRs](https://vezy.github.io/sticRs/), or to use a version control system such as GIT to avoid overwriting a USM when re-opening javaSTICS.
 
 
-## Instructions for basic sticRs use
+## Tip 1: Use projects
 
 *Tips: People in a hurry can jump to the "All the above in one function" paragraph.*
-
-### Use projects
 
 It is recommended to the user to use RStudio's projects, or at least a similar structure. The projects allow to better arrange inputs, outputs, model versions and results, but also to keep different projects independent from each others, and to perform version control.  
 It is also recommended to split the project into several subfolders such as (see Fig.1):
@@ -104,7 +102,7 @@ It is also recommended to split the project into several subfolders such as (see
 * 2-Simulations
 * 3-Results
 
-The `0-Data` folder contain all inputs in separeted folders, such as model versions (*e.g.* `0-Data/stics_executable`) and input files for STICS (*e.g.* `0-Data/stics_input`). The `1-Code` folder contain all R scripts used in the project, the `2-Simulations` folder is used to perform STICS simulations, and the `3-Results` is used to store any results from the project  (*e.g.* plots, sensitivity outputs...). 
+The `0-Data` folder contain all inputs in separated folders, such as model versions (*e.g.* `0-Data/stics_executable`) and input files for STICS (*e.g.* `0-Data/stics_input`). The `1-Code` folder contain all R scripts used in the project, the `2-Simulations` folder is used to perform STICS simulations, and the `3-Results` is used to store any results from the project  (*e.g.* plots, sensitivity outputs...).
 
 ```{r echo=FALSE,out.width = '100%', fig.cap="Figure 1: Project structure"}
 knitr::include_graphics("project_folders.png")
@@ -113,14 +111,13 @@ knitr::include_graphics("project_folders.png")
 
 For convenience, the different paths are written only once afterwards:
 ```{r eval=FALSE}
-path_to_data= "0-Data"
+path_to_data= "0-Data/stics_input"
 path_to_simulation= "2-Simulations"
 path_to_results= "3-Results"
 stics_executable = "0-Data/stics_executable/stics.exe"
 ```
 
-
-### Copy the simulation files
+## Tip 2: Always copy the simulation files
 
 It is highly recommended to copy the simulation files to another disk location before changing any parameter values. This ensures reproducibility and avoid any overwriting of the original data. To do so, the `import_usm` helper function can be used to copy input files along the STICS executable to a new folder:
 
@@ -130,7 +127,7 @@ import_usm(dir.orig = path_to_data, dir.targ = path_to_simulation, stics = stics
 ```
 
 
-### Model parameterization
+## Model parameterization
 
 There are two useful functions in the sticRs package to parameterize STICS inputs: `read_param` to read and `set_param` to modify a value of a parameter. both functions are wrapper of more specialized functions such as `read_plant` or `set_plant`, which read and set the plant parameters respectively.
 
@@ -140,8 +137,8 @@ read_param(dirpath = path_to_simulation, param = "P_densitesem")
 ```
 Which returns:
 ```{r eval=FALSE}
-tec.plant1.P_densitesem tec.plant2.P_densitesem 
-                  "140"                   "140" 
+tec.plant1.P_densitesem tec.plant2.P_densitesem
+                  "140"                   "140"
 ```
 The function returns the parameter values, and its name is constructed as: "file.[plant_index.]Parameter_name". The plant index is only returned for the plant or the technical files.
 
@@ -158,7 +155,7 @@ set_param(dirpath = path_to_simulation, param = "P_densitesem", value = 145, pla
 *Tips: if the `set_param` function cannot set a parameter value because it found a duplicate parameter name across files, use the specialized function directly (e.g. `set_tec`). You can detect which file you want to modify using the information returned in the names of the parameters returned by the `read_param` function.*
 
 
-To set the variables needed as STICS output, the user can use two functions: `find_STICS_var` and `set_out_var`. The first one is a helper to find the variable names used in STICS from the full list returned by `all_out_var`, and the second is used to tell STICS which variables we need. For our example, the sowing density will probably modify the plant leaf area, its height, and its dry mass, so we want to output all three variables. 
+To set the variables needed as STICS output, the user can use two functions: `find_STICS_var` and `set_out_var`. The first one is a helper to find the variable names used in STICS from the full list returned by `all_out_var`, and the second is used to tell STICS which variables we need. For our example, the sowing density will probably modify the plant leaf area, its height, and its dry mass, so we want to output all three variables.
 
 For example, if the user do not know the exact output variable name for the plant leaf area index (LAI) beforehand, he can use `find_STICS_var` to find all variables that partially match the function `Var` argument as follows:
 ```{r}
@@ -172,7 +169,7 @@ set_out_var(filepath = file.path(path_to_simulation,"var.mod"), vars = c("hauteu
 ```
 
 
-### Run the model, and read the outputs
+## Run the model and import the outputs
 
 STICS is called with the `run_stics` function:
 ```{r eval=FALSE}
@@ -184,7 +181,7 @@ Then, the outputs are read using the `read_output` function:
 out= read_output(dirpath= path_to_simulation)
 ```
 
-### Plot simulation outputs
+## Plot the outputs
 
 The simulation outputs can be plotted using the `plot_output` function. This function can be used in different ways depending on the parameters provided for the ellipsis (*i.e.* `...`):
 
@@ -212,11 +209,11 @@ The user can also compare the simulation output with observed data if available 
 plot_output(path_to_simulation, obs_name = c("wheat_1.obs","wheat_2.obs"))
 ```
 
-Note that the function also returns informations about the input and output files used in the process.
+Note that the function also returns information about the input and output files used in the process.
 
-### All the above in one function
+## Faster: All the above in one function
 
-The `stics_eval` function is a wrapper of all the previous functions. It imports the files in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot object) and print the plot. The function also erase the simulation folder upon completion to save disk space by default (this behaviour is controlled by the `Erase parameter`). The function is called as follows:
+The `stics_eval` function is a wrapper of all the previous functions. It imports the files in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot2 object) and print the plot. The function also erase the simulation folder upon completion to save disk space by default (this behaviour is controlled by the `Erase parameter`). The function is called as follows:
 
 ```{r include=FALSE}
 # Use the STICS version form the "STICS_evaluation" project:
@@ -225,52 +222,57 @@ path_to_simulation= "tmp"
 ```
 
 ```{r eval=FALSE}
-out= 
-  stics_eval(dir.orig = path_to_data, 
+out=
+  stics_eval(dir.orig = path_to_data,
              dir.targ = path_to_simulation,
              stics = stics_executable,
              Parameter = list(P_densitesem= 145),Plant = c(1,2),
-             obs_name = c("wheat_1.obs","wheat_2.obs"),
              Out_var = c("hauteur","lai(n)",'masec(n)'),
+             obs_name = c("wheat_1.obs","wheat_2.obs"),
+             Parallel = T,Erase = T,plot_it = T,
              Title = "Wheat self-intercrop")
 ```
+The example call above creates a new folder (if not already present) copies the STICS input files from "path_to_data" to "path_to_simulation", copies the STICS model executable from "stics_executable" to "path_to_simulation", sets a new value for the `P_densitesem` parameter to 145 for both plants, parameterizes STICS to return 3 output variables (`hauteur`, `lai(n)` and `masec(n)`), sets `wheat_1.obs` as the observations to compare the simulation outputs with for plant 1 (*i.e.* Principal) and `wheat_2.obs` for plant 2 (*i.e.* Associated), makes the STICS simulations in parallel, and erases the files and folders that were created for the simulation upon completion, and then prints the plot with this title: "Wheat self-intercrop".
 
-### Simulations comparison
+## Compare simulations
 
 The `stics_eval` function can be used to compare the outputs between different parameter values or STICS executable.
 
-* If the user want to see if a new parameter value improve the STICS outputs, he can provide several values to the `Parameter` parameter of the function as follows:
+### Compare parameter values
+
+If the user want to see if a new parameter value improve the STICS outputs, he can provide several values to the `Parameter` parameter of the function as follows:
 
 ```{r eval=FALSE}
-eval_parameter= 
-  stics_eval(dir.orig = path_to_data, 
+eval_parameter=
+  stics_eval(dir.orig = path_to_data,
              dir.targ = path_to_simulation,
              stics = stics_executable,
              Parameter = list(P_laicomp= c(0.1,0.4)),Plant = c(1,2),
-             obs_name = c("wheat_1.obs","wheat_2.obs"),Erase = F,
+             obs_name = c("wheat_1.obs","wheat_2.obs"),
              Out_var = c("hauteur","lai(n)",'masec(n)'),
              Title = "Wheat self-intercrop: Parameter comparison")
 ```
 
-The function returns a list of two objects : `outputs` and `gg_object`. The first one contains the model outputs, and the second one the automatic plot.
+The function returns a list of two objects : `outputs` and `gg_object`. The first one lists the model outputs, and the second one is the automatically generated plot.
+
 The plot returned by the function is accessible as follows:
 ```{r eval=FALSE}
 eval_parameter$gg_object
 ```
-And it returns this plot: 
+And it returns this figure:
 ```{r echo=FALSE,out.width = '100%', fig.cap="Figure 2: STICS parameter value evaluation"}
 knitr::include_graphics("stics_eval_Parameter.png")
 ```
-The figure returned has a plot for each simulated variable along with three legends: 
+The figure returned has a plot for each simulated variable along with three legends:
 
-1. The model version, which plots the model simulation output as lines. The model runs (here one for each parameter value) are differenciated with the line type.
+1. The model version, which plots the model simulation output as lines. The model runs (here one for each parameter value) are differentiated with the line type.
 
-1. The observation source, which plots the observations present on the simulation folder as points (source folder is always the same using `stics_eval`, but not necessarily using `plot_output`). The sources are differenciated with the point type.
+1. The observation source, which plots the observations present on the simulation folder as points (source folder is always the same using `stics_eval`, but not necessarily using `plot_output`). The sources are differentiated with the point type.
 
-1. The plant dominance, which plots the plant dominance at initialization (*i.e.* Principal or Associated) as colors. This plant dominance is different from the `dominant` output, which tracks the day-to-day plant dominance. This output only have one value for sole crop simulations.
+1. The plant dominance, which plots the plant dominance at initialization (*i.e.* Principal or Associated) as colours. This plant dominance is different from the `dominant` output, which tracks the day-to-day plant dominance. This output only have one value for sole crop simulations.
 
 
-The `outputs` object contains the model outputs for each STICS run, which are named after the parameter that was tested, or the model version that was tested, and stored as list. For our previous example, it would have two model outputs, one for the simulation with `P_laicomp= 0.1`, and one for `P_laicomp= 0.4`:
+The `outputs` object contains the model outputs for each STICS run, which are named after the parameter that was tested, or the model version that was tested, and stored as a list. For our previous example, `eval_parameter$outputs` has two objects, one for the simulation with `P_laicomp= 0.1`, and one for `P_laicomp= 0.4`:
 ```{r eval=FALSE}
 names(eval_parameter$outputs)
 ```
@@ -279,29 +281,30 @@ names(eval_parameter$outputs)
 [1] "P_laicomp_0.1" "P_laicomp_0.4"
 ```
 
-The values are accessible as follows:
+The values are accessible as in any R list, for the outputs of the simulation using `P_laicomp= 0.1`:
 ```{r eval=FALSE}
 eval_parameter$outputs$P_laicomp_0.1
 ```
-and
+and for the outputs of the simulation using `P_laicomp= 0.4`:
 ```{r eval=FALSE}
 eval_parameter$outputs$P_laicomp_0.4
 ```
-Each `outputs` object is a data.frame with the output variables asked with the `Out_var` parameter of `stics_eval`, along with the plant dominance (both plants in the same data.frame), the Posixct date, the year, month, day and DOI named after the model output (*i.e.* ian, mo, jo and jul respectively), and all measured variables found in the observation files. The simulated and measured variables are differenciated using the "_sim" and "_meas" suffixes respectively. 
+Each `outputs` object is a data.frame of the simulated variables asked with the `Out_var` parameter of `stics_eval`, along with the plant dominance because both plants simulations outputs are in the same data.frame, the Posixct date, the year, month, day and DOI named after the model output (*i.e.* ian, mo, jo and jul respectively), and all measured variables found in the observation files. The simulated and measured variables are differentiated using the "_sim" and "_meas" suffixes respectively.
 
-These data.frames look like this (print only the 9 first columns, 4 first rows):
+The first nine columns and 4 first rows of the data.frame look like this:
 ```{r echo=FALSE}
 output= data.table::fread("output.txt")
 knitr::kable(output[1:4,1:9])
 ```
 
 
+### Compare model versions
 
-* If the user want to compare the outputs between two versions of STICS, he can provide several values to the `stics` parameter of the function as follows:
+If the user wants to compare the outputs between two versions of STICS, he can provide several values to the `stics` parameter of the function as follows:
 
 ```{r eval=FALSE}
-eval_version= 
-  stics_eval(dir.orig = path_to_data, 
+eval_version=
+  stics_eval(dir.orig = path_to_data,
              dir.targ = path_to_simulation,
              stics = list(STICS_old= stics_executable,
                           STICS_new= "version_2/stics.exe"),
@@ -310,7 +313,7 @@ eval_version=
              Title = "Wheat self-intercrop")
 ```
 
-The plot returned by the function is as follows for model version comparison:
+The function will return this plot:
 ```{r eval=FALSE}
 eval_version$gg_object
 ```
@@ -318,9 +321,8 @@ eval_version$gg_object
 ```{r echo=FALSE,out.width = '100%', fig.cap="Figure 3: STICS model version evaluation"}
 knitr::include_graphics("stics_eval_version.png")
 ```
-It is the same as for parameter comparison, except that the "Model Version" legend shows the model version instead of the parameter used for simulation.
+It has the same structure as the parameter comparison plot, except that the "Model Version" legend shows the model version instead of the parameter used for simulation.
 
-## Next
+## Next: sensitivity analyses
 
-The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a separate vignette for a clearer description.
-
+The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a [separate vignette](https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html) for a clearer description.

@@ -161,11 +161,11 @@ sens= sensitive_stics(dir.orig = path_origin_USM,
                       obs_name = "Wheat.obs",Parameters = "interrang",
                       Vars = c("raint", "lai(n)", "masec(n)"),
                       method= "fast99", n= 10,
-                      q= "qunif",q.arg = list(list(min=0.05, max=0.25),
-                                              list(min=140, max=280)))
+                      q= "qunif",Parameters = list(interrang= list(min=0.05, max=0.25),
+                                              interrang= list(min=140, max=280)))
 ```
 
-NB: `n`, `q`, and `q.arg` are parameters from the [`fast99`](https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf) function.
+NB: `n` and `q` are parameters from the [`fast99`](https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf) function, and the `Parameters` argument is passed to the `q.arg` parameter from `fast99`.
 
 The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 
@@ -176,8 +176,8 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 Example data
 ------------
 
-Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/VEZY/STICS_dummy) for download convenience.
-It is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
+Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/VEZY/STICS_dummy) for download convenience. Download instructions are available on the companion repository.
+This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
 **Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
 
 Code of conduct

@@ -2,7 +2,7 @@ Package: sticRs
 Type: Package
 Title: A Package to Set, Manage and Analyze STICS Simulations https://vezy.github.io/sticRs/
 Date: 2018-05-11
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Remi", "Vezy",, "vezy.remi@gmail.com", c("aut", "cre", "cph"),comment = c(ORCID = "0000-0002-0808-1461")),
     person("STICS", "group",, "", c("aut", "cph")))
 Description: sticRs allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,

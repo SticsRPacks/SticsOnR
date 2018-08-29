@@ -62,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sticRs</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <a href="../articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
     </li>
     <li>
-      <a href="../articles/Sensitivity analyses.html">Vignette Title</a>
+      <a href="../articles/Sensitivity_analyzes.html">Sensitivity analyzes</a>
     </li>
   </ul>
 </li>
@@ -169,28 +169,27 @@ them (see details and example)</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Sample size for simulation (must an even number for `sobol` alike
+      <td><p>Sample size for simulation (must be an even number for `sobol` alike
 methods)</p></td>
     </tr>
     <tr>
       <th>q</th>
-      <td><p>A vector of quantile functions names corresponding to wanted factors
-distributions (see <code><a href='http://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code> and details).
-<code><a href='http://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code> and details).</p></td>
+      <td><p>A vector of quantile function names corresponding to factors
+distribution (see <code><a href='http://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code> and details)</p></td>
     </tr>
     <tr>
       <th>Plant</th>
-      <td><p>On which plant (<em>i.e.</em> Principal or associated) the parameters
-have to be set (only for mixed simulations, using plant parameters)
+      <td><p>The plant (<em>i.e.</em> Principal or associated) for which the parameters
+will be set (only for plant or technical parameters in mixed crop simulations)
 Set to <code>NULL</code> if using STICS in sole crop</p></td>
     </tr>
     <tr>
       <th>Erase</th>
-      <td><p>Should the simulations data be erased upon import (see details)?</p></td>
+      <td><p>Should the simulations data be erased upon import ? (see details)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Further parameters to give to the sensitivity function used
+      <td><p>Further parameters passed to the sensitivity function called
 (see <span class="pkg">sensitivity</span> package)</p></td>
     </tr>
     </table>
@@ -200,8 +199,8 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
     <p>A list of three :</p><ul>
 <li><p>gg_objects: A list of ggplot objects to plot the sensitivity of each
   variable to the parameter(s) along the rotation</p></li>
-<li><p>sensi_objects: A list of the output from the method function, *e.g.* a
-  list of class `fast99` for the `fast99` method. sensitivity analysis output</p></li>
+<li><p>sensi_objects: A list of the sensitivity analysis output, *e.g.* a list
+  of class `fast99` for the `fast99` method.</p></li>
 <li><p>DOE: A list of the design of experiment, with parameter values used for
   each simulation.</p></li>
 </ul>
@@ -239,9 +238,7 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
                 <span class='kw'>Parameters</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>interrang</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>0.05</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>0.25</span>),
                                  <span class='kw'>P_densitesem</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>140</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>280</span>)),
                 <span class='kw'>Vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"raint"</span>, <span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>),
-                <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"fast99"</span>, <span class='kw'>n</span><span class='kw'>=</span> <span class='fl'>10</span>,
-                <span class='kw'>q</span><span class='kw'>=</span> <span class='st'>"qunif"</span>,<span class='kw'>q.arg</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>0.05</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>0.25</span>),
-                <span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>140</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>280</span>)))
+                <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"fast99"</span>, <span class='kw'>n</span><span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>q</span><span class='kw'>=</span> <span class='st'>"qunif"</span>)
 
 <span class='co'># Example using the sobol method for a sensitivity analysis on the</span>
 <span class='co'># "interrang" and "P_densitesem" parameters with different quantile functions:</span>
@@ -254,8 +251,7 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
                                  <span class='kw'>P_densitesem</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>210</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>30</span>)),
                 <span class='kw'>Vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"raint"</span>, <span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>),
                 <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"fast99"</span>, <span class='kw'>n</span><span class='kw'>=</span> <span class='fl'>10</span>,
-                <span class='kw'>q</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"qunif"</span>,<span class='st'>"qnorm"</span>),<span class='kw'>q.arg</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>0.05</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>0.25</span>),
-                <span class='fu'>list</span>(<span class='kw'>min</span><span class='kw'>=</span><span class='fl'>140</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>280</span>)))
+                <span class='kw'>q</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"qunif"</span>,<span class='st'>"qnorm"</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

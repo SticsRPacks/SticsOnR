@@ -27,20 +27,19 @@ them (see details and example)}
 
 \item{method}{The sensitivity method to use, see \pkg{sensitivity} package}
 
-\item{n}{Sample size for simulation (must an even number for `sobol` alike
+\item{n}{Sample size for simulation (must be an even number for `sobol` alike
 methods)}
 
-\item{q}{A vector of quantile functions names corresponding to wanted factors
-distributions (see \code{\link[sensitivity]{fast99}} and details).
-\code{\link[sensitivity]{fast99}} and details).}
+\item{q}{A vector of quantile function names corresponding to factors
+distribution (see \code{\link[sensitivity]{fast99}} and details)}
 
-\item{Plant}{On which plant (\emph{i.e.} Principal or associated) the parameters
-have to be set (only for mixed simulations, using plant parameters)
+\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
+will be set (only for plant or technical parameters in mixed crop simulations)
 Set to \code{NULL} if using STICS in sole crop}
 
-\item{Erase}{Should the simulations data be erased upon import (see details)?}
+\item{Erase}{Should the simulations data be erased upon import ? (see details)}
 
-\item{...}{Further parameters to give to the sensitivity function used
+\item{...}{Further parameters passed to the sensitivity function called
 (see \pkg{sensitivity} package)}
 }
 \value{
@@ -48,8 +47,8 @@ A list of three :
 \itemize{
   \item gg_objects: A list of ggplot objects to plot the sensitivity of each
   variable to the parameter(s) along the rotation
-  \item sensi_objects: A list of the output from the method function, *e.g.* a
-  list of class `fast99` for the `fast99` method. sensitivity analysis output
+  \item sensi_objects: A list of the sensitivity analysis output, *e.g.* a list
+  of class `fast99` for the `fast99` method.
   \item DOE: A list of the design of experiment, with parameter values used for
   each simulation.
 }
@@ -84,9 +83,7 @@ sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
                 Parameters= list(interrang= list(min=0.05, max=0.25),
                                  P_densitesem= list(min=140, max=280)),
                 Vars = c("raint", "lai(n)", "masec(n)"),
-                method= "fast99", n= 10,
-                q= "qunif",q.arg = list(list(min=0.05, max=0.25),
-                list(min=140, max=280)))
+                method= "fast99", n= 10, q= "qunif")
 
 # Example using the sobol method for a sensitivity analysis on the
 # "interrang" and "P_densitesem" parameters with different quantile functions:
@@ -99,8 +96,7 @@ sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
                                  P_densitesem= list(mean=210, sd=30)),
                 Vars = c("raint", "lai(n)", "masec(n)"),
                 method= "fast99", n= 10,
-                q= c("qunif","qnorm"),q.arg = list(list(min=0.05, max=0.25),
-                list(min=140, max=280)))
+                q= c("qunif","qnorm"))
 }
 
 }
