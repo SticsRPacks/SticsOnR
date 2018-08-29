@@ -54,6 +54,9 @@
 <li>
       <a href="../articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
     </li>
+    <li>
+      <a href="../articles/Sensitivity%20analyses.html">Vignette Title</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -82,7 +85,7 @@
       <h1>Introduction to sticRs</h1>
                         <h4 class="author">Rémi Vezy</h4>
             
-            <h4 class="date">2018-08-28</h4>
+            <h4 class="date">2018-08-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/VEZY/sticRs/blob/master/vignettes/Introduction_to_sticRs.Rmd"><code>vignettes/Introduction_to_sticRs.Rmd</code></a></small>
       <div class="hidden name"><code>Introduction_to_sticRs.Rmd</code></div>
@@ -91,13 +94,13 @@
 
     
     
-<p>The <a href="https://vezy.github.io/sticRs/">sticRs</a> package provides tools for <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> developers, and users.<br>
-The different steps a developper (or user) often experience can be summarized as:</p>
+<p>The <a href="https://vezy.github.io/sticRs/">sticRs</a> package provides tools for <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> developers and users.<br>
+The different steps a <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> developper (or user) often experience can be summarized as:</p>
 <ul>
 <li>Reading / Writing parameter values</li>
 <li>Adding new parameters to files</li>
-<li>Evaluate STICS outputs with different parameter values against observations</li>
-<li>Use different (or new for developpers) formalisms in STICS, and then evaluate them against observations (developpers only) and other formalisms</li>
+<li>Evaluate STICS outputs with different parameter values using observations</li>
+<li>Use different formalisms in STICS (or new ones for developpers), and then evaluate them using observations</li>
 <li>Make a sensitivity analysis</li>
 </ul>
 <p>The package was developed to make these steps fast, reproducible and easy.</p>
@@ -105,13 +108,14 @@ The different steps a developper (or user) often experience can be summarized as
 <div id="stics-inputs-outputs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#stics-inputs-outputs" class="anchor"></a>STICS Inputs / outputs</h2>
-<p>STICS uses a minimum of ten input files that group parameters for soil, plants, site, climate etc… It can use two more if used on intercrops (two per plants and two for technical parameters), and one (sole crop) or two (intercrop) more for observations used for model assessment. After making a run, STICS produce different outputs, depending on the inputs, but one (or two in intercrop) output is particularly useful above all : <code>mod_s*</code> (or <code>mod_sp*</code> and <code>mod_sa*</code> for principal and associated plants respectively in intercrop).</p>
+<p>STICS uses a minimum of ten input files that group parameters for soil, plants, site, climate etc… An addition of two other files are needed if <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> is used to model intercrops: one more for the extra plant and one for its technical parameters. One (sole crop) or two (intercrop) optional observation files can also be added for model assessment.</p>
+<p>Among all outputs from STICS, one (or two for intercrops) is particularly useful: <code>mod_s*</code> (<code>mod_sp*</code> and <code>mod_sa*</code> for principal and associated plants respectively for intercrops). This file is the most complete output as it contains all outputs needed at daily time-scale.</p>
 <div id="example-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h3>
 <p>An example set of these files is provided in the <a href="https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data">sticRs repository</a>, and more conveniently in a <a href="https://github.com/VEZY/STICS_dummy">separate repository</a>. These data are only dummy data with randomized (but plausible) input values. This example set is a wheat in self-intercropping, <em>i.e.</em> a simulation of a sole crop of wheat in intercropping mode. This is used to evaluate the intercrop module of STICS, which should yield approximately the same outputs in sole crop and in intercrop mode.<br>
-It is important to note that the STICS model computes one plant after another for intercrops. The principal plant is the first one to be computed, and the associated one comes second, making the principal plant dominant in the beginning, and the associated dominated. The principal and associated status remain the same over the simulation, however the dominance status can change any time according to plant height.</p>
-<p>The example data folder contains sixteen different files:</p>
+It is important to note that the STICS model computes one plant after another for intercrops. The principal plant is the first one to be computed, and the associated one comes second, making the principal plant dominant in the beginning, and the associated dominated. The principal and associated status remains the same over the simulation, however the dominance status can change any time according to plant height.</p>
+<p>The example data folder is made of sixteen different files:</p>
 <ul>
 <li>
 <code>climat.txt</code>: the input climate</li>
@@ -144,17 +148,20 @@ It is important to note that the STICS model computes one plant after another fo
 <li>
 <code>wheat_1.obs</code>: observation data for the principal plant</li>
 <li>
-<code>wheat_2.obs</code>: observation data for the associated plant s</li>
+<code>wheat_2.obs</code>: observation data for the associated plant</li>
 </ul>
 <p>To download the data, you can either</p>
 <ul>
 <li>Clone it using GIT:</li>
 </ul>
-<p><code>git clone https://github.com/VEZY/sticRs.git</code> * Or direct download the <a href="https://github.com/VEZY/sticRs/archive/master.zip">zip file here</a>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/VEZY/STICS_dummy.git</code></pre></div>
 <ul>
-<li>Or use the <a href="https://github.com/ropensci/git2r">git2r</a> package from R:</li>
+<li><p>Or direct download the <a href="https://github.com/VEZY/STICS_dummy/archive/master.zip">zip file here</a>.</p></li>
+<li><p>Or use the <a href="https://github.com/ropensci/git2r">git2r</a> package from R:</p></li>
 </ul>
-<p><code>r  # install.packages("git2r")  target_path= "path_where_to_download_folder"  git2r::clone("https://github.com/VEZY/STICS_dummy", target_path)</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("git2r")</span>
+target_path=<span class="st"> "path_where_to_download_folder"</span>
+git2r<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/git2r/topics/clone-methods">clone</a></span>(<span class="st">"https://github.com/VEZY/STICS_dummy"</span>, target_path)</code></pre></div>
 <p>However, it is important to note that this exemple dataset should not be used for model assessment because the observation data were not measured but randomly generated, as were the input parameters.</p>
 </div>
 <div id="using-your-own-data" class="section level3">
@@ -166,16 +173,25 @@ It is important to note that the STICS model computes one plant after another fo
 <div id="instructions-for-basic-sticrs-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#instructions-for-basic-sticrs-use" class="anchor"></a>Instructions for basic sticRs use</h2>
-<blockquote>
-<p>People in a hurry can jump to the “All the above in one function” paragraph.</p>
-</blockquote>
+<p><em>Tips: People in a hurry can jump to the “All the above in one function” paragraph.</em></p>
 <div id="use-projects" class="section level3">
 <h3 class="hasAnchor">
 <a href="#use-projects" class="anchor"></a>Use projects</h3>
 <p>It is recommended to the user to use RStudio’s projects, or at least a similar structure. The projects allow to better arrange inputs, outputs, model versions and results, but also to keep different projects independent from each others, and to perform version control.<br>
-Therefore, it is recommended to split the project into several subfolders such as: * 0-Data * 1-Code * 2-Simulations * 3-Results</p>
+It is also recommended to split the project into several subfolders such as (see Fig.1):</p>
+<ul>
+<li>0-Data</li>
+<li>1-Code</li>
+<li>2-Simulations</li>
+<li>3-Results</li>
+</ul>
 <p>The <code>0-Data</code> folder contain all inputs in separeted folders, such as model versions (<em>e.g.</em> <code>0-Data/stics_executable</code>) and input files for STICS (<em>e.g.</em> <code>0-Data/stics_input</code>). The <code>1-Code</code> folder contain all R scripts used in the project, the <code>2-Simulations</code> folder is used to perform STICS simulations, and the <code>3-Results</code> is used to store any results from the project (<em>e.g.</em> plots, sensitivity outputs…).</p>
-<p>For convenience, the different paths are written only once:</p>
+<div class="figure">
+<img src="project_folders.png" alt="Figure 1: Project structure" width="100%"><p class="caption">
+Figure 1: Project structure
+</p>
+</div>
+<p>For convenience, the different paths are written only once afterwards:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path_to_data=<span class="st"> "0-Data"</span>
 path_to_simulation=<span class="st"> "2-Simulations"</span>
 path_to_results=<span class="st"> "3-Results"</span>
@@ -184,27 +200,32 @@ stics_executable =<span class="st"> "0-Data/stics_executable/stics.exe"</span></
 <div id="copy-the-simulation-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#copy-the-simulation-files" class="anchor"></a>Copy the simulation files</h3>
-<p>It is highly recommended that the use copy the simulation files to another disk location before changing any parameter values. This ensures reproducibility and avoid any overwriting of the original data. To do so, the <code>import_usm</code> helper function can be used to copy input files along the STICS executable to a new folder:</p>
+<p>It is highly recommended to copy the simulation files to another disk location before changing any parameter values. This ensures reproducibility and avoid any overwriting of the original data. To do so, the <code>import_usm</code> helper function can be used to copy input files along the STICS executable to a new folder:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sticRs)
 <span class="kw"><a href="../reference/import_usm.html">import_usm</a></span>(<span class="dt">dir.orig =</span> path_to_data, <span class="dt">dir.targ =</span> path_to_simulation, <span class="dt">stics =</span> stics_executable, <span class="dt">usm_name =</span> <span class="st">"Test_simulation"</span>)</code></pre></div>
 </div>
 <div id="model-parameterization" class="section level3">
 <h3 class="hasAnchor">
 <a href="#model-parameterization" class="anchor"></a>Model parameterization</h3>
-<p>There are two useful functions in the sticRs package to parameterize STICS inputs: <code>read_param</code> to read and <code>set_param</code> to modify a value of a parameter. both functions are wrapper of more specialized functions such as <code>read_plant</code> or <code>set_plant</code>.<br>
-They are used as follows:</p>
-<p>Read the sowing density for both plants:</p>
+<p>There are two useful functions in the sticRs package to parameterize STICS inputs: <code>read_param</code> to read and <code>set_param</code> to modify a value of a parameter. both functions are wrapper of more specialized functions such as <code>read_plant</code> or <code>set_plant</code>, which read and set the plant parameters respectively.</p>
+<p>For example, to read the sowing density for both plants, the use will use <code>read_param</code> as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/read_param.html">read_param</a></span>(<span class="dt">dirpath =</span> path_to_simulation, <span class="dt">param =</span> <span class="st">"P_densitesem"</span>)</code></pre></div>
-<p>Modify its value for the principal plant only :</p>
+<p>Which returns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tec.plant1.P_densitesem tec.plant2.P_densitesem 
+                  <span class="st">"140"</span>                   <span class="st">"140"</span> </code></pre></div>
+<p>The function returns the parameter values, and its name is constructed as: “file.[plant_index.]Parameter_name”. The plant index is only returned for the plant or the technical files.</p>
+<p>To modify the value of a parameter for the principal plant (<em>i.e.</em> plant 1), the user will do as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_param.html">set_param</a></span>(<span class="dt">dirpath =</span> path_to_simulation, <span class="dt">param =</span> <span class="st">"P_densitesem"</span>, <span class="dt">value =</span> <span class="dv">145</span>, <span class="dt">plant =</span> <span class="dv">1</span>)</code></pre></div>
-<p>Or for both plants :</p>
+<p>Or to modify the value for both plants:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_param.html">set_param</a></span>(<span class="dt">dirpath =</span> path_to_simulation, <span class="dt">param =</span> <span class="st">"P_densitesem"</span>, <span class="dt">value =</span> <span class="dv">145</span>, <span class="dt">plant =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</code></pre></div>
-<p>Now that the model parameter were changed, we need to set the variables that we want to output. This is made using two functions: <code>find_STICS_var</code> and <code>set_out_var</code>. The first is a helper to find the variables names used in STICS with a partial match, and the second is used to tell STICS which variables we need. For our example, the sowing density will probably modify the plant leaf area, its height, and its dry mass, so we want to output all three. If the user do not know the exact output variable names beforehand, he can use the <code>find_STICS_var</code> function to find all variables with a name with a partial match with the function argument. If the user want to know the LAI variable name used in STICS, he will proceed as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/find_STICS_var.html">find_STICS_var</a></span>(<span class="st">"LAI"</span>)
+<p><em>Tips: if the <code>set_param</code> function cannot set a parameter value because it found a duplicate parameter name across files, use the specialized function directly (e.g. <code>set_tec</code>). You can detect which file you want to modify using the information returned in the names of the parameters returned by the <code>read_param</code> function.</em></p>
+<p>To set the variables needed as STICS output, the user can use two functions: <code>find_STICS_var</code> and <code>set_out_var</code>. The first one is a helper to find the variable names used in STICS from the full list returned by <code>all_out_var</code>, and the second is used to tell STICS which variables we need. For our example, the sowing density will probably modify the plant leaf area, its height, and its dry mass, so we want to output all three variables.</p>
+<p>For example, if the user do not know the exact output variable name for the plant leaf area index (LAI) beforehand, he can use <code>find_STICS_var</code> to find all variables that partially match the function <code>Var</code> argument as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/find_STICS_var.html">find_STICS_var</a></span>(<span class="dt">Var =</span> <span class="st">"LAI"</span>)
 <span class="co">#&gt; [1] "albedolai"     "exolai"        "innlai"        "lai(n)"       </span>
 <span class="co">#&gt; [5] "lai_mx_av_cut" "laimax"        "laisen(n)"     "splai"        </span>
 <span class="co">#&gt; [9] "ulai(n)"</span></code></pre></div>
-<p>The LAI is called <code>lai(n)</code> in the model, and several other variables are related to LAI. Idem for the dry mass, which is called <code>masec(n)</code>, and the height, called <code>hauteur</code>.</p>
+<p>Then the user can see that the LAI is called <code>lai(n)</code> in the model, and several other variables are related to LAI (<em>e.g.</em> <code>laisen(n)</code>, which is the senescent leaf area). The procedure is applied for the dry mass, which is called <code>masec(n)</code>, and the height, called <code>hauteur</code>.</p>
 <p>Knowing the variable names, the user can now tell STICS which one are needed as simulation outputs:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_param.html">set_out_var</a></span>(<span class="dt">filepath =</span> <span class="kw">file.path</span>(path_to_simulation,<span class="st">"var.mod"</span>), <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">"hauteur"</span>,<span class="st">"lai(n)"</span>,<span class="st">'masec(n)'</span>))</code></pre></div>
 </div>
@@ -221,17 +242,17 @@ They are used as follows:</p>
 <a href="#plot-simulation-outputs" class="anchor"></a>Plot simulation outputs</h3>
 <p>The simulation outputs can be plotted using the <code>plot_output</code> function. This function can be used in different ways depending on the parameters provided for the ellipsis (<em>i.e.</em> <code>...</code>):</p>
 <ul>
-<li>The directory path of the simulation is provided: the function uses the <code>read_output</code> under the hood to return a plot of the simulation outputs.</li>
+<li>The directory path of the simulation is provided: the function uses <code>read_output</code> under the hood to return a plot of the simulation outputs, <em>e.g.</em>:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_output.html">plot_output</a></span>(path_to_simulation)
 <span class="co"># or plot_output(out) using the output from read_output()</span></code></pre></div>
 <ul>
-<li>The output from <code>read_output</code> is provided: the function returns a plot from the data provided by <code>read_output</code>.</li>
+<li>The output from <code>read_output</code> is provided: the function returns a plot from this data, <em>e.g.</em>:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out=<span class="st"> </span><span class="kw"><a href="../reference/read_output.html">read_output</a></span>(<span class="dt">dirpath=</span> path_to_simulation)
 <span class="kw"><a href="../reference/plot_output.html">plot_output</a></span>(out)</code></pre></div>
 <ul>
-<li>Several outputs from <code>read_output</code> or several paths are provided: the function returns a plot showing a comparison of all inputs.</li>
+<li>Several outputs from <code>read_output</code> or several paths are provided: the function returns a plot showing a comparison of all inputs, <em>e.g.</em>:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Stics_<span class="dv">1</span>=<span class="st"> </span><span class="kw"><a href="../reference/read_output.html">read_output</a></span>(<span class="dt">dirpath=</span> path_to_simulation)
 Stics_<span class="dv">2</span>=<span class="st"> </span><span class="kw"><a href="../reference/read_output.html">read_output</a></span>(<span class="dt">dirpath=</span> path_to_simulation2)
@@ -245,7 +266,7 @@ Stics_<span class="dv">2</span>=<span class="st"> </span><span class="kw"><a hre
 <div id="all-the-above-in-one-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-the-above-in-one-function" class="anchor"></a>All the above in one function</h3>
-<p>The <code>stics_eval</code> function is a wrapper of all the previous functions. It imports the files in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot object) and print the plot. The function also erase the simulation folder upon completion to save disk space by default (this behaviour is controlled by the <code>Erase parameter</code>. The function is called as follows:</p>
+<p>The <code>stics_eval</code> function is a wrapper of all the previous functions. It imports the files in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot object) and print the plot. The function also erase the simulation folder upon completion to save disk space by default (this behaviour is controlled by the <code>Erase parameter</code>). The function is called as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out=<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stics_eval.html">stics_eval</a></span>(<span class="dt">dir.orig =</span> path_to_data, 
              <span class="dt">dir.targ =</span> path_to_simulation,
@@ -258,27 +279,119 @@ Stics_<span class="dv">2</span>=<span class="st"> </span><span class="kw"><a hre
 <div id="simulations-comparison" class="section level3">
 <h3 class="hasAnchor">
 <a href="#simulations-comparison" class="anchor"></a>Simulations comparison</h3>
-<p>The <code>stics_eval</code> function can be used to compare the outputs between different parameter values or STICS executable. * If the user want to see if a new parameter value improve the STICS outputs, he can provide several values to the <code>Parameter</code> parameter of the function as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out=<span class="st"> </span>
+<p>The <code>stics_eval</code> function can be used to compare the outputs between different parameter values or STICS executable.</p>
+<ul>
+<li>If the user want to see if a new parameter value improve the STICS outputs, he can provide several values to the <code>Parameter</code> parameter of the function as follows:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_parameter=<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stics_eval.html">stics_eval</a></span>(<span class="dt">dir.orig =</span> path_to_data, 
              <span class="dt">dir.targ =</span> path_to_simulation,
              <span class="dt">stics =</span> stics_executable,
-             <span class="dt">Parameter =</span> <span class="kw">list</span>(<span class="dt">P_laicomp=</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.6</span>)),<span class="dt">Plant =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
+             <span class="dt">Parameter =</span> <span class="kw">list</span>(<span class="dt">P_laicomp=</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.4</span>)),<span class="dt">Plant =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
              <span class="dt">obs_name =</span> <span class="kw">c</span>(<span class="st">"wheat_1.obs"</span>,<span class="st">"wheat_2.obs"</span>),<span class="dt">Erase =</span> F,
              <span class="dt">Out_var =</span> <span class="kw">c</span>(<span class="st">"hauteur"</span>,<span class="st">"lai(n)"</span>,<span class="st">'masec(n)'</span>),
-             <span class="dt">Title =</span> <span class="st">"Wheat self-intercrop"</span>)</code></pre></div>
+             <span class="dt">Title =</span> <span class="st">"Wheat self-intercrop: Parameter comparison"</span>)</code></pre></div>
+<p>The function returns a list of two objects : <code>outputs</code> and <code>gg_object</code>. The first one contains the model outputs, and the second one the automatic plot. The plot returned by the function is accessible as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_parameter<span class="op">$</span>gg_object</code></pre></div>
+And it returns this plot:
+<div class="figure">
+<img src="stics_eval_Parameter.png" alt="Figure 2: STICS parameter value evaluation" width="100%"><p class="caption">
+Figure 2: STICS parameter value evaluation
+</p>
+</div>
+<p>The figure returned has a plot for each simulated variable along with three legends:</p>
+<ol style="list-style-type: decimal">
+<li><p>The model version, which plots the model simulation output as lines. The model runs (here one for each parameter value) are differenciated with the line type.</p></li>
+<li><p>The observation source, which plots the observations present on the simulation folder as points (source folder is always the same using <code>stics_eval</code>, but not necessarily using <code>plot_output</code>). The sources are differenciated with the point type.</p></li>
+<li><p>The plant dominance, which plots the plant dominance at initialization (<em>i.e.</em> Principal or Associated) as colors. This plant dominance is different from the <code>dominant</code> output, which tracks the day-to-day plant dominance. This output only have one value for sole crop simulations.</p></li>
+</ol>
+<p>The <code>outputs</code> object contains the model outputs for each STICS run, which are named after the parameter that was tested, or the model version that was tested, and stored as list. For our previous example, it would have two model outputs, one for the simulation with <code>P_laicomp= 0.1</code>, and one for <code>P_laicomp= 0.4</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(eval_parameter<span class="op">$</span>outputs)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">[<span class="dv">1</span>] <span class="st">"P_laicomp_0.1"</span> <span class="st">"P_laicomp_0.4"</span></code></pre></div>
+<p>The values are accessible as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_parameter<span class="op">$</span>outputs<span class="op">$</span>P_laicomp_<span class="fl">0.1</span></code></pre></div>
+<p>and</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_parameter<span class="op">$</span>outputs<span class="op">$</span>P_laicomp_<span class="fl">0.4</span></code></pre></div>
+<p>Each <code>outputs</code> object is a data.frame with the output variables asked with the <code>Out_var</code> parameter of <code>stics_eval</code>, along with the plant dominance (both plants in the same data.frame), the Posixct date, the year, month, day and DOI named after the model output (<em>i.e.</em> ian, mo, jo and jul respectively), and all measured variables found in the observation files. The simulated and measured variables are differenciated using the “_sim" and “_meas" suffixes respectively.</p>
+<p>These data.frames look like this (print only the 9 first columns, 4 first rows):</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Dominance</th>
+<th align="left">Date</th>
+<th align="right">ian</th>
+<th align="right">mo</th>
+<th align="right">jo</th>
+<th align="right">jul</th>
+<th align="right">hauteur_sim</th>
+<th align="right">lai_n_sim</th>
+<th align="right">masec_n_sim</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Associated</td>
+<td align="left">2018-09-26T00:00:00Z</td>
+<td align="right">2018</td>
+<td align="right">9</td>
+<td align="right">26</td>
+<td align="right">269</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Associated</td>
+<td align="left">2018-09-27T00:00:00Z</td>
+<td align="right">2018</td>
+<td align="right">9</td>
+<td align="right">27</td>
+<td align="right">270</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Associated</td>
+<td align="left">2018-09-28T00:00:00Z</td>
+<td align="right">2018</td>
+<td align="right">9</td>
+<td align="right">28</td>
+<td align="right">271</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Associated</td>
+<td align="left">2018-09-29T00:00:00Z</td>
+<td align="right">2018</td>
+<td align="right">9</td>
+<td align="right">29</td>
+<td align="right">272</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>If the user want to compare the outputs between two versions of STICS, he can provide several values to the <code>stics</code> parameter of the function as follows:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out=<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_version=<span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stics_eval.html">stics_eval</a></span>(<span class="dt">dir.orig =</span> path_to_data, 
              <span class="dt">dir.targ =</span> path_to_simulation,
              <span class="dt">stics =</span> <span class="kw">list</span>(<span class="dt">STICS_old=</span> stics_executable,
                           <span class="dt">STICS_new=</span> <span class="st">"version_2/stics.exe"</span>),
-             <span class="dt">Parameter =</span> <span class="kw">list</span>(<span class="dt">P_laicomp=</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.6</span>)),<span class="dt">Plant =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
              <span class="dt">obs_name =</span> <span class="kw">c</span>(<span class="st">"wheat_1.obs"</span>,<span class="st">"wheat_2.obs"</span>),
              <span class="dt">Out_var =</span> <span class="kw">c</span>(<span class="st">"hauteur"</span>,<span class="st">"lai(n)"</span>,<span class="st">'masec(n)'</span>),
              <span class="dt">Title =</span> <span class="st">"Wheat self-intercrop"</span>)</code></pre></div>
+<p>The plot returned by the function is as follows for model version comparison:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_version<span class="op">$</span>gg_object</code></pre></div>
+<div class="figure">
+<img src="stics_eval_version.png" alt="Figure 3: STICS model version evaluation" width="100%"><p class="caption">
+Figure 3: STICS model version evaluation
+</p>
+</div>
+<p>It is the same as for parameter comparison, except that the “Model Version” legend shows the model version instead of the parameter used for simulation.</p>
 </div>
 </div>
 <div id="next" class="section level2">
