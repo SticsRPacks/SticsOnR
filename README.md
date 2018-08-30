@@ -25,9 +25,7 @@ This package allows the user to programmatically:
 
 -   make all previous at once in parallel to evaluate and compare the output of STICS versions or parameter values effect ([`stics_eval`](R/stics_eval.R))
 
--   generate automatic reports (only available for one experiment, development terminated but still under evaluation)
-
--   and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) on STICS for one or more input parameters (and their possible interactions) on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes.
+-   and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) to one or more input parameters and their possible interactions on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes.
 
 The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time.
 
@@ -51,6 +49,8 @@ The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) t
 
 Examples
 --------
+
+Toy examples are given here for users in a hurry, but it is highly recommended to read the [introductory vignette](https://vezy.github.io/sticRs/articles/Introduction_to_sticRs.html) for a good start, and the [sensitivity vignette](https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html) if needed.
 
 ### Setting a parameter, running the model and compare with observations
 
