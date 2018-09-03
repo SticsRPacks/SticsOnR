@@ -465,6 +465,7 @@ all_out_var= function(){
     "rmaxi",
     "rnet",
     "rnetS",
+    "rnet_plant",
     "rombre",
     "rsoleil",
     "RsurRU",
