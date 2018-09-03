@@ -15,8 +15,7 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
   
-
-# sticRs: the [STICS](https://www6.paca.inra.fr/stics_eng/) model R package for developers <img src="man/figures/logo.jpg" alt="logo" width="300" align="right" />
+# sticRs:  the R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.jpg" alt="logo" width="300" align="right" />
 <!-- <img src="man/figures/logo.png" alt="logo" style="width:30%;height:auto;" align="right" /> -->
 <!-- [![Travis build status](https://travis-ci.com/VEZY/DynACof.svg?branch=master)](https://travis-ci.org/VEZY/DynACof)   -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
