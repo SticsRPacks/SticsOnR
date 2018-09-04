@@ -333,27 +333,27 @@ set_file= function(filepath,param,value,add){
   # access the function name from which set_file was called
   type= strsplit(deparse(sys.call(-1)),split = "\\(")[[1]][1]
   params= readLines(filepath)
-  param= paste0(param,"$")
+  param_= paste0(param,"$")
   switch(type,
          set_usm = {
            ref= read_usm(filepath)
-           if(grep(param,names(ref))<grep("P_fplt",names(ref))){
-             ref_index= grep(param,names(ref))*2
+           if(grep(param_,names(ref))<grep("P_fplt",names(ref))){
+             ref_index= grep(param_,names(ref))*2
            }else{
-             ref_index= grep(gsub("P_","",param),params)+1
+             ref_index= grep(gsub("P_","",param_),params)+1
            }
          },
          set_station= {
            ref= read_station(filepath)
-           ref_index= grep(param,names(ref))*2
+           ref_index= grep(param_,names(ref))*2
          },
          set_ini= {
            ref= read_ini(filepath)
-           ref_index= grep(param,names(ref))*2
+           ref_index= grep(param_,names(ref))*2
          },
          # Default here
          {
-           ref_index= grep(gsub('P_','',param),params)+1
+           ref_index= grep(gsub('P_','',param_),params)+1
          }
   )
 
@@ -361,7 +361,7 @@ set_file= function(filepath,param,value,add){
     if(add){
       value= paste(value, collapse = " ")
       params= c(params,param,value)
-      ref_index= grep(gsub('P_','',param),params)+1
+      ref_index= grep(gsub('P_','',param_),params)+1
     }else{
       stop(paste(param,"parameter not found in:\n",filepath))
     }
