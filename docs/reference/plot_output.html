@@ -98,12 +98,7 @@ to observations when available." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/VEZY/sticRs">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -117,7 +112,7 @@ to observations when available." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot STICS outputs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/VEZY/sticRs/blob/master/R/plot_output.R'><code>R/plot_output.R</code></a></small>
+    
     <div class="hidden name"><code>plot_output.Rd</code></div>
     </div>
 
@@ -166,15 +161,30 @@ If several objects are detected, make a comparison between them.</p></td>
 
     <p>if <code>Vars</code> is NULL (the default), the function plots all variables
 from the simulation. The output variables from simulations can be set using
-<code><a href='set_param.html'>set_out_var</a></code>.If <code>obs_name</code> is not provided, the function try
+<code><a href='set_param.html'>set_out_var</a></code>.If <code>obs_name</code> is not provided, the function tries
 to guess it using the built-in algorithm from <code><a href='read_obs.html'>read_obs</a></code>. Idem for
-the <code>mixed</code> argument. See documentation for more details.</p>
+the <code>mixed</code> argument. See respective documentation for more details.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>sticRs</span>)
-<span class='fu'>plot_output</span>()
+<span class='co'># Example 1, uing paths as inputs:</span>
+<span class='fu'>plot_output</span>(<span class='kw'>Sim1</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_1"</span>,<span class='kw'>Sim2</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_2"</span>,
+            <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Wheat.obs"</span>,<span class='st'>"Pea.obs"</span>),
+            <span class='kw'>Title</span> <span class='kw'>=</span> <span class='st'>"Model comparison for Wheat-Pea in Intercrop"</span>)
+
+<span class='co'># Example 2, using do.call :</span>
+<span class='no'>Simulations_path</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>Sim1</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_1"</span>,<span class='kw'>Sim2</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_2"</span>)
+<span class='co'># Add arguments passed to plot_output() in the "Simulations_path" list:</span>
+<span class='no'>Simulations_path</span>$<span class='no'>Title</span><span class='kw'>=</span> <span class='st'>"Model comparison for Wheat-Pea in Intercrop"</span>
+<span class='fu'>do.call</span>(<span class='no'>plot_output</span>,<span class='no'>Simulations_path</span>)
+
+<span class='co'># Example 3, using simulation outputs:</span>
+<span class='no'>sim1</span><span class='kw'>=</span> <span class='fu'><a href='read_output.html'>read_output</a></span>(<span class='st'>"dummy_path/simulation_1"</span>)
+<span class='no'>sim2</span><span class='kw'>=</span> <span class='fu'><a href='read_output.html'>read_output</a></span>(<span class='st'>"dummy_path/simulation_2"</span>)
+<span class='fu'>plot_output</span>(<span class='kw'>sim1</span><span class='kw'>=</span><span class='no'>sim1</span>,<span class='kw'>sim2</span><span class='kw'>=</span><span class='no'>sim2</span>)
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
