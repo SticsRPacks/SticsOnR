@@ -30,13 +30,28 @@ to observations when available.
 \details{
 if \code{Vars} is NULL (the default), the function plots all variables
 from the simulation. The output variables from simulations can be set using
-\code{\link{set_out_var}}.If \code{obs_name} is not provided, the function try
+\code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
 to guess it using the built-in algorithm from \code{\link{read_obs}}. Idem for
-the \code{mixed} argument. See documentation for more details.
+the \code{mixed} argument. See respective documentation for more details.
 }
 \examples{
 \dontrun{
 library(sticRs)
-plot_output()
+# Example 1, uing paths as inputs:
+plot_output(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2",
+            obs_name = c("Wheat.obs","Pea.obs"),
+            Title = "Model comparison for Wheat-Pea in Intercrop")
+
+# Example 2, using do.call :
+Simulations_path= list(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2")
+# Add arguments passed to plot_output() in the "Simulations_path" list:
+Simulations_path$Title= "Model comparison for Wheat-Pea in Intercrop"
+do.call(plot_output,Simulations_path)
+
+# Example 3, using simulation outputs:
+sim1= read_output("dummy_path/simulation_1")
+sim2= read_output("dummy_path/simulation_2")
+plot_output(sim1=sim1,sim2=sim2)
+
 }
 }

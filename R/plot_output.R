@@ -13,27 +13,46 @@
 #'
 #' @details if \code{Vars} is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
-#' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function try
+#' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
 #' to guess it using the built-in algorithm from \code{\link{read_obs}}. Idem for
-#' the \code{mixed} argument. See documentation for more details.
+#' the \code{mixed} argument. See respective documentation for more details.
 #'
 #' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
 #'
-#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar
+#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar guides
 #' @importFrom reshape2 melt
 #' @importFrom parallel parLapply stopCluster
+#' @importFrom dplyr ungroup group_by summarise "%>%"
 #'
 #' @examples
 #'\dontrun{
 #' library(sticRs)
-#' plot_output()
+#' # Example 1, uing paths as inputs:
+#' plot_output(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2",
+#'             obs_name = c("Wheat.obs","Pea.obs"),
+#'             Title = "Model comparison for Wheat-Pea in Intercrop")
+#'
+#' # Example 2, using do.call :
+#' Simulations_path= list(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2")
+#' # Add arguments passed to plot_output() in the "Simulations_path" list:
+#' Simulations_path$Title= "Model comparison for Wheat-Pea in Intercrop"
+#' do.call(plot_output,Simulations_path)
+#'
+#' # Example 3, using simulation outputs:
+#' sim1= read_output("dummy_path/simulation_1")
+#' sim2= read_output("dummy_path/simulation_2")
+#' plot_output(sim1=sim1,sim2=sim2)
+#'
 #'}
 #' @export
 #'
 plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
-  Date= Dominance= value= Version= .= value_min= value_max= NULL
+  Date= Dominance= value= Equ= variable= Version= .= value_min= value_max= NULL
   dot_args= list(...)
-
+  if(any((sapply(dot_args,length)>1)&!(sapply(dot_args,is.data.frame)))){
+    stop('Wrong "..." argument format. \nDid you provide outputs in a list or a vector? ',
+         "If so, provide them as function arguments instead.")
+  }
   Isdf= all(lapply(dot_args, is.data.frame)%>%unlist)
   Ispath= all(lapply(dot_args, is.character)%>%unlist)
   if(!Isdf&Ispath){
@@ -91,18 +110,32 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
     ggplot(x_sim_,aes(x=Date))+
     facet_grid(variable~., scales='free_y') +
     geom_line(aes(y= value, colour= Dominance,linetype= Version))+
-    labs(linetype='Model Version',colour='Plant dominance')+
+    labs(linetype='Simulation',colour='Plant dominance')+
     ggtitle(Title)
 
   if(!is.null(x_meas_)&
      length(colnames(x_meas_)[
-       -grep("Date|Dominance|Version",colnames(x_meas_))])>0){
+       -grep("Date|Dominance|Version",colnames(x_meas_))])>0&
+     !all(is.na(x_meas_$value))){
+    # If the observations come from the same source (all equal), make one
+    # legend only:
+    Same_Obs=
+      x_meas_%>%
+      group_by(Date,Dominance,variable)%>%
+      summarise(Equ= identical_vals(variable))%>%
+      group_by(variable)%>%
+      summarise(Equ= identical_vals(variable))%>%
+      ungroup()%>%
+      summarise(all(Equ))%>%unlist()
+    if(Same_Obs){
+      x_meas_$Version= "Obs."
+    }
     levels(x_meas_$variable)= gsub("_n","",levels(x_meas_$variable))
     x_meas_no_sd= x_meas_[!grepl("_sd",x_meas_$variable),]
     ggstics= ggstics+
       geom_point(data= x_meas_no_sd,
                  aes(y= value, colour= Dominance,pch= Version))+
-      labs(pch='Observation source')
+      labs(pch='Observations')
     # If there are sd values in the observation file:
     if(any(grepl("_sd",x_meas_$variable))){
 
@@ -125,7 +158,13 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T){
         geom_errorbar(data= x_meas_sd,aes(ymin= value_min, ymax= value_max,
                                           colour= Dominance,pch= Version))
     }
+
   }
+
   if(plot_it){print(ggstics)}
   invisible(ggstics)
 }
+
+
+identical_vals= function(x){length(unique(x))==1}
+
