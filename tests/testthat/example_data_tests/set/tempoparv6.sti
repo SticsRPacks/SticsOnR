@@ -128,3 +128,5 @@ P_hauteur_threshold_2
 0.8
 P_eqdens_max
 240 240
+P_stage_const_height
+flo flo
