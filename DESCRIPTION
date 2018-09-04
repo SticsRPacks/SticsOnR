@@ -23,6 +23,7 @@ Imports:
     dplyr,
     sensitivity,
     crayon (>= 1.3.4),
+    rstudioapi
 Suggests:
     testthat,
     covr,
