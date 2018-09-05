@@ -1,12 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-sticRs: the R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.jpg" alt="logo" width="300" align="right" />
+sticRs: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 =========================================================================================================================================================
 
-<!-- <img src="man/figures/logo.png" alt="logo" style="width:30%;height:auto;" align="right" /> -->
-<!-- [![Travis build status](https://travis-ci.com/VEZY/DynACof.svg?branch=master)](https://travis-ci.org/VEZY/DynACof)   -->
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Travis Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
+[![Travis-CI Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
 
 Overview
 --------
