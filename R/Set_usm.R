@@ -11,6 +11,8 @@
 #' @param stics     Path to the STICS model executable (optional, only needed if not
 #'                  present in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
+#' @param all_files Boolean. The function copy all files in dir.orig if \code{TRUE}, or only
+#'                  the ones needed for the STICS simulation.
 #' @param overwrite Boolean. Overwrite files and folders if already present. See details.
 #' @param verbose   Boolean. Does the function output success and failure messages ?
 #'
@@ -31,13 +33,18 @@
 #'
 #' @export
 import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
-                     usm_name= NULL,overwrite= T,verbose=NULL){
+                     usm_name= NULL,all_files=F, overwrite= T,
+                     verbose=NULL){
   if(is.null(verbose)&!interactive()){verbose=F}else{verbose=T}
-  if(is.null(dir.orig)){
-    # Add example data files:
-    Files= list.files("0-DATA/dummy/Wheat_Wheat/", full.names = T)
-  }else{
-    Files= list.files(dir.orig, full.names = T)
+
+  Files= list.files(dir.orig, full.names = T)
+
+  if(!all_files){
+    STICS_names =
+      c("climat\\.txt", "ficini\\.txt", "ficplt[1:2]\\.txt","fictec[1:2]\\.txt",
+        "new_travail\\.usm", "param\\.sol", "station\\.txt", "tempopar\\.sti",
+        "tempoparv6\\.sti", "var\\.mod", "\\.obs")
+    Files= Files[unlist(sapply(STICS_names, function(x){grep(x,Files)}))]
   }
 
   if(is.null(usm_name)){

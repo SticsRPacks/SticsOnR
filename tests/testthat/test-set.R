@@ -12,7 +12,8 @@ test_that("Test that import_usm writes the right folders and their names", {
   expect_true(dir.exists("tmp/stics_usm"))
   import_usm(dir.orig = "example_data",dir.targ = "tmp")
   expect_true(dir.exists("tmp/stics_usm_1"))
-  import_usm(dir.orig = "example_data",dir.targ = "tmp",usm_name = "name")
+  import_usm(dir.orig = "example_data",dir.targ = "tmp",usm_name = "name",
+             all_files = T)
   expect_true(dir.exists("tmp/name"))
   expect_equal(list.files("example_data"),list.files("tmp/name"))
   unlink("tmp",recursive = T)
