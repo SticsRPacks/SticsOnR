@@ -128,7 +128,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>import_usm</span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='fu'>getwd</span>(), <span class='kw'>stics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>usm_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>usm_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_files</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,6 +150,11 @@ present in dir.orig)</p></td>
     <tr>
       <th>usm_name</th>
       <td><p>Vector name of the USM(s).</p></td>
+    </tr>
+    <tr>
+      <th>all_files</th>
+      <td><p>Boolean. The function copy all files in dir.orig if <code>TRUE</code>, or only
+the ones needed for the STICS simulation.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
