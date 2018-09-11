@@ -174,3 +174,38 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
   return(list(outputs= outputs[-grep("plot_it|Vars|Title",names(outputs))],
               gg_object= gg_stics))
 }
+
+
+#' Makes one stics_eval simulation list from several
+#'
+#' @description Uses \code{\link[data.table]{rbindlist}} but keep the original
+#' structure of the list within the list. To use for row binding
+#' \code{\link{stics_eval}} outputs.
+#'
+#' @param ...   Input simulations lists from \code{\link{stics_eval}}.
+#'
+#' @details The function keep all columns from the simulations as in \code{data.table::rbindlist(l,fill= TRUE)}.
+#'
+#' @seealso \code{\link{stics_eval}}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' Simulation= rbind_sim(Sim_2017, Sim_2018)
+#'
+#' }
+#' @export
+#'
+rbind_sim= function(...){
+  dot_args= list(...)
+  bind_s=
+    lapply(names(dot_args[[1]]$outputs), function(x){
+      data.table::rbindlist(
+        lapply(dot_args, function(dot_x,y,x){dot_x[[y]][[x]]}, "outputs",x),
+        fill = TRUE)%>%
+        as.data.frame()
+    })
+  names(bind_s)= names(dot_args[[1]]$outputs)
+  return(bind_s)
+}
+

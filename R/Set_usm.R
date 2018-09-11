@@ -39,11 +39,12 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 
   Files= list.files(dir.orig, full.names = T)
 
+  STICS_names =
+    c("climat\\.txt", "ficini\\.txt", "ficplt[1:2]\\.txt","fictec[1:2]\\.txt",
+      "new_travail\\.usm", "param\\.sol", "station\\.txt", "tempopar\\.sti",
+      "tempoparv6\\.sti", "var\\.mod", "\\.obs")
+
   if(!all_files){
-    STICS_names =
-      c("climat\\.txt", "ficini\\.txt", "ficplt[1:2]\\.txt","fictec[1:2]\\.txt",
-        "new_travail\\.usm", "param\\.sol", "station\\.txt", "tempopar\\.sti",
-        "tempoparv6\\.sti", "var\\.mod", "\\.obs")
     Files= Files[unlist(sapply(STICS_names, function(x){grep(x,Files)}))]
   }
 
