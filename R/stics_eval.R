@@ -188,6 +188,8 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
 #'
 #' @seealso \code{\link{stics_eval}}
 #'
+#' @importFrom data.table rbindlist
+#'
 #' @examples
 #' \dontrun{
 #'

@@ -21,6 +21,9 @@
 #'  are already present, and asks the user what to do, so be careful while using
 #'  this function for programming.
 #'
+#' @importFrom crayon red
+#' @importFrom magrittr "%>%"
+#'
 #' @examples
 #'\dontrun{
 #' # Set a dummy simulation in the folder "1-Simulations", relative to the
@@ -35,17 +38,36 @@
 import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
                      usm_name= NULL,all_files=F, overwrite= T,
                      verbose=NULL){
+  .= NULL
   if(is.null(verbose)&!interactive()){verbose=F}else{verbose=T}
 
   Files= list.files(dir.orig, full.names = T)
+
+  if(length(Files)==0){
+    stop("Can't find any files in dir.orig. Please check if the path is correct.")
+  }
 
   STICS_names =
     c("climat\\.txt", "ficini\\.txt", "ficplt[1:2]\\.txt","fictec[1:2]\\.txt",
       "new_travail\\.usm", "param\\.sol", "station\\.txt", "tempopar\\.sti",
       "tempoparv6\\.sti", "var\\.mod", "\\.obs")
+  STICS_files= sapply(STICS_names, function(x){grep(x,Files)})
+  Missing_Files= sapply(STICS_files,function(x)length(x)==0)
+  # handling missing input files:
+  if(any(Missing_Files)){
+    if(all(Missing_Files)){
+      stop("Can't find ", crayon::red("ANY"),
+           " STICS input files in dir.orig. Please check if the path is correct.")
+    }else{
+      paste(names(Missing_Files)[Missing_Files],  collapse= ", ")%>%
+        gsub("\\","",.,fixed = TRUE)%>%
+        crayon::red(.)%>%
+        stop("Missing STICS input file(s) in dir.orig: ",.)
+    }
+  }
 
   if(!all_files){
-    Files= Files[unlist(sapply(STICS_names, function(x){grep(x,Files)}))]
+    Files= Files[unlist(STICS_files)]
   }
 
   if(is.null(usm_name)){
