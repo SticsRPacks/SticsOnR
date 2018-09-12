@@ -19,7 +19,7 @@
 #' @importFrom reshape2 melt
 #' @importFrom parallel parLapply stopCluster
 #' @importFrom dplyr ungroup group_by summarise "%>%"
-#'
+#' @importFrom stats sd
 #' @examples
 #'\dontrun{
 #' library(sticRs)
@@ -27,7 +27,7 @@
 #'}
 #' @export
 #'
-stati_stics= function(...,obs_name=NUL){
+stati_stics= function(...,obs_name=NULL){
   dot_args= list(...)
   if(any((sapply(dot_args,length)>1)&!(sapply(dot_args,is.data.frame)))){
     stop('Wrong "..." argument format. \nDid you provide outputs in a list or a vector? ',
@@ -53,7 +53,9 @@ stati_stics= function(...,obs_name=NUL){
   }
   )%>%unlist%>%unique
 
-  x_sim_= x_meas_= .= NULL
+  x_sim_= x_meas_= Dominance=Version= mean_obs= mean_sim= n= obs=
+    sd_obs= sd_sim= sim= .= variable= NULL
+
   for(i in seq_along(dot_args)){
     x= dot_args[[i]]
     x_sim=
@@ -186,7 +188,7 @@ stati_stics= function(...,obs_name=NUL){
 #' @name predictor_assessment
 #'
 #' @importFrom dplyr ungroup group_by summarise "%>%"
-#' @importFrom stats lm
+#' @importFrom stats lm sd var
 #'
 #' @examples
 #' library(sticRs)
