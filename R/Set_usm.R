@@ -44,7 +44,8 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
   Files= list.files(dir.orig, full.names = T)
 
   if(length(Files)==0){
-    stop("Can't find any files in dir.orig. Please check if the path is correct.")
+    stop("Can't find ", crayon::red("ANY"),
+         " files in dir.orig. Please check if the path is correct.")
   }
 
   STICS_names =

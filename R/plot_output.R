@@ -14,8 +14,8 @@
 #' @details if \code{Vars} is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
 #' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
-#' to guess it using the built-in algorithm from \code{\link{read_obs}}. Idem for
-#' the \code{mixed} argument. See respective documentation for more details.
+#' to guess it using the built-in algorithm from \code{\link{read_obs}}. See
+#' respective documentation for more details.
 #'
 #' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
 #'
