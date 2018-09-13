@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Model quality assessment — predictor_assessment" />
 
-<meta property="og:description" content="Several statistics to assess the quality of the predictions
-             of a model (see note)." />
+<meta property="og:description" content="Provide several metrics to assess the quality of the predictions of a model (see note) against
+observations." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -120,12 +120,12 @@
 
     <div class="ref-description">
     
-    <p>Several statistics to assess the quality of the predictions
-             of a model (see note).</p>
+    <p>Provide several metrics to assess the quality of the predictions of a model (see note) against
+observations.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>R2</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
+    <pre class="usage"><span class='fu'>R2</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/stats/topics/na.fail'>na.omit</a></span>)
 
 <span class='fu'>RMSE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
@@ -137,11 +137,13 @@
 
 <span class='fu'>EF</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
+<span class='fu'>NSE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
+
 <span class='fu'>Bias</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='fu'>ABS</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
-<span class='fu'>NSE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
+<span class='fu'>MAPE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='fu'>FVU</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
@@ -159,6 +161,10 @@
       <td><p>Observed values</p></td>
     </tr>
     <tr>
+      <th>na.action</th>
+      <td><p>A function which indicates what should happen when the data contain NAs.</p></td>
+    </tr>
+    <tr>
       <th>na.rm</th>
       <td><p>Boolean. Remove <code>NA</code> values if <code>TRUE</code> (default)</p></td>
     </tr>
@@ -171,32 +177,47 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The statistics for model quality can differ between sources. Here is a
-         list of the methods used in this package for each one (see html
-         version for <code>LATEX</code>):</p><dl class='dl-horizontal'>
-  <dt>R2</dt><dd><p>Computed using <code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code> on obs~sim</p></dd>
-  <dt>RMSE</dt><dd><p>\(\sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}\)</p></dd>
-  <dt>nRMSE</dt><dd><p>\(\frac{RMSE}{\hat{y}}\cdot100\)</p></dd>
-  <dt>MAE</dt><dd><p>\(\frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}\)</p></dd>
-  <dt>FVU</dt><dd><p>\(\frac{SS_(res)}{SS_(tot)}\) see
-  <a href='https://en.wikipedia.org/wiki/Fraction_of_variance_unexplained'>
-  wikipedia definition</a></p></dd>
-  <dt>MSE</dt><dd><p>\(\frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2\)</p></dd>
-  <dt>EF</dt><dd><p>\(1-\frac{SS_(res)}{SS_(tot)}\)</p></dd>
-  <dt>Bias</dt><dd><p>\(\frac{\sum_1^n(\hat{y_i}-y_i)}{n}\)</p></dd>
-  <dt>ABS</dt><dd><p>\(\frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}\)</p></dd>
-  <dt>RME</dt><dd><p>\(\frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}\)</p></dd>
-</dl>
+         short description of each statistic and its equation (see html version
+         for <code>LATEX</code>):</p><ul>
+<li><p><code>R2()</code>: coefficient of determination, computed using <code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code> on obs~sim.</p></li>
+<li><p><code>RMSE()</code>: Root Mean Squared Error, computed as
+            $$RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}$$</p></li>
+<li><p><code>NSE()</code>: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.</p></li>
+<li><p><code>nRMSE()</code>: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
+             $$nRMSE = \frac{RMSE}{\hat{y}}\cdot100$$</p></li>
+<li><p><code>MAE()</code>: Mean Absolute Error, computed as:
+           $$MAE = \frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}$$</p></li>
+<li><p><code>FVU()</code>: Fraction of variance unexplained, computed as:
+           $$FVU = \frac{SS_{res}}{SS_{tot}}$$</p></li>
+<li><p><code>MSE()</code>: Mean squared Error, computed as:
+           $$MSE = \frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2$$</p></li>
+<li><p><code>EF()</code>: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
+          related to the FVU as \(EF= 1-FVU\). It is also related to the \(R^2\)
+          because they share the same equation, except SStot is applied relative to the
+          identity function (<em>i.e.</em> 1:1 line) instead of the regression line. It is computed
+          as: $$EF = 1-\frac{SS_{res}}{SS_{tot}}$$</p></li>
+<li><p><code>Bias()</code>: Modelling bias, simply computed as:
+            $$Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}$$</p></li>
+<li><p><code>ABS()</code>: Mean Absolute Bias, computed as:
+           $$ABS = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}$$</p></li>
+<li><p><code>MAPE()</code>: Mean Absolute Percent Error, computed as:
+           $$MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|)}{y_i}}{n}$$</p></li>
+<li><p><code>RME()</code>: Relative mean error (%), computed as:
+           $$RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}$$</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The model efficiency (EF or NSE) shares the same equation as the standard R2,
-      except SStot is applied relative to the identity function (1:1 line) instead
-      of the regression line. Furthermore, the R2 here is the one from the regression
-      applied to the sim~obs relationship, not a direct R2.</p>
+    <p>\(SS_{res}\) is the residual sum of squares and \(SS_{tot}\) the total
+      sum of squares. They are computed as:
+      $$SS_{res} = \sum_{i=1}^n (y_i - \hat{y_i})^2$$
+      $$SS_{tot} = \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^2$$
+      Also, it should be noted that \(y_i\) refers to the observed values and \(\hat{y_i}\) to
+      the predicted values, and \(\bar{y}\) to the mean value of observations.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>This function is largely inspired from the <code>evaluate()</code> function
+    <div class='dont-index'><p>This function was inspired from the <code>evaluate()</code> function
          from the <code>SticsEvalR</code> package</p></div>
     
 

@@ -8,14 +8,15 @@
 \alias{MAE}
 \alias{MSE}
 \alias{EF}
+\alias{NSE}
 \alias{Bias}
 \alias{ABS}
-\alias{NSE}
+\alias{MAPE}
 \alias{FVU}
 \alias{RME}
 \title{Model quality assessment}
 \usage{
-R2(sim, obs, na.rm = T)
+R2(sim, obs, na.action = stats::na.omit)
 
 RMSE(sim, obs, na.rm = T)
 
@@ -27,11 +28,13 @@ MSE(sim, obs, na.rm = T)
 
 EF(sim, obs, na.rm = T)
 
+NSE(sim, obs, na.rm = T)
+
 Bias(sim, obs, na.rm = T)
 
 ABS(sim, obs, na.rm = T)
 
-NSE(sim, obs, na.rm = T)
+MAPE(sim, obs, na.rm = T)
 
 FVU(sim, obs, na.rm = T)
 
@@ -42,43 +45,57 @@ RME(sim, obs, na.rm = T)
 
 \item{obs}{Observed values}
 
+\item{na.action}{A function which indicates what should happen when the data contain NAs.}
+
 \item{na.rm}{Boolean. Remove \code{NA} values if \code{TRUE} (default)}
 }
 \value{
 A statistic depending on the function used.
 }
 \description{
-Several statistics to assess the quality of the predictions
-             of a model (see note).
+Provide several metrics to assess the quality of the predictions of a model (see note) against
+observations.
 }
 \details{
 The statistics for model quality can differ between sources. Here is a
-         list of the methods used in this package for each one (see html
-         version for \code{LATEX}):
-\describe{
-  \item{R2}{Computed using \code{\link[stats]{lm}} on obs~sim}
-  \item{RMSE}{\eqn{\sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{
-  sqrt(mean((sim-obs)^2)}}
-  \item{nRMSE}{\eqn{\frac{RMSE}{\hat{y}}\cdot100}{(RMSE/mean(obs))*100}}
-  \item{MAE}{\eqn{\frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}}{
-  mean(abs(sim-obs))}}
-  \item{FVU}{\eqn{\frac{SS_(res)}{SS_(tot)}}{SS_res/SS_tot} see
-  \href{https://en.wikipedia.org/wiki/Fraction_of_variance_unexplained}{
-  wikipedia definition}}
-  \item{MSE}{\eqn{\frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2}{
-  mean((sim-obs)^2,na.rm = na.rm)}}
-  \item{EF}{\eqn{1-\frac{SS_(res)}{SS_(tot)}}{1-SS_res/SS_tot}}
-  \item{Bias}{\eqn{\frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{mean(sim-obs)}}
-  \item{ABS}{\eqn{\frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{
-  mean(abs(sim-obs))}}
-  \item{RME}{\eqn{\frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{mean(sim-obs)}}
+         short description of each statistic and its equation (see html version
+         for \code{LATEX}):
+\itemize{
+  \item \code{R2()}: coefficient of determination, computed using \code{\link[stats]{lm}} on obs~sim.
+  \item \code{RMSE()}: Root Mean Squared Error, computed as
+            \deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
+  \item \code{NSE()}: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
+  \item \code{nRMSE()}: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
+             \deqn{nRMSE = \frac{RMSE}{\hat{y}}\cdot100}{nRMSE = (RMSE/mean(obs))*100}
+  \item \code{MAE()}: Mean Absolute Error, computed as:
+           \deqn{MAE = \frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}}{MAE = mean(abs(sim-obs))}
+  \item \code{FVU()}: Fraction of variance unexplained, computed as:
+           \deqn{FVU = \frac{SS_{res}}{SS_{tot}}}{FVU = SS_res/SS_tot}
+  \item \code{MSE()}: Mean squared Error, computed as:
+           \deqn{MSE = \frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2}{MSE = mean((sim-obs)^2)}
+  \item \code{EF()}: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
+          related to the FVU as \eqn{EF= 1-FVU}. It is also related to the \eqn{R^2}{R2}
+          because they share the same equation, except SStot is applied relative to the
+          identity function (\emph{i.e.} 1:1 line) instead of the regression line. It is computed
+          as: \deqn{EF = 1-\frac{SS_{res}}{SS_{tot}}}{EF = 1-SS_res/SS_tot}
+  \item \code{Bias()}: Modelling bias, simply computed as:
+            \deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
+  \item \code{ABS()}: Mean Absolute Bias, computed as:
+           \deqn{ABS = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{ABS = mean(abs(sim-obs))}
+  \item \code{MAPE()}: Mean Absolute Percent Error, computed as:
+           \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|)}{y_i}}{n}}{
+           MAPE = mean(abs(obs-sim)/obs)}
+  \item \code{RME()}: Relative mean error (\%), computed as:
+           \deqn{RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{RME = mean((sim-obs)/obs)}
 }
 }
 \note{
-The model efficiency (EF or NSE) shares the same equation as the standard R2,
-      except SStot is applied relative to the identity function (1:1 line) instead
-      of the regression line. Furthermore, the R2 here is the one from the regression
-      applied to the sim~obs relationship, not a direct R2.
+\eqn{SS_{res}}{SS_res} is the residual sum of squares and \eqn{SS_{tot}}{SS_tot} the total
+      sum of squares. They are computed as:
+      \deqn{SS_{res} = \sum_{i=1}^n (y_i - \hat{y_i})^2}{SS_res= sum((obs-sim)^2)}
+      \deqn{SS_{tot} = \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^2}{SS_tot= sum((obs-mean(obs))^2}
+      Also, it should be noted that \eqn{y_i} refers to the observed values and \eqn{\hat{y_i}} to
+      the predicted values, and \eqn{\bar{y}} to the mean value of observations.
 }
 \examples{
 library(sticRs)
@@ -87,6 +104,6 @@ obs= rnorm(n = 5,mean = 1,sd = 1)
 RMSE(sim,obs)
 }
 \seealso{
-This function is largely inspired from the \code{evaluate()} function
-         from the \code{SticsEvalR} package
+This function was inspired from the \code{evaluate()} function
+         from the \code{SticsEvalR} package. This function is used by \code{\link{stics_eval}}
 }

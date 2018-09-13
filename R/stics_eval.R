@@ -32,13 +32,22 @@
 #' Please set the \code{Parameter} argument to \code{NULL} (the default) for no parameter changes.
 #' The function run STICS executable in parrallel using all cores from the machine but one.
 #'
-#' @return A list of two. The first object is a list of the outputs of
-#'  \code{\link{eval_output}}, which is called for each object in \code{stics}.
-#'  The second is a summary of the simulations outputs as a ggplot object.
+#' @return A list of three objects:
+#' \describe{
+#'   \item{outputs}{A list of \code{data.frame} objects corresponding
+#'   to the simulation for each value in the \code{stics} or \code{Parameter} arguments. The
+#'   data.frame is made by a call to \code{\link{eval_output}}.}
+#'   \item{gg_object}{A summary plot of the simulations outputs returned as a ggplot object.
+#'    Possibly a comparison between simulations if several values are given to the \code{stics}
+#'    or \code{Parameter} arguments.}
+#'    \item{stats}{A \code{data.frame} of a set of summary statistics for each simulation, computed
+#'    by a call to \code{\link{stati_stics}}.}
+#' }
+#'
 #'
 #' @seealso \code{\link{sensitive_stics}} to evaluate STICS sensitivity to parameter(s), and other
 #' functions used under the hood: \code{\link{eval_output}}, \code{\link{import_usm}},
-#' \code{\link{run_stics}}, and \code{\link{set_out_var}}.
+#' \code{\link{run_stics}}, \code{\link{stati_stics}}, and \code{\link{set_out_var}}.
 #'
 #' @examples
 #' \dontrun{
@@ -166,13 +175,16 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
   }
 
   names(outputs)= usm_name
+  stats_out= do.call(stati_stics,outputs)
+
   outputs[["plot_it"]]= plot_it
   outputs[["Vars"]]= Out_var
   outputs[["Title"]]= Title
-
   gg_stics= do.call(plot_output,outputs)
+
   return(list(outputs= outputs[-grep("plot_it|Vars|Title",names(outputs))],
-              gg_object= gg_stics))
+              gg_object= gg_stics,
+              stats= stats_out))
 }
 
 

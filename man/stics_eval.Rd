@@ -38,9 +38,17 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \item{Erase}{Should the simulations data be erased upon import (see details)?}
 }
 \value{
-A list of two. The first object is a list of the outputs of
- \code{\link{eval_output}}, which is called for each object in \code{stics}.
- The second is a summary of the simulations outputs as a ggplot object.
+A list of three objects:
+\describe{
+  \item{outputs}{A list of \code{data.frame} objects corresponding
+  to the simulation for each value in the \code{stics} or \code{Parameter} arguments. The
+  data.frame is made by a call to \code{\link{eval_output}}.}
+  \item{gg_object}{A summary plot of the simulations outputs returned as a ggplot object.
+   Possibly a comparison between simulations if several values are given to the \code{stics}
+   or \code{Parameter} arguments.}
+   \item{stats}{A \code{data.frame} of a set of summary statistics for each simulation, computed
+   by a call to \code{\link{stati_stics}}.}
+}
 }
 \description{
 Wrapper function to run STICS simulations and evaluate
@@ -89,5 +97,5 @@ stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea",
 \seealso{
 \code{\link{sensitive_stics}} to evaluate STICS sensitivity to parameter(s), and other
 functions used under the hood: \code{\link{eval_output}}, \code{\link{import_usm}},
-\code{\link{run_stics}}, and \code{\link{set_out_var}}.
+\code{\link{run_stics}}, \code{\link{stati_stics}}, and \code{\link{set_out_var}}.
 }

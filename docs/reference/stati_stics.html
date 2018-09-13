@@ -125,14 +125,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>stati_stics</span>(<span class='no'>...</span>, <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='no'>NUL</span>)</pre>
+    <pre class="usage"><span class='fu'>stati_stics</span>(<span class='no'>...</span>, <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Either a file path or the output from <code><a href='eval_output.html'>eval_output</a></code>. If several objects are
+      <td><p>Either a folder path or the output from <code><a href='eval_output.html'>eval_output</a></code>. If several objects are
 detected, make a comparison between them.</p></td>
     </tr>
     <tr>
@@ -144,12 +144,19 @@ Must have the form <code>c(Dominant,Dominated)</code> for mixed crops. See detai
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame with statistics for each simulation.</p>
+    <p>A data.frame with statistics for each simulation. The data.frame has a
+        <code>description</code> attribute that gives the description of the column names</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>obs_name</code> is not provided, the function tries to guess it using the built-in algorithm
          from <code><a href='read_obs.html'>read_obs</a></code>. See respective documentation for more details.</p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Because this function has the purpose to assess model quality, all statistics
+      are computed on dates were observations are present only. So the simulation mean
+      is only the mean on dates with observations, not the overall simulation mean.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -160,6 +167,17 @@ Must have the form <code>c(Dominant,Dominated)</code> for mixed crops. See detai
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>sticRs</span>)
+<span class='co'># Exemple 1:</span>
+<span class='no'>tests</span><span class='kw'>=</span> <span class='fu'>stati_stics</span>(<span class='st'>"dummy/path/simulation"</span>,
+                   <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Wheat.obs"</span>,<span class='st'>"Pea.obs"</span>))
+<span class='fu'>attr</span>(<span class='no'>tests</span>,<span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"description"</span>)
+
+<span class='co'># Exemple 2, stats for a comparison between simulations:</span>
+<span class='fu'>stati_stics</span>(<span class='no'>Simulation_1</span>,<span class='no'>Simulation_2</span>,
+            <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Wheat.obs"</span>,<span class='st'>"Pea.obs"</span>))
+<span class='co'># Equivalent to:</span>
+<span class='fu'>stati_stics</span>(<span class='st'>"dummy/path/simulation_1"</span>,<span class='st'>"dummy/path/simulation_2"</span>,
+            <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Wheat.obs"</span>,<span class='st'>"Pea.obs"</span>))
 
 <span class='co'># }</span></pre>
   </div>
@@ -171,6 +189,8 @@ Must have the form <code>c(Dominant,Dominated)</code> for mixed crops. See detai
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
