@@ -27,7 +27,7 @@ test_that("Test read_output consistancy", {
 
 test_that("Test that read_obs returns a data.frame", {
   expect_true(is.data.frame(read_obs(dirpath = "example_data",
-                                     filename = "wheat_1.obs")))
+                                     filename = c("wheat_1.obs","wheat_2.obs"))))
 })
 
 test_that("Test read_obs automatic filename", {
@@ -52,7 +52,8 @@ test_that("Test that read_obs returns right errors", {
 
 test_that("Test read_obs output consistancy", {
   tmp <- tempfile()
-  expect_known_output(read_obs(dirpath = "example_data",filename = "wheat_1.obs"),tmp)
+  expect_known_output(read_obs(dirpath = "example_data",
+                               filename = c("wheat_1.obs","wheat_2.obs")),tmp)
 })
 
 # read_output -------------------------------------------------------------
@@ -82,6 +83,35 @@ test_that("Test read_output consistancy", {
   expect_known_output(read_output(dirpath = "example_data"),tmp)
 })
 
+
+# eval_output -------------------------------------------------------------
+
+test_that("Test that eval_output returns a data.frame", {
+  expect_true(is.data.frame(eval_output(dirpath = "example_data",
+                                        obs_name = c("wheat_1.obs","wheat_2.obs"))))
+})
+
+test_that("Test that eval_output returns right errors", {
+  # Should return an error if inputting one name only for mixed species
+  expect_error(eval_output(dirpath = "example_data", mixed = T, obs_name = "only_one_name"),
+               regexp = "Expected two obs. files in filename when mixed is TRUE, found less")
+  # Should return an error if inputting more than one name for sole crops
+  expect_error(eval_output(dirpath = "example_data",mixed = F, obs_name = c("1","2")))
+})
+
+test_that("Test that eval_output returns the right format", {
+  out= eval_output(dirpath = "example_data",obs_name = c("wheat_1.obs","wheat_2.obs"))
+  expect_equal(colnames(out)[1:6],c("Dominance","Date","ian","mo","jo","jul"))
+  expect_equal(unique(out$Dominance)[order(unique(out$Dominance))],
+               c("Associated","Principal"))
+  expect_equal(class(out$Date)[1],"POSIXct")
+})
+
+test_that("Test eval_output consistancy", {
+  tmp <- tempfile()
+  expect_known_output(tail(eval_output(dirpath = "example_data",
+                                       obs_name = c("wheat_1.obs","wheat_2.obs")),2),tmp)
+})
 
 # read_param --------------------------------------------------------------
 

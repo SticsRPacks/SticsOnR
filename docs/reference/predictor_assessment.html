@@ -133,6 +133,8 @@ observations.</p>
 
 <span class='fu'>MAE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
+<span class='fu'>ABS</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
+
 <span class='fu'>MSE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='fu'>EF</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
@@ -140,8 +142,6 @@ observations.</p>
 <span class='fu'>NSE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='fu'>Bias</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
-
-<span class='fu'>ABS</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='fu'>MAPE</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
@@ -186,7 +186,8 @@ observations.</p>
 <li><p><code>nRMSE()</code>: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
              $$nRMSE = \frac{RMSE}{\hat{y}}\cdot100$$</p></li>
 <li><p><code>MAE()</code>: Mean Absolute Error, computed as:
-           $$MAE = \frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}$$</p></li>
+           $$MAE = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}$$</p></li>
+<li><p><code>ABS()</code>: Mean Absolute Bias, which is an alias of <code>MAE()</code></p></li>
 <li><p><code>FVU()</code>: Fraction of variance unexplained, computed as:
            $$FVU = \frac{SS_{res}}{SS_{tot}}$$</p></li>
 <li><p><code>MSE()</code>: Mean squared Error, computed as:
@@ -198,8 +199,6 @@ observations.</p>
           as: $$EF = 1-\frac{SS_{res}}{SS_{tot}}$$</p></li>
 <li><p><code>Bias()</code>: Modelling bias, simply computed as:
             $$Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}$$</p></li>
-<li><p><code>ABS()</code>: Mean Absolute Bias, computed as:
-           $$ABS = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}$$</p></li>
 <li><p><code>MAPE()</code>: Mean Absolute Percent Error, computed as:
            $$MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|)}{y_i}}{n}$$</p></li>
 <li><p><code>RME()</code>: Relative mean error (%), computed as:
@@ -218,7 +217,7 @@ observations.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>This function was inspired from the <code>evaluate()</code> function
-         from the <code>SticsEvalR</code> package</p></div>
+         from the <code>SticsEvalR</code> package. This function is used by <code><a href='stics_eval.html'>stics_eval</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

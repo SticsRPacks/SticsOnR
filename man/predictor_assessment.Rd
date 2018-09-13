@@ -6,11 +6,11 @@
 \alias{RMSE}
 \alias{nRMSE}
 \alias{MAE}
+\alias{ABS}
 \alias{MSE}
 \alias{EF}
 \alias{NSE}
 \alias{Bias}
-\alias{ABS}
 \alias{MAPE}
 \alias{FVU}
 \alias{RME}
@@ -24,6 +24,8 @@ nRMSE(sim, obs, na.rm = T)
 
 MAE(sim, obs, na.rm = T)
 
+ABS(sim, obs, na.rm = T)
+
 MSE(sim, obs, na.rm = T)
 
 EF(sim, obs, na.rm = T)
@@ -31,8 +33,6 @@ EF(sim, obs, na.rm = T)
 NSE(sim, obs, na.rm = T)
 
 Bias(sim, obs, na.rm = T)
-
-ABS(sim, obs, na.rm = T)
 
 MAPE(sim, obs, na.rm = T)
 
@@ -68,7 +68,8 @@ The statistics for model quality can differ between sources. Here is a
   \item \code{nRMSE()}: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
              \deqn{nRMSE = \frac{RMSE}{\hat{y}}\cdot100}{nRMSE = (RMSE/mean(obs))*100}
   \item \code{MAE()}: Mean Absolute Error, computed as:
-           \deqn{MAE = \frac{\sum_{i=1}^n\left| y_i-x_i\right|}{n}}{MAE = mean(abs(sim-obs))}
+           \deqn{MAE = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{MAE = mean(abs(sim-obs))}
+  \item \code{ABS()}: Mean Absolute Bias, which is an alias of \code{MAE()}
   \item \code{FVU()}: Fraction of variance unexplained, computed as:
            \deqn{FVU = \frac{SS_{res}}{SS_{tot}}}{FVU = SS_res/SS_tot}
   \item \code{MSE()}: Mean squared Error, computed as:
@@ -80,8 +81,6 @@ The statistics for model quality can differ between sources. Here is a
           as: \deqn{EF = 1-\frac{SS_{res}}{SS_{tot}}}{EF = 1-SS_res/SS_tot}
   \item \code{Bias()}: Modelling bias, simply computed as:
             \deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
-  \item \code{ABS()}: Mean Absolute Bias, computed as:
-           \deqn{ABS = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{ABS = mean(abs(sim-obs))}
   \item \code{MAPE()}: Mean Absolute Percent Error, computed as:
            \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|)}{y_i}}{n}}{
            MAPE = mean(abs(obs-sim)/obs)}

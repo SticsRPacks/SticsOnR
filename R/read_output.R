@@ -48,6 +48,23 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
   if(mixed){
     Plant_1_mod= list.files(dirpath)%>%.[grep("mod_sp",.)]
     Plant_2_mod= list.files(dirpath)%>%.[grep("mod_sa",.)]
+
+    if(length(Plant_1_mod)==0|length(Plant_2_mod)==0){
+      if(length(Plant_1_mod)==0&length(Plant_2_mod)==0){
+        Plant_test= list.files(dirpath)%>%.[grep("mod_s",.)]
+        if(length(Plant_test)>0){
+          stop("Can't find mod_sp and mod_sa files in the USM directory, but mod_s was found. ",
+               "Please set mixed to FALSe to read sole crop USMs")
+        }
+      }else{
+        if(length(Plant_1_mod)==0){
+          stop("Can't find mod_sp files in the USM directory")
+        }else{
+          stop("Can't find mod_sa files in the USM directory")
+        }
+      }
+    }
+
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_2= data.table::fread(file.path(dirpath,Plant_2_mod), data.table = F)
     Table_1$Plant= name[1] ; Table_2$Plant= name[2]
@@ -56,6 +73,17 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
     attrfiles= data.frame(Plant= name, file= c(Plant_1_mod, Plant_2_mod))
   }else{
     Plant_1_mod= list.files(dirpath)%>%.[grep("mod_s",.)]
+    if(length(Plant_1_mod)>1){
+      if(length(grep("mod_sp|mod_sa",Plant_1_mod))){
+        stop("mod_s is not found in the USM directory, but mod_sp and mod_sa were found. ",
+             "Please set mixed to TRUE to read mixed species USM")
+      }else{
+        stop("Several mod_s files were found in the USM directory, please keep one only")
+      }
+    }
+    if(length(Plant_1_mod)==0){
+      stop("Can't find any mod_s files in the USM directory")
+    }
     Table_1= data.table::fread(file.path(dirpath,Plant_1_mod), data.table = F)
     Table_1$Plant= name[1]
     Table_1$Dominance= "Sole crop"
