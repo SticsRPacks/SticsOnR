@@ -79,7 +79,7 @@
       <h1>Sensitivity analyses</h1>
                         <h4 class="author">Rémi Vezy</h4>
             
-            <h4 class="date">2018-09-13</h4>
+            <h4 class="date">2018-09-14</h4>
       
       
       <div class="hidden name"><code>Sensitivity_analyses.Rmd</code></div>
@@ -134,7 +134,7 @@ sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_s
                       <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,
                       <span class="dt">Vars =</span> <span class="kw">c</span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),
                       <span class="dt">Parameters =</span> <span class="kw">list</span>(<span class="dt">interrang=</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="fl">0.05</span>, <span class="dt">max =</span> <span class="fl">0.25</span>),
-                                        <span class="dt">P_densitesem=</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">140</span>, <span class="dt">max =</span> <span class="dv">280</span>))
+                                        <span class="dt">P_densitesem=</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">140</span>, <span class="dt">max =</span> <span class="dv">280</span>)),
                       <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qunif"</span>)</code></pre></div>
 <p>The function will use the STICS inputs located in “0-Data”, use the STICS executable located in “0-Data/stics_executable/stics.exe”, and execute the simulations in automatically generated sub-folders in “2-Simulations”. The function will test the sensitivity of the leaf area index (<code>lai(n)</code>) and the above-ground dry mass (<code>masec(n)</code>) variables to the interrow (<code>interrang</code>) and the sowing density (<code>P_densitesem</code>) parameters. The parameter values are sampled using a uniform distribution (its quantile function name is provided: “qunif”) with a minimum value of 0.05 and 140 and a maximum of 0.25 and 280 for the interrow and the sowing density respectively. The fast99 algorithm will be used to perform the sensitivty analysis with 70 simulations.</p>
 <p>If a parameter distribution is closer to a normal distibution, which is often the case in reality, the user should set the <code>q</code> parameter to “qnorm” instead to better sample plausible values of the parameter. If so, the user should also replace the parameter arguments (min and max) and values that correspond to <code>qunif</code> arguments by the arguments of the <code>qnorm</code> function, such as:</p>
@@ -145,7 +145,7 @@ sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_s
                       <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,
                       <span class="dt">Vars =</span> <span class="kw">c</span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),
                       <span class="dt">Parameters =</span> <span class="kw">list</span>(<span class="dt">interrang=</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="fl">0.15</span>, <span class="dt">sd =</span> <span class="fl">0.05</span>),
-                                        <span class="dt">P_densitesem=</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">210</span>, <span class="dt">sd =</span> <span class="dv">70</span>))
+                                        <span class="dt">P_densitesem=</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">210</span>, <span class="dt">sd =</span> <span class="dv">70</span>)),
                       <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qnorm"</span>)</code></pre></div>
 </div>
 <div id="run-with-caution" class="section level2">
