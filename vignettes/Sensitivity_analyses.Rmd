@@ -46,7 +46,7 @@ sens= sensitive_stics(dir.orig = "0-Data",
                       obs_name = "Wheat.obs",
                       Vars = c("lai(n)", "masec(n)"),
                       Parameters = list(interrang= list(min = 0.05, max = 0.25),
-                                        P_densitesem= list(min = 140, max = 280))
+                                        P_densitesem= list(min = 140, max = 280)),
                       method = "fast99", n = 70, q = "qunif")
 ```
 
@@ -61,7 +61,7 @@ sens= sensitive_stics(dir.orig = "0-Data",
                       obs_name = "Wheat.obs",
                       Vars = c("lai(n)", "masec(n)"),
                       Parameters = list(interrang= list(mean = 0.15, sd = 0.05),
-                                        P_densitesem= list(mean = 210, sd = 70))
+                                        P_densitesem= list(mean = 210, sd = 70)),
                       method = "fast99", n = 70, q = "qnorm")
 ```
 
