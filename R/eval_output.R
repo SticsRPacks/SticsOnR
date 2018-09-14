@@ -30,6 +30,20 @@
 eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
   .= NULL
   sim= read_output(dirpath = dirpath, mixed = mixed)
+
+  if(length(unique(sim$Dominance))>1){
+    if(length(obs_name)==1){
+      stop("Expected two obs. files in obs_name when mixed is TRUE, found less")
+    }
+    if(length(obs_name)>2){
+      stop("A maximum of two obs. files should be given in obs_name when mixed is TRUE")
+    }
+  }else{
+    if(length(obs_name)>1){
+      stop("Expected one .obs in obs_name because mixed is FALSE but several were provided. ",
+           "Please provide only one")
+    }
+  }
   meas= read_obs(dirpath = dirpath, filename = obs_name, mixed = mixed)
   colnames(sim)[-grep("Date|Dominance",colnames(sim))]=
     paste0(colnames(sim[-grep("Date|Dominance",colnames(sim))]),"_sim")

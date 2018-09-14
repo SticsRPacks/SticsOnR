@@ -48,6 +48,11 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
          " files in dir.orig. Please check if the path is correct.")
   }
 
+  if(!is.null(stics)&&file.info(stics)$exe=="no"){
+    stop("Can't find STICS executable. Please check if the stics argument",
+         " is a path that points to the STICS model executable")
+  }
+
   STICS_names =
     c("climat\\.txt", "ficini\\.txt", "ficplt[1:2]\\.txt","fictec[1:2]\\.txt",
       "new_travail\\.usm", "param\\.sol", "station\\.txt", "tempopar\\.sti",
@@ -123,12 +128,12 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
                      recursive = T,overwrite = overw)
   Filenames= basename(Files[written])
   if(!is.null(stics)){
-    Already_stic= file.exists(stics[[1]])
+    Already_stic= file.exists(file.path(usm_path,basename(stics[[1]])))
     if(Already_stic&!overwrite){
       overw= NULL ; count= 1
       while(is.null(overw)){
         if(count==1){
-          cat(paste("Stics executable already in the folder, overwrite (y/n)?"))
+          cat(paste("Stics executable already in the usm, overwrite (y/n)?"))
         }
         count= count+1
         ans= readline()

@@ -49,17 +49,6 @@ read_obs= function(dirpath=getwd(), filename=NULL, mixed= NULL){
     }
   }
 
-  if(!mixed&length(filename)>1){
-    stop("Expected one .obs in filename because mixed is FALSE but several were provided. ",
-         "Please provide only one")
-  }
-  if(mixed&length(filename)<2&length(filename)>0){
-    stop("Expected two obs. files in filename when mixed is TRUE, found less")
-  }
-  if(mixed&length(filename)>2){
-    stop("A maximum of two obs. files should be given in filename when mixed is TRUE")
-  }
-
   # If no filename is given, trying to:
   # (1) use the mod_s* names or
   # (2) use the *.obs file if there is only one

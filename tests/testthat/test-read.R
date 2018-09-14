@@ -94,7 +94,7 @@ test_that("Test that eval_output returns a data.frame", {
 test_that("Test that eval_output returns right errors", {
   # Should return an error if inputting one name only for mixed species
   expect_error(eval_output(dirpath = "example_data", mixed = T, obs_name = "only_one_name"),
-               regexp = "Expected two obs. files in filename when mixed is TRUE, found less")
+               regexp = "Expected two obs. files in obs_name when mixed is TRUE, found less")
   # Should return an error if inputting more than one name for sole crops
   expect_error(eval_output(dirpath = "example_data",mixed = F, obs_name = c("1","2")))
 })
