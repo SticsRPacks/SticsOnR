@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot STICS outputs — plot_output • sticRs</title>
+<title>Add a group to a simulation output — add_group • sticRs</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Plot STICS outputs — plot_output" />
+<meta property="og:title" content="Add a group to a simulation output — add_group" />
 
-<meta property="og:description" content="Plot stics outputs, compare between USMs, and compare simulations
-to observations when available." />
+<meta property="og:description" content="Add a group variable to a simulation from stics_eval." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -113,85 +112,72 @@ to observations when available." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot STICS outputs</h1>
+    <h1>Add a group to a simulation output</h1>
     
-    <div class="hidden name"><code>plot_output.Rd</code></div>
+    <div class="hidden name"><code>add_group.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plot stics outputs, compare between USMs, and compare simulations
-to observations when available.</p>
+    <p>Add a group variable to a simulation from <code><a href='stics_eval.html'>stics_eval</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_output</span>(<span class='no'>...</span>, <span class='kw'>Vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot_it</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+    <pre class="usage"><span class='fu'>add_group</span>(<span class='no'>stics_eval_out</span>, <span class='no'>y</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Either a file path or the output from <code><a href='eval_output.html'>eval_output</a></code>
-If several objects are detected, make a comparison between them.</p></td>
+      <th>stics_eval_out</th>
+      <td><p>The output of a stics_eval simulation</p></td>
     </tr>
     <tr>
-      <th>Vars</th>
-      <td><p>Character vector of variables required for plotting.</p></td>
-    </tr>
-    <tr>
-      <th>obs_name</th>
-      <td><p>A vector of observation file name(s). It must have the form
-<code>c(Dominant,Dominated)</code> for mixed crops. See details.</p></td>
-    </tr>
-    <tr>
-      <th>Title</th>
-      <td><p>A title for the plot (optional)</p></td>
-    </tr>
-    <tr>
-      <th>plot_it</th>
-      <td><p>Boolean. Do the plot as to be pinted ?</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>Boolean (Optional). Should the <code>group</code> column be used for
-column faceting. If <code>TRUE</code>, make sure that the group column
-exists in the input</p></td>
+      <th>y</th>
+      <td><p>A vector of the group value, either of length 1 or nrow(stics_eval_out$outputs)</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A ggplot object, and print a plot if <code>plot_it</code> is set to <code>TRUE</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>if <code>Vars</code> is NULL (the default), the function plots all variables
-from the simulation. The output variables from simulations can be set using
-<code><a href='set_param.html'>set_out_var</a></code>.If <code>obs_name</code> is not provided, the function tries
-to guess it using the built-in algorithm from <code><a href='read_obs.html'>read_obs</a></code>. See
-respective documentation for more details.</p>
+    <p>This is usefull when comparing several simulations, to class outputs per simulations</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='plot_output.html'>plot_output</a></code> to use this group variable</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>sticRs</span>)
-<span class='co'># Example 1, uing paths as inputs:</span>
-<span class='fu'>plot_output</span>(<span class='kw'>Sim1</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_1"</span>,<span class='kw'>Sim2</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_2"</span>,
-            <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Wheat.obs"</span>,<span class='st'>"Pea.obs"</span>),
-            <span class='kw'>Title</span> <span class='kw'>=</span> <span class='st'>"Model comparison for Wheat-Pea in Intercrop"</span>)
+<span class='fu'>library</span>(<span class='no'>magrittr</span>)
 
-<span class='co'># Example 2, using do.call :</span>
-<span class='no'>Simulations_path</span><span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>Sim1</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_1"</span>,<span class='kw'>Sim2</span><span class='kw'>=</span> <span class='st'>"dummy_path/simulation_2"</span>)
-<span class='co'># Add arguments passed to plot_output() in the "Simulations_path" list:</span>
-<span class='no'>Simulations_path</span>$<span class='no'>Title</span><span class='kw'>=</span> <span class='st'>"Model comparison for Wheat-Pea in Intercrop"</span>
-<span class='fu'>do.call</span>(<span class='no'>plot_output</span>,<span class='no'>Simulations_path</span>)
+<span class='co'># Make two simulations on two different years, and compare them in the same plot:</span>
+<span class='co'># Simulation from 2018 (note the add_group function call at the end)</span>
+<span class='no'>Eval_stics_1</span><span class='kw'>=</span>
+   <span class='kw pkg'>sticRs</span><span class='kw ns'>::</span><span class='fu'><a href='https://vezy.github.io/sticRs//reference/stics_eval.html'>stics_eval</a></span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='st'>"0-DATA/dummy/IC_Wheat_Pea_2018"</span>,
+             <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='st'>"2-Simulations/Parameterization"</span>,
+             <span class='kw'>stics</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>EquivDens</span><span class='kw'>=</span> <span class='st'>"0-DATA/stics_executable/EquDens/stics.exe"</span>),
+             <span class='kw'>obs_name</span> <span class='kw'>=</span>  <span class='fu'>c</span>(<span class='st'>"6_IC_Wheat_N02.obs"</span>,<span class='st'>"6_IC_Pea_N02.obs"</span>),
+             <span class='kw'>Out_var</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>,<span class='st'>"hauteur"</span>),
+             <span class='kw'>Title</span> <span class='kw'>=</span> <span class='st'>"Wheat-Pea Auzeville 2005-2006 N0"</span>, <span class='kw'>plot_it</span> <span class='kw'>=</span> <span class='no'>T</span>)<span class='kw'>%&gt;%</span>
+             <span class='fu'>add_group</span>(<span class='st'>"2017-2018"</span>)
 
-<span class='co'># Example 3, using simulation outputs:</span>
-<span class='no'>sim1</span><span class='kw'>=</span> <span class='fu'><a href='read_output.html'>read_output</a></span>(<span class='st'>"dummy_path/simulation_1"</span>)
-<span class='no'>sim2</span><span class='kw'>=</span> <span class='fu'><a href='read_output.html'>read_output</a></span>(<span class='st'>"dummy_path/simulation_2"</span>)
-<span class='fu'>plot_output</span>(<span class='kw'>sim1</span><span class='kw'>=</span><span class='no'>sim1</span>,<span class='kw'>sim2</span><span class='kw'>=</span><span class='no'>sim2</span>)
+<span class='co'># Simulation from 2017 (note the add_group function call at the end):</span>
+<span class='no'>Eval_stics_2</span><span class='kw'>=</span>
+   <span class='kw pkg'>sticRs</span><span class='kw ns'>::</span><span class='fu'><a href='https://vezy.github.io/sticRs//reference/stics_eval.html'>stics_eval</a></span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='st'>"0-DATA/dummy/IC_Wheat_Pea_2017"</span>,
+             <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='st'>"2-Simulations/Parameterization"</span>,
+             <span class='kw'>stics</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>EquivDens</span><span class='kw'>=</span> <span class='st'>"0-DATA/stics_executable/EquDens/stics.exe"</span>),
+             <span class='kw'>obs_name</span> <span class='kw'>=</span>  <span class='fu'>c</span>(<span class='st'>"6_IC_Wheat_N02.obs"</span>,<span class='st'>"6_IC_Pea_N02.obs"</span>),
+             <span class='kw'>Out_var</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>,<span class='st'>"hauteur"</span>),
+             <span class='kw'>Title</span> <span class='kw'>=</span> <span class='st'>"Wheat-Pea Auzeville 2005-2006 N0"</span>, <span class='kw'>plot_it</span> <span class='kw'>=</span> <span class='no'>T</span>)<span class='kw'>%&gt;%</span>
+             <span class='fu'>add_group</span>(<span class='st'>"2016-2017"</span>)
+
+<span class='co'># Binding the two simulations:</span>
+<span class='no'>Eval_stics</span><span class='kw'>=</span> <span class='kw pkg'>sticRs</span><span class='kw ns'>::</span><span class='fu'><a href='https://vezy.github.io/sticRs//reference/rbind_sim.html'>rbind_sim</a></span>(<span class='no'>Eval_stics_1</span>, <span class='no'>Eval_stics_2</span>)
+
+<span class='co'># plotting the results:</span>
+<span class='fu'><a href='plot_output.html'>plot_output</a></span>(<span class='no'>Eval_stics</span>$<span class='no'>outputs</span>)
 
 <span class='co'># }</span></pre>
   </div>
@@ -200,9 +186,9 @@ respective documentation for more details.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

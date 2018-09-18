@@ -5,7 +5,7 @@
 \title{Plot STICS outputs}
 \usage{
 plot_output(..., Vars = NULL, obs_name = NULL, Title = NULL,
-  plot_it = T)
+  plot_it = T, group = F)
 }
 \arguments{
 \item{...}{Either a file path or the output from \code{\link{eval_output}}
@@ -19,6 +19,10 @@ If several objects are detected, make a comparison between them.}
 \item{Title}{A title for the plot (optional)}
 
 \item{plot_it}{Boolean. Do the plot as to be pinted ?}
+
+\item{group}{Boolean (Optional). Should the \code{group} column be used for
+column faceting. If \code{TRUE}, make sure that the group column
+exists in the input}
 }
 \value{
 A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
