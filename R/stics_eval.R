@@ -77,7 +77,8 @@
 #' }
 #' @export
 stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
-                     Plant=1,obs_name= NULL,Out_var=NULL, plot_it=T,
+                     Plant=1,obs_name= NULL,
+                     Out_var=c("lai(n)","masec(n)","hauteur"), plot_it=T,
                      Parallel=T,mixed= NULL,Title=NULL,Erase=TRUE){
 
   if(!dir.exists(dir.targ)&Erase){erase_dir=T}else{erase_dir=F}
