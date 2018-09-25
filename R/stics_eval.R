@@ -176,8 +176,11 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
   }
 
   names(outputs)= usm_name
-  stats_out= do.call(stati_stics,outputs)
-
+  stats_out= do.call(function(...)try(stati_stics(...),silent = T),outputs)
+  if(inherits(stats_out,"try-error")){
+    warning("Can't find ",crayon::red("ANY"),
+            " valid observation to perform evaluation")
+  }
   outputs[["plot_it"]]= plot_it
   outputs[["Vars"]]= Out_var
   outputs[["Title"]]= Title

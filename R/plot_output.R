@@ -22,7 +22,7 @@
 #'
 #' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
 #'
-#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar guides
+#' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar guides vars
 #' @importFrom reshape2 melt
 #' @importFrom parallel parLapply stopCluster
 #' @importFrom dplyr ungroup group_by summarise "%>%"
