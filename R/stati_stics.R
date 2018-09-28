@@ -188,7 +188,7 @@ stati_stics= function(...,obs_name=NULL){
 #'   \item \code{Bias()}: Modelling bias, simply computed as:
 #'             \deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
 #'   \item \code{MAPE()}: Mean Absolute Percent Error, computed as:
-#'            \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|)}{y_i}}{n}}{
+#'            \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|}{y_i})}{n}}{
 #'            MAPE = mean(abs(obs-sim)/obs)}
 #'   \item \code{RME()}: Relative mean error (\%), computed as:
 #'            \deqn{RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{RME = mean((sim-obs)/obs)}
