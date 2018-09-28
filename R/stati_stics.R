@@ -282,7 +282,7 @@ Bias= function(sim,obs,na.rm= T){
 #' @export
 #' @rdname predictor_assessment
 MAPE= function(sim,obs,na.rm= T){
-  mean(abs(obs-sim)/obs,na.rm = na.rm)
+  mean(abs(sim-obs)/obs,na.rm = na.rm)
 }
 
 #' @export
