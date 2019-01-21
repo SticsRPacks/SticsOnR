@@ -1,14 +1,14 @@
 Package: SticsOnR
 Type: Package
-Title: A Package to Set, Manage and Analyze STICS Simulations https://github.com/packs4stics/SticsOnR
+Title: A Package to Set, Manage and Analyze STICS Simulations https://github.com/SticsRPacks/SticsOnR
 Date: 2018-05-11
 Version: 1.1.0
 Authors@R: c(person("Remi", "Vezy",, "vezy.remi@gmail.com", c("aut", "cre", "cph"),comment = c(ORCID = "0000-0002-0808-1461")),
     person("STICS", "group",, "", c("aut", "cph")))
 Description: SticsOnR allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,
-  and to import the outputs from R. Learn more ar https://packs4stics.github.io/SticsOnR/.
-URL: https://github.com/packs4stics/SticsOnR
-BugReports: https://github.com/packs4stics/SticsOnR/issues
+  and to import the outputs from R. Learn more ar https://SticsRPacks.github.io/SticsOnR/.
+URL: https://github.com/SticsRPacks/SticsOnR
+BugReports: https://github.com/SticsRPacks/SticsOnR/issues
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true

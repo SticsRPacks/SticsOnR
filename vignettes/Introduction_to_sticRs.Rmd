@@ -21,7 +21,7 @@ path_to_simulation= "tests/testthat/example_data/"
 library(SticsOnR)
 ```
 
-The [SticsOnR](https://packs4stics.github.io/SticsOnR/) package provides tools for [STICS](https://www6.paca.inra.fr/stics_eng/) developers and users.  
+The [SticsOnR](https://SticsRPacks.github.io/SticsOnR/) package provides tools for [STICS](https://www6.paca.inra.fr/stics_eng/) developers and users.  
 The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developer (or user) often experience can be summarized as:
 
 * Reading / Writing parameter values
@@ -32,7 +32,7 @@ The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developer (o
 
 The package was developed to make these steps fast, reproducible and easy.
 
-This vignette is meant to introduce the concepts of STICS development and parameterization using the [SticsOnR](https://packs4stics.github.io/SticsOnR/) package.
+This vignette is meant to introduce the concepts of STICS development and parameterization using the [SticsOnR](https://SticsRPacks.github.io/SticsOnR/) package.
 
 ## STICS Inputs / outputs
 
@@ -87,7 +87,7 @@ However, it is important to note that this exemple dataset should not be used fo
 
 ### Using your own data
 
-It is strongly encouraged to use your own data instead of the dummy data set. The [SticsOnR](https://packs4stics.github.io/SticsOnR/) package uses the above-mentioned files, so if you want to use your own data, you simply have to create a USM using javaSTICS for example, and to make a first run with it to create all files needed. After completion, it is encouraged to copy the folder to a new location before using [SticsOnR](https://packs4stics.github.io/SticsOnR/), or to use a version control system such as GIT to avoid overwriting a USM when re-opening javaSTICS.
+It is strongly encouraged to use your own data instead of the dummy data set. The [SticsOnR](https://SticsRPacks.github.io/SticsOnR/) package uses the above-mentioned files, so if you want to use your own data, you simply have to create a USM using javaSTICS for example, and to make a first run with it to create all files needed. After completion, it is encouraged to copy the folder to a new location before using [SticsOnR](https://SticsRPacks.github.io/SticsOnR/), or to use a version control system such as GIT to avoid overwriting a USM when re-opening javaSTICS.
 
 
 ## Tip 1: Use projects
@@ -325,4 +325,4 @@ It has the same structure as the parameter comparison plot, except that the "Mod
 
 ## Next: sensitivity analyses
 
-The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a [separate vignette](https://packs4stics.github.io/SticsOnR/articles/Sensitivity_analyses.html) for a clearer description.
+The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a [separate vignette](https://SticsRPacks.github.io/SticsOnR/articles/Sensitivity_analyses.html) for a clearer description.

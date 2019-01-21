@@ -69,7 +69,7 @@ save_sensi= function(x,dirpath= getwd(), device="png",width=NULL,
   writeLines(
     text= paste0("Sensitivity analysis on the STICS model using the ",
                 "sensitive_stics() and save_sensi() functions from the ",
-                "SticsOnR package (https://github.com/packs4stics/SticsOnR).\n",
+                "SticsOnR package (https://github.com/SticsRPacks/SticsOnR).\n",
                 "Parameters used:\n",
                 paste(names(x$sensi_objects[[1]]$X), collapse = ", "),
                 "\nOutput variables on which the effect of the parameters ",

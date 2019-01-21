@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Sensitivity analyses
 
-Sensitivity analyses are critical steps for model evaluation. This step is often complicated because it is hard to implement and hard to understand. One purpose of the [SticsOnR](https://github.com/packs4stics/SticsOnR) package is to make this step easy by abstracting all the complex code and reduce it to only one main function.
+Sensitivity analyses are critical steps for model evaluation. This step is often complicated because it is hard to implement and hard to understand. One purpose of the [SticsOnR](https://github.com/SticsRPacks/SticsOnR) package is to make this step easy by abstracting all the complex code and reduce it to only one main function.
 Currently, the package supports two different and well known algorithms: fast99 and sobol. Both functions come from the excellent [sensitivity](https://cran.r-project.org/web/packages/sensitivity/index.html) package.
 The function is simply called `sensitive_stics`, and make automatic sensitivity analyses of any STICS output variable to any given number of parameter.
 

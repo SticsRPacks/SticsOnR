@@ -4,7 +4,7 @@
 SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 ===========================================================================================================================================================
 
-[![Travis build status](https://travis-ci.org/packs4stics/SticsOnR.svg?branch=master)](https://travis-ci.org/packs4stics/SticsOnR) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/packs4stics/SticsOnR?branch=master&svg=true)](https://ci.appveyor.com/project/VEZY/sticsonr/branch/master) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/packs4stics/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/packs4stics/SticsOnR?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
+[![Travis build status](https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master)](https://travis-ci.org/SticsRPacks/SticsOnR) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/SticsRPacks/SticsOnR?branch=master&svg=true)](https://ci.appveyor.com/project/VEZY/sticsonr/branch/master) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/SticsRPacks/SticsOnR?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
 
 Overview
 --------
@@ -25,7 +25,7 @@ This package allows the user to programmatically:
 
 -   and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) to one or more input parameters and their possible interactions on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes.
 
-The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/packs4stics/SticsOnR/issues) at any time.
+The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/SticsRPacks/SticsOnR/issues) at any time.
 
 Installation
 ------------
@@ -33,14 +33,14 @@ Installation
 The development version from [GitHub](https://github.com/) can be installed with:
 
 ``` r
-devtools::install_github("packs4stics/SticsOnR")
+devtools::install_github("SticsRPacks/SticsOnR")
 ```
 
 Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) package:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("packs4stics/SticsOnR")
+remotes::install_github("SticsRPacks/SticsOnR")
 ```
 
 The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe SticsOnR users are not widespread enough to bother CRAN people and use their free server time.
@@ -48,7 +48,7 @@ The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) t
 Examples
 --------
 
-Toy examples are given here for users in a hurry, but it is highly recommended to read the [introductory vignette](https://packs4stics.github.io/SticsOnR/articles/Introduction_to_SticsOnR.html) for a good start, and the [sensitivity vignette](https://packs4stics.github.io/SticsOnR/articles/Sensitivity_analyses.html) if needed.
+Toy examples are given here for users in a hurry, but it is highly recommended to read the [introductory vignette](https://SticsRPacks.github.io/SticsOnR/articles/Introduction_to_SticsOnR.html) for a good start, and the [sensitivity vignette](https://SticsRPacks.github.io/SticsOnR/articles/Sensitivity_analyses.html) if needed.
 
 ### Setting a parameter, running the model and compare with observations
 
@@ -174,7 +174,7 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 Example data
 ------------
 
-Example data are available in the [tests folder](https://github.com/packs4stics/SticsOnR/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/packs4stics/STICS_dummy) for download convenience. Download instructions are available on the companion repository.
+Example data are available in the [tests folder](https://github.com/SticsRPacks/SticsOnR/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/SticsRPacks/STICS_dummy) for download convenience. Download instructions are available on the companion repository.
 This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
 **Warning**: this example USM is made primarily to test the SticsOnR package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
 
