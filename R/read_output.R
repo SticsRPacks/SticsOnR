@@ -22,7 +22,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' Output= read_output()
 #'}
 #'

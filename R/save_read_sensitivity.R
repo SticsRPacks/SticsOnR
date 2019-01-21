@@ -26,7 +26,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #'
 #' # Making a sensitivity analysis on two parameters:
 #'
@@ -69,13 +69,13 @@ save_sensi= function(x,dirpath= getwd(), device="png",width=NULL,
   writeLines(
     text= paste0("Sensitivity analysis on the STICS model using the ",
                 "sensitive_stics() and save_sensi() functions from the ",
-                "sticRs package (https://github.com/VEZY/sticRs).\n",
+                "SticsOnR package (https://github.com/packs4stics/SticsOnR).\n",
                 "Parameters used:\n",
                 paste(names(x$sensi_objects[[1]]$X), collapse = ", "),
                 "\nOutput variables on which the effect of the parameters ",
                 "where tested:\n",
                 paste(names(x$sensi_objects), collapse = ", "),
-                "\nPlease use the sticRs::load_sensi() function to ",
+                "\nPlease use the SticsOnR::load_sensi() function to ",
                 "load the sensitivity analysis back to R."),
     con= file.path(dirpath,"readme.txt"))
 }

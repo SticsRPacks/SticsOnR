@@ -19,13 +19,13 @@ This is usefull when comparing several simulations, to class outputs per simulat
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 library(magrittr)
 
 # Make two simulations on two different years, and compare them in the same plot:
 # Simulation from 2018 (note the add_group function call at the end)
 Eval_stics_1=
-   sticRs::stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea_2018",
+   SticsOnR::stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea_2018",
              dir.targ = "2-Simulations/Parameterization",
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
@@ -35,7 +35,7 @@ Eval_stics_1=
 
 # Simulation from 2017 (note the add_group function call at the end):
 Eval_stics_2=
-   sticRs::stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea_2017",
+   SticsOnR::stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea_2017",
              dir.targ = "2-Simulations/Parameterization",
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
@@ -44,7 +44,7 @@ Eval_stics_2=
              add_group("2016-2017")
 
 # Binding the two simulations:
-Eval_stics= sticRs::rbind_sim(Eval_stics_1, Eval_stics_2)
+Eval_stics= SticsOnR::rbind_sim(Eval_stics_1, Eval_stics_2)
 
 # plotting the results:
 plot_output(Eval_stics$outputs)

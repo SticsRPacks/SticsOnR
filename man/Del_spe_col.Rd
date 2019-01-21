@@ -18,7 +18,7 @@ Helper function to replace the first parenthesis by a
 }
 \examples{
 \dontrun{
-library(sticRs) ; library(data.table)
+library(SticsOnR) ; library(data.table)
 a= data.table(`lai(n)`= c(1:8))
 Del_spe_col(a)
 }

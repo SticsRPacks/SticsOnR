@@ -32,7 +32,7 @@ Because this function has the purpose to assess model quality, all statistics
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 # Exemple 1:
 tests= stati_stics("dummy/path/simulation",
                    obs_name = c("Wheat.obs","Pea.obs"))

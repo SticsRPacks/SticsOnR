@@ -1,5 +1,5 @@
 ---
-title: 'sticRs: the R package for STICS users and developers'
+title: 'SticsOnR: the R package for STICS users and developers'
 authors:
 - affiliation: '1,2'
   name: R. Vezy
@@ -43,12 +43,12 @@ Therefore, STICS users and developers often experience the same different steps 
 * Make a sensitivity analysis
 * Distribute the runs across multiple cores / machines
 
-``sticRs`` is an R package that was designed to make these steps as easy and fast as possible, and more importantly, reproducible. It has been adapted for the regular sole crop version of STICS, but also to its intercrop version [@CORREHELLOU200972].
-The following diagram presents a typical workflow using the main functions from ``sticRs``: ![sticRs workflow](sticRs_workflow.png)
+``SticsOnR`` is an R package that was designed to make these steps as easy and fast as possible, and more importantly, reproducible. It has been adapted for the regular sole crop version of STICS, but also to its intercrop version [@CORREHELLOU200972].
+The following diagram presents a typical workflow using the main functions from ``SticsOnR``: ![SticsOnR workflow](sticRs_workflow.png)
 
-Evaluating the model is so fast and straightforward using ``sticRs`` that this step is often bypassed by the user to directly make a model evaluation using the ``stics_eval`` function, which is a wrapper of the previous functions. The package also automatically distributes the simulations across computer cores when the user call ``stics_eval`` and  ``sensitive_stics``.
+Evaluating the model is so fast and straightforward using ``SticsOnR`` that this step is often bypassed by the user to directly make a model evaluation using the ``stics_eval`` function, which is a wrapper of the previous functions. The package also automatically distributes the simulations across computer cores when the user call ``stics_eval`` and  ``sensitive_stics``.
 
-``sticRs`` documentation is accessible on its dedicated website (https://vezy.github.io/sticRs), and its source code has been archived to Zenodo with a concept (*i.e.* permanent) DOI [@zenodo].
+``SticsOnR`` documentation is accessible on its dedicated website (https://vezy.github.io/SticsOnR), and its source code has been archived to Zenodo with a concept (*i.e.* permanent) DOI [@zenodo].
 
 # Acknowledgements
 

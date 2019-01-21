@@ -31,7 +31,7 @@ The STICS outputs are controled from the \code{var.mod} file.
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 Output= read_output()
 }
 

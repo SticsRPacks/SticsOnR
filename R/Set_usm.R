@@ -29,7 +29,7 @@
 #' # Set a dummy simulation in the folder "1-Simulations", relative to the
 #' # project path:
 #'
-#' library(sticRs)
+#' library(SticsOnR)
 #' import_usm(dir.targ = "1-Simulations")
 #'
 #'}
@@ -194,7 +194,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #'\dontrun{
 #' # Replace the interrow distance parameter to 0.01:
 #'
-#' library(sticRs)
+#' library(SticsOnR)
 #' set_param(dirpath = "stics_usm/usm_1", param= "interrang", value= 0.01)
 #'
 #'}

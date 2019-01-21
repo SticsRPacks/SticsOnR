@@ -1,6 +1,6 @@
 context("Test setting functions")
 
-library(sticRs)
+library(SticsOnR)
 
 
 

@@ -1,6 +1,6 @@
 context("Test read functions")
 
-library(sticRs)
+library(SticsOnR)
 
 
 # read_met ----------------------------------------------------------------

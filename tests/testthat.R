@@ -1,4 +1,4 @@
 library(testthat)
-library(sticRs)
+library(SticsOnR)
 
-test_check("sticRs")
+test_check("SticsOnR")

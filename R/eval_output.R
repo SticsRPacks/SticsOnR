@@ -21,7 +21,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' Table_compare= eval_output()
 #'}
 #'

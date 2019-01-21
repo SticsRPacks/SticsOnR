@@ -31,7 +31,7 @@ For mixed crops, the \code{obs_name} argument should have the principal plant
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 Table_compare= eval_output()
 }
 

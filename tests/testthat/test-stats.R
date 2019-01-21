@@ -1,5 +1,5 @@
 context("Test statistics")
-library(sticRs)
+library(SticsOnR)
 
 
 # stati_stics -------------------------------------------------------------

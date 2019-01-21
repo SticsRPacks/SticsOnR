@@ -1,19 +1,19 @@
-Package: sticRs
+Package: SticsOnR
 Type: Package
-Title: A Package to Set, Manage and Analyze STICS Simulations https://vezy.github.io/sticRs/
+Title: A Package to Set, Manage and Analyze STICS Simulations https://github.com/packs4stics/SticsOnR
 Date: 2018-05-11
-Version: 1.0.2
+Version: 1.1.0
 Authors@R: c(person("Remi", "Vezy",, "vezy.remi@gmail.com", c("aut", "cre", "cph"),comment = c(ORCID = "0000-0002-0808-1461")),
     person("STICS", "group",, "", c("aut", "cph")))
-Description: sticRs allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,
-  to import the outputs and analyze them from R. Learn more ar https://vezy.github.io/sticRs/.
-URL: https://vezy.github.io/sticRs/
-BugReports: https://github.com/VEZY/sticRs/issues
+Description: SticsOnR allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,
+  and to import the outputs from R. Learn more ar https://packs4stics.github.io/SticsOnR/.
+URL: https://github.com/packs4stics/SticsOnR
+BugReports: https://github.com/packs4stics/SticsOnR/issues
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Imports:
     magrittr,
     stats,

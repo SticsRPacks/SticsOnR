@@ -24,7 +24,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' Meas= read_obs()
 #'}
 #'

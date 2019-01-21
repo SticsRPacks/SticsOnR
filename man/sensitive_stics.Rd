@@ -4,9 +4,9 @@
 \alias{sensitive_stics}
 \title{Make sensitivity analysis of STICS output}
 \usage{
-sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
-  Vars, method = c("fast99", "sobol"), n = 10 * length(Vars), q = "qunif",
-  Plant = 1, Erase = T, ...)
+sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name,
+  Parameters, Vars, method = c("fast99", "sobol"), n = 10 *
+  length(Vars), q = "qunif", Plant = 1, Erase = T, ...)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -72,7 +72,7 @@ The function uses the \pkg{sensitivity} package functions under the hood to
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 # Example using the fast99 method for a sensitivity analysis on the
 # "interrang" and "P_densitesem" parameters:
 

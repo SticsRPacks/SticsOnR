@@ -29,7 +29,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' # Example 1, uing paths as inputs:
 #' plot_output(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2",
 #'             obs_name = c("Wheat.obs","Pea.obs"),

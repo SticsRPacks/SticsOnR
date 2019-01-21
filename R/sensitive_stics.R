@@ -56,7 +56,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' # Example using the fast99 method for a sensitivity analysis on the
 #' # "interrang" and "P_densitesem" parameters:
 #'

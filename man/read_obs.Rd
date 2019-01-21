@@ -32,7 +32,7 @@ If \code{filename} is not specified (or equal to \code{NULL}), the
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 Meas= read_obs()
 }
 

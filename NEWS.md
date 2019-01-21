@@ -1,3 +1,8 @@
+
+# SticsOnR 1.1.0
+
+sticRs becomes part of the packs4stics suite of packages and is renamed SticsOnR.
+
 # sticRs 1.0.2
 Add vignettes for introduction and for sensitivity analyses.
 

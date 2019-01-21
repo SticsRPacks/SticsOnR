@@ -9,7 +9,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' run_stics()
 #'}
 #' @export

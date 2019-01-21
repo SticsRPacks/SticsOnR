@@ -11,7 +11,7 @@ Helper function to print the list of all possible variables to set as output
 from the STICS model.
 }
 \examples{
-library(sticRs)
+library(SticsOnR)
 All_vars= all_out_var()
 
 }

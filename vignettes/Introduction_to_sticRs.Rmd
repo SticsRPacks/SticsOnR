@@ -1,12 +1,12 @@
 ---
-title: "Introduction to sticRs"
+title: "Introduction to SticsOnR"
 author: "Rémi Vezy"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Introduction to sticRs}
+  %\VignetteIndexEntry{Introduction to SticsOnR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 )
 path_to_data= "tests/testthat/example_data/"
 path_to_simulation= "tests/testthat/example_data/"
-library(sticRs)
+library(SticsOnR)
 ```
 
-The [sticRs](https://vezy.github.io/sticRs/) package provides tools for [STICS](https://www6.paca.inra.fr/stics_eng/) developers and users.  
+The [SticsOnR](https://packs4stics.github.io/SticsOnR/) package provides tools for [STICS](https://www6.paca.inra.fr/stics_eng/) developers and users.  
 The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developer (or user) often experience can be summarized as:
 
 * Reading / Writing parameter values
@@ -32,7 +32,7 @@ The different steps a [STICS](https://www6.paca.inra.fr/stics_eng/) developer (o
 
 The package was developed to make these steps fast, reproducible and easy.
 
-This vignette is meant to introduce the concepts of STICS development and parameterization using the [sticRs](https://vezy.github.io/sticRs/) package.
+This vignette is meant to introduce the concepts of STICS development and parameterization using the [SticsOnR](https://packs4stics.github.io/SticsOnR/) package.
 
 ## STICS Inputs / outputs
 
@@ -43,7 +43,7 @@ Among all outputs from STICS, one (or two for intercrops) is particularly useful
 
 ### Example data
 
-An example set of these files is provided in the [sticRs repository](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data), and more conveniently in a [separate repository](https://github.com/VEZY/STICS_dummy). These data are only dummy data with randomized (but plausible) input values. This example set is a wheat in self-intercropping, *i.e.* a simulation of a sole crop of wheat in intercropping mode. This is used to evaluate the intercrop module of STICS, which should yield approximately the same outputs in sole crop and in intercrop mode.  
+An example set of these files is provided in the [SticsOnR repository](https://github.com/VEZY/SticsOnR/tree/master/tests/testthat/example_data), and more conveniently in a [separate repository](https://github.com/VEZY/STICS_dummy). These data are only dummy data with randomized (but plausible) input values. This example set is a wheat in self-intercropping, *i.e.* a simulation of a sole crop of wheat in intercropping mode. This is used to evaluate the intercrop module of STICS, which should yield approximately the same outputs in sole crop and in intercrop mode.  
 It is important to note that the STICS model computes one plant after another for intercrops. The principal plant is the first one to be computed, and the associated one comes second, making the principal plant dominant in the beginning, and the associated dominated. The principal and associated status remains the same over the simulation, however the dominance status can change any time according to plant height.
 
 The example data folder is made of sixteen different files:
@@ -87,7 +87,7 @@ However, it is important to note that this exemple dataset should not be used fo
 
 ### Using your own data
 
-It is strongly encouraged to use your own data instead of the dummy data set. The [sticRs](https://vezy.github.io/sticRs/) package uses the above-mentioned files, so if you want to use your own data, you simply have to create a USM using javaSTICS for example, and to make a first run with it to create all files needed. After completion, it is encouraged to copy the folder to a new location before using [sticRs](https://vezy.github.io/sticRs/), or to use a version control system such as GIT to avoid overwriting a USM when re-opening javaSTICS.
+It is strongly encouraged to use your own data instead of the dummy data set. The [SticsOnR](https://packs4stics.github.io/SticsOnR/) package uses the above-mentioned files, so if you want to use your own data, you simply have to create a USM using javaSTICS for example, and to make a first run with it to create all files needed. After completion, it is encouraged to copy the folder to a new location before using [SticsOnR](https://packs4stics.github.io/SticsOnR/), or to use a version control system such as GIT to avoid overwriting a USM when re-opening javaSTICS.
 
 
 ## Tip 1: Use projects
@@ -122,14 +122,14 @@ stics_executable = "0-Data/stics_executable/stics.exe"
 It is highly recommended to copy the simulation files to another disk location before changing any parameter values. This ensures reproducibility and avoid any overwriting of the original data. To do so, the `import_usm` helper function can be used to copy input files along the STICS executable to a new folder:
 
 ```{r eval=FALSE}
-library(sticRs)
+library(SticsOnR)
 import_usm(dir.orig = path_to_data, dir.targ = path_to_simulation, stics = stics_executable, usm_name = "Test_simulation")
 ```
 
 
 ## Model parameterization
 
-There are two useful functions in the sticRs package to parameterize STICS inputs: `read_param` to read and `set_param` to modify a value of a parameter. both functions are wrapper of more specialized functions such as `read_plant` or `set_plant`, which read and set the plant parameters respectively.
+There are two useful functions in the SticsOnR package to parameterize STICS inputs: `read_param` to read and `set_param` to modify a value of a parameter. both functions are wrapper of more specialized functions such as `read_plant` or `set_plant`, which read and set the plant parameters respectively.
 
 For example, to read the sowing density for both plants, the use will use `read_param` as follows:
 ```{r eval=FALSE}
@@ -325,4 +325,4 @@ It has the same structure as the parameter comparison plot, except that the "Mod
 
 ## Next: sensitivity analyses
 
-The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a [separate vignette](https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html) for a clearer description.
+The package also has a function to make sensitivity analyses: `sensitive_stics`. Its usage is detailed in a [separate vignette](https://packs4stics.github.io/SticsOnR/articles/Sensitivity_analyses.html) for a clearer description.

@@ -27,7 +27,7 @@
 #' @importFrom stats sd
 #' @examples
 #'\dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' # Exemple 1:
 #' tests= stati_stics("dummy/path/simulation",
 #'                    obs_name = c("Wheat.obs","Pea.obs"))
@@ -212,7 +212,7 @@ stati_stics= function(...,obs_name=NULL){
 #' @importFrom stats lm sd var na.omit
 #'
 #' @examples
-#' library(sticRs)
+#' library(SticsOnR)
 #' sim= rnorm(n = 5,mean = 1,sd = 1)
 #' obs= rnorm(n = 5,mean = 1,sd = 1)
 #' RMSE(sim,obs)

@@ -4,10 +4,10 @@
 \alias{stics_eval}
 \title{Evaluate STICS version}
 \usage{
-stics_eval(dir.orig = NULL, dir.targ = getwd(), stics, Parameter = NULL,
-  Plant = 1, obs_name = NULL, Out_var = c("lai(n)", "masec(n)",
-  "hauteur"), plot_it = T, Parallel = T, mixed = NULL, Title = NULL,
-  Erase = TRUE)
+stics_eval(dir.orig = NULL, dir.targ = getwd(), stics,
+  Parameter = NULL, Plant = 1, obs_name = NULL,
+  Out_var = c("lai(n)", "masec(n)", "hauteur"), plot_it = T,
+  Parallel = T, mixed = NULL, Title = NULL, Erase = TRUE)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -70,7 +70,7 @@ The function run STICS executable in parrallel using all cores from the machine 
 }
 \examples{
 \dontrun{
-library(sticRs)
+library(SticsOnR)
 # Evaluating a change in a parameter:
 
 Eval_parameter=

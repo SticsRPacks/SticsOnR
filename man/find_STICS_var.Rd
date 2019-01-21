@@ -17,7 +17,7 @@ for the STICS model with a partial match.
 The function understand \code{\link[base]{regex}} as input.
 }
 \examples{
-library(sticRs)
+library(SticsOnR)
 find_STICS_var("lai")
 
 }

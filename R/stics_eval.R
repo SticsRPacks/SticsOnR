@@ -51,7 +51,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(sticRs)
+#' library(SticsOnR)
 #' # Evaluating a change in a parameter:
 #'
 #' Eval_parameter=

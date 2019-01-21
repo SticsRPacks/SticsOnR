@@ -1,5 +1,5 @@
 context("Test utilities/helper functions")
-library(sticRs)
+library(SticsOnR)
 
 test_that("Test Del_spe_col output", {
   library(data.table)

@@ -37,7 +37,7 @@
 #'\dontrun{
 #' # Read the interrow distance parameter:
 #'
-#' library(sticRs)
+#' library(SticsOnR)
 #' read_param(param='interrang')
 #'
 #'}
