@@ -1,10 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-sticRs: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
-=========================================================================================================================================================
+SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+===========================================================================================================================================================
 
-[![Travis-CI Build Status](https://travis-ci.com/VEZY/sticRs.svg?branch=master)](https://travis-ci.com/VEZY/sticRs) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/VEZY/sticrs/branch/master) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/VEZY/sticRs/branch/master/graph/badge.svg)](https://codecov.io/github/VEZY/sticRs?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
+[![Travis build status](https://travis-ci.org/packs4stics/SticsOnR.svg?branch=master)](https://travis-ci.org/packs4stics/SticsOnR) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/packs4stics/SticsOnR?branch=master&svg=true)](https://ci.appveyor.com/project/packs4stics/SticsOnR) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Coverage status](https://codecov.io/gh/packs4stics/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/packs4stics/SticsOnR?branch=master) [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
 
 Overview
 --------
@@ -25,7 +25,7 @@ This package allows the user to programmatically:
 
 -   and run sensitivity analyzes ([`sensitive_stics`](R/sensitive_stics.R)) to one or more input parameters and their possible interactions on one or more output variables. Note that [`stics_eval`](R/stics_eval.R) can evaluate parameter change effect also, but doesn't run full sensitivity analyzes.
 
-The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time.
+The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/packs4stics/SticsOnR/issues) at any time.
 
 Installation
 ------------
@@ -33,22 +33,22 @@ Installation
 The development version from [GitHub](https://github.com/) can be installed with:
 
 ``` r
-devtools::install_github("VEZY/sticRs")
+devtools::install_github("packs4stics/SticsOnR")
 ```
 
 Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) package:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("VEZY/sticRs")
+remotes::install_github("packs4stics/SticsOnR")
 ```
 
-The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe sticRs users are not widespread enough to bother CRAN people and use their free server time.
+The package is tested routinely to pass all [CRAN](https://CRAN.R-project.org) tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe SticsOnR users are not widespread enough to bother CRAN people and use their free server time.
 
 Examples
 --------
 
-Toy examples are given here for users in a hurry, but it is highly recommended to read the [introductory vignette](https://vezy.github.io/sticRs/articles/Introduction_to_sticRs.html) for a good start, and the [sensitivity vignette](https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html) if needed.
+Toy examples are given here for users in a hurry, but it is highly recommended to read the [introductory vignette](https://packs4stics.github.io/SticsOnR/articles/Introduction_to_SticsOnR.html) for a good start, and the [sensitivity vignette](https://packs4stics.github.io/SticsOnR/articles/Sensitivity_analyses.html) if needed.
 
 ### Setting a parameter, running the model and compare with observations
 
@@ -57,7 +57,7 @@ Toy examples are given here for users in a hurry, but it is highly recommended t
 This is a basic example using the default dummy simulation (parameters and meteorology) for a mixed crop of wheat-wheat (not a real mixed crop, for testing the model behavior) :
 
 ``` r
-library("sticRs")
+library("SticsOnR")
 # Path to a preconfigured USM:
 path_origin_USM= "Your_path_goes_here"
 # Path where the simulation will be made:
@@ -96,7 +96,7 @@ To use your own data, simply use the folder of your simulation as the reference 
 You can run all previous code using the simple, standardized `stics_eval` function:
 
 ``` r
-library("sticRs")
+library("SticsOnR")
 out= 
   stics_eval(dir.orig = path_origin_USM, 
              dir.targ = path_simulation,
@@ -152,7 +152,7 @@ The function will return a list of STICS outputs for each stics executable provi
 Make a sensitivity analysis using the `fast99` algorithm for the interrow (`interrang` parameter) for three main variables: the intercepted radiation (`raint`), the leaf area index (`lai(n)`), and the dry mass (`masec(n)`):
 
 ``` r
-library("sticRs")
+library("SticsOnR")
 sens= sensitive_stics(dir.orig = path_origin_USM,
                       dir.targ = path_simulation,
                       stics = path_STICS,
@@ -174,9 +174,9 @@ The output from [`sensitive_stics`](R/sensitive_stics.R) is a list of two:
 Example data
 ------------
 
-Example data are available in the [tests folder](https://github.com/VEZY/sticRs/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/VEZY/STICS_dummy) for download convenience. Download instructions are available on the companion repository.
+Example data are available in the [tests folder](https://github.com/packs4stics/SticsOnR/tree/master/tests/testthat/example_data), but also as a [separate repository](https://github.com/packs4stics/STICS_dummy) for download convenience. Download instructions are available on the companion repository.
 This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.
-**Warning**: this example USM is made primarily to test the sticRs package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
+**Warning**: this example USM is made primarily to test the SticsOnR package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.
 
 Code of conduct
 ---------------
@@ -188,7 +188,7 @@ Authors and acknowledgments
 
 The STICS (Simulateur mulTIdisciplinaire pour les Cultures Standard, or multidisciplinary simulator for standard crops) model is a dynamic, generic and robust model aiming to simulate the soil-crop-atmosphere system. It was first developed in 1996 by INRA -the French National Institute for Agricultural research- by Nadine Brisson and Dominique Ripoche. An overview of the model is available [here](https://www6.paca.inra.fr/stics_eng/About-us/Stics-model-overview).
 
-The sticRs package was developed by [Rémi Vezy](https://remi-vezy.netlify.com/) and the [STICS group](https://www6.paca.inra.fr/stics_eng/) thanks to the European H2020 funded [ReMIX project](https://www.remix-intercrops.eu/).
+The SticsOnR package was developed by [Rémi Vezy](https://remi-vezy.netlify.com/) and the [STICS group](https://www6.paca.inra.fr/stics_eng/) thanks to the European H2020 funded [ReMIX project](https://www.remix-intercrops.eu/).
 
 ![ReMIX logo](man/figures/remix_logo.jpg)
 -----------------------------------------

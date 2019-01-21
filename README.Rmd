@@ -17,8 +17,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
   
 # SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
-[![Travis-CI Build Status](https://travis-ci.com/packs4stics/SticsOnR.svg?branch=master)](https://travis-ci.com/packs4stics/SticsOnR)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/cu1nyxrhc6nmpt5i/branch/master?svg=true)](https://ci.appveyor.com/project/packs4stics/SticsOnR/branch/master)
+[![Travis build status](https://travis-ci.org/packs4stics/SticsOnR.svg?branch=master)](https://travis-ci.org/packs4stics/SticsOnR)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/packs4stics/SticsOnR?branch=master&svg=true)](https://ci.appveyor.com/project/packs4stics/SticsOnR)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Coverage status](https://codecov.io/gh/packs4stics/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/packs4stics/SticsOnR?branch=master)
