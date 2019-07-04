@@ -18,7 +18,9 @@ status](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg
 
 ## Development
 
-Follow up the development [here](sticsOnR.md). \#\# Overview
+Follow up the development [here](sticsOnR.md).
+
+## Overview
 
 This package allows the user to programmatically:
 

@@ -27,7 +27,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Development 
 
-Follow up the development [here](sticsOnR.md).
+Follow up the development [here](sticsOnR.md).  
+
 ## Overview
 
 This package allows the user to programmatically: 
