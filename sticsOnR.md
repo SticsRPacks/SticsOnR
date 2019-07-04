@@ -1,6 +1,6 @@
 # sticsOnR
 
-## There are three ways to use STICS with R with this package, and they are listed below.
+## There are three ways to use STICS with R with `sticsOnR`, and they are listed below.
 
 ### 1. Using JavaStics through R
 
