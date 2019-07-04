@@ -24,6 +24,10 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![Coverage status](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/SticsRPacks/SticsOnR?branch=master)
 [![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
 
+
+## Development 
+
+Follow up the development [here](sticsOnR.md).
 ## Overview
 
 This package allows the user to programmatically: 
