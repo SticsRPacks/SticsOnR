@@ -5,20 +5,21 @@
 #'
 #' @param dirpath USM directory path
 #' @return The function prints the STICS output to the console and returns
-#'         \code{TRUE} if STICS ran successfully, or an error if any problem occured
+#'         `TRUE` if STICS ran successfully, or an error if any problem occured
 #'
 #' @examples
 #'\dontrun{
-#' library(SticsOnR)
+#' library(sticRs)
 #' run_stics()
 #'}
 #' @export
 #'
 run_stics=function(dirpath=getwd()){
+
   wd= getwd()
+  on.exit(setwd(wd))
   setwd(dirpath)
   out= system2("stics")
-  setwd(wd)
   if(out==0){
     TRUE
   }else{

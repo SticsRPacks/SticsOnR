@@ -3,24 +3,24 @@
 #' @description Plot stics outputs, compare between USMs, and compare simulations
 #' to observations when available.
 #'
-#' @param ...      Either a file path or the output from \code{\link{eval_output}}
+#' @param ...      Either a file path or the output from [eval_output()]
 #' If several objects are detected, make a comparison between them.
 #' @param Vars     Character vector of variables required for plotting.
 #' @param obs_name A vector of observation file name(s). It must have the form
-#'                 \code{c(Dominant,Dominated)} for mixed crops. See details.
+#'                 `c(Dominant,Dominated)` for mixed crops. See details.
 #' @param Title    A title for the plot (optional)
 #' @param plot_it  Boolean. Do the plot as to be pinted ?
-#' @param group    Boolean (Optional). Should the \code{group} column be used for
-#'                 column faceting. If \code{TRUE}, make sure that the group column
+#' @param group    Boolean (Optional). Should the `group` column be used for
+#'                 column faceting. If `TRUE`, make sure that the group column
 #'                 exists in the input
 #'
-#' @details if \code{Vars} is NULL (the default), the function plots all variables
+#' @details if `Vars` is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
-#' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
-#' to guess it using the built-in algorithm from \code{\link{read_obs}}. See
+#' [set_out_var()].If `obs_name` is not provided, the function tries
+#' to guess it using the built-in algorithm from [read_obs()]. See
 #' respective documentation for more details.
 #'
-#' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
+#' @return A ggplot object, and print a plot if `plot_it` is set to `TRUE`.
 #'
 #' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar guides vars
 #' @importFrom reshape2 melt
@@ -29,7 +29,7 @@
 #'
 #' @examples
 #'\dontrun{
-#' library(SticsOnR)
+#' library(sticRs)
 #' # Example 1, uing paths as inputs:
 #' plot_output(Sim1= "dummy_path/simulation_1",Sim2= "dummy_path/simulation_2",
 #'             obs_name = c("Wheat.obs","Pea.obs"),
@@ -126,7 +126,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
   }
   ggstics=
     ggstics +
-    geom_line(aes(x=Date, y= value, colour= Dominance,linetype= Version))+
+    geom_line(aes(x=Date, y= value, colour= Dominance,linetype= Version),
+              na.rm=TRUE)+
     labs(linetype='Simulation',colour='Plant dominance')+
     ggtitle(Title)
 
@@ -151,7 +152,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
     x_meas_no_sd= x_meas_[!grepl("_sd",x_meas_$variable),]
     ggstics= ggstics+
       geom_point(data= x_meas_no_sd,
-                 aes(x=Date, y= value, colour= Dominance,pch= Version))+
+                 aes(x=Date, y= value, colour= Dominance,pch= Version),
+                 na.rm=TRUE)+
       labs(pch='Observations')
     # If there are sd values in the observation file:
     if(any(grepl("_sd",x_meas_$variable))){
@@ -173,7 +175,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
       }
       ggstics= ggstics+
         geom_errorbar(data= x_meas_sd,aes(x=Date, ymin= value_min, ymax= value_max,
-                                          colour= Dominance,pch= Version))
+                                          colour= Dominance),
+                      na.rm=TRUE)
     }
 
   }
@@ -183,5 +186,18 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
 }
 
 
-identical_vals= function(x){length(unique(x))==1}
+#' Identical
+#'
+#' @description Test if all values in x are identical
+#' @param x A vector of values
+#'
+#' @return A boolean
+#' @export
+#'
+#' @examples
+#' identical_vals(c(1,1,1,1))
+#' identical_vals(c(1,1,1,2))
+identical_vals= function(x){
+  length(unique(x))==1
+}
 

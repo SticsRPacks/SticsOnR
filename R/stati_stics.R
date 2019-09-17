@@ -3,23 +3,23 @@
 #' @description Compute statistics for evaluation of the STICS outputs against observations. This function can
 #'              be used for one USM or to compare outputs from different model versions or parameter values.
 #'
-#' @param ...      Either a folder path or the output from \code{\link{eval_output}}. If several objects are
+#' @param ...      Either a folder path or the output from [eval_output()]. If several objects are
 #'                 detected, make a comparison between them.
-#' @param obs_name A vector of observation file name(s). Optionnal, required only if \code{...} is a link.
-#'                 Must have the form \code{c(Dominant,Dominated)} for mixed crops. See details.
+#' @param obs_name A vector of observation file name(s). Optionnal, required only if `...` is a link.
+#'                 Must have the form `c(Dominant,Dominated)` for mixed crops. See details.
 #'
-#' @details If \code{obs_name} is not provided, the function tries to guess it using the built-in algorithm
-#'          from \code{\link{read_obs}}. See respective documentation for more details.
+#' @details If `obs_name` is not provided, the function tries to guess it using the built-in algorithm
+#'          from [read_obs()]. See respective documentation for more details.
 #'
 #' @note Because this function has the purpose to assess model quality, all statistics
 #'       are computed on dates were observations are present only. So the simulation mean
 #'       is only the mean on dates with observations, not the overall simulation mean.
 #'
 #' @return A data.frame with statistics for each simulation. The data.frame has a
-#'         \code{description} attribute that gives the description of the column names
+#'         `description` attribute that gives the description of the column names
 #'
-#' @seealso This function is largely inspired from the \code{evaluate()} function from the
-#'          \code{SticsEvalR} package
+#' @seealso This function is largely inspired from the `evaluate()` function from the
+#'          `SticsEvalR` package
 #'
 #' @importFrom reshape2 melt
 #' @importFrom parallel parLapply stopCluster
@@ -27,7 +27,7 @@
 #' @importFrom stats sd
 #' @examples
 #'\dontrun{
-#' library(SticsOnR)
+#' library(sticRs)
 #' # Exemple 1:
 #' tests= stati_stics("dummy/path/simulation",
 #'                    obs_name = c("Wheat.obs","Pea.obs"))
@@ -41,6 +41,7 @@
 #'             obs_name = c("Wheat.obs","Pea.obs"))
 #'
 #'}
+#'
 #' @export
 #'
 stati_stics= function(...,obs_name=NULL){
@@ -114,6 +115,7 @@ stati_stics= function(...,obs_name=NULL){
                        CV_obs= (sd_obs/mean_obs)*100,
                        CV_sim= (sd_sim/mean_sim)*100,
                        R2= R2(sim = sim, obs = obs),
+                       SS_res= SS_res(sim = sim, obs = obs),
                        RMSE= RMSE(sim = sim, obs = obs),
                        nRMSE= nRMSE(sim = sim, obs = obs),
                        MAE= MAE(sim = sim, obs = obs),
@@ -127,13 +129,15 @@ stati_stics= function(...,obs_name=NULL){
       )
 
     attr(x, "description")=
-      data.frame(mean_obs= "Mean of the observations",
+      data.frame(n_obs= "Number of observations",
+                 mean_obs= "Mean of the observations",
                  mean_sim= "Mean of the simulation",
                  sd_obs= "Standard deviation of the observations",
                  sd_sim= "Standard deviation of the simulation",
                  CV_obs= "Coefficient of variation of the observations",
                  CV_sim= "Coefficient of variation of the simulation",
                  R2= "coefficient of determination for obs~sim",
+                 SS_res= "Residual sum of squares",
                  RMSE= "Root Mean Squared Error",
                  nRMSE= "Normalized Root Mean Squared Error, CV(RMSE)",
                  MAE= "Mean Absolute Error",
@@ -160,37 +164,38 @@ stati_stics= function(...,obs_name=NULL){
 #'
 #' @param obs       Observed values
 #' @param sim       Simulated values
-#' @param na.rm     Boolean. Remove \code{NA} values if \code{TRUE} (default)
+#' @param na.rm     Boolean. Remove `NA` values if `TRUE` (default)
 #' @param na.action A function which indicates what should happen when the data contain NAs.
 #'
 #' @details The statistics for model quality can differ between sources. Here is a
 #'          short description of each statistic and its equation (see html version
-#'          for \code{LATEX}):
+#'          for `LATEX`):
 #' \itemize{
-#'   \item \code{R2()}: coefficient of determination, computed using \code{\link[stats]{lm}} on obs~sim.
-#'   \item \code{RMSE()}: Root Mean Squared Error, computed as
+#'   \item `R2()`: coefficient of determination, computed using [stats::lm()] on obs~sim.
+#'   \item `SS_res()`: residual sum of squares (see notes).
+#'   \item `RMSE()`: Root Mean Squared Error, computed as
 #'             \deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
-#'   \item \code{NSE()}: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
-#'   \item \code{nRMSE()}: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
+#'   \item `NSE()`: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
+#'   \item `nRMSE()`: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
 #'              \deqn{nRMSE = \frac{RMSE}{\hat{y}}\cdot100}{nRMSE = (RMSE/mean(obs))*100}
-#'   \item \code{MAE()}: Mean Absolute Error, computed as:
+#'   \item `MAE()`: Mean Absolute Error, computed as:
 #'            \deqn{MAE = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{MAE = mean(abs(sim-obs))}
-#'   \item \code{ABS()}: Mean Absolute Bias, which is an alias of \code{MAE()}
-#'   \item \code{FVU()}: Fraction of variance unexplained, computed as:
+#'   \item `ABS()`: Mean Absolute Bias, which is an alias of `MAE()`
+#'   \item `FVU()`: Fraction of variance unexplained, computed as:
 #'            \deqn{FVU = \frac{SS_{res}}{SS_{tot}}}{FVU = SS_res/SS_tot}
-#'   \item \code{MSE()}: Mean squared Error, computed as:
+#'   \item `MSE()`: Mean squared Error, computed as:
 #'            \deqn{MSE = \frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2}{MSE = mean((sim-obs)^2)}
-#'   \item \code{EF()}: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
+#'   \item `EF()`: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
 #'           related to the FVU as \eqn{EF= 1-FVU}. It is also related to the \eqn{R^2}{R2}
 #'           because they share the same equation, except SStot is applied relative to the
-#'           identity function (\emph{i.e.} 1:1 line) instead of the regression line. It is computed
+#'           identity function (*i.e.* 1:1 line) instead of the regression line. It is computed
 #'           as: \deqn{EF = 1-\frac{SS_{res}}{SS_{tot}}}{EF = 1-SS_res/SS_tot}
-#'   \item \code{Bias()}: Modelling bias, simply computed as:
+#'   \item `Bias()`: Modelling bias, simply computed as:
 #'             \deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
-#'   \item \code{MAPE()}: Mean Absolute Percent Error, computed as:
+#'   \item `MAPE()`: Mean Absolute Percent Error, computed as:
 #'            \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|}{y_i})}{n}}{
 #'            MAPE = mean(abs(obs-sim)/obs)}
-#'   \item \code{RME()}: Relative mean error (\%), computed as:
+#'   \item `RME()`: Relative mean error (\%), computed as:
 #'            \deqn{RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{RME = mean((sim-obs)/obs)}
 #' }
 #'
@@ -203,8 +208,8 @@ stati_stics= function(...,obs_name=NULL){
 #'
 #' @return A statistic depending on the function used.
 #'
-#' @seealso This function was inspired from the \code{evaluate()} function
-#'          from the \code{SticsEvalR} package. This function is used by \code{\link{stics_eval}}
+#' @seealso This function was inspired from the `evaluate()` function
+#'          from the `SticsEvalR` package. This function is used by [stics_eval()]
 #'
 #' @name predictor_assessment
 #'
@@ -212,7 +217,7 @@ stati_stics= function(...,obs_name=NULL){
 #' @importFrom stats lm sd var na.omit
 #'
 #' @examples
-#' library(SticsOnR)
+#' library(sticRs)
 #' sim= rnorm(n = 5,mean = 1,sd = 1)
 #' obs= rnorm(n = 5,mean = 1,sd = 1)
 #' RMSE(sim,obs)
@@ -224,6 +229,12 @@ NULL
 R2= function(sim,obs, na.action= stats::na.omit){
   .= NULL
   stats::lm(formula = obs~sim, na.action= na.action)%>%summary(.)%>%.$adj.r.squared
+}
+
+#' @export
+#' @rdname predictor_assessment
+SS_res= function(sim,obs,na.rm= T){
+  sum((obs-sim)^2, na.rm = na.rm) # residual sum of squares
 }
 
 #' @export
@@ -263,8 +274,7 @@ EF=  function(sim,obs,na.rm= T){
   # Modeling efficiency
   SStot= sum((obs-mean(obs,na.rm= na.rm))^2, na.rm = na.rm) # total sum of squares
   # SSreg= sum((sim-mean(obs))^2) # explained sum of squares
-  SSres= sum((obs-sim)^2, na.rm = na.rm) # residual sum of squares
-  1-SSres/SStot
+  1-SS_res(sim = sim, obs = obs, na.rm = na.rm)/SStot
 }
 
 #' @export

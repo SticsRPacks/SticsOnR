@@ -2,22 +2,22 @@
 #' Create a simulation unit (USM) for the STICS model
 #'
 #' @description Uses a pre-existing USM, copy files to target folder(s) of simulation,
-#'              set the USMs ready for simulation. \code{import_usm} create as many sub-folders
+#'              set the USMs ready for simulation. `import_usm` create as many sub-folders
 #'              as USM neede in the target folder.
 #'
 #' @param dir.orig  Path to the directory from which copy the simulation files. If
-#'                  \code{NULL} (the default), uses the package dummy USM.
+#'                  `NULL` (the default), uses the package dummy USM.
 #' @param dir.targ  Path to the target directory for simulation. Created if missing.
 #' @param stics     Path to the STICS model executable (optional, only needed if not
 #'                  present in dir.orig)
 #' @param usm_name  Vector name of the USM(s).
-#' @param all_files Boolean. The function copy all files in dir.orig if \code{TRUE}, or only
+#' @param all_files Boolean. The function copy all files in dir.orig if `TRUE`, or only
 #'                  the ones needed for the STICS simulation.
 #' @param overwrite Boolean. Overwrite files and folders if already present. See details.
 #' @param verbose   Boolean. Does the function output success and failure messages ?
 #'
 #' @details This function is a helper function used by other package functions.
-#'  If \code{overwrite= F}, the function show to the user which files
+#'  If `overwrite= F`, the function show to the user which files
 #'  are already present, and asks the user what to do, so be careful while using
 #'  this function for programming.
 #'
@@ -167,7 +167,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' Set (replace) STICS input file parameters
 #'
 #' @description Replace or set an input parameter from a pre-existing STICS input
-#'              file. Generally used after calling \code{\link{import_usm}}.
+#'              file. Generally used after calling [import_usm()].
 #'
 #' @param dirpath  USM directory path
 #' @param filepath Path to the parameter file
@@ -176,17 +176,18 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #' @param vars     Vector of variable names for STICS output requirements
 #' @param add      Boolean. Append input to existing file (add to the list)
+#' @param variety  Integer. The plant variety to get the parameter from.
 #'
-#' @details The \code{plant} parameter can be either equal to \code{1}, \code{2} for
-#'          the associated plant in the case of intercrop, or \code{c(1,2)} for both
+#' @details The `plant` parameter can be either equal to `1`, `2` for
+#'          the associated plant in the case of intercrop, or `c(1,2)` for both
 #'          Princiapl and associated plants.
-#'          \code{\link{all_out_var}} is a helper function that returns all possible
+#'          [all_out_var()] is a helper function that returns all possible
 #'          output variables.
 #'
-#' @note \code{set_out_var} is not used by \code{set_param}. To replace the output
-#'       variables required from STICS, please directly call \code{set_out_var}.
+#' @note `set_out_var` is not used by `set_param`. To replace the output
+#'       variables required from STICS, please directly call `set_out_var`.
 #'
-#' @seealso \code{\link{import_usm}}.
+#' @seealso [import_usm()].
 #'
 #' @importFrom magrittr "%>%"
 #'
@@ -202,6 +203,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' @export
 set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
   param_val= read_param(dirpath = dirpath, param = param)
+
   file_type=
     lapply(strsplit(names(param_val),"\\."), function(x){x[1]})%>%
     unlist%>%unique
@@ -242,9 +244,13 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
            })
          },
          plant= {
+           variety=
+             read_param(dirpath = dirpath, param = "variete")[plant]%>%
+             as.numeric()
+
            tmp= lapply(plant, function(x){
              set_plant(filepath = file.path(dirpath,paste0("ficplt",x,".txt")),
-                       param = param, value = value, add= add)
+                       param = param, value = value, add= add, variety = variety[x])
            })
          },
          stop("Parameter not found")
@@ -287,8 +293,8 @@ set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
 
 #' @rdname set_param
 #' @export
-set_plant= function(filepath="ficplt1.txt",param,value,add=F){
-  set_file(filepath,param,value,add)
+set_plant= function(filepath="ficplt1.txt",param,value,add=F,variety= NULL){
+  set_file(filepath,param,value,add,variety)
 }
 
 #' @rdname set_param
@@ -347,7 +353,7 @@ set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
 #' Internal function to set some STICS input file parameters
 #'
 #' @description Replace or set an input parameter from a pre-existing STICS input
-#'              file. This function is called by some of the generic \code{set_*}
+#'              file. This function is called by some of the generic `set_*`
 #'              functions under the hood.
 #'
 #' @param filepath Path to the parameter file
@@ -355,17 +361,17 @@ set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
 #' @param value    New parameter value
 #' @param add      Boolean. Append input to existing file (add to the list)
 #'
-#' @details The function uses \code{\link[base]{sys.call}} to know from which function
-#'          of the \code{set_*} family it is called, so it won't work properly if called
+#' @details The function uses [base::sys.call()] to know from which function
+#'          of the `set_*` family it is called, so it won't work properly if called
 #'          by the user directly. This is why this function is internal.
 #'
-#' @note This function is not used for \code{\link{set_soil}}.
+#' @note This function is not used for [set_soil()].
 #'
-#' @seealso \code{\link{set_param}}.
+#' @seealso [set_param()].
 #'
 #' @keywords internal
 #' @export
-set_file= function(filepath,param,value,add){
+set_file= function(filepath,param,value,add,variety= NULL){
   # access the function name from which set_file was called
   type= strsplit(deparse(sys.call(-1)),split = "\\(")[[1]][1]
   params= readLines(filepath)
@@ -386,6 +392,12 @@ set_file= function(filepath,param,value,add){
          set_ini= {
            ref= read_ini(filepath)
            ref_index= grep(param_,names(ref))*2
+         },
+         set_plant= {
+           ref_index= grep(gsub('P_','',param_),params)+1
+           if(!is.null(variety)){
+             ref_index= ref_index[variety]
+           }
          },
          # Default here
          {
