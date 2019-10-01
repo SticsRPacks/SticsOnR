@@ -22,6 +22,8 @@ set_java_workspace <- function(javastics_path,java_wd){
   #  $Revision: 953 $
   # ----------------------------------------------------------------------
 
+  library("Classes")
+
   # checking javastics path
   check_java_path(javastics_path)
 
@@ -37,8 +39,11 @@ set_java_workspace <- function(javastics_path,java_wd){
     java_wd=file.path(javastics_path,java_wd)
   }
 
-  # checking if it's a workspace
-  check_java_wd(java_wd)
+  # checking if exists if it is a workspace a
+  ws <- check_java_workspace(javastics_path,java_wd)
+  if (is.null(ws)) {
+    return()
+  }
 
   # getting current registered wd
   current_wd=getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
