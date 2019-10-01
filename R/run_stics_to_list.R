@@ -14,7 +14,7 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
   #'
   #' @details If \code{var_and_dates} is not provided, \code{varnames} must be. If neither \code{var_and_dates} and \code{dates} is provided simulated values will be returned for all dates.
   #'
-  #' @return A list containing simulated values
+  #' @return A list containing simulated values (\code{sim_list}) and a flag (\code{flag_allsim}) indicating if all required USMs, variables and dates were simulated.
   #'
   #' @examples
   #'
@@ -27,7 +27,7 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
   #    - maybe the variables asked will not be simulated (depends on the var.mod file ...)
   #         => try to simulate, if some variables are not simulated : modify the var.mod and re-simulate (should be more efficient
   #             than checking everytime the var.mod)
-  #         For the moment, exit with an error and ask to change var.mod
+  #         For the moment, just warn and ask to change var.mod
   #    - handle the case of stages (stages should be specified in the var.mod ... + handle the case when simulations does not reach the asked stages ...)
   #
 
@@ -53,11 +53,16 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
     stop("The file is not executable or is not a Stics executable !")
   }
 
+  ## Coherency of input args
+  if(is.null(varnames) && is.null(var_and_dates)) {
+    stop("Either varnames or var_and_dates have to be provided in argument.")
+  }
+
 
   # run Stics and store results
+  res=list(sim_list=vector("list", length(usm_names)),flag_allsim=TRUE)
+  names(res$sim_list)=usm_names
 
-  sim_list=vector("list", length(usm_names))
-  names(sim_list)=usm_names
 
   for (iusm in 1:length(usm_names)) {
 
@@ -80,7 +85,8 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
       if (usm_out[[1]]$error > 0) {
 
         warning(paste("Error running the Stics model for USM",usm_names[iusm],". \n ",usm_out[[1]]$message))
-        sim_list[[usm_names[iusm]]]=NULL
+        res$sim_list[[usm_names[iusm]]]=NULL
+        res$flag_allsim=FALSE
 
       } else {
 
@@ -106,30 +112,37 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
         } else if(!is.null(var_and_dates)) {
           var_list=colnames(var_and_dates[[usm_names[iusm]]])
           date_list=var_and_dates[[usm_names[iusm]]]$Date
-        } else {
-          stop("Either varnames or var_and_dates have to be provided in argument.")
         }
 
         # keep only the needed variables in the simulation results
-        if (!all(var_list %in% colnames(sim_tmp))) {
-          stop(paste("Variable(s)",setdiff(var_list,colnames(sim_tmp)),
-                     "not simulated by the Stics model for USM",usm_names[iusm],
-                     "=> try to add it(them) in",file.path(data_dir,usm_names[iusm],"var.mod")))
+        inter_vars=intersect(colnames(sim_tmp),var_list)
+        if (length(inter_vars)>0) {
+          sim_tmp=as.data.frame(sim_tmp[,inter_vars])
+        } else {
+          res$sim_list[[usm_names[iusm]]]=NULL
+          next
         }
-        sim_tmp=sim_tmp[,var_list]
+        if (length(inter_vars)<length(var_list)) {
+          warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                        "not simulated by the Stics model for USM",usm_names[iusm],
+                        "=> try to add it(them) in",file.path(data_dir,usm_names[iusm],"var.mod")))
+          res$flag_allsim=FALSE
+        }
 
         # keep only the needed dates in the simulation results
         inter_dates=intersect(sim_tmp$Date,date_list)
         if (length(inter_dates)>0) {
-          sim_list[[usm_names[iusm]]]=
+          res$sim_list[[usm_names[iusm]]]=
             as.data.frame(sim_tmp[match(inter_dates,sim_tmp$Date),])
         } else {
-          sim_list[[usm_names[iusm]]]=NULL
+          res$sim_list[[usm_names[iusm]]]=NULL
+          next
         }
 
         if (length(inter_dates)<length(date_list)) {
           warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
                         "is(are) not simulated for USM",usm_names[iusm]))
+          res$flag_allsim=FALSE
         }
 
       }
@@ -138,6 +151,6 @@ run_stics_to_list <- function(model_path,data_dir,usm_names,param_names=NULL,par
 
   }
 
-  return(sim_list)
+  return(res)
 
 }
