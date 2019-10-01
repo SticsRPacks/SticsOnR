@@ -1,12 +1,13 @@
-get_java_wd <- function(javastics_path){
-  #' @title Getting current workspace
+get_java_workspace <- function(javastics_path){
+  #' @title Getting current workspace in JavaStics preferences configuration
   #'
-  #' @description Getting current javastics current working directory, if not any setting to `example` directory
+  #' @description Getting current JavaStics working directory,
+  #' if not any setting to `example` directory
   #'
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
-  #' get_java_wd("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+  #' get_java_wd("/path/to/JavaStics/directory")
   #'
   #' @export
   #'
