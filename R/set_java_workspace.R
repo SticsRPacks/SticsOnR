@@ -1,4 +1,4 @@
-set_java_wd <- function(javastics_path,java_wd){
+set_java_workspace <- function(javastics_path,java_wd){
   #' @title Setting JavaStics workspace
   #'
   #' @description Setting a new JavaStics working directory, a relative directory to JavaStics path or an absolute one

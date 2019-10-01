@@ -1,4 +1,4 @@
-get_java_wd <- function(javastics_path){
+get_java_workspace <- function(javastics_path){
   #' @title Getting current workspace
   #'
   #' @description Getting current javastics current working directory, if not any setting to `example` directory
