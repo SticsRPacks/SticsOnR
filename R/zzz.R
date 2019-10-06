@@ -17,7 +17,7 @@ text_col <- function(x) {
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
-    text_col(paste("Learn sticRs at:",
+    text_col(paste("Learn SticsOnR at:",
                     crayon::blue$underline$bold("https://SticsRPacks.github.io/SticsOnR")))
   )
 }
