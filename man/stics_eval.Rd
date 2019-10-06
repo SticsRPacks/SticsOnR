@@ -11,7 +11,7 @@ stics_eval(dir.orig = NULL, dir.targ = getwd(), stics,
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
-\code{NULL} (the default), uses the package dummy USM.}
+`NULL` (the default), uses the package dummy USM.}
 
 \item{dir.targ}{Path to the target directory for evaluation. Created if missing.}
 
@@ -23,12 +23,12 @@ stics_eval(dir.orig = NULL, dir.targ = getwd(), stics,
 is run on mixed crop (1= Principal, 2= Associated)}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
-\code{c(Dominant,Dominated)} for mixed crops.
-See \code{\link{read_obs}} \code{filename} parameter for more details.}
+`c(Dominant,Dominated)` for mixed crops.
+See [read_obs()] `filename` parameter for more details.}
 
 \item{Out_var}{The variables needed as output}
 
-\item{plot_it}{Boolean. Do the plot as to be pinted ?}
+\item{plot_it}{Boolean. Do the plot has to be pinted ?}
 
 \item{Parallel}{Are the simulations to be executed in parallel ?}
 
@@ -41,14 +41,14 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \value{
 A list of three objects:
 \describe{
-  \item{outputs}{A list of \code{data.frame} objects corresponding
-  to the simulation for each value in the \code{stics} or \code{Parameter} arguments. The
-  data.frame is made by a call to \code{\link{eval_output}}.}
+  \item{outputs}{A list of `data.frame` objects corresponding
+  to the simulation for each value in the `stics` or `Parameter` arguments. The
+  data.frame is made by a call to [eval_output()].}
   \item{gg_object}{A summary plot of the simulations outputs returned as a ggplot object.
-   Possibly a comparison between simulations if several values are given to the \code{stics}
-   or \code{Parameter} arguments.}
-   \item{stats}{A \code{data.frame} of a set of summary statistics for each simulation, computed
-   by a call to \code{\link{stati_stics}}.}
+   Possibly a comparison between simulations if several values are given to the `stics`
+   or `Parameter` arguments.}
+   \item{stats}{A `data.frame` of a set of summary statistics for each simulation, computed
+   by a call to [stati_stics()].}
 }
 }
 \description{
@@ -58,19 +58,19 @@ Wrapper function to run STICS simulations and evaluate
 \details{
 The function evaluate STICS outputs either along different model versions \strong{OR}
 parameter values, not both at the same time. The method is automatically chosen using the
-\code{stics} and \code{Parameter} length. The parameter with a length > 1 will be evaluated.
-The names of the \code{stics} or the \code{Parameter} list are used for reference in the outputs
-(data.frames and plots). The names are mandatory for \code{Parameter}, but are optionnal for
-\code{stics}. If no names are provided for \code{stics}, the function give a dummy name for each
+`stics` and `Parameter` length. The parameter with a length > 1 will be evaluated.
+The names of the `stics` or the `Parameter` list are used for reference in the outputs
+(data.frames and plots). The names are mandatory for `Parameter`, but are optionnal for
+`stics`. If no names are provided for `stics`, the function give a dummy name for each
 model evaluation.
-The format of both \code{stics} or \code{Parameter} parameters is the same: a named list of either
+The format of both `stics` or `Parameter` parameters is the same: a named list of either
 STICS executable path or a named list of parameters value(s).
-Please set the \code{Parameter} argument to \code{NULL} (the default) for no parameter changes.
+Please set the `Parameter` argument to `NULL` (the default) for no parameter changes.
 The function run STICS executable in parrallel using all cores from the machine but one.
 }
 \examples{
 \dontrun{
-library(SticsOnR)
+library(sticRs)
 # Evaluating a change in a parameter:
 
 Eval_parameter=
@@ -96,7 +96,7 @@ stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea",
 }
 }
 \seealso{
-\code{\link{sensitive_stics}} to evaluate STICS sensitivity to parameter(s), and other
-functions used under the hood: \code{\link{eval_output}}, \code{\link{import_usm}},
-\code{\link{run_stics}}, \code{\link{stati_stics}}, and \code{\link{set_out_var}}.
+[sensitive_stics()] to evaluate STICS sensitivity to parameter(s), and other
+functions used under the hood: [eval_output()], [import_usm()],
+[run_stics()], [stati_stics()], and [set_out_var()].
 }

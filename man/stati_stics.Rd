@@ -7,23 +7,23 @@
 stati_stics(..., obs_name = NULL)
 }
 \arguments{
-\item{...}{Either a folder path or the output from \code{\link{eval_output}}. If several objects are
+\item{...}{Either a folder path or the output from [eval_output()]. If several objects are
 detected, make a comparison between them.}
 
-\item{obs_name}{A vector of observation file name(s). Optionnal, required only if \code{...} is a link.
-Must have the form \code{c(Dominant,Dominated)} for mixed crops. See details.}
+\item{obs_name}{A vector of observation file name(s). Optionnal, required only if `...` is a link.
+Must have the form `c(Dominant,Dominated)` for mixed crops. See details.}
 }
 \value{
 A data.frame with statistics for each simulation. The data.frame has a
-        \code{description} attribute that gives the description of the column names
+        `description` attribute that gives the description of the column names
 }
 \description{
 Compute statistics for evaluation of the STICS outputs against observations. This function can
              be used for one USM or to compare outputs from different model versions or parameter values.
 }
 \details{
-If \code{obs_name} is not provided, the function tries to guess it using the built-in algorithm
-         from \code{\link{read_obs}}. See respective documentation for more details.
+If `obs_name` is not provided, the function tries to guess it using the built-in algorithm
+         from [read_obs()]. See respective documentation for more details.
 }
 \note{
 Because this function has the purpose to assess model quality, all statistics
@@ -32,7 +32,7 @@ Because this function has the purpose to assess model quality, all statistics
 }
 \examples{
 \dontrun{
-library(SticsOnR)
+library(sticRs)
 # Exemple 1:
 tests= stati_stics("dummy/path/simulation",
                    obs_name = c("Wheat.obs","Pea.obs"))
@@ -46,8 +46,9 @@ stati_stics("dummy/path/simulation_1","dummy/path/simulation_2",
             obs_name = c("Wheat.obs","Pea.obs"))
 
 }
+
 }
 \seealso{
-This function is largely inspired from the \code{evaluate()} function from the
-         \code{SticsEvalR} package
+This function is largely inspired from the `evaluate()` function from the
+         `SticsEvalR` package
 }

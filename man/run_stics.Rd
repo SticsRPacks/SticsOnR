@@ -11,7 +11,7 @@ run_stics(dirpath = getwd())
 }
 \value{
 The function prints the STICS output to the console and returns
-        \code{TRUE} if STICS ran successfully, or an error if any problem occured
+        `TRUE` if STICS ran successfully, or an error if any problem occured
 }
 \description{
 Helper function to start a simulation using
@@ -19,7 +19,7 @@ STICS executable
 }
 \examples{
 \dontrun{
-library(SticsOnR)
+library(sticRs)
 run_stics()
 }
 }

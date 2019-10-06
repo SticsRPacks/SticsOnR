@@ -6,19 +6,20 @@
 \usage{
 sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name,
   Parameters, Vars, method = c("fast99", "sobol"), n = 10 *
-  length(Vars), q = "qunif", Plant = 1, Erase = T, ...)
+  length(Vars), q = "qunif", Plant = 1, Erase = T, values = rep(1,
+  length(Parameters)), ...)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
-\code{NULL} (the default), uses the package dummy USM.}
+`NULL` (the default), uses the package dummy USM.}
 
 \item{dir.targ}{Path to the target directory for evaluation. Created if missing.}
 
 \item{stics}{STICS executable path}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
-\code{c(Dominant,Dominated)} for mixed crops.
-See \code{\link{read_obs}} \code{filename} parameter for more details.}
+`c(Dominant,Dominated)` for mixed crops.
+See [read_obs()] `filename` parameter for more details.}
 
 \item{Parameters}{A list of list of min and max values for each parameters, named after
 them (see details and example)}
@@ -31,13 +32,16 @@ them (see details and example)}
 methods)}
 
 \item{q}{A vector of quantile function names corresponding to factors
-distribution (see \code{\link[sensitivity]{fast99}} and details)}
+distribution (see [sensitivity::fast99()] and details)}
 
-\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
+\item{Plant}{The plant (*i.e.* Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
-Set to \code{NULL} if using STICS in sole crop}
+Set to `NULL` if using STICS in sole crop}
 
 \item{Erase}{Should the simulations data be erased upon import ? (see details)}
+
+\item{values}{A named list of number of values given to each parameter (will repeat the value found in the DOE
+by `values`). If `NULL`, it is set to 1.}
 
 \item{...}{Further parameters passed to the sensitivity function called
 (see \pkg{sensitivity} package)}
@@ -61,7 +65,7 @@ Make sensitivity analysis on a particular output(s) given STICS input
 The function uses the \pkg{sensitivity} package functions under the hood to
  create the DOE (design of experiment) and then to compute the sensitivity index. For
  `sobol` alike methods, the DOE is first computed using the
- \code{\link[sensitivity]{fast99}} function using the `q` and `Parameters` (for
+ [sensitivity::fast99()] function using the `q` and `Parameters` (for
  `q.arg`) parameters. The DOE is then splitted in two to fill the `X1`` and `X2`
  parameters.
  The `Parameters` should take the form of a list of arguments to pass to the `q`
@@ -69,6 +73,9 @@ The function uses the \pkg{sensitivity} package functions under the hood to
  As the simulations can take a lot of space on disk while augmenting the parameters
  number, the `Erase` parameter allow the user to erase each simulation as soon as
  its data is imported.
+ The `values` parameter is used to repeat the input value found in the DOE given to set_param.
+ It is usefull for plant parameters in intercrops that are still in the temporary parameter file
+ so they have two values (one for each plant).
 }
 \examples{
 \dontrun{
@@ -101,5 +108,5 @@ sensitive_stics(dir.orig = "0-DATA/dummy/SC_Wheat",
 
 }
 \seealso{
-\code{\link[stats]{Distributions}} if you use \code{\link[sensitivity]{fast99}}.
+[stats::Distributions()] if you use [sensitivity::fast99()].
 }
