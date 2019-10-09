@@ -2,25 +2,23 @@
 % Please edit documentation in R/stics_wrapper.R
 \name{stics_wrapper}
 \alias{stics_wrapper}
-\title{Running usm(s) from txt input files stored in one rep. per USM and return simulated results in a list}
+\title{Running usm(s) from txt input files stored in one directory
+per `situation`, simulated results are returned in a list}
 \usage{
-stics_wrapper(model_options, param_values = NULL,
-  site_var_dates = NULL)
+stics_wrapper(param_values = NULL, site_var_dates = NULL,
+  model_options)
 }
 \arguments{
+\item{site_var_dates}{List of situations, variables and dates for which
+simulated values should be returned. Typically a list containing the
+observations to which simulations should be compared as provided by
+SticsRFiles::read_obs_to_list}
+
 \item{model_options}{List containing any information needed by the model.
 In the case of Stics: \code{stics_path} the path of Stics executable file and
 \code{data_dir} the path of the directory containing the Stics input data
 for each USM (one folder per USM where Stics input files are stored in txt
 format)}
-
-\item{param_values}{named vector containing the value(s) and names of the
-parameters to force (optional)}
-
-\item{site_var_dates}{List of situations, variables and dates for which
-simulated values should be returned. Typically a list containing the
-observations to which simulations should be compared as provided by
-SticsRFiles::read_obs_to_list}
 }
 \value{
 A list containing simulated values (\code{sim_list}) and a flag
@@ -30,6 +28,9 @@ dates were simulated.
 \description{
 This function uses Stics directly through a system call, can
 force Stics input parameters with values given in arguments.
+
+#' @param param_values named vector containing the value(s) and names of the
+parameters to force (optional)
 }
 \examples{
 
