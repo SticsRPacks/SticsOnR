@@ -5,7 +5,7 @@
 #' @description This function uses Stics directly through a system call, can
 #' force Stics input parameters with values given in arguments.
 #'
-#'#' @param param_values named vector containing the value(s) and names of the
+#' @param param_values named vector containing the value(s) and names of the
 #' parameters to force (optional)
 #'
 #' @param site_var_dates List of situations, variables and dates for which
