@@ -125,6 +125,8 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   # (from dir names or sit_var_dates_mask fields names)
   if (keep_all_data) {
     situation_names=list.dirs(data_dir, full.names = FALSE)[-1]
+    situation_names=situation_names[sapply(situation_names,
+                                           function(x) file.exists(file.path(data_dir,x,"new_travail.usm")))]
   } else {
     situation_names=names(sit_var_dates_mask)
   }
