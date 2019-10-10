@@ -9,6 +9,9 @@ stics_wrapper(param_values = NULL, site_var_dates = NULL,
   model_options)
 }
 \arguments{
+\item{param_values}{named vector containing the value(s) and names of the
+parameters to force (optional)}
+
 \item{site_var_dates}{List of situations, variables and dates for which
 simulated values should be returned. Typically a list containing the
 observations to which simulations should be compared as provided by
@@ -28,9 +31,6 @@ dates were simulated.
 \description{
 This function uses Stics directly through a system call, can
 force Stics input parameters with values given in arguments.
-
-#' @param param_values named vector containing the value(s) and names of the
-parameters to force (optional)
 }
 \examples{
 
