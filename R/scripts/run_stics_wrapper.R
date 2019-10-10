@@ -91,3 +91,15 @@ p_no_obs <- ggplot2::autoplot(mb_no_obs)
 
 p_no_obs
 
+
+
+# Case with using prior_information data
+sg=list(p1=list(sit_list=list(c("sit1","sit2","sit3"),c("sit4","sit5","sit6"))),
+        p2=list(sit_list=list(c("sit1","sit2","sit3","sit4","sit5","sit6"))))
+
+vec=c(1,2,3)
+names(vec)=c("p2","p1","p1")
+
+get_params_per_sit(sg,"sit2",vec)
+
+
