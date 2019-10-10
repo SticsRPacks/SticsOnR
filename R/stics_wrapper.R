@@ -8,10 +8,17 @@
 #' @param param_values named vector containing the value(s) and names of the
 #' parameters to force (optional)
 #'
-#' @param site_var_dates List of situations, variables and dates for which
+#' @param sit_var_dates List of situations, variables and dates for which
 #' simulated values should be returned. Typically a list containing the
 #' observations to which simulations should be compared as provided by
 #' SticsRFiles::read_obs_to_list
+#'
+#' @param prior_information Prior information on the parameters to estimate.
+#' For the moment only uniform distribution are allowed.
+#' Either a list containing (named) vectors of upper and lower
+#' bounds (\code{ub} and \code{lb}), or a named list containing for each
+#' parameter the list of situations per group (\code{sit_list})
+#' and the vector of upper and lower bounds (one value per group) (\code{ub} and \code{lb})
 #'
 #' @param model_options List containing any information needed by the model.
 #' In the case of Stics: \code{stics_path} the path of Stics executable file and
@@ -47,8 +54,8 @@
 #
 
 
-stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
-                           model_options ) {
+stics_wrapper <- function( param_values=NULL, sit_var_dates=NULL,
+                           prior_information=NULL, model_options ) {
 
 
   library("doParallel")
@@ -112,14 +119,14 @@ stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
 
   # Checking if all data for all situations will be kept or not
   keep_all_data <- FALSE
-  if (is.null(site_var_dates)) keep_all_data <- TRUE
+  if (is.null(sit_var_dates)) keep_all_data <- TRUE
 
   # Getting situations names list
-  # (from dir names or site_var_dates fields names)
+  # (from dir names or sit_var_dates fields names)
   if (keep_all_data) {
     situation_names=list.dirs(data_dir, full.names = FALSE)[-1]
   } else {
-    situation_names=names(site_var_dates)
+    situation_names=names(sit_var_dates)
   }
 
   # Calculating directories list
@@ -145,7 +152,8 @@ stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
                  .export = c("get_daily_results",
                              "set_codeoptim",
                              "run_system",
-                             "gen_param_sti")) %dopar% {
+                             "gen_param_sti",
+                             "get_params_per_sit")) %dopar% {
 
                                # Simulation flag status or output data selection status
                                flag_sim <- TRUE
@@ -166,6 +174,8 @@ stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
                                  }
 
                                } else {
+                                 param_values_usm=get_params_per_sit(prior_information,situation_names[iusm],param_values)
+
                                  gen_param_sti(run_dir, names(param_values), param_values)
                                  set_codeoptim(run_dir,value=1)
                                }
@@ -212,17 +222,17 @@ stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
                                # colnames(sim_tmp)=sub("\\.","_",tmp)
 
 
-                               if ( !is.null(site_var_dates) &&
+                               if ( !is.null(sit_var_dates) &&
                                     situation %in% situation_names) {
                                  keep_all_data <- FALSE
-                                 var_list=colnames(site_var_dates[[situation]])
+                                 var_list=colnames(sit_var_dates[[situation]])
                                  out_var_list = colnames(sim_tmp)
                                }
 
                                # Keeping all outputs data
-                               # - If no site_var_dates given as input arg
+                               # - If no sit_var_dates given as input arg
                                # - If all output variables are in
-                               #   site_var_dates[[situation]]
+                               #   sit_var_dates[[situation]]
                                if ( keep_all_data ) {
                                  #res$sim_list[[situation]] <- sim_tmp
 
@@ -255,7 +265,7 @@ stics_wrapper <- function( param_values=NULL, site_var_dates=NULL,
                                }
 
                                ## Keeping only the needed dates in the simulation results
-                               date_list=site_var_dates[[situation]]$Date
+                               date_list=sit_var_dates[[situation]]$Date
                                dates_idx <- sim_tmp$Date %in% date_list
                                inter_dates <- sim_tmp$Date[dates_idx]
                                #inter_dates=intersect(sim_tmp$Date,date_list)
