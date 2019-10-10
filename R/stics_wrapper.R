@@ -78,6 +78,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   parallel <- model_options$parallel
   cores <- model_options$cores
   time_display <- model_options$time_display
+  warning_display <- options$warning_display
 
   ## testing if the model executable file exist and if it is executable
   if (!file.exists(stics_path)){
@@ -164,6 +165,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                run_dir <- run_dirs[iusm]
                                situation <- situation_names[iusm]
                                keep_all_data <- TRUE
+                               mess <- ""
                                ########################################################################
                                # TODO: make a function dedicated to forcing parameters of the model ?
                                # In that case by using the param.sti mechanism
@@ -189,13 +191,13 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                # if the model returns an error, ... treating next situation
                                if (usm_out[[1]]$error > 0) {
 
-                                 warning(paste("Error running the Stics model for USM",situation,
+                                 mess <- warning(paste("Error running the Stics model for USM",situation,
                                                ". \n ",usm_out[[1]]$message))
                                  #res$sim_list[[situation]]=NA
                                  #res$flag_allsim=FALSE
 
 
-                                 return(list(NA,FALSE,FALSE))
+                                 return(list(NA,FALSE,FALSE,mess))
                                } #else {
 
 
@@ -208,8 +210,9 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                if (is.null(sim_tmp)) {
                                  #res$sim_list[[situation]]=NA
                                  #res$flag_allsim=FALSE
-
-                                 return(list(NA, FALSE, FALSE))
+                                  mess <- warning(paste("Error reading outputs for ",situation,
+                                                       ". \n "))
+                                 return(list(NA, FALSE, FALSE, mess))
 
                                }
 
@@ -238,7 +241,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                if ( keep_all_data ) {
                                  #res$sim_list[[situation]] <- sim_tmp
 
-                                 return(list( sim_tmp,TRUE, TRUE))
+                                 return(list( sim_tmp,TRUE, TRUE, mess))
                                } #else {
 
                                ## Keeping only the needed variables in the simulation results
@@ -258,7 +261,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                }
                                if (length(inter_vars)<length(var_list)) {
                                #if ( sum(vars_idx) < length(var_list)) {
-                                 warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                 mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
                                                "not simulated by the Stics model for USM",situation,
                                                "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
                                  #res$flag_allsim=FALSE
@@ -281,11 +284,11 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                  #res$sim_list[[situation]]=NA
                                  #res$flag_allsim=FALSE
 
-                                 return(list(NA,FALSE,FALSE))
+                                 return(list(NA,FALSE,FALSE, mess))
                                }
                                if (length(inter_dates)<length(date_list)) {
                                #if ( sum(dates_idx) < length(date_list) ) {
-                                 warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
+                                 mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
                                                "is(are) not simulated for USM",situation))
                                  #res$flag_allsim=FALSE
                                  flag_sim <- FALSE
@@ -296,9 +299,10 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                #}
 
                                #return(list(sim_tmp,res$flag_allsim))
-                               return(list(sim_tmp, flag_sim, select_sim))
+                               return(list(sim_tmp, flag_sim, select_sim, mess))
                              }
 
+  # TODO: optimize res generation without copying out elements !
   # Formatting output list
   names(out) <- situation_names
   # for calculating allsim status
@@ -318,6 +322,10 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
     duration <- Sys.time() - start_time
     print(duration)
   }
+
+  # displaying warnings
+  # If not an empty string
+  lapply(out,function(x) stics_display_warnings(x[[4]]))
 
   return(invisible(res))
 
@@ -360,6 +368,7 @@ stics_wrapper_options <- function(stics_path,
   options$parallel <- FALSE
   options$cores <- NA
   options$time_display <- FALSE
+  options$warning_display <- TRUE
 
 
   # For getting the template
@@ -384,4 +393,11 @@ stics_wrapper_options <- function(stics_path,
   }
 
   return(options)
+}
+
+
+stics_display_warnings <- function(in_string) {
+  # print(in_string)
+  # print(length(in_string))
+  if (nchar(in_string) ) warning(in_string, call. = FALSE)
 }
