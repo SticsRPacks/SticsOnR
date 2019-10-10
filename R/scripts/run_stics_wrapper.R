@@ -2,6 +2,7 @@ library(SticsOnR)
 library(SticsRFiles)
 library(microbenchmark)
 library(ggplot2)
+library(SticsOptimizR)
 
 # Using stics_wrapper
 
@@ -30,24 +31,24 @@ stics_options_par <- stics_wrapper_options(stics_path = stics_path,
 # running stics_wrapper
 # With selecting outputs against observations (i.e. situation/var/dates list)
 # sequential
-res <- stics_wrapper(model_options =  stics_options_no_par, site_var_dates = obs)
+res <- stics_wrapper(model_options =  stics_options_no_par, site_var_dates_mask = obs)
 
 # with parallel
-res_par <- stics_wrapper(model_options =  stics_options_par, site_var_dates = obs)
+res_par <- stics_wrapper(model_options =  stics_options_par, site_var_dates_mask = obs)
 
 
 
 # comparing results between // and sequential runs
 # benchmarking
-mb_with_obs <- microbenchmark::microbenchmark(stics_wrapper(model_options =  stics_options_par, site_var_dates = obs),
-                               stics_wrapper(model_options =  stics_options_no_par, site_var_dates = obs),
+mb_with_obs <- microbenchmark::microbenchmark(stics_wrapper(model_options =  stics_options_par, site_var_dates_mask = obs),
+                               stics_wrapper(model_options =  stics_options_no_par, site_var_dates_mask = obs),
                                times = 10L)
 
 # mb
 # Unit: seconds
 #                        expr                                              min        lq      mean
-# stics_wrapper(model_options = stics_options_par, site_var_dates = obs)  7.015765  7.080052  7.334173
-# stics_wrapper(model_options = stics_options_no_par, site_var_dates = obs) 11.012740 11.130114 11.241341
+# stics_wrapper(model_options = stics_options_par, site_var_dates_mask = obs)  7.015765  7.080052  7.334173
+# stics_wrapper(model_options = stics_options_no_par, site_var_dates_mask = obs) 11.012740 11.130114 11.241341
 # median        uq       max neval
 # 7.384921  7.546614  7.580808    10
 # 11.204739 11.329043 11.596302    10
