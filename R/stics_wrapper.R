@@ -78,7 +78,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   parallel <- model_options$parallel
   cores <- model_options$cores
   time_display <- model_options$time_display
-  warning_display <- options$warning_display
+  warning_display <- model_options$warning_display
 
   ## testing if the model executable file exist and if it is executable
   if (!file.exists(stics_path)){
@@ -126,6 +126,8 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   # (from dir names or sit_var_dates_mask fields names)
   if (keep_all_data) {
     situation_names=list.dirs(data_dir, full.names = FALSE)[-1]
+    situation_names=situation_names[sapply(situation_names,
+                                           function(x) file.exists(file.path(data_dir,x,"new_travail.usm")))]
   } else {
     situation_names=names(sit_var_dates_mask)
   }
