@@ -5,17 +5,24 @@
 \title{Running usm(s) from txt input files stored in one directory
 per `situation`, simulated results are returned in a list}
 \usage{
-stics_wrapper(param_values = NULL, site_var_dates = NULL,
-  model_options)
+stics_wrapper(param_values = NULL, sit_var_dates_mask = NULL,
+  prior_information = NULL, model_options)
 }
 \arguments{
 \item{param_values}{named vector containing the value(s) and names of the
 parameters to force (optional)}
 
-\item{site_var_dates}{List of situations, variables and dates for which
+\item{sit_var_dates_mask}{List of situations, variables and dates for which
 simulated values should be returned. Typically a list containing the
 observations to which simulations should be compared as provided by
 SticsRFiles::read_obs_to_list}
+
+\item{prior_information}{Prior information on the parameters to estimate.
+For the moment only uniform distribution are allowed.
+Either a list containing (named) vectors of upper and lower
+bounds (\code{ub} and \code{lb}), or a named list containing for each
+parameter the list of situations per group (\code{sit_list})
+and the vector of upper and lower bounds (one value per group) (\code{ub} and \code{lb})}
 
 \item{model_options}{List containing any information needed by the model.
 In the case of Stics: \code{stics_path} the path of Stics executable file and
