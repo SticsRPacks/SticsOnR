@@ -157,8 +157,9 @@ set_param(dirpath = path_to_simulation, param = "P_densitesem", value = 145, pla
 
 To set the variables needed as STICS output, the user can use two functions: `find_STICS_var` and `set_out_var`. The first one is a helper to find the variable names used in STICS from the full list returned by `all_out_var`, and the second is used to tell STICS which variables we need. For our example, the sowing density will probably modify the plant leaf area, its height, and its dry mass, so we want to output all three variables.
 
-For example, if the user do not know the exact output variable name for the plant leaf area index (LAI) beforehand, he can use `find_STICS_var` to find all variables that partially match the function `Var` argument as follows:
+For example, if the user do not know the exact output variable name for the plant leaf area index (LAI) beforehand, he can use `find_STICS_var()` from the sticsRFiles package to find all variables that partially match the function `Var` argument as follows:
 ```{r}
+library(SticsRFiles)
 find_STICS_var(Var = "LAI")
 ```
 Then the user can see that the LAI is called `lai(n)` in the model, and several other variables are related to LAI (*e.g.* `laisen(n)`, which is the senescent leaf area). The procedure is applied for the dry mass, which is called `masec(n)`, and the height, called `hauteur`.

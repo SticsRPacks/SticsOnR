@@ -25,7 +25,8 @@ Imports:
     crayon (>= 1.3.4),
     rstudioapi,
     SticsRFiles,
-    dfoptim
+    dfoptim,
+    rlang
 Suggests:
     testthat,
     covr,
