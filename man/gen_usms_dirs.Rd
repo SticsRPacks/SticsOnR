@@ -6,7 +6,8 @@
 content}
 \usage{
 gen_usms_dirs(javastics_path, javastics_workspace_path = NULL,
-  target_path = NULL, usms_list = c(), display = FALSE)
+  target_path = NULL, usms_list = c(), display = FALSE,
+  flag_dirPerUsm = TRUE)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
@@ -19,6 +20,9 @@ if not provided the JavaStics workspace will be used as root}
 \item{usms_list}{List of usms to run (Optional)}
 
 \item{display}{Logical value for displaying (TRUE) ot not (FALSE) usm name}
+
+\item{flag_dirPerUsm}{logical, TRUE if one want to create one directory per USM,
+FALSE if USM files are generated in the target_path (only useful for usms_list of size one)}
 }
 \value{
 A list of created directories with Stics input files inside or

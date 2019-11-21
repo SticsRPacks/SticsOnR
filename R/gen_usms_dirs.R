@@ -1,5 +1,5 @@
 gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
-                          target_path = NULL, usms_list = c(), display = FALSE) {
+                          target_path = NULL, usms_list = c(), display = FALSE, flag_dirPerUsm=TRUE) {
                           #,parallelized = FALSE, exec_time = FALSE) {
   #' @title Generating one or several usms directories from a javastics workspace
   #' content
@@ -12,6 +12,8 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #' if not provided the JavaStics workspace will be used as root
   #' @param usms_list List of usms to run (Optional)
   #' @param display Logical value for displaying (TRUE) ot not (FALSE) usm name
+  #' @param flag_dirPerUsm logical, TRUE if one want to create one directory per USM,
+  #' FALSE if USM files are generated in the target_path (only useful for usms_list of size one)
   #'
   #' @return A list of created directories with Stics input files inside or
   #' NULL if any problem about the JavaStics workspace or JavaStics directory
@@ -133,7 +135,11 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #foreach(i = 1:usms_number, .export = ".GlobalEnv") %dopar% {
 
     usm_name=usms_list[i]
-    usm_path <- file.path(target_path, usm_name)
+    if (flag_dirPerUsm) {
+      usm_path <- file.path(target_path, usm_name)
+    } else {
+      usm_path <- target_path
+    }
 
     if (!dir.exists(usm_path)) {
       dir.create(usm_path)
