@@ -4,8 +4,13 @@
 \alias{run_java}
 \title{Running one or several usms from a javastics workspace}
 \usage{
-run_java(javastics_path, javastics_workspace_path = NULL,
-  usms_list = c(), keep_history = TRUE, optim = FALSE)
+run_java(
+  javastics_path,
+  javastics_workspace_path = NULL,
+  usms_list = c(),
+  keep_history = TRUE,
+  optim = FALSE
+)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}

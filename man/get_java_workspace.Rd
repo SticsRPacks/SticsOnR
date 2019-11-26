@@ -11,7 +11,7 @@ get_java_workspace(javastics_path)
 }
 \description{
 Getting current JavaStics working directory,
-if not any setting to `example` directory
+if not any setting to \code{example} directory
 }
 \examples{
 get_java_wd("/path/to/JavaStics/directory")

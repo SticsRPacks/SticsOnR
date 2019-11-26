@@ -15,14 +15,15 @@ add_java_model(javastics_path, java_model_tag, java_model_exe)
 }
 \description{
 Creating a new entry in preferences with a new model name
- and executable file, and select it
+and executable file, and select it
 }
 \details{
 The executable file may be in the current JavaStics bin folder,
 or elsewhere and will be copied in the bin directory
 }
 \examples{
-add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
-"model_name","model_exe_name")
-
+\dontrun{
+ add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
+ "model_name","model_exe_name")
+}
 }

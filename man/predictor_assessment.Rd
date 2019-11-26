@@ -50,7 +50,7 @@ RME(sim, obs, na.rm = T)
 
 \item{na.action}{A function which indicates what should happen when the data contain NAs.}
 
-\item{na.rm}{Boolean. Remove `NA` values if `TRUE` (default)}
+\item{na.rm}{Boolean. Remove \code{NA} values if \code{TRUE} (default)}
 }
 \value{
 A statistic depending on the function used.
@@ -61,44 +61,44 @@ observations.
 }
 \details{
 The statistics for model quality can differ between sources. Here is a
-         short description of each statistic and its equation (see html version
-         for `LATEX`):
+short description of each statistic and its equation (see html version
+for \code{LATEX}):
 \itemize{
-  \item `R2()`: coefficient of determination, computed using [stats::lm()] on obs~sim.
-  \item `SS_res()`: residual sum of squares (see notes).
-  \item `RMSE()`: Root Mean Squared Error, computed as
-            \deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
-  \item `NSE()`: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
-  \item `nRMSE()`: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
-             \deqn{nRMSE = \frac{RMSE}{\hat{y}}\cdot100}{nRMSE = (RMSE/mean(obs))*100}
-  \item `MAE()`: Mean Absolute Error, computed as:
-           \deqn{MAE = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{MAE = mean(abs(sim-obs))}
-  \item `ABS()`: Mean Absolute Bias, which is an alias of `MAE()`
-  \item `FVU()`: Fraction of variance unexplained, computed as:
-           \deqn{FVU = \frac{SS_{res}}{SS_{tot}}}{FVU = SS_res/SS_tot}
-  \item `MSE()`: Mean squared Error, computed as:
-           \deqn{MSE = \frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2}{MSE = mean((sim-obs)^2)}
-  \item `EF()`: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
-          related to the FVU as \eqn{EF= 1-FVU}. It is also related to the \eqn{R^2}{R2}
-          because they share the same equation, except SStot is applied relative to the
-          identity function (*i.e.* 1:1 line) instead of the regression line. It is computed
-          as: \deqn{EF = 1-\frac{SS_{res}}{SS_{tot}}}{EF = 1-SS_res/SS_tot}
-  \item `Bias()`: Modelling bias, simply computed as:
-            \deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
-  \item `MAPE()`: Mean Absolute Percent Error, computed as:
-           \deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|}{y_i})}{n}}{
+\item \code{R2()}: coefficient of determination, computed using \code{\link[stats:lm]{stats::lm()}} on obs~sim.
+\item \code{SS_res()}: residual sum of squares (see notes).
+\item \code{RMSE()}: Root Mean Squared Error, computed as
+\deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
+\item \code{NSE()}: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
+\item \code{nRMSE()}: Normalized Root Mean Squared Error, also denoted as CV(RMSE), and computed as:
+\deqn{nRMSE = \frac{RMSE}{\hat{y}}\cdot100}{nRMSE = (RMSE/mean(obs))*100}
+\item \code{MAE()}: Mean Absolute Error, computed as:
+\deqn{MAE = \frac{\sum_1^n(\left|\hat{y_i}-y_i\right|)}{n}}{MAE = mean(abs(sim-obs))}
+\item \code{ABS()}: Mean Absolute Bias, which is an alias of \code{MAE()}
+\item \code{FVU()}: Fraction of variance unexplained, computed as:
+\deqn{FVU = \frac{SS_{res}}{SS_{tot}}}{FVU = SS_res/SS_tot}
+\item \code{MSE()}: Mean squared Error, computed as:
+\deqn{MSE = \frac{1}{n}\sum_{i=1}^n(Y_i-\hat{Y_i})^2}{MSE = mean((sim-obs)^2)}
+\item \code{EF()}: Model efficiency, also called Nash-Sutcliffe efficiency (NSE). This statistic is
+related to the FVU as \eqn{EF= 1-FVU}. It is also related to the \eqn{R^2}{R2}
+because they share the same equation, except SStot is applied relative to the
+identity function (\emph{i.e.} 1:1 line) instead of the regression line. It is computed
+as: \deqn{EF = 1-\frac{SS_{res}}{SS_{tot}}}{EF = 1-SS_res/SS_tot}
+\item \code{Bias()}: Modelling bias, simply computed as:
+\deqn{Bias = \frac{\sum_1^n(\hat{y_i}-y_i)}{n}}{Bias = mean(sim-obs)}
+\item \code{MAPE()}: Mean Absolute Percent Error, computed as:
+\deqn{MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|}{y_i})}{n}}{
            MAPE = mean(abs(obs-sim)/obs)}
-  \item `RME()`: Relative mean error (\%), computed as:
-           \deqn{RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{RME = mean((sim-obs)/obs)}
+\item \code{RME()}: Relative mean error (\\%), computed as:
+\deqn{RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}}{RME = mean((sim-obs)/obs)}
 }
 }
 \note{
 \eqn{SS_{res}}{SS_res} is the residual sum of squares and \eqn{SS_{tot}}{SS_tot} the total
-      sum of squares. They are computed as:
-      \deqn{SS_{res} = \sum_{i=1}^n (y_i - \hat{y_i})^2}{SS_res= sum((obs-sim)^2)}
-      \deqn{SS_{tot} = \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^2}{SS_tot= sum((obs-mean(obs))^2}
-      Also, it should be noted that \eqn{y_i} refers to the observed values and \eqn{\hat{y_i}} to
-      the predicted values, and \eqn{\bar{y}} to the mean value of observations.
+sum of squares. They are computed as:
+\deqn{SS_{res} = \sum_{i=1}^n (y_i - \hat{y_i})^2}{SS_res= sum((obs-sim)^2)}
+\deqn{SS_{tot} = \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^2}{SS_tot= sum((obs-mean(obs))^2}
+Also, it should be noted that \eqn{y_i} refers to the observed values and \eqn{\hat{y_i}} to
+the predicted values, and \eqn{\bar{y}} to the mean value of observations.
 }
 \examples{
 library(sticRs)
@@ -107,6 +107,6 @@ obs= rnorm(n = 5,mean = 1,sd = 1)
 RMSE(sim,obs)
 }
 \seealso{
-This function was inspired from the `evaluate()` function
-         from the `SticsEvalR` package. This function is used by [stics_eval()]
+This function was inspired from the \code{evaluate()} function
+from the \code{SticsEvalR} package. This function is used by \code{\link[=stics_eval]{stics_eval()}}
 }

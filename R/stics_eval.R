@@ -20,7 +20,7 @@
 #' @param Title      A title for the evaluation. This will be used on the ggplot object.
 #' @param Erase      Should the simulations data be erased upon import (see details)?
 #'
-#' @details The function evaluate STICS outputs either along different model versions \strong{OR}
+#' @details The function evaluate STICS outputs either along different model versions **OR**
 #' parameter values, not both at the same time. The method is automatically chosen using the
 #' `stics` and `Parameter` length. The parameter with a length > 1 will be evaluated.
 #' The names of the `stics` or the `Parameter` list are used for reference in the outputs

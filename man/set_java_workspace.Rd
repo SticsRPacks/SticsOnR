@@ -20,8 +20,9 @@ Checking if the directory is a JavaStics workspace (any usms.xml file), and if i
 before setting new one
 }
 \examples{
-set_java_wd("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","my_wd")
-set_java_wd("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","/path/to/my_wd")
-
+\dontrun{
+ set_java_wd("path/to/JavaSTICS","my_wd")
+ set_java_wd("path/to/JavaSTICS","/path/to/my_wd")
+}
 
 }

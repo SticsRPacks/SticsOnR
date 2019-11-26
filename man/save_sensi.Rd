@@ -5,17 +5,24 @@
 \alias{load_sensi}
 \title{Save and Read sensitivity analysis of STICS}
 \usage{
-save_sensi(x, dirpath = getwd(), device = "png", width = NULL,
-  height = NULL, units = c("in", "cm", "mm"), ...)
+save_sensi(
+  x,
+  dirpath = getwd(),
+  device = "png",
+  width = NULL,
+  height = NULL,
+  units = c("in", "cm", "mm"),
+  ...
+)
 
 load_sensi(dirpath = getwd())
 }
 \arguments{
-\item{x}{The output from the \code{\link{sensitive_stics}} function}
+\item{x}{The output from the \code{\link[=sensitive_stics]{sensitive_stics()}} function}
 
 \item{dirpath}{Path to the directory where to save the plots and objects}
 
-\item{device}{Device to use for the \code{\link[ggplot2]{ggsave}} function
+\item{device}{Device to use for the \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}} function
 that is used under the hood. From its documentation: Can be either
 a device function (e.g. png()), or one of "eps", "ps", "tex" (pictex),
 "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only)}
@@ -25,16 +32,16 @@ a device function (e.g. png()), or one of "eps", "ps", "tex" (pictex),
 \item{units}{Units to use for the plot size parameters
 them (see details and example)}
 
-\item{...}{Further parameters to pass to \code{\link[ggplot2]{ggsave}}}
+\item{...}{Further parameters to pass to \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}}}
 }
 \description{
 Helper functions to conveniently read or save sensitivity outputs from
-             the \code{\link{sensitive_stics}} function
+the \code{\link[=sensitive_stics]{sensitive_stics()}} function
 }
 \details{
-The function first save all the `gg_objects` from the output of
-         \code{\link{sensitive_stics}} as images, save the full `x`object using
-         \code{\link[base]{saveRDS}}, and write a readme file for convenience.
+The function first save all the \code{gg_objects} from the output of
+\code{\link[=sensitive_stics]{sensitive_stics()}} as images, save the full \code{x}object using
+\code{\link[base:saveRDS]{base::saveRDS()}}, and write a readme file for convenience.
 }
 \examples{
 \dontrun{
@@ -63,6 +70,6 @@ sens= load_sensi(dirpath = "3-Results/Sensitivity")
 }
 }
 \seealso{
-\code{\link[ggplot2]{ggsave}}, \code{\link[base]{saveRDS}} and
-         \code{\link[base]{readRDS}}
+\code{\link[ggplot2:ggsave]{ggplot2::ggsave()}}, \code{\link[base:saveRDS]{base::saveRDS()}} and
+\code{\link[base:readRDS]{base::readRDS()}}
 }

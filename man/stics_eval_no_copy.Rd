@@ -13,14 +13,14 @@ stics_eval_no_copy(USM_path, param, obs_name, Plant)
 
 \item{obs_name}{The observation file names}
 
-\item{Plant}{The plant (*i.e.* Principal or associated) for which the parameters
+\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
-Set to `NULL` if using STICS in sole crop#'}
+Set to \code{NULL} if using STICS in sole crop#'}
 }
 \value{
-The output of [eval_output()]
+The output of \code{\link[=eval_output]{eval_output()}}
 }
 \description{
-Make a STICS simulation such as for using [stics_eval()] but without
+Make a STICS simulation such as for using \code{\link[=stics_eval]{stics_eval()}} but without
 importing the files, and without making plots. This function is parallelized over USMs.
 }

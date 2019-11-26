@@ -17,18 +17,18 @@ set_file(filepath, param, value, add, variety = NULL)
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input
-             file. This function is called by some of the generic `set_*`
-             functions under the hood.
+file. This function is called by some of the generic \verb{set_*}
+functions under the hood.
 }
 \details{
-The function uses [base::sys.call()] to know from which function
-         of the `set_*` family it is called, so it won't work properly if called
-         by the user directly. This is why this function is internal.
+The function uses \code{\link[base:sys.call]{base::sys.call()}} to know from which function
+of the \verb{set_*} family it is called, so it won't work properly if called
+by the user directly. This is why this function is internal.
 }
 \note{
-This function is not used for [set_soil()].
+This function is not used for \code{\link[=set_soil]{set_soil()}}.
 }
 \seealso{
-[set_param()].
+\code{\link[=set_param]{set_param()}}.
 }
 \keyword{internal}

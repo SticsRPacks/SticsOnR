@@ -1,13 +1,13 @@
 
 #' Add a group to a simulation output
 #'
-#' @description Add a group variable to a simulation from \code{\link{stics_eval}}.
+#' @description Add a group variable to a simulation from [stics_eval()].
 #' @details This is usefull when comparing several simulations, to class outputs per simulations
 #'
 #' @param stics_eval_out The output of a stics_eval simulation
 #' @param y              A vector of the group value, either of length 1 or nrow(stics_eval_out$outputs)
 #'
-#' @seealso \code{\link{plot_output}} to use this group variable
+#' @seealso [plot_output()] to use this group variable
 #' @examples
 #'\dontrun{
 #' library(SticsOnR)

@@ -4,7 +4,7 @@ Title: A Package to Set, Manage and Analyze STICS Simulations https://github.com
 Date: 2018-05-11
 Version: 1.1.0
 Authors@R: c(person("Remi", "Vezy",, "vezy.remi@gmail.com", c("aut", "cre", "cph"),comment = c(ORCID = "0000-0002-0808-1461")),
-    person("STICS", "group",, "", c("aut", "cph")))
+             person("SticsRPacks", role= c("aut", "cph")))
 Description: SticsOnR allow users to set simulations (USM) as javaSTICS does, to run them in different folders on in sequential,
   and to import the outputs from R. Learn more ar https://SticsRPacks.github.io/SticsOnR/.
 URL: https://github.com/SticsRPacks/SticsOnR
@@ -13,7 +13,7 @@ License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 Imports:
     magrittr,
     stats,
@@ -26,10 +26,16 @@ Imports:
     rstudioapi,
     SticsRFiles,
     dfoptim,
-    rlang
+    rlang,
+    doParallel,
+    foreach,
+    XML
+Remotes: 
+    github::SticsRPacks/SticsRFiles
 Suggests:
     testthat,
     covr,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)

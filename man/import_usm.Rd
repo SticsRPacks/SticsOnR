@@ -4,12 +4,19 @@
 \alias{import_usm}
 \title{Create a simulation unit (USM) for the STICS model}
 \usage{
-import_usm(dir.orig = NULL, dir.targ = getwd(), stics = NULL,
-  usm_name = NULL, all_files = F, overwrite = T, verbose = NULL)
+import_usm(
+  dir.orig = NULL,
+  dir.targ = getwd(),
+  stics = NULL,
+  usm_name = NULL,
+  all_files = F,
+  overwrite = T,
+  verbose = NULL
+)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which copy the simulation files. If
-`NULL` (the default), uses the package dummy USM.}
+\code{NULL} (the default), uses the package dummy USM.}
 
 \item{dir.targ}{Path to the target directory for simulation. Created if missing.}
 
@@ -18,7 +25,7 @@ present in dir.orig)}
 
 \item{usm_name}{Vector name of the USM(s).}
 
-\item{all_files}{Boolean. The function copy all files in dir.orig if `TRUE`, or only
+\item{all_files}{Boolean. The function copy all files in dir.orig if \code{TRUE}, or only
 the ones needed for the STICS simulation.}
 
 \item{overwrite}{Boolean. Overwrite files and folders if already present. See details.}
@@ -27,14 +34,14 @@ the ones needed for the STICS simulation.}
 }
 \description{
 Uses a pre-existing USM, copy files to target folder(s) of simulation,
-             set the USMs ready for simulation. `import_usm` create as many sub-folders
-             as USM neede in the target folder.
+set the USMs ready for simulation. \code{import_usm} create as many sub-folders
+as USM neede in the target folder.
 }
 \details{
 This function is a helper function used by other package functions.
- If `overwrite= F`, the function show to the user which files
- are already present, and asks the user what to do, so be careful while using
- this function for programming.
+If \code{overwrite= F}, the function show to the user which files
+are already present, and asks the user what to do, so be careful while using
+this function for programming.
 }
 \examples{
 \dontrun{

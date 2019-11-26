@@ -12,9 +12,10 @@ add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
   #' @param java_model_exe Model executable name or path
   #'
   #' @examples
-  #' add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
-  #' "model_name","model_exe_name")
-  #'
+  #' \dontrun{
+  #'  add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
+  #'  "model_name","model_exe_name")
+  #' }
   #' @export
   #'
   #'

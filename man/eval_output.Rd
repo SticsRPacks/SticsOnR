@@ -4,14 +4,13 @@
 \alias{eval_output}
 \title{Compare STICS simulation outputs (mod_s) to observations (*.obs)}
 \usage{
-eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
-  verbose = FALSE)
+eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL, verbose = FALSE)
 }
 \arguments{
 \item{dirpath}{Directory path}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
-`c(Principal,Associated)` for mixed crops. See details.}
+\code{c(Principal,Associated)} for mixed crops. See details.}
 
 \item{mixed}{(optional) Is the simulation made on mixed species (boolean)}
 
@@ -19,18 +18,18 @@ eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) with
-        simulated and observed data. Simulated and measured data have the `_sim`
-        and `_meas` suffix respectively.
+simulated and observed data. Simulated and measured data have the \verb{_sim}
+and \verb{_meas} suffix respectively.
 }
 \description{
 Compare STICS simulation outputs to observations for sole or mixed crops.
 }
 \details{
-For mixed crops, the `obs_name` argument should have the principal plant
-         observations first in the character vector, and then the associated plant.
-         If `obs_name` is not provided, the function try to guess it using the
-         built-in algorithm from [read_obs()]. Idem for the `mixed`
-         argument. See documentation for more details.
+For mixed crops, the \code{obs_name} argument should have the principal plant
+observations first in the character vector, and then the associated plant.
+If \code{obs_name} is not provided, the function try to guess it using the
+built-in algorithm from \code{\link[=read_obs]{read_obs()}}. Idem for the \code{mixed}
+argument. See documentation for more details.
 }
 \examples{
 \dontrun{
@@ -40,5 +39,5 @@ Table_compare= eval_output()
 
 }
 \seealso{
-[read_output()] and [read_obs()]
+\code{\link[=read_output]{read_output()}} and \code{\link[=read_obs]{read_obs()}}
 }

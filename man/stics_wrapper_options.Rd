@@ -13,20 +13,11 @@ JavaStics interface)}
 \item{data_dir}{Path(s) of the situation(s) input files directorie(s)
 or the root path of the situation(s) input files directorie(s)}
 
-\item{parallel}{Logical value for specifying to perform parallel runs (TRUE)
-or not (FALSE)}
-
-\item{cores}{Number of cores to be used}
-
-\item{time_display}{Logical value used to display (TRUE) or not (FALSE)
-simulations duration}
+\item{...Add}{further arguments to the options}
 }
 \value{
 A list containing Stics model stics_wrapper options
 }
 \description{
 This function returns a default options list
-}
-\examples{
-
 }

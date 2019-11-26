@@ -1,28 +1,28 @@
 #' Save and Read sensitivity analysis of STICS
 #'
 #' @description Helper functions to conveniently read or save sensitivity outputs from
-#'              the \code{\link{sensitive_stics}} function
+#'              the [sensitive_stics()] function
 #'
-#' @param x       The output from the \code{\link{sensitive_stics}} function
+#' @param x       The output from the [sensitive_stics()] function
 #' @param dirpath Path to the directory where to save the plots and objects
-#' @param device  Device to use for the \code{\link[ggplot2]{ggsave}} function
+#' @param device  Device to use for the [ggplot2::ggsave()] function
 #'                that is used under the hood. From its documentation: Can be either
 #'                a device function (e.g. png()), or one of "eps", "ps", "tex" (pictex),
 #'                "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only)
-#' @param width,height   Plot dimensions in \code{units} parameter units
+#' @param width,height   Plot dimensions in `units` parameter units
 #' @param units   Units to use for the plot size parameters
 #'                them (see details and example)
-#' @param ...     Further parameters to pass to \code{\link[ggplot2]{ggsave}}
+#' @param ...     Further parameters to pass to [ggplot2::ggsave()]
 #'
 #' @details The function first save all the `gg_objects` from the output of
-#'          \code{\link{sensitive_stics}} as images, save the full `x`object using
-#'          \code{\link[base]{saveRDS}}, and write a readme file for convenience.
+#'          [sensitive_stics()] as images, save the full `x`object using
+#'          [base::saveRDS()], and write a readme file for convenience.
 #'
 #'
 #' @importFrom ggplot2 ggsave
 #'
-#' @seealso \code{\link[ggplot2]{ggsave}}, \code{\link[base]{saveRDS}} and
-#'          \code{\link[base]{readRDS}}
+#' @seealso [ggplot2::ggsave()], [base::saveRDS()] and
+#'          [base::readRDS()]
 #'
 #' @examples
 #'\dontrun{

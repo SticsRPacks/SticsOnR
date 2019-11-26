@@ -3,10 +3,14 @@
 \name{stics_wrapper}
 \alias{stics_wrapper}
 \title{Running usm(s) from txt input files stored in one directory
-per `situation`, simulated results are returned in a list}
+per \code{situation}, simulated results are returned in a list}
 \usage{
-stics_wrapper(param_values = NULL, sit_var_dates_mask = NULL,
-  prior_information = NULL, model_options)
+stics_wrapper(
+  param_values = NULL,
+  sit_var_dates_mask = NULL,
+  prior_information = NULL,
+  model_options
+)
 }
 \arguments{
 \item{param_values}{named vector containing the value(s) and names of the
@@ -38,7 +42,4 @@ dates were simulated.
 \description{
 This function uses Stics directly through a system call, can
 force Stics input parameters with values given in arguments.
-}
-\examples{
-
 }

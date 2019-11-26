@@ -17,16 +17,16 @@ stics_eval_opti(x, USM_path, obs_name, param, weight = NULL, Plant)
 
 \item{weight}{The weight used for each variable (see details)}
 
-\item{Plant}{The plant (*i.e.* Principal or associated) for which the parameters
+\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
-Set to `NULL` if using STICS in sole crop}
+Set to \code{NULL} if using STICS in sole crop}
 }
 \value{
 The weighted product of squares (selection criteria)
 }
 \description{
 Function evaluated for parameter optimization. This function is only provided
-for informative value, but should not be used by the user. It is called by [optimi_stics()].
+for informative value, but should not be used by the user. It is called by \code{\link[=optimi_stics]{optimi_stics()}}.
 }
 \details{
 If weight is not provided by the user, the selection criteria is computed using the equation
@@ -34,5 +34,5 @@ If weight is not provided by the user, the selection criteria is computed using 
 }
 \references{
 Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
- A package of parameter e00stimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
+A package of parameter e00stimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
 }

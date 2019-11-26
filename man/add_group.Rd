@@ -12,7 +12,7 @@ add_group(stics_eval_out, y)
 \item{y}{A vector of the group value, either of length 1 or nrow(stics_eval_out$outputs)}
 }
 \description{
-Add a group variable to a simulation from \code{\link{stics_eval}}.
+Add a group variable to a simulation from \code{\link[=stics_eval]{stics_eval()}}.
 }
 \details{
 This is usefull when comparing several simulations, to class outputs per simulations
@@ -30,7 +30,7 @@ Eval_stics_1=
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
              Out_var = c("lai(n)", "masec(n)","hauteur"),
-             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)\%>\%
+             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)%>%
              add_group("2017-2018")
 
 # Simulation from 2017 (note the add_group function call at the end):
@@ -40,7 +40,7 @@ Eval_stics_2=
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
              Out_var = c("lai(n)", "masec(n)","hauteur"),
-             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)\%>\%
+             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)%>%
              add_group("2016-2017")
 
 # Binding the two simulations:
@@ -52,5 +52,5 @@ plot_output(Eval_stics$outputs)
 }
 }
 \seealso{
-\code{\link{plot_output}} to use this group variable
+\code{\link[=plot_output]{plot_output()}} to use this group variable
 }

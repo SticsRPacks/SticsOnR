@@ -3,18 +3,15 @@
 
 # SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
 [![Travis build
 status](https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master)](https://travis-ci.org/SticsRPacks/SticsOnR)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/SticsRPacks/SticsOnR?branch=master&svg=true)](https://ci.appveyor.com/project/VEZY/sticsonr/branch/master)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Coverage
-status](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/github/SticsRPacks/SticsOnR?branch=master)
-[![DOI](https://zenodo.org/badge/133052970.svg)](https://zenodo.org/badge/latestdoi/133052970)
+
+[![Codecov test
+coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
 
 ## Development
 

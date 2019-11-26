@@ -7,15 +7,15 @@
 rbind_sim(...)
 }
 \arguments{
-\item{...}{Input simulations lists from [stics_eval()].}
+\item{...}{Input simulations lists from \code{\link[=stics_eval]{stics_eval()}}.}
 }
 \description{
-Uses [data.table::rbindlist()] but keep the original
+Uses \code{\link[data.table:rbindlist]{data.table::rbindlist()}} but keep the original
 structure of the list within the list. To use for row binding
-[stics_eval()] outputs.
+\code{\link[=stics_eval]{stics_eval()}} outputs.
 }
 \details{
-The function keep all columns from the simulations as in `data.table::rbindlist(l,fill= TRUE)`.
+The function keep all columns from the simulations as in \code{data.table::rbindlist(l,fill= TRUE)}.
 }
 \examples{
 \dontrun{
@@ -25,5 +25,5 @@ Simulation= rbind_sim(Sim_2017, Sim_2018)
 }
 }
 \seealso{
-[stics_eval()]
+\code{\link[=stics_eval]{stics_eval()}}
 }

@@ -21,6 +21,3 @@ or producing a full path to a workspace located in JavaStics root directory
 or validating an external absolute path. And also checking if the path is a
 valid JavaStics workspace
 }
-\examples{
-
-}

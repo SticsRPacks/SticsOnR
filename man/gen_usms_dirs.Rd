@@ -5,9 +5,14 @@
 \title{Generating one or several usms directories from a javastics workspace
 content}
 \usage{
-gen_usms_dirs(javastics_path, javastics_workspace_path = NULL,
-  target_path = NULL, usms_list = c(), display = FALSE,
-  flag_dirPerUsm = TRUE)
+gen_usms_dirs(
+  javastics_path,
+  javastics_workspace_path = NULL,
+  target_path = NULL,
+  usms_list = c(),
+  display = FALSE,
+  flag_dirPerUsm = TRUE
+)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
