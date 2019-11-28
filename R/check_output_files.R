@@ -15,12 +15,7 @@ check_output_files <- function(run_dir,usm_name=NULL) {
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2018-04-10 14:51:40 +0200 (mar. 10 avril 2018) $
-  #  $Author: plecharpent $
-  #  $Revision: 1154 $
-  # ----------------------------------------------------------------------
+
   if (is.null(usm_name)) {
     usm=basename(run_dir)
   } else {

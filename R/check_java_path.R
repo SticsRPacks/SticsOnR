@@ -11,12 +11,6 @@ check_java_path <- function(javastics_path){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-11-28 13:35:05 +0100 (mar. 28 nov. 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 1105 $
-  # ----------------------------------------------------------------------
 
   if (!file.exists(javastics_path)) {
     stop("The JavasStics folder doesn't exist : ",javastics_path)

@@ -13,12 +13,7 @@ is_os_name <- function(os_tag_name=character()){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-05-13 08:40:55 +0200 (sam. 13 mai 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 949 $
-  # ----------------------------------------------------------------------
+
 
   os_names=c("windows","linux","mac","darwin")
   if (length(os_tag_name)==0) return(os_names)

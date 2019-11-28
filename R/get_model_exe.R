@@ -17,12 +17,6 @@ get_model_exe <- function(javastics_path, model_name=character(0)){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-05-14 08:29:26 +0200 (dim. 14 mai 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 950 $
-  # ----------------------------------------------------------------------
 
   if(length(model_name)==0) model_name=get_java_model(javastics_path)
 

@@ -19,12 +19,6 @@ add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
   #' @export
   #'
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2018-06-01 18:07:43 +0200 (ven. 01 juin 2018) $
-  #  $Author: plecharpent $
-  #  $Revision: 1166 $
-  # ----------------------------------------------------------------------
 
   # checking javastics path
   check_java_path(javastics_path)

@@ -14,12 +14,6 @@ exist_java_model <- function(javastics_path,java_model_tag){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2019-06-03 11:56:53 +0200 (lun. 03 juin 2019) $
-  #  $Author: plecharpent $
-  #  $Revision: 1429 $
-  # ----------------------------------------------------------------------
 
   # if no preference have been set yet
   if (!exists_java_pref(javastics_path)) set_java_pref(javastics_path)

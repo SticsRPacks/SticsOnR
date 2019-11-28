@@ -22,12 +22,6 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #' TODO
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2019-10-01 17:00:12 +0200 (mar. 01 oct. 2019) $
-  #  $Author: plecharpent $
-  #  $Revision: 1621 $
-  # ----------------------------------------------------------------------
 
 
   ################### TODO ######################################

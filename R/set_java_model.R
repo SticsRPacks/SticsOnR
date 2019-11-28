@@ -11,12 +11,7 @@ set_java_model <- function(javastics_path,java_model_tag){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-11-09 18:36:27 +0100 (jeu. 09 nov. 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 1098 $
-  # ----------------------------------------------------------------------
+
 
   # checking javastics path
   check_java_path(javastics_path)

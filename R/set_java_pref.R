@@ -12,12 +12,7 @@ set_java_pref <- function(javastics_path){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-05-13 08:40:55 +0200 (sam. 13 mai 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 949 $
-  # ----------------------------------------------------------------------
+
 
   # checking javastics path
   check_java_path(javastics_path)

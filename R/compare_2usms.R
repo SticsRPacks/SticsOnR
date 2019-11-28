@@ -10,13 +10,6 @@ compare_2usms <- function(first_dir,second_dir,in_usms_list=c()){
   #' out <- compare_2usms("out_dir1","out_dir2",c("ble","mais"))
   #' @export
 
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-05-13 08:40:55 +0200 (sam. 13 mai 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 949 $
-  # ----------------------------------------------------------------------
-
   # getting common usms
   first_dir_path=file.path(first_dir,"usms.xml")
   second_dir_path=file.path(second_dir,"usms.xml")

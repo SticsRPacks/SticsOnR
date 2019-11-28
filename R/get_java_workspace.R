@@ -11,12 +11,7 @@ get_java_workspace <- function(javastics_path){
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-05-13 08:32:22 +0200 (sam. 13 mai 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 948 $
-  # ----------------------------------------------------------------------
+
 
   # checking javastics path
   check_java_path(javastics_path)

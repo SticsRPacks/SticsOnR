@@ -25,12 +25,7 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2019-10-01 08:26:46 +0200 (mar. 01 oct. 2019) $
-  #  $Author: plecharpent $
-  #  $Revision: 1619 $
-  # ----------------------------------------------------------------------
+
 
   jexe="JavaSticsCmd.exe"
 

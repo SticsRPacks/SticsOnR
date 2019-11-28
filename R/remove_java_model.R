@@ -15,12 +15,7 @@ remove_java_model <- function(javastics_path,java_model_tag){
   #' @export
   #'
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2017-11-10 16:40:39 +0100 (ven. 10 nov. 2017) $
-  #  $Author: plecharpent $
-  #  $Revision: 1100 $
-  # ----------------------------------------------------------------------
+
 
   # checking javastics path
   check_java_path(javastics_path)

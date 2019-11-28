@@ -22,12 +22,7 @@ run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
   #'
   #' @export
   #'
-  # ----------------------------------------------------------------------
-  #  MODIFICATIONS (last commit)
-  #  $Date: 2019-06-03 11:56:53 +0200 (lun. 03 juin 2019) $
-  #  $Author: plecharpent $
-  #  $Revision: 1429 $
-  # ----------------------------------------------------------------------
+
 
   if (! is.null(usm_dir_names)) {
     run_dir=file.path(data_dir,usm_dir_names)
