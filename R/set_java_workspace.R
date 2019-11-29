@@ -13,7 +13,8 @@
 #'  set_java_wd("path/to/JavaSTICS","/path/to/my_wd")
 #' }
 #'
-#' @export
+#@export
+
 set_java_workspace <- function(javastics_path,java_wd){
 
   # checking javastics path

@@ -12,8 +12,7 @@ set_java_pref <- function(javastics_path){
   #'
   #' @return Current Stics model name used in JavaStics default configuration
   #'
-  #' @export
-  #'
+  #@export
 
 
   # checking javastics path

@@ -11,7 +11,8 @@
 #'
 #' @return An absolute javastics workspace path
 #'
-#' @export
+#@export
+
 check_java_workspace <- function(javastics_path,javastics_workspace_path=NULL) {
 
   setwd(javastics_path)

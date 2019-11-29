@@ -10,8 +10,8 @@ check_java_path <- function(javastics_path){
   #'check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
   #'}
   #'
-  #' @export
-  #'
+  #@export
+
 
   if (!file.exists(javastics_path)) {
     stop("The JavasStics folder doesn't exist : ",javastics_path)

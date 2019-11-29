@@ -1,29 +1,29 @@
-run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
-  #' @title Running usm(s) from a/several directory(ies)
-  #' or a/several subdirectory(ies) named with usm name
-  #'
-  #' @description This function uses Stics directly through a system call
-  #'
-  #' @param model_path Path of Stics executable file
-  #' @param data_dir Path of a Stics input directory or a vector of,
-  #' or root directory of Stics directories (if usm_dir_names is given)
-  #' @param usm_dir_names Name(s) of sub-directory(ies) of data_dir
-  #'
-  #' @return A list with usm names and execution error status
-  #'
-  #' @examples
-  #' \dontrun{
-  #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
-  #' run_system("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
-  #' "/home/username/Work/SticsInputsDir2"))
-  #'
-  #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
-  #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
-  #' c("wheat","maize"))
-  #'}
-  #' @export
-  #'
+#' @title Running usm(s) from a/several directory(ies)
+#' or a/several subdirectory(ies) named with usm name
+#'
+#' @description This function uses Stics directly through a system call
+#'
+#' @param model_path Path of Stics executable file
+#' @param data_dir Path of a Stics input directory or a vector of,
+#' or root directory of Stics directories (if usm_dir_names is given)
+#' @param usm_dir_names Name(s) of sub-directory(ies) of data_dir
+#'
+#' @return A list with usm names and execution error status
+#'
+#' @examples
+#' \dontrun{
+#' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
+#' run_system("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
+#' "/home/username/Work/SticsInputsDir2"))
+#'
+#' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
+#' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
+#' c("wheat","maize"))
+#'}
+#'
+#@export
 
+run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
 
   if (! methods::is.null(usm_dir_names)) {
     run_dir=file.path(data_dir,usm_dir_names)
