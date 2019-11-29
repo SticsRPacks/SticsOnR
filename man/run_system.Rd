@@ -31,4 +31,5 @@ run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","
 run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
 c("wheat","maize"))
 }
+
 }

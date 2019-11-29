@@ -23,4 +23,5 @@ It will not be possible to run it through JavaStics command line interface
 \dontrun{
 remove_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
 }
+
 }

@@ -26,4 +26,5 @@ or elsewhere and will be copied in the bin directory
  add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
  "model_name","model_exe_name")
 }
+
 }
