@@ -10,13 +10,15 @@ check_output_files <- function(run_dir,usm_name=NULL) {
   #' @return A list with fields $error (logical, TRUE if any missing file, FALSE otherwise), $missing (missing files vector)
   #'
   #' @examples
+  #' \dontrun{
   #' check_output_files("/home/username/Work/SticsInputsDir")
   #' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
+  #'}
   #'
   #' @export
   #'
 
-  if (is.null(usm_name)) {
+  if (methods::is.null(usm_name)) {
     usm=basename(run_dir)
   } else {
     usm=usm_name

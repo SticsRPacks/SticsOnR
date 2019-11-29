@@ -6,7 +6,9 @@ get_java_models <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
+  #' \dontrun{
   #' models <- get_java_models("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+  #'}
   #'
   #' @return A list with model name list ($tag), and model executables names ($exe)
   #'
@@ -19,8 +21,8 @@ get_java_models <- function(javastics_path){
   # if no preference have been set yet
   if (!exists_java_pref(javastics_path)) set_java_pref(javastics_path)
 
-  xml_pref=xmldocument(file.path(javastics_path,"config","preferences.xml"))
-  models_string=getValues(xml_pref,'//entry[@key="model.list"]')
+  xml_pref= SticsRFiles ::: xmldocument(file.path(javastics_path,"config","preferences.xml"))
+  models_string= SticsRFiles ::: getValues(xml_pref,'//entry[@key="model.list"]')
   mod=strsplit(models_string,"\t")
   mod=unlist(lapply(mod, function(x) strsplit(x,",")))
   mod_tags=mod[seq(1,length(mod),2)]

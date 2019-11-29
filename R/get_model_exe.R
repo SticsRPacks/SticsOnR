@@ -8,10 +8,12 @@ get_model_exe <- function(javastics_path, model_name=character(0)){
   #' @param model_name Model name in model name list
   #'
   #' @examples
+  #'\dontrun{
   #' Getting the current model executable
   #' model_exe <- get_model_exe("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
   #' Getting model executable correponding to the given "model_name"
   #' model_exe <- get_model_exe("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
+  #'}
   #'
   #' @return Stics model executable name (current, matching given model name)
   #'

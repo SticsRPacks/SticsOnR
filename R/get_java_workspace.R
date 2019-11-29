@@ -7,7 +7,9 @@ get_java_workspace <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
+  #' \dontrun{
   #' get_java_wd("/path/to/JavaStics/directory")
+  #'}
   #'
   #' @export
   #'
@@ -21,10 +23,10 @@ get_java_workspace <- function(javastics_path){
 
   xml_path=file.path(javastics_path,"config","preferences.xml")
 
-  xml_pref=xmldocument(xml_path)
-  current_wd=getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
+  xml_pref= SticsRFiles ::: xmldocument(xml_path)
+  current_wd= SticsRFiles ::: getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
 
-  if(is.null(current_wd)) stop("JavaStics working directory hasn't been set (use set_java_wd to do so)!")
+  if(methods::is.null(current_wd)) stop("JavaStics working directory hasn't been set (use set_java_wd to do so)!")
 
   return(current_wd)
 

@@ -6,8 +6,9 @@ check_java_path <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
+  #'\dontrun{
   #'check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-  #'
+  #'}
   #'
   #' @export
   #'

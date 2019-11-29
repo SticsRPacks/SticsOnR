@@ -68,13 +68,13 @@ add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
                                          java_models$exe[i]))
   }
 
-  xml_pref <- xmldocument(xml_path)
-  setValues(xml_pref, '//entry[@key="model.last"]', java_model_tag)
+  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+  SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', java_model_tag)
 
-  setValues(xml_pref, '//entry[@key="model.list"]', java_models_string)
+  SticsRFiles:::setValues(xml_pref, '//entry[@key="model.list"]', java_models_string)
 
   # writing file
-  saveXmlDoc(xml_pref, xml_path)
+  SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
 
   # if OS != windows, set chmod +x exe
   if (!is_os_name("windows")) {

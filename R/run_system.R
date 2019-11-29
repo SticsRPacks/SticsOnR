@@ -12,19 +12,20 @@ run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
   #' @return A list with usm names and execution error status
   #'
   #' @examples
+  #' \dontrun{
   #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
   #' run_system("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
   #' "/home/username/Work/SticsInputsDir2"))
   #'
-  #' run_system("/home/username/bin/Stics",/home/username/Work/SticsInputsRootDir","wheat")
-  #' run_system("/home/username/bin/Stics",/home/username/Work/SticsInputsRootDir",
+  #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
+  #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
   #' c("wheat","maize"))
-  #'
+  #'}
   #' @export
   #'
 
 
-  if (! is.null(usm_dir_names)) {
+  if (! methods::is.null(usm_dir_names)) {
     run_dir=file.path(data_dir,usm_dir_names)
   } else {
     run_dir = data_dir

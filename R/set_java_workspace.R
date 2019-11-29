@@ -24,7 +24,7 @@ set_java_workspace <- function(javastics_path,java_wd){
 
   xml_path=file.path(javastics_path,"config","preferences.xml")
 
-  xml_pref= SticsRFiles::xmldocument(xml_path)
+  xml_pref= SticsRFiles:::xmldocument(xml_path)
 
   # checking if java_wd is a relative to javaStics path or an absolute one exists
   if(dirname(java_wd)==".") {
@@ -33,27 +33,27 @@ set_java_workspace <- function(javastics_path,java_wd){
 
   # checking if exists if it is a workspace a
   ws <- check_java_workspace(javastics_path,java_wd)
-  if (is.null(ws)) {
+  if (methods::is.null(ws)) {
     return()
   }
 
   # getting current registered wd
-  current_wd= SticsRFiles::getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
+  current_wd= SticsRFiles:::getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
 
   # entry doesn't exist, normally it could not occur because we set pref file before,
   # but using JavaStics interface first doesn't fix a default workspace, so ...
-  if (is.null(current_wd)){
+  if (methods::is.null(current_wd)){
     n= XML::xmlParseString(paste0("<entry key=\"workingDirectory.current\">",java_wd,"</entry>"))
-    XML::addNodes(xml_pref,n)
+    SticsRFiles:::addNodes(xml_pref,n)
   } else {
     # if it's not different from the new one,
     if (current_wd==java_wd || (dirname(java_wd)==javastics_path) && basename(java_wd)==current_wd) return()
 
     # else, setting entry value
-    SticsRFiles::setValues(xml_pref,'//entry[@key="workingDirectory.current"]',java_wd)
+    SticsRFiles:::setValues(xml_pref,'//entry[@key="workingDirectory.current"]',java_wd)
   }
 
   # writing file
-  SticsRFiles::saveXmlDoc(xml_pref,xml_path)
+  SticsRFiles:::saveXmlDoc(xml_pref,xml_path)
 
 }

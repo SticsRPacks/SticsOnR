@@ -10,8 +10,9 @@ remove_java_model <- function(javastics_path,java_model_tag){
   #' @param java_model_tag Model name (not executable file name)
   #'
   #' @examples
+  #' \dontrun{
   #' remove_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
-  #'
+  #'}
   #' @export
   #'
   #'
@@ -26,7 +27,7 @@ remove_java_model <- function(javastics_path,java_model_tag){
   }
 
   # exe_name=basename(java_model_exe)
-  # java_exe_path=file.path(javas,"bin",exe_name)
+  # java_exe_path=file.path(javastics_path,"bin",exe_name)
   #
   # if (!file.exists(java_model_exe) & !file.exists(java_exe_path)){
   #   stop("The model executable file doesn't exist : ",java_model_exe)
@@ -50,7 +51,7 @@ remove_java_model <- function(javastics_path,java_model_tag){
 
   # getting new list for models
   # id of the model to remove
-  modelidx=is.element(get_java_models(javas)$tags,java_model_tag)
+  modelidx=is.element(get_java_models(javastics_path)$tags,java_model_tag)
   java_models$tags=java_models$tags[!modelidx]
   java_models$exe=java_models$exe[!modelidx]
   nb_models=length(java_models$tags)
@@ -62,16 +63,16 @@ remove_java_model <- function(javastics_path,java_model_tag){
     java_models_string=paste0(java_models_string,sprintf(fmt,java_models$tags[i],java_models$exe[i]))
   }
 
-  xml_pref=xmldocument(xml_path)
+  xml_pref= SticsRFiles ::: xmldocument(xml_path)
 
   # removing model from last if needed
   if (get_java_model(javastics_path) == java_model_tag){
-    setValues(xml_pref,'//entry[@key="model.last"]',"")
+    SticsRFiles ::: setValues(xml_pref,'//entry[@key="model.last"]',"")
   }
 
-  setValues(xml_pref,'//entry[@key="model.list"]',java_models_string)
+  SticsRFiles ::: setValues(xml_pref,'//entry[@key="model.list"]',java_models_string)
 
   # writing file
-  saveXmlDoc(xml_pref,xml_path)
+  SticsRFiles ::: saveXmlDoc(xml_pref,xml_path)
 
 }

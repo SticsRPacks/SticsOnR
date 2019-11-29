@@ -6,7 +6,9 @@ get_java_model <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
+  #' \dontrun{
   #' current_model <- get_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+  #'}
   #'
   #' @return Current Stics model name used in JavaStics configuration
   #'
@@ -25,8 +27,8 @@ get_java_model <- function(javastics_path){
     stop("No model has been selected yet, try set_java_model without arguments to fix default model version.")
   }
 
-  xml_pref=xmldocument(xml_path)
-  current_model=getValues(xml_pref,'//entry[@key="model.last"]')
+  xml_pref= SticsRFiles ::: xmldocument(xml_path)
+  current_model= SticsRFiles ::: getValues(xml_pref,'//entry[@key="model.last"]')
 
   return(current_model)
 

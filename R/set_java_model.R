@@ -7,7 +7,9 @@ set_java_model <- function(javastics_path,java_model_tag){
   #' @param java_model_tag Model name (not executable file)
   #'
   #' @examples
+  #' \dontrun{
   #' set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
+  #'}
   #'
   #' @export
   #'
@@ -34,14 +36,14 @@ set_java_model <- function(javastics_path,java_model_tag){
   # saving a previous version
   file.copy(xml_path,xml_path_prev)
 
-  xml_pref=xmldocument(xml_path)
-  current_model=getValues(xml_pref,'//entry[@key="model.last"]')
+  xml_pref=SticsRFiles:::xmldocument(xml_path)
+  current_model=SticsRFiles:::getValues(xml_pref,'//entry[@key="model.last"]')
   # no need to set the model
   if (current_model == java_model_tag) {
     return(invisible())
   }
   # setting model version
-  setValues(xml_pref,'//entry[@key="model.last"]',java_model_tag)
+  SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',java_model_tag)
 
   # if OS != windows, set chmod +x exe
   if (!is_os_name("windows")){
@@ -50,6 +52,6 @@ set_java_model <- function(javastics_path,java_model_tag){
   }
 
   # saving modified file
-  saveXmlDoc(xml_pref,xml_path)
+  SticsRFiles:::saveXmlDoc(xml_pref,xml_path)
 
 }

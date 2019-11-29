@@ -57,7 +57,7 @@ iniwd=getwd()
 
 # parallel run
 cores_number=4
-cl <- makeCluster(cores_number)
+cl <- parallel::makeCluster(cores_number)
 registerDoParallel(cl)
 nb_dirs=length(data_dirs)
 parallel_ptime <- system.time({

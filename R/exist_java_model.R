@@ -8,7 +8,9 @@ exist_java_model <- function(javastics_path,java_model_tag){
   #' @param java_model_tag Model name in JavaStics configuration
   #'
   #' @examples
+  #' \dontrun{
   #' exist_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841/example","stics_name")
+  #'}
   #'
   #' @return Existing status, logical
   #'

@@ -17,11 +17,13 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
   #'
   #'
   #' @examples
+  #' \dontrun{
   #' run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example")
   #' run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","/home/plecharpent/data/example")
   #' run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example",c("ble","pois"))
   #' run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"))
   #' run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"), optim=TRUE)
+  #'}
   #'
   #' @export
   #'
@@ -55,12 +57,12 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
   # DONE: Moved previous code to a new function for calculating and checking workspace path
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,javastics_workspace_path)
-  if (is.null(ws)) {
+  if (methods::is.null(ws)) {
     return()
   }
 
   # using get_usms_list
-  full_usms_list = get_usms_list(ws)
+  full_usms_list = SticsRFiles::get_usms_list(ws)
 
   if (length(usms_list) == 0){
     usms_list = full_usms_list
@@ -88,7 +90,7 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
     if (optim) {
       system(paste(cmd_generate,usm_name), intern = T)
       tmp=run_system(file.path(javastics_path,"bin","stics_modulo"),
-                     javastics_workspace_path, optim=optim)
+                     javastics_workspace_path) #, optim=optim)
 
       usms_out$error[i]=tmp[[1]]$error
 

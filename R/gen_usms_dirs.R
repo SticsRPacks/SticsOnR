@@ -18,8 +18,8 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #' @return A list of created directories with Stics input files inside or
   #' NULL if any problem about the JavaStics workspace or JavaStics directory
   #'
-  #' @examples
-  #' TODO
+  # @examples
+  # TODO
   #' @export
   #'
 
@@ -36,7 +36,7 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #   cores_nb <- 2
   # }
   #
-  # cl <- makeCluster(cores_nb)
+  # cl <- parallel::makeCluster(cores_nb)
   # registerDoParallel(cl)
   #################################################################
 
@@ -49,14 +49,14 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,javastics_workspace_path)
-  if (is.null(ws)) {
+  if (methods::is.null(ws)) {
     return()
   }
 
 
   # Setting the javastics workspace as root directory for usms
   # directories to generate
-  if (is.null(target_path)) target_path <- ws
+  if (methods::is.null(target_path)) target_path <- ws
 
   # Creating target dir if not exists
   if (! dir.exists(target_path)) {
@@ -64,7 +64,7 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   }
 
   # Retrieving usm names list from the usms.xml file
-  full_usms_list = get_usms_list(ws)
+  full_usms_list = SticsRFiles :: get_usms_list(ws)
 
   if (length(usms_list) == 0){
 

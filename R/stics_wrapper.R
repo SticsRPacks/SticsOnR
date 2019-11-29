@@ -31,6 +31,9 @@
 #' dates were simulated.
 #'
 #' @export
+#'
+#' @importFrom foreach %dopar%
+#'
 stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                            prior_information=NULL, model_options ) {
 
@@ -54,13 +57,14 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
   # Preliminary model checks ---------------------------------------------------
 
+
   ##############################################################################
   # TODO : make a function dedicated to checking model_options
   # Because it may be model dependant, so it could be possible to pass anything
   # usefull in the model running function...
   # Reuse next lines before `Run Stics` block
   ## check presence of mandatory information in model model_options list
-  if (is.null(model_options$stics_path) || is.null(model_options$data_dir)) {
+  if (methods::is.null(model_options$stics_path) || methods::is.null(model_options$data_dir)) {
     stop("stics_path and data_dir should be elements of the model_model_options
     list for the Stics model")
   }
@@ -93,13 +97,13 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   cores_nb <- 1
   if ( parallel ) {
     if (is.na(cores)) {
-      cores_nb <- detectCores() - 1
+      cores_nb <- parallel :: detectCores() - 1
     } else {
       cores_nb <- cores
     }
   }
   # Launching the cluster
-  cl <- makeCluster(cores_nb)
+  cl <- parallel :: makeCluster(cores_nb)
   doParallel::registerDoParallel(cl)
 
 
@@ -107,7 +111,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
   # Checking if all data for all situations will be kept or not
   keep_all_data <- FALSE
-  if (is.null(sit_var_dates_mask)) keep_all_data <- TRUE
+  if (methods::is.null(sit_var_dates_mask)) keep_all_data <- TRUE
 
   # Getting situations names list
   # (from dir names or sit_var_dates_mask fields names)
@@ -138,13 +142,16 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   res <- list()
   ## Loops on the USMs that can be simulated
   #for (iusm in which(dirs_exist)) {
-  out <- foreach::foreach(iusm = dirs_idx,
-                          .export = c("get_daily_results",
+  iusm = dirs_idx
+  `%pardo%` <- foreach::`%dopar%`
+  out <- foreach::foreach(iusm,
+                          .export = c("iusm",
+                                      "get_daily_results",
                                       "set_codeoptim",
                                       "run_system",
                                       "gen_param_sti",
                                       "get_params_per_sit"),
-                          .packages="SticsRFiles") %dopar% {
+                          .packages=c("SticsRFiles","foreach")) %dopar% {
 
                                         # Simulation flag status or output data selection status
                                         flag_sim <- TRUE
@@ -158,15 +165,15 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                         # TODO: make a function dedicated to forcing parameters of the model ?
                                         # In that case by using the param.sti mechanism
                                         ## Force param values
-                                        if (is.null(param_values)) {
+                                        if (methods::is.null(param_values)) {
                                           # remove param.sti in case of previous run using it ...
                                           if (suppressWarnings(file.remove(file.path(run_dir,
                                                                                      "param.sti")))) {
-                                            set_codeoptim(run_dir,value=0)
+                                            SticsRFiles :: set_codeoptim(run_dir,value=0)
                                           }
 
                                         } else {
-                                          param_values_usm= SticsRFiles::get_params_per_sit(prior_information,situation_names[iusm],param_values)
+                                          param_values_usm= SticsOptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
                                           SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
                                           SticsRFiles::set_codeoptim(run_dir,value=1)
@@ -195,7 +202,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                                                   situation)
 
                                         # Any error reading output file
-                                        if (is.null(sim_tmp)) {
+                                        if (methods::is.null(sim_tmp)) {
                                           #res$sim_list[[situation]]=NA
                                           #res$flag_allsim=FALSE
                                           mess <- warning(paste("Error reading outputs for ",situation,
@@ -215,7 +222,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                         # colnames(sim_tmp)=sub("\\.","_",tmp)
 
 
-                                        if ( !is.null(sit_var_dates_mask) &&
+                                        if ( !methods::is.null(sit_var_dates_mask) &&
                                              situation %in% situation_names) {
                                           keep_all_data <- FALSE
                                           var_list=colnames(sit_var_dates_mask[[situation]])
@@ -303,7 +310,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
 
   # Stopping the cluster
-  stopCluster(cl)
+  parallel :: stopCluster(cl)
 
   # Calculating an printing duration
   if (time_display) {
@@ -332,7 +339,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 #' @param data_dir Path(s) of the situation(s) input files directorie(s)
 #' or the root path of the situation(s) input files directorie(s)
 #'
-#' @param ...Add further arguments to the options
+#' @param ... Add further arguments to the options
 #'
 #' @return A list containing Stics model stics_wrapper options
 #'

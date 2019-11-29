@@ -6,7 +6,9 @@ exists_java_pref <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
+  #' \dontrun{
   #' exists_pref <- exists_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+  #'}
   #'
   #' @return logical value, TRUE if file exists, FALSE otherwise
   #'
