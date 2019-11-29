@@ -36,6 +36,3 @@ NULL if any problem about the JavaStics workspace or JavaStics directory
 \description{
 TODO
 }
-\examples{
-TODO
-}

@@ -15,6 +15,8 @@ set_java_model(javastics_path, java_model_tag)
 Setting in preferences the Stics model version to use
 }
 \examples{
+\dontrun{
 set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
+}
 
 }

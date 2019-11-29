@@ -19,6 +19,8 @@ Finding in JavaStics preference.xml file in the given JavaStics path,
 if the given model name exists
 }
 \examples{
+\dontrun{
 exist_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841/example","stics_name")
+}
 
 }

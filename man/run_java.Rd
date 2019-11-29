@@ -33,10 +33,12 @@ the JavaStics workspace or JavaStics installation directory
 This function uses basically Stics through his JavasStics command line interface
 }
 \examples{
+\dontrun{
 run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example")
 run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","/home/plecharpent/data/example")
 run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example",c("ble","pois"))
 run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"))
 run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"), optim=TRUE)
+}
 
 }

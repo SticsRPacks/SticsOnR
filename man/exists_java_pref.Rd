@@ -16,6 +16,8 @@ logical value, TRUE if file exists, FALSE otherwise
 Testing if preferences.xml file exist in JavaSTICS installation folder
 }
 \examples{
+\dontrun{
 exists_pref <- exists_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+}
 
 }

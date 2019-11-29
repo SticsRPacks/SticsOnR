@@ -13,7 +13,7 @@ JavaStics interface)}
 \item{data_dir}{Path(s) of the situation(s) input files directorie(s)
 or the root path of the situation(s) input files directorie(s)}
 
-\item{...Add}{further arguments to the options}
+\item{...}{Add further arguments to the options}
 }
 \value{
 A list containing Stics model stics_wrapper options

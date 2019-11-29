@@ -20,6 +20,7 @@ The executable file in the current JavaStics bin folder will not be deleted
 It will not be possible to run it through JavaStics command line interface
 }
 \examples{
+\dontrun{
 remove_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
-
+}
 }

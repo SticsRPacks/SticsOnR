@@ -14,6 +14,8 @@ Getting current JavaStics working directory,
 if not any setting to \code{example} directory
 }
 \examples{
+\dontrun{
 get_java_wd("/path/to/JavaStics/directory")
+}
 
 }

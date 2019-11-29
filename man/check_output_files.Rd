@@ -19,7 +19,9 @@ A list with fields $error (logical, TRUE if any missing file, FALSE otherwise), 
 This function checks if the model outputs files are correctly produced
 }
 \examples{
+\dontrun{
 check_output_files("/home/username/Work/SticsInputsDir")
 check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
+}
 
 }

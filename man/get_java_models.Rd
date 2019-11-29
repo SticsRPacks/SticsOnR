@@ -16,6 +16,8 @@ A list with model name list ($tag), and model executables names ($exe)
 Extracting Stics model names and executables file names from preferences file
 }
 \examples{
+\dontrun{
 models <- get_java_models("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+}
 
 }

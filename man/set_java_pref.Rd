@@ -16,6 +16,8 @@ Current Stics model name used in JavaStics default configuration
 According to system detection generating a default preference file for a OS specific executable
 }
 \examples{
+\dontrun{
 current_model <- set_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+}
 
 }

@@ -16,6 +16,8 @@ Current Stics model name used in JavaStics configuration
 Extracting the last used model from preferences file
 }
 \examples{
+\dontrun{
 current_model <- get_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+}
 
 }
