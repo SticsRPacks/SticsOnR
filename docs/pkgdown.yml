@@ -1,7 +1,5 @@
 pandoc: 2.7.2
 pkgdown: 1.4.1
 pkgdown_sha: ~
-articles:
-  Introduction_to_sticRs: archives/Introduction_to_sticRs.html
-  Sensitivity_analyses: archives/Sensitivity_analyses.html
+articles: {}
 

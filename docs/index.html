@@ -54,21 +54,6 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/archives/Introduction_to_sticRs.html">Introduction to SticsOnR</a>
-    </li>
-    <li>
-      <a href="articles/archives/Sensitivity_analyses.html">Sensitivity analyses</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -97,27 +82,11 @@
 <a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor"></a>SticsOnR: The R package for the <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
 </h1></div>
 
-<p><a href="https://travis-ci.org/SticsRPacks/SticsOnR"><img src="https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master" alt="Travis build status"></a></p>
-<p><a href="https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master"><img src="https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
+<p>The goal of SticsOnR is to perform simulations of the Stics model.</p>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
 <p>Follow up the development <a href="sticsOnR.html">here</a>.</p>
-</div>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
-<p>This package allows the user to programmatically:</p>
-<ul>
-<li><p>read (<a href="R/read_param.R"><code>read_param</code></a>) or set (<a href="R/read_param.R"><code>set_param</code></a>) parameters</p></li>
-<li><p>set (<a href="R/set_usm.R"><code>set_usm</code></a>) one or more simulations (USM)</p></li>
-<li><p>call STICS to run them (<a href="R/run_stics.R"><code>run_stics</code></a>)</p></li>
-<li><p>import the results for analyzes (<a href="R/read_output.R"><code>read_output</code></a>), or the observations available in the USM (<a href="R/read_obs.R"><code>read_obs</code></a>)</p></li>
-<li><p>compare observations and simulations (<a href="R/eval_output.R"><code>eval_output</code></a>)</p></li>
-<li><p>make all previous at once in parallel to evaluate and compare the output of STICS versions or parameter values effect (<a href="R/stics_eval.R"><code>stics_eval</code></a>)</p></li>
-<li><p>and run sensitivity analyzes (<a href="R/sensitive_stics.R"><code>sensitive_stics</code></a>) to one or more input parameters and their possible interactions on one or more output variables. Note that <a href="R/stics_eval.R"><code>stics_eval</code></a> can evaluate parameter change effect also, but doesn’t run full sensitivity analyzes.</p></li>
-</ul>
-<p>The package is under intensive development, so you can fill an issue or request me a feature <a href="https://github.com/SticsRPacks/SticsOnR/issues">here</a> at any time.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -127,144 +96,12 @@
 <p>Or using the lightweight <a href="https://github.com/r-lib/remotes#readme">remotes</a> package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("remotes")</span></a>
 <a class="sourceLine" id="cb2-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR"</span>)</a></code></pre></div>
-<p>The package is tested routinely to pass all <a href="https://CRAN.R-project.org">CRAN</a> tests using Travis-CI (linux) and AppVeyor (Windows), but it is not released to the CRAN servers because we believe SticsOnR users are not widespread enough to bother CRAN people and use their free server time.</p>
 </div>
-<div id="examples" class="section level2">
+<div id="example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<p>Toy examples are given here for users in a hurry, but it is highly recommended to read the <a href="https://SticsRPacks.github.io/SticsOnR/articles/Introduction_to_SticsOnR.html">introductory vignette</a> for a good start, and the <a href="https://SticsRPacks.github.io/SticsOnR/articles/Sensitivity_analyses.html">sensitivity vignette</a> if needed.</p>
-<div id="setting-a-parameter-running-the-model-and-compare-with-observations" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setting-a-parameter-running-the-model-and-compare-with-observations" class="anchor"></a>Setting a parameter, running the model and compare with observations</h3>
-<div id="manually" class="section level4">
-<h4 class="hasAnchor">
-<a href="#manually" class="anchor"></a>Manually</h4>
-<p>This is a basic example using the default dummy simulation (parameters and meteorology) for a mixed crop of wheat-wheat (not a real mixed crop, for testing the model behavior) :</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"SticsOnR"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co"># Path to a preconfigured USM:</span></a>
-<a class="sourceLine" id="cb3-3" title="3">path_origin_USM=<span class="st"> "Your_path_goes_here"</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co"># Path where the simulation will be made:</span></a>
-<a class="sourceLine" id="cb3-5" title="5">path_simulation=<span class="st"> "Your_path_goes_here_again"</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co"># Path to the STICS model executable:</span></a>
-<a class="sourceLine" id="cb3-7" title="7">path_STICS=<span class="st"> "Your_path_goes_here_again_and_again"</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co"># Importing the preconfigured USM into a new folder:</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw">import_usm</span>(<span class="dt">dir.orig =</span> path_origin_USM, </a>
-<a class="sourceLine" id="cb3-10" title="10">           <span class="dt">dir.targ =</span> path_simulation,</a>
-<a class="sourceLine" id="cb3-11" title="11">           <span class="dt">stics =</span> path_STICS, </a>
-<a class="sourceLine" id="cb3-12" title="12">           <span class="dt">usm_name =</span> <span class="st">"test"</span>)</a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co"># Reading the interrang parameter for both plants (= interrow):</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="kw">read_param</span>(<span class="dt">dirpath =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>),</a>
-<a class="sourceLine" id="cb3-15" title="15">           <span class="dt">param=</span><span class="st">'interrang'</span>)</a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co"># Setting the interrang parameter to 0.30m for both plants:</span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="kw">set_param</span>(<span class="dt">dirpath =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>),</a>
-<a class="sourceLine" id="cb3-18" title="18">          <span class="dt">param=</span> <span class="st">"interrang"</span>, <span class="dt">value=</span> <span class="fl">0.3</span>,<span class="dt">plant =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="co"># Setting the outputs needed from STICS:</span></a>
-<a class="sourceLine" id="cb3-20" title="20"><span class="kw">set_out_var</span>(<span class="dt">filepath =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>,<span class="st">"var.mod"</span>),</a>
-<a class="sourceLine" id="cb3-21" title="21">            <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"hauteur"</span>,<span class="st">"lai(n)"</span>,<span class="st">'masec(n)'</span>))</a>
-<a class="sourceLine" id="cb3-22" title="22"><span class="co"># Running the model:</span></a>
-<a class="sourceLine" id="cb3-23" title="23"><span class="kw">run_stics</span>(<span class="dt">dirpath=</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>))</a>
-<a class="sourceLine" id="cb3-24" title="24"><span class="co"># Reading the model outputs:</span></a>
-<a class="sourceLine" id="cb3-25" title="25">out=<span class="st"> </span><span class="kw">read_output</span>(<span class="dt">dirpath=</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>))</a>
-<a class="sourceLine" id="cb3-26" title="26"><span class="co"># Plotting automatically the outputs along the observations: </span></a>
-<a class="sourceLine" id="cb3-27" title="27"><span class="kw">plot_output</span>(<span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(path_simulation,<span class="st">"test"</span>),</a>
-<a class="sourceLine" id="cb3-28" title="28">            <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat.obs"</span>,<span class="st">"pea.obs"</span>))</a></code></pre></div>
-<p>To use your own data, simply use the folder of your simulation as the reference path; like you would do with javaSTICS.</p>
-<blockquote>
-<p>To find a possible output variable with a partial match, you can use the <code>find_STICS_var</code> function.</p>
-</blockquote>
-</div>
-<div id="automatically" class="section level4">
-<h4 class="hasAnchor">
-<a href="#automatically" class="anchor"></a>Automatically</h4>
-<p>You can run all previous code using the simple, standardized <code>stics_eval</code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"SticsOnR"</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">out=<span class="st"> </span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">stics_eval</span>(<span class="dt">dir.orig =</span> path_origin_USM, </a>
-<a class="sourceLine" id="cb4-4" title="4">             <span class="dt">dir.targ =</span> path_simulation,</a>
-<a class="sourceLine" id="cb4-5" title="5">             <span class="dt">stics =</span> path_STICS,</a>
-<a class="sourceLine" id="cb4-6" title="6">             <span class="dt">Parameter =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="fl">0.3</span>),<span class="dt">Plant =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb4-7" title="7">             <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat.obs"</span>,<span class="st">"pea.obs"</span>),</a>
-<a class="sourceLine" id="cb4-8" title="8">             <span class="dt">Out_var =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"hauteur"</span>,<span class="st">"lai(n)"</span>,<span class="st">'masec(n)'</span>),</a>
-<a class="sourceLine" id="cb4-9" title="9">             <span class="dt">Title =</span> <span class="st">"Wheat-Wheat"</span>, <span class="dt">plot_it =</span> T)</a></code></pre></div>
-<p>This function will import the USM in a new folder, change the parameter values, run the model, return the outputs (simulation output + ggplot object) and plot it.</p>
-</div>
-</div>
-<div id="comparing-model-simulations" class="section level3">
-<h3 class="hasAnchor">
-<a href="#comparing-model-simulations" class="anchor"></a>Comparing model simulations</h3>
-<div id="comparing-stics-outputs-with-different-parameter-values" class="section level4">
-<h4 class="hasAnchor">
-<a href="#comparing-stics-outputs-with-different-parameter-values" class="anchor"></a>Comparing STICS outputs with different parameter values</h4>
-<p>If you want to compare the effect of different values of one or several parameters values on several STICS outputs, you can give different parameter values to the <code>stics_eval</code> function. Here is an example with the <code>P_rapforme</code> parameter:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">Eval_stics=<span class="st"> </span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">stics_eval</span>(<span class="dt">dir.orig =</span> path_origin_USM, </a>
-<a class="sourceLine" id="cb5-3" title="3">             <span class="dt">dir.targ =</span> path_simulation,</a>
-<a class="sourceLine" id="cb5-4" title="4">             <span class="dt">stics =</span> path_STICS,</a>
-<a class="sourceLine" id="cb5-5" title="5">             <span class="dt">Parameter =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">P_rapforme=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1.5</span>,<span class="dv">2</span>,<span class="dv">4</span>)),<span class="dt">Plant =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb5-6" title="6">             <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat.obs"</span>,<span class="st">"pea.obs"</span>),</a>
-<a class="sourceLine" id="cb5-7" title="7">             <span class="dt">Out_var =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"hauteur"</span>,<span class="st">"laisen(n)"</span>,<span class="st">"lai(n)"</span>,<span class="st">"eai"</span>,<span class="st">"largeur"</span>,</a>
-<a class="sourceLine" id="cb5-8" title="8">                         <span class="st">"varrapforme"</span>,<span class="st">"dfol"</span>,<span class="st">"dominant"</span>),</a>
-<a class="sourceLine" id="cb5-9" title="9">             <span class="dt">Title =</span> <span class="st">"Wheat-Wheat"</span>, <span class="dt">plot_it =</span> T)</a></code></pre></div>
-<p>The function will return a list of STICS outputs for each parameter value, and a plot comparing the model simulations.</p>
-</div>
-<div id="comparing-stics-outputs-with-different-stics-versions" class="section level4">
-<h4 class="hasAnchor">
-<a href="#comparing-stics-outputs-with-different-stics-versions" class="anchor"></a>Comparing STICS outputs with different STICS versions</h4>
-<p>If you want to compare different versions of the model after modifying the code for example, you can give different stics values to the <code>stics_eval</code> function. Here is an example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">Eval_stics=<span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">stics_eval</span>(<span class="dt">dir.orig =</span> path_origin_USM, </a>
-<a class="sourceLine" id="cb6-3" title="3">             <span class="dt">dir.targ =</span> path_simulation,</a>
-<a class="sourceLine" id="cb6-4" title="4">             <span class="dt">stics =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">Original=</span> path_STICS,</a>
-<a class="sourceLine" id="cb6-5" title="5">                          <span class="dt">Modified=</span> <span class="st">"Path_to_modified_stics/stics.exe"</span>),</a>
-<a class="sourceLine" id="cb6-6" title="6">             <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat.obs"</span>,<span class="st">"pea.obs"</span>),</a>
-<a class="sourceLine" id="cb6-7" title="7">             <span class="dt">Out_var =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"hauteur"</span>,<span class="st">"laisen(n)"</span>,<span class="st">"lai(n)"</span>,<span class="st">"eai"</span>,<span class="st">"largeur"</span>,</a>
-<a class="sourceLine" id="cb6-8" title="8">                         <span class="st">"varrapforme"</span>,<span class="st">"dfol"</span>,<span class="st">"dominant"</span>),</a>
-<a class="sourceLine" id="cb6-9" title="9">             <span class="dt">Title =</span> <span class="st">"Wheat-Wheat"</span>, <span class="dt">plot_it =</span> T)</a></code></pre></div>
-<p>The function will return a list of STICS outputs for each stics executable provided, and a plot comparing the model simulations.</p>
-</div>
-</div>
-<div id="making-a-sensitivity-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#making-a-sensitivity-analysis" class="anchor"></a>Making a sensitivity analysis</h3>
-<p>Make a sensitivity analysis using the <code>fast99</code> algorithm for the interrow (<code>interrang</code> parameter) for three main variables: the intercepted radiation (<code>raint</code>), the leaf area index (<code>lai(n)</code>), and the dry mass (<code>masec(n)</code>):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"SticsOnR"</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2">sens=<span class="st"> </span><span class="kw">sensitive_stics</span>(<span class="dt">dir.orig =</span> path_origin_USM,</a>
-<a class="sourceLine" id="cb7-3" title="3">                      <span class="dt">dir.targ =</span> path_simulation,</a>
-<a class="sourceLine" id="cb7-4" title="4">                      <span class="dt">stics =</span> path_STICS,</a>
-<a class="sourceLine" id="cb7-5" title="5">                      <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,<span class="dt">Parameters =</span> <span class="st">"interrang"</span>,</a>
-<a class="sourceLine" id="cb7-6" title="6">                      <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"raint"</span>, <span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),</a>
-<a class="sourceLine" id="cb7-7" title="7">                      <span class="dt">method=</span> <span class="st">"fast99"</span>, <span class="dt">n=</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb7-8" title="8">                      <span class="dt">q=</span> <span class="st">"qunif"</span>,<span class="dt">Parameters =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min=</span><span class="fl">0.05</span>, <span class="dt">max=</span><span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb7-9" title="9">                                              <span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min=</span><span class="dv">140</span>, <span class="dt">max=</span><span class="dv">280</span>)))</a></code></pre></div>
-<p>NB: <code>n</code> and <code>q</code> are parameters from the <a href="https://cran.r-project.org/web/packages/sensitivity/sensitivity.pdf"><code>fast99</code></a> function, and the <code>Parameters</code> argument is passed to the <code>q.arg</code> parameter from <code>fast99</code>.</p>
-<p>The output from <a href="R/sensitive_stics.R"><code>sensitive_stics</code></a> is a list of two:</p>
-<ul>
-<li><p>A list of ggplot objects to plot the sensitivity of each variable to the parameter(s) along the rotation</p></li>
-<li><p>A list of the output from the method function, <em>e.g.</em> a list of class <code>fast99</code> for the <code>fast99</code> method.</p></li>
-</ul>
-</div>
-</div>
-<div id="example-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-data" class="anchor"></a>Example data</h2>
-<p>Example data are available in the <a href="https://github.com/SticsRPacks/SticsOnR/tree/master/tests/testthat/example_data">tests folder</a>, but also as a <a href="https://github.com/SticsRPacks/STICS_dummy">separate repository</a> for download convenience. Download instructions are available on the companion repository.<br>
-This example data is a dummy USM of wheat in self-intercropping, meaning that the model is run on the same plant planted in intercropping, to test if the model outputs are close to a sole crop simulation.<br><strong>Warning</strong>: this example USM is made primarily to test the SticsOnR package, and is available to the user only for training, not for model validation. These data are dummy data that were entirely fabricated from scratch. It is not reflecting any real observations.</p>
-</div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
-<p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
-</div>
-<div id="authors-and-acknowledgments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#authors-and-acknowledgments" class="anchor"></a>Authors and acknowledgments</h2>
-<p>The STICS (Simulateur mulTIdisciplinaire pour les Cultures Standard, or multidisciplinary simulator for standard crops) model is a dynamic, generic and robust model aiming to simulate the soil-crop-atmosphere system. It was first developed in 1996 by INRA -the French National Institute for Agricultural research- by Nadine Brisson and Dominique Ripoche. An overview of the model is available <a href="https://www6.paca.inra.fr/stics_eng/About-us/Stics-model-overview">here</a>.</p>
-<p>The SticsOnR package was developed by <a href="https://remi-vezy.netlify.com/">Rémi Vezy</a> and the <a href="https://www6.paca.inra.fr/stics_eng/">STICS group</a> thanks to the European H2020 funded <a href="https://www.remix-intercrops.eu/">ReMIX project</a>.</p>
-</div>
-<div id="remix-logo" class="section level2">
-<h2 class="hasAnchor">
-<a href="#remix-logo" class="anchor"></a><img src="reference/figures/remix_logo.jpg" alt="ReMIX logo">
-</h2>
+<a href="#example" class="anchor"></a>Example</h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
+<hr>
 </div>
 </div>
   </div>
@@ -312,6 +149,8 @@ This example data is a dummy USM of wheat in self-intercropping, meaning that th
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
+<li><a href="https://travis-ci.org/SticsRPacks/SticsOnR"><img src="https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master"><img src="https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>
