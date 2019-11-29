@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • SticsOnR</title>
+<title>Running one or several usms from a javastics workspace — run_java • SticsOnR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Running one or several usms from a javastics workspace — run_java" />
+<meta property="og:description" content="This function uses basically Stics through his JavasStics command line interface" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +64,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,159 +129,74 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Running one or several usms from a javastics workspace</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SticsRPacks/SticsOnR/blob/master/R/run_java.R'><code>R/run_java.R</code></a></small>
+    <div class="hidden name"><code>run_java.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function uses basically Stics through his JavasStics command line interface</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>run_java</span>(
+  <span class='no'>javastics_path</span>,
+  <span class='kw'>javastics_workspace_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>usms_list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
+  <span class='kw'>keep_history</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>optim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="add_java_model.html">add_java_model()</a></code> </p>
-        </td>
-        <td><p>Adding a new Stics model version to use</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="check_java_path.html">check_java_path()</a></code> </p>
-        </td>
-        <td><p>Checking JavaStics directory content</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="check_java_workspace.html">check_java_workspace()</a></code> </p>
-        </td>
-        <td><p>Checking and getting JavaStics workspace path</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="check_output_files.html">check_output_files()</a></code> </p>
-        </td>
-        <td><p>Checking model outputs files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="exist_java_model.html">exist_java_model()</a></code> </p>
-        </td>
-        <td><p>Getting existing status of a Stics model name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="exists_java_pref.html">exists_java_pref()</a></code> </p>
-        </td>
-        <td><p>Evaluate if model preferences hav been set</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gen_usms_dirs.html">gen_usms_dirs()</a></code> </p>
-        </td>
-        <td><p>Generating one or several usms directories from a javastics workspace
-content</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_java_model.html">get_java_model()</a></code> </p>
-        </td>
-        <td><p>Getting current Stics instance in use</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_java_models.html">get_java_models()</a></code> </p>
-        </td>
-        <td><p>Getting models list from a JavaStics configuration</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_java_workspace.html">get_java_workspace()</a></code> </p>
-        </td>
-        <td><p>Getting current workspace in JavaStics preferences configuration</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_model_exe.html">get_model_exe()</a></code> </p>
-        </td>
-        <td><p>Getting Stics model executable name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_os_name.html">is_os_name()</a></code> </p>
-        </td>
-        <td><p>Testing OS name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="remove_java_model.html">remove_java_model()</a></code> </p>
-        </td>
-        <td><p>Removing a Stics model version to use from JavaStics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="run_java.html">run_java()</a></code> </p>
-        </td>
-        <td><p>Running one or several usms from a javastics workspace</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="run_system.html">run_system()</a></code> </p>
-        </td>
-        <td><p>Running usm(s) from a/several directory(ies)
-or a/several subdirectory(ies) named with usm name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_java_model.html">set_java_model()</a></code> </p>
-        </td>
-        <td><p>Selecting Stics model to use</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_java_pref.html">set_java_pref()</a></code> </p>
-        </td>
-        <td><p>Setting default preferences</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_java_workspace.html">set_java_workspace()</a></code> </p>
-        </td>
-        <td><p>Setting JavaStics workspace</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stics_wrapper.html">stics_wrapper()</a></code> </p>
-        </td>
-        <td><p>Running usm(s) from txt input files stored in one directory
-per <code>situation</code>, simulated results are returned in a list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stics_wrapper_options.html">stics_wrapper_options()</a></code> </p>
-        </td>
-        <td><p>Getting a stics_wrapper options list with initialized fields</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>javastics_path</th>
+      <td><p>Path of JavaStics installation directory</p></td>
+    </tr>
+    <tr>
+      <th>javastics_workspace_path</th>
+      <td><p>Path of a JavaStics workspace (Optional)</p></td>
+    </tr>
+    <tr>
+      <th>usms_list</th>
+      <td><p>Vector of usms to run (Optional)</p></td>
+    </tr>
+    <tr>
+      <th>keep_history</th>
+      <td><p>Logical value (Optional) to keep a copy of history file
+use TRUE (default), FALSE otherwise</p></td>
+    </tr>
+    <tr>
+      <th>optim</th>
+      <td><p>Logical value (Optional) to force code_optim value to 1, use TRUE,
+FALSE otherwise (default)</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list with usms names and execution error status or NULL ikf  any problem about
+the JavaStics workspace or JavaStics installation directory</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"example"</span>)
+<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"/home/plecharpent/data/example"</span>)
+<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"example"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>))
+<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>))
+<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>), <span class='kw'>optim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

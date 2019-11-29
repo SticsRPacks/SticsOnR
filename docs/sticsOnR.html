@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Contributor Code of Conduct • SticsOnR</title>
+<title>sticsOnR • SticsOnR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -42,7 +42,7 @@
 
 
 
-<meta property="og:title" content="Contributor Code of Conduct" />
+<meta property="og:title" content="sticsOnR" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -130,17 +130,86 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>Contributor Code of Conduct</h1>
+      <h1>sticsOnR</h1>
     </div>
 
-<div id="contributor-code-of-conduct" class="section level1">
+<div id="sticsonr" class="section level1">
 
-<p>As contributors and maintainers of this project, we pledge to respect all people who contribute through reporting issues, posting feature requests, updating documentation, submitting pull requests or patches, and other activities.</p>
-<p>We are committed to making participation in this project a harassment-free experience for everyone, regardless of level of experience, gender, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, or religion.</p>
-<p>Examples of unacceptable behavior by participants include the use of sexual language or imagery, derogatory comments or personal attacks, trolling, public or private harassment, insults, or other unprofessional conduct.</p>
-<p>Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct. Project maintainers who do not follow the Code of Conduct may be removed from the project team.</p>
-<p>Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting one or more of the project maintainers.</p>
-<p>This Code of Conduct is adapted from the <a href="http:contributor-covenant.org">Contributor Covenant</a>, version 1.0.0, available at <a href="https://www.contributor-covenant.org/version/1/0/0/code-of-conduct.html" class="uri">https://www.contributor-covenant.org/version/1/0/0/code-of-conduct.html</a></p>
+<div id="there-are-three-ways-to-use-stics-with-r-with-sticsonr-and-they-are-listed-below" class="section level2">
+<h2 class="hasAnchor">
+<a href="#there-are-three-ways-to-use-stics-with-r-with-sticsonr-and-they-are-listed-below" class="anchor"></a>There are three ways to use STICS with R with <code>sticsOnR</code>, and they are listed below.</h2>
+<div id="1-using-javastics-through-r" class="section level3">
+<h3 class="hasAnchor">
+<a href="#1-using-javastics-through-r" class="anchor"></a>1. Using JavaStics through R</h3>
+<p>It is possible to use JavaStics through command line using specific R functions. It is the most advanced use yet waiting for the development of the second way (using XML files). It allows the user to be sure to work with the same version (and capabilities) as he/she is used to.</p>
+<p>Advantage:</p>
+<ul>
+<li>Same workflow than JavaStics (for users that are used to it)</li>
+<li>State of the art for STICS/R communication (yet)</li>
+</ul>
+<p>Drawbacks:</p>
+<ul>
+<li>Have to install JavaStics + JAVA</li>
+<li>Less explicit concerning errors</li>
+<li>No parameter value change (have to open JavaStics, or in file modification)</li>
+</ul>
+</div>
+<div id="2-working-using-xml-files-from-r" class="section level3">
+<h3 class="hasAnchor">
+<a href="#2-working-using-xml-files-from-r" class="anchor"></a>2. Working using XML files from R</h3>
+<p>Read the parameters directly in the XML files, change their values, and create the text files input for STICS.</p>
+<p>Advantage:</p>
+<ul>
+<li>No installation of JavaStics + JAVA needed.</li>
+<li>More explicit concerning errors</li>
+<li>Prescribe parameter values from R</li>
+<li>STICS files management according to the proper version (compared to direct text files management)</li>
+</ul>
+<p>Drawbacks:</p>
+<ul>
+<li>Need more development</li>
+<li>Slower for intensive file usage compared to text files</li>
+</ul>
+</div>
+<div id="3-working-using-stics-inputs-directly-text-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#3-working-using-stics-inputs-directly-text-files" class="anchor"></a>3. Working using STICS inputs directly (text files)</h3>
+<p>Read the parameters directly from the text files input of STICS, and change their values.</p>
+<p>Advantage:</p>
+<ul>
+<li>Fast</li>
+<li>Work directly on the inputs of STICS (STICS uses those text files, not the XMLs)</li>
+</ul>
+<p>Drawbacks:</p>
+<ul>
+<li>Need to handle the requirement of the model version (particularly for tec file, <em>e.g.</em> irrigation).</li>
+<li>Need to generate the files beforehand (using XML way, or JavaStics way)</li>
+</ul>
+</div>
+</div>
+<div id="to-do" class="section level2">
+<h2 class="hasAnchor">
+<a href="#to-do" class="anchor"></a>To do</h2>
+<ol>
+<li>JavaStics way</li>
+</ol>
+<p>Nothing. Everything is working.</p>
+<ol>
+<li>XML and text ways</li>
+</ol>
+<ul>
+<li>Finalize the read and write functions for XML.</li>
+<li>Several USMs:
+<ul>
+<li>Generate each USM sequentially, run them, and import the outputs (including rapport) before running the next USM.</li>
+<li>Generate different sets of text files for each USM in usms.xml and put them in a different repertory</li>
+</ul>
+</li>
+<li>Read <code>mod_rapport*.sti</code>
+</li>
+<li>Adapt <code>stics_eval()</code> considering the way of simulation (sequential USMs, each USM in a separate directory,…)</li>
+</ul>
+</div>
 </div>
 
   </div>
