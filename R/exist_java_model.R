@@ -14,8 +14,7 @@ exist_java_model <- function(javastics_path,java_model_tag){
   #'
   #' @return Existing status, logical
   #'
-  #' @export
-  #'
+  #@export
 
   # if no preference have been set yet
   if (!exists_java_pref(javastics_path)) set_java_pref(javastics_path)

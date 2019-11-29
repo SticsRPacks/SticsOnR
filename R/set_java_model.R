@@ -11,8 +11,7 @@ set_java_model <- function(javastics_path,java_model_tag){
   #' set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
   #'}
   #'
-  #' @export
-  #'
+  #@export
 
 
   # checking javastics path

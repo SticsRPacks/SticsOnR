@@ -16,9 +16,8 @@ add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
   #'  add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
   #'  "model_name","model_exe_name")
   #' }
-  #' @export
   #'
-  #'
+  #@export
 
   # checking javastics path
   check_java_path(javastics_path)

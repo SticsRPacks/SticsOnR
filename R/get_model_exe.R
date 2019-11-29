@@ -17,8 +17,7 @@ get_model_exe <- function(javastics_path, model_name=character(0)){
   #'
   #' @return Stics model executable name (current, matching given model name)
   #'
-  #' @export
-  #'
+  #@export
 
   if(length(model_name)==0) model_name=get_java_model(javastics_path)
 

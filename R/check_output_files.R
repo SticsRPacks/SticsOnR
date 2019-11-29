@@ -15,8 +15,7 @@ check_output_files <- function(run_dir,usm_name=NULL) {
   #' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
   #'}
   #'
-  #' @export
-  #'
+  #@export
 
   if (methods::is.null(usm_name)) {
     usm=basename(run_dir)
