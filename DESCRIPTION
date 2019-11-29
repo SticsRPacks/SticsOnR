@@ -29,7 +29,11 @@ Imports:
     rlang,
     doParallel,
     foreach,
-    XML
+    parallel,
+    XML,
+    iterators,
+    SticsOptimizR,
+    methods
 Remotes: 
     github::SticsRPacks/SticsRFiles
 Suggests:
