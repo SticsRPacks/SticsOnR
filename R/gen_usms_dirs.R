@@ -10,7 +10,8 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   #' @param javastics_workspace_path Path of a JavaStics workspace (Optional)
   #' @param target_path The path of the directory where to create usms directories (Optional),
   #' if not provided the JavaStics workspace will be used as root
-  #' @param usms_list List of usms to run (Optional)
+  #' @param usms_list List of usms to generate (Optional, if not provided, all
+  #' usms contained in javastics_workspace_path/usms.xml file will be generated)
   #' @param display Logical value for displaying (TRUE) ot not (FALSE) usm name
   #' @param flag_dirPerUsm logical, TRUE if one want to create one directory per USM,
   #' FALSE if USM files are generated in the target_path (only useful for usms_list of size one)
@@ -49,14 +50,14 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,javastics_workspace_path)
-  if (methods::is.null(ws)) {
+  if (base::is.null(ws)) {
     return()
   }
 
 
   # Setting the javastics workspace as root directory for usms
   # directories to generate
-  if (methods::is.null(target_path)) target_path <- ws
+  if (base::is.null(target_path)) target_path <- ws
 
   # Creating target dir if not exists
   if (! dir.exists(target_path)) {

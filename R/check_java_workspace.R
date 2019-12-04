@@ -19,7 +19,7 @@ check_java_workspace <- function(javastics_path,javastics_workspace_path=NULL) {
 
   ws <- NULL
 
-  if (! methods :: is.null(javastics_workspace_path)){
+  if (! base :: is.null(javastics_workspace_path)){
     if(dirname(javastics_workspace_path) == "."){
       # relative path to javastics path
       ws=file.path(javastics_path,javastics_workspace_path)
@@ -28,13 +28,13 @@ check_java_workspace <- function(javastics_path,javastics_workspace_path=NULL) {
     }
   } else {
     tt<-try(ws <- get_java_workspace(javastics_path),silent=TRUE)
-    if (methods :: is(tt,"try-error")) {
+    if (base :: is(tt,"try-error")) {
       warning("No workspace directory has been set, use set_java_wd to do so, or \n give it as input of the function !")
       return()
     }
   }
 
-  if (methods::is.null(ws) || !dir.exists(ws)) {
+  if (base::is.null(ws) || !dir.exists(ws)) {
     warning(paste("The given directory does not exist or JavaStics working directory is not set :\n",ws))
     return()
   }
