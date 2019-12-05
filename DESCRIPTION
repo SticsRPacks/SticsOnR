@@ -40,7 +40,7 @@ Imports:
     SticsOptimizR,
     methods
 Remotes: 
-    github::SticsRPacks/SticsRFiles
+    github::SticsRPacks/SticsRFiles,
     github::SticsRPacks/SticsOptimizR
 Suggests:
     testthat,
