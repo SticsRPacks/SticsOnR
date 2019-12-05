@@ -140,162 +140,159 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
   dirs_idx <- which(dirs_exist)
   res <- list()
+  i <- 1
   ## Loops on the USMs that can be simulated
-  #for (iusm in which(dirs_exist)) {
-  iusm = dirs_idx
-  `%pardo%` <- foreach::`%dopar%`
-  out <- foreach::foreach(iusm,
-                          .export = c("iusm",
-                                      "get_daily_results",
+  out <- foreach::foreach(i = 1:length(dirs_idx),
+                          .export = c("get_daily_results",
                                       "set_codeoptim",
                                       "run_system",
                                       "gen_param_sti",
                                       "get_params_per_sit"),
                           .packages=c("SticsRFiles","foreach")) %dopar% {
 
-                                        # Simulation flag status or output data selection status
-                                        flag_sim <- TRUE
-                                        select_sim <- TRUE
-                                        #iusm <- dirs_idx[i]
-                                        run_dir <- run_dirs[iusm]
-                                        situation <- situation_names[iusm]
-                                        keep_all_data <- TRUE
-                                        mess <- ""
-                                        ########################################################################
-                                        # TODO: make a function dedicated to forcing parameters of the model ?
-                                        # In that case by using the param.sti mechanism
-                                        ## Force param values
-                                        if (base::is.null(param_values)) {
-                                          # remove param.sti in case of previous run using it ...
-                                          if (suppressWarnings(file.remove(file.path(run_dir,
-                                                                                     "param.sti")))) {
-                                            SticsRFiles :: set_codeoptim(run_dir,value=0)
-                                          }
+                            # Simulation flag status or output data selection status
+                            flag_sim <- TRUE
+                            select_sim <- TRUE
+                            iusm <- dirs_idx[i]
+                            run_dir <- run_dirs[iusm]
+                            situation <- situation_names[iusm]
+                            keep_all_data <- TRUE
+                            mess <- ""
+                            ########################################################################
+                            # TODO: make a function dedicated to forcing parameters of the model ?
+                            # In that case by using the param.sti mechanism
+                            ## Force param values
+                            if (base::is.null(param_values)) {
+                              # remove param.sti in case of previous run using it ...
+                              if (suppressWarnings(file.remove(file.path(run_dir,
+                                                                         "param.sti")))) {
+                                SticsRFiles :: set_codeoptim(run_dir,value=0)
+                              }
 
-                                        } else {
-                                          param_values_usm= SticsOptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
+                            } else {
+                              param_values_usm= SticsOptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
-                                          SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
-                                          SticsRFiles::set_codeoptim(run_dir,value=1)
-                                        }
-                                        ########################################################################
-                                        # TODO: and call it in/ or integrate parameters forcing in run_system function !
-                                        ## Run the model
-                                        usm_out= run_system(stics_path, run_dir)
+                              SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
+                              SticsRFiles::set_codeoptim(run_dir,value=1)
+                            }
+                            ########################################################################
+                            # TODO: and call it in/ or integrate parameters forcing in run_system function !
+                            ## Run the model
+                            usm_out= run_system(stics_path, run_dir)
 
-                                        # if the model returns an error, ... treating next situation
-                                        if (usm_out[[1]]$error > 0) {
+                            # if the model returns an error, ... treating next situation
+                            if (usm_out[[1]]$error > 0) {
 
-                                          mess <- warning(paste("Error running the Stics model for USM",situation,
-                                                                ". \n ",usm_out[[1]]$message))
-                                          #res$sim_list[[situation]]=NA
-                                          #res$flag_allsim=FALSE
-
-
-                                          return(list(NA,FALSE,FALSE,mess))
-                                        } #else {
+                              mess <- warning(paste("Error running the Stics model for USM",situation,
+                                                    ". \n ",usm_out[[1]]$message))
+                              #res$sim_list[[situation]]=NA
+                              #res$flag_allsim=FALSE
 
 
-                                        ## Otherwise, getting results
-
-                                        sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
-                                                                  situation)
-
-                                        # Any error reading output file
-                                        if (base::is.null(sim_tmp)) {
-                                          #res$sim_list[[situation]]=NA
-                                          #res$flag_allsim=FALSE
-                                          mess <- warning(paste("Error reading outputs for ",situation,
-                                                                ". \n "))
-                                          return(list(NA, FALSE, FALSE, mess))
-
-                                        }
-
-                                        # Integrated in get_daily results
-                                        # Adding the column date in the simulation results tibble
-                                        #Date= data.frame(Date=as.POSIXct(x = paste(sim_tmp$ian,sim_tmp$mo,sim_tmp$jo, sep="-"),
-                                        #                                 format = "%Y-%m-%d", tz="UTC"))
-                                        # Integrated in get_daily results calling new function var_to_col_names
-                                        #sim_tmp= cbind(Date,sim_tmp)
-                                        ## change the .n. by _n in the varname to be homogeneous with read_obs outputs
-                                        # tmp=sub("\\.$","",colnames(sim_tmp))
-                                        # colnames(sim_tmp)=sub("\\.","_",tmp)
+                              return(list(NA,FALSE,FALSE,mess))
+                            } #else {
 
 
-                                        if ( !base::is.null(sit_var_dates_mask) &&
-                                             situation %in% situation_names) {
-                                          keep_all_data <- FALSE
-                                          var_list=colnames(sit_var_dates_mask[[situation]])
-                                          out_var_list = colnames(sim_tmp)
-                                        }
+                            ## Otherwise, getting results
 
-                                        # Keeping all outputs data
-                                        # - If no sit_var_dates_mask given as input arg
-                                        # - If all output variables are in
-                                        #   sit_var_dates_mask[[situation]]
-                                        if ( keep_all_data ) {
-                                          #res$sim_list[[situation]] <- sim_tmp
+                            sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
+                                                                   situation)
 
-                                          return(list( sim_tmp,TRUE, TRUE, mess))
-                                        } #else {
+                            # Any error reading output file
+                            if (base::is.null(sim_tmp)) {
+                              #res$sim_list[[situation]]=NA
+                              #res$flag_allsim=FALSE
+                              mess <- warning(paste("Error reading outputs for ",situation,
+                                                    ". \n "))
+                              return(list(NA, FALSE, FALSE, mess))
 
-                                        ## Keeping only the needed variables in the simulation results
-                                        #inter_vars=intersect(out_var_list,var_list)
-                                        vars_idx= out_var_list %in% var_list
-                                        inter_vars <- out_var_list[vars_idx]
+                            }
 
-                                        #if (length(inter_vars)>0) {
-                                        if (any(vars_idx)) {
-                                          #sim_tmp=as.data.frame(sim_tmp[,inter_vars])
-                                          sim_tmp=sim_tmp[ , vars_idx]
-                                        } else {
-                                          #res$sim_list[[situation]]=NA
-                                          #res$flag_allsim=FALSE
+                            # Integrated in get_daily results
+                            # Adding the column date in the simulation results tibble
+                            #Date= data.frame(Date=as.POSIXct(x = paste(sim_tmp$ian,sim_tmp$mo,sim_tmp$jo, sep="-"),
+                            #                                 format = "%Y-%m-%d", tz="UTC"))
+                            # Integrated in get_daily results calling new function var_to_col_names
+                            #sim_tmp= cbind(Date,sim_tmp)
+                            ## change the .n. by _n in the varname to be homogeneous with read_obs outputs
+                            # tmp=sub("\\.$","",colnames(sim_tmp))
+                            # colnames(sim_tmp)=sub("\\.","_",tmp)
 
-                                          return(list(NA,FALSE,FALSE))
-                                        }
-                                        if (length(inter_vars)<length(var_list)) {
-                                          #if ( sum(vars_idx) < length(var_list)) {
-                                          mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
-                                                                "not simulated by the Stics model for USM",situation,
-                                                                "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
-                                          #res$flag_allsim=FALSE
-                                          flag_sim <- FALSE
-                                          select_sim <- TRUE
-                                        }
 
-                                        ## Keeping only the needed dates in the simulation results
-                                        date_list=sit_var_dates_mask[[situation]]$Date
-                                        dates_idx <- sim_tmp$Date %in% date_list
-                                        inter_dates <- sim_tmp$Date[dates_idx]
-                                        #inter_dates=intersect(sim_tmp$Date,date_list)
-                                        #if (length(inter_dates)>0) {
-                                        if ( any(dates_idx) ) {
-                                          #res$sim_list[[situation]]=
-                                          # as.data.frame(sim_tmp[match(inter_dates,sim_tmp$Date),])
-                                          #sim_tmp <- as.data.frame(sim_tmp[match(inter_dates,sim_tmp$Date),])
-                                          sim_tmp <- sim_tmp[dates_idx, ]
-                                        } else {
-                                          #res$sim_list[[situation]]=NA
-                                          #res$flag_allsim=FALSE
+                            if ( !base::is.null(sit_var_dates_mask) &&
+                                 situation %in% situation_names) {
+                              keep_all_data <- FALSE
+                              var_list=colnames(sit_var_dates_mask[[situation]])
+                              out_var_list = colnames(sim_tmp)
+                            }
 
-                                          return(list(NA,FALSE,FALSE, mess))
-                                        }
-                                        if (length(inter_dates)<length(date_list)) {
-                                          #if ( sum(dates_idx) < length(date_list) ) {
-                                          mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
-                                                                "is(are) not simulated for USM",situation))
-                                          #res$flag_allsim=FALSE
-                                          flag_sim <- FALSE
-                                          select_sim <- TRUE
-                                        }
+                            # Keeping all outputs data
+                            # - If no sit_var_dates_mask given as input arg
+                            # - If all output variables are in
+                            #   sit_var_dates_mask[[situation]]
+                            if ( keep_all_data ) {
+                              #res$sim_list[[situation]] <- sim_tmp
 
-                                        #}
-                                        #}
+                              return(list( sim_tmp,TRUE, TRUE, mess))
+                            } #else {
 
-                                        #return(list(sim_tmp,res$flag_allsim))
-                                        return(list(sim_tmp, flag_sim, select_sim, mess))
-                                      }
+                            ## Keeping only the needed variables in the simulation results
+                            #inter_vars=intersect(out_var_list,var_list)
+                            vars_idx= out_var_list %in% var_list
+                            inter_vars <- out_var_list[vars_idx]
+
+                            #if (length(inter_vars)>0) {
+                            if (any(vars_idx)) {
+                              #sim_tmp=as.data.frame(sim_tmp[,inter_vars])
+                              sim_tmp=sim_tmp[ , vars_idx]
+                            } else {
+                              #res$sim_list[[situation]]=NA
+                              #res$flag_allsim=FALSE
+
+                              return(list(NA,FALSE,FALSE))
+                            }
+                            if (length(inter_vars)<length(var_list)) {
+                              #if ( sum(vars_idx) < length(var_list)) {
+                              mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                                    "not simulated by the Stics model for USM",situation,
+                                                    "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
+                              #res$flag_allsim=FALSE
+                              flag_sim <- FALSE
+                              select_sim <- TRUE
+                            }
+
+                            ## Keeping only the needed dates in the simulation results
+                            date_list=sit_var_dates_mask[[situation]]$Date
+                            dates_idx <- sim_tmp$Date %in% date_list
+                            inter_dates <- sim_tmp$Date[dates_idx]
+                            #inter_dates=intersect(sim_tmp$Date,date_list)
+                            #if (length(inter_dates)>0) {
+                            if ( any(dates_idx) ) {
+                              #res$sim_list[[situation]]=
+                              # as.data.frame(sim_tmp[match(inter_dates,sim_tmp$Date),])
+                              #sim_tmp <- as.data.frame(sim_tmp[match(inter_dates,sim_tmp$Date),])
+                              sim_tmp <- sim_tmp[dates_idx, ]
+                            } else {
+                              #res$sim_list[[situation]]=NA
+                              #res$flag_allsim=FALSE
+
+                              return(list(NA,FALSE,FALSE, mess))
+                            }
+                            if (length(inter_dates)<length(date_list)) {
+                              #if ( sum(dates_idx) < length(date_list) ) {
+                              mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
+                                                    "is(are) not simulated for USM",situation))
+                              #res$flag_allsim=FALSE
+                              flag_sim <- FALSE
+                              select_sim <- TRUE
+                            }
+
+                            #}
+                            #}
+
+                            #return(list(sim_tmp,res$flag_allsim))
+                            return(list(sim_tmp, flag_sim, select_sim, mess))
+                          }
 
   # TODO: optimize res generation without copying out elements !
   # Formatting output list
