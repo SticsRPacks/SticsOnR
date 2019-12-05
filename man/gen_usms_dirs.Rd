@@ -5,14 +5,9 @@
 \title{Generating one or several usms directories from a javastics workspace
 content}
 \usage{
-gen_usms_dirs(
-  javastics_path,
-  javastics_workspace_path = NULL,
-  target_path = NULL,
-  usms_list = c(),
-  display = FALSE,
-  flag_dirPerUsm = TRUE
-)
+gen_usms_dirs(javastics_path, javastics_workspace_path = NULL,
+  target_path = NULL, usms_list = c(), display = FALSE,
+  flag_dirPerUsm = TRUE)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
@@ -22,7 +17,8 @@ gen_usms_dirs(
 \item{target_path}{The path of the directory where to create usms directories (Optional),
 if not provided the JavaStics workspace will be used as root}
 
-\item{usms_list}{List of usms to run (Optional)}
+\item{usms_list}{List of usms to generate (Optional, if not provided, all
+usms contained in javastics_workspace_path/usms.xml file will be generated)}
 
 \item{display}{Logical value for displaying (TRUE) ot not (FALSE) usm name}
 

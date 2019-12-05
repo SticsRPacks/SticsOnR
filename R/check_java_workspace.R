@@ -28,7 +28,7 @@ check_java_workspace <- function(javastics_path,javastics_workspace_path=NULL) {
     }
   } else {
     tt<-try(ws <- get_java_workspace(javastics_path),silent=TRUE)
-    if (methods :: is(tt,"try-error")) {
+    if (base :: is(tt,"try-error")) {
       warning("No workspace directory has been set, use set_java_wd to do so, or \n give it as input of the function !")
       return()
     }
