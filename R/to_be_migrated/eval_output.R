@@ -51,7 +51,7 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL, verbose=FAL
 
   mixed= length(unique(sim$Dominance))>1
 
-  if(!methods::is.null(meas)){
+  if(!base::is.null(meas)){
     colnames(meas)[-grep("Date",colnames(meas))]=
       paste0(colnames(meas[-grep("Date",colnames(meas))]),"_meas")
     if(mixed){

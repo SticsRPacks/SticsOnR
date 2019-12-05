@@ -17,7 +17,7 @@ check_output_files <- function(run_dir,usm_name=NULL) {
   #'
   #@export
 
-  if (methods::is.null(usm_name)) {
+  if (base::is.null(usm_name)) {
     usm=basename(run_dir)
   } else {
     usm=usm_name

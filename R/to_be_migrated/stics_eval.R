@@ -99,7 +99,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
   }else{
     if(is.list(stics)){
       usm_name= names(stics)
-      if(methods::is.null(usm_name)){
+      if(base::is.null(usm_name)){
         usm_name= paste0("STICS_",seq_along(stics))
       }
       if(length(stics)>1){

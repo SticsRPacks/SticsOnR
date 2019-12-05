@@ -6,8 +6,10 @@ is_os_name <- function(os_tag_name=character()){
   #' @param os_tag_name OS name(s) (see os_names list), optional
   #'
   #' @examples
+  #'\dontrun{
   #' os_list <- is_os_name()
   #' is_os_name <- is_os_name("windows")
+  #'}
   #'
   #' @return TRUE if os_tag_name is the current system OS, FALSE otherwise; OS names list if os_tag_name not provided
   #'

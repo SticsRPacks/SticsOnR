@@ -6,7 +6,7 @@ set_java_pref <- function(javastics_path){
   #' @param javastics_path JavaStics installation root folder
   #'
   #' @examples
-  #' \dontrun{
+  #'\dontrun{
   #' current_model <- set_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
   #'}
   #'

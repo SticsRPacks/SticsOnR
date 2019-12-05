@@ -72,9 +72,9 @@ compare_2usms <- function(first_dir,second_dir,in_usms_list=c()){
         #plot(val_first,val_second,main=varname)
       }
       id_plant=usm+plant-1
-      cor_bad_status[id_plant]=any(cor_var[!methods :: is.na(cor_var)] < 0.999)
-      cor_NA_status[id_plant]=any(methods :: is.na(cor_var))
-      cor_NULL_status[id_plant]=any(methods :: is.null(cor_var))
+      cor_bad_status[id_plant]=any(cor_var[!base :: is.na(cor_var)] < 0.999)
+      cor_NA_status[id_plant]=any(base :: is.na(cor_var))
+      cor_NULL_status[id_plant]=any(base :: is.null(cor_var))
 
       usm_cor[[id_plant]]=list(cor_var,common_names)
       usm_names[id_plant]=pname

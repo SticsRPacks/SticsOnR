@@ -64,10 +64,10 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
   }
 
   V_names= names(dot_args)
-  if(methods::is.null(V_names)|length(V_names)<length(dot_args)){
+  if(base::is.null(V_names)|length(V_names)<length(dot_args)){
     V_names= paste0("Version_", seq_along(dot_args))
   }
-  if(methods::is.null(Vars)){
+  if(base::is.null(Vars)){
     Vars= lapply(dot_args, function(x){
       Names= colnames(x)
       Names= gsub("_sim","",Names)
@@ -131,7 +131,7 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
     labs(linetype='Simulation',colour='Plant dominance')+
     ggtitle(Title)
 
-  if(!methods::is.null(x_meas_)&
+  if(!base::is.null(x_meas_)&
      length(colnames(x_meas_)[
        -grep("Date|Dominance|Version",colnames(x_meas_))])>0&
      !all(is.na(x_meas_$value))){

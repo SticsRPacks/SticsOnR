@@ -25,7 +25,7 @@ get_java_workspace <- function(javastics_path){
   xml_pref= SticsRFiles ::: xmldocument(xml_path)
   current_wd= SticsRFiles ::: getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
 
-  if(methods::is.null(current_wd)) stop("JavaStics working directory hasn't been set (use set_java_wd to do so)!")
+  if(base::is.null(current_wd)) stop("JavaStics working directory hasn't been set (use set_java_wd to do so)!")
 
   return(current_wd)
 

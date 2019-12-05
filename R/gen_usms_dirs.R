@@ -49,14 +49,14 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,javastics_workspace_path)
-  if (methods::is.null(ws)) {
+  if (base::is.null(ws)) {
     return()
   }
 
 
   # Setting the javastics workspace as root directory for usms
   # directories to generate
-  if (methods::is.null(target_path)) target_path <- ws
+  if (base::is.null(target_path)) target_path <- ws
 
   # Creating target dir if not exists
   if (! dir.exists(target_path)) {

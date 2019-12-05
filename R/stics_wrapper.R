@@ -64,7 +64,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   # usefull in the model running function...
   # Reuse next lines before `Run Stics` block
   ## check presence of mandatory information in model model_options list
-  if (methods::is.null(model_options$stics_path) || methods::is.null(model_options$data_dir)) {
+  if (base::is.null(model_options$stics_path) || base::is.null(model_options$data_dir)) {
     stop("stics_path and data_dir should be elements of the model_model_options
     list for the Stics model")
   }
@@ -111,7 +111,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
   # Checking if all data for all situations will be kept or not
   keep_all_data <- FALSE
-  if (methods::is.null(sit_var_dates_mask)) keep_all_data <- TRUE
+  if (base::is.null(sit_var_dates_mask)) keep_all_data <- TRUE
 
   # Getting situations names list
   # (from dir names or sit_var_dates_mask fields names)
@@ -165,7 +165,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                         # TODO: make a function dedicated to forcing parameters of the model ?
                                         # In that case by using the param.sti mechanism
                                         ## Force param values
-                                        if (methods::is.null(param_values)) {
+                                        if (base::is.null(param_values)) {
                                           # remove param.sti in case of previous run using it ...
                                           if (suppressWarnings(file.remove(file.path(run_dir,
                                                                                      "param.sti")))) {
@@ -202,7 +202,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                                                   situation)
 
                                         # Any error reading output file
-                                        if (methods::is.null(sim_tmp)) {
+                                        if (base::is.null(sim_tmp)) {
                                           #res$sim_list[[situation]]=NA
                                           #res$flag_allsim=FALSE
                                           mess <- warning(paste("Error reading outputs for ",situation,
@@ -222,7 +222,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                                         # colnames(sim_tmp)=sub("\\.","_",tmp)
 
 
-                                        if ( !methods::is.null(sit_var_dates_mask) &&
+                                        if ( !base::is.null(sit_var_dates_mask) &&
                                              situation %in% situation_names) {
                                           keep_all_data <- FALSE
                                           var_list=colnames(sit_var_dates_mask[[situation]])

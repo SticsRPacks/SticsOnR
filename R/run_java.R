@@ -48,7 +48,7 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
   #   }
   # } else {
   #   tt<-try(ws <- get_java_wd(javastics_path),silent=TRUE)
-  #   if (is(tt,"try-error")) {
+  #   if (methods::is(tt,"try-error")) {
   #     warning("No workspace directory has been set, use set_java_wd to do so, or \n give it as input of the function !");
   #     return()
   #   }
@@ -57,7 +57,7 @@ run_java <- function(javastics_path,javastics_workspace_path=NULL,
   # DONE: Moved previous code to a new function for calculating and checking workspace path
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,javastics_workspace_path)
-  if (methods::is.null(ws)) {
+  if (base::is.null(ws)) {
     return()
   }
 

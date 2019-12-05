@@ -16,7 +16,9 @@ TRUE if os_tag_name is the current system OS, FALSE otherwise; OS names list if 
 Returning if the given OS name is the system name
 }
 \examples{
+\dontrun{
 os_list <- is_os_name()
 is_os_name <- is_os_name("windows")
+}
 
 }

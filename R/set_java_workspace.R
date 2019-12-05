@@ -34,7 +34,7 @@ set_java_workspace <- function(javastics_path,java_wd){
 
   # checking if exists if it is a workspace a
   ws <- check_java_workspace(javastics_path,java_wd)
-  if (methods::is.null(ws)) {
+  if (base::is.null(ws)) {
     return()
   }
 
@@ -43,7 +43,7 @@ set_java_workspace <- function(javastics_path,java_wd){
 
   # entry doesn't exist, normally it could not occur because we set pref file before,
   # but using JavaStics interface first doesn't fix a default workspace, so ...
-  if (methods::is.null(current_wd)){
+  if (base::is.null(current_wd)){
     n= XML::xmlParseString(paste0("<entry key=\"workingDirectory.current\">",java_wd,"</entry>"))
     SticsRFiles:::addNodes(xml_pref,n)
   } else {

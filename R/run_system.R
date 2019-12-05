@@ -25,7 +25,7 @@
 
 run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
 
-  if (! methods::is.null(usm_dir_names)) {
+  if (! base::is.null(usm_dir_names)) {
     run_dir=file.path(data_dir,usm_dir_names)
   } else {
     run_dir = data_dir
