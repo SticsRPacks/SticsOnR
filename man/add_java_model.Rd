@@ -2,14 +2,14 @@
 % Please edit documentation in R/add_java_model.R
 \name{add_java_model}
 \alias{add_java_model}
-\title{Adding a new Stics model version to use}
+\title{Adding a new Stics model version to use in JavaStics configuration}
 \usage{
 add_java_model(javastics_path, java_model_tag, java_model_exe)
 }
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}
 
-\item{java_model_tag}{Model name (not executable file)}
+\item{java_model_tag}{Model name/identifier (not executable file)}
 
 \item{java_model_exe}{Model executable name or path}
 }
@@ -23,7 +23,7 @@ or elsewhere and will be copied in the bin directory
 }
 \examples{
 \dontrun{
- add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
+ add_java_model("/path/to/JavaSTICS/dir",
  "model_name","model_exe_name")
 }
 
