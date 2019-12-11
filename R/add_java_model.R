@@ -1,23 +1,25 @@
+#' @title Adding a new Stics model version to use in JavaStics configuration
+#'
+#' @description Creating a new entry in preferences with a new model name
+#'  and executable file, and select it
+#'
+#' @details The executable file may be in the current JavaStics bin folder,
+#' or elsewhere and will be copied in the bin directory
+#'
+#' @param javastics_path JavaStics installation root folder
+#' @param java_model_tag Model name/identifier (not executable file)
+#' @param java_model_exe Model executable name or path
+#'
+#' @examples
+#' \dontrun{
+#'  add_java_model("/path/to/JavaSTICS/dir",
+#'  "model_name","model_exe_name")
+#' }
+#'
+#@export
+
 add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
-  #' @title Adding a new Stics model version to use
-  #'
-  #' @description Creating a new entry in preferences with a new model name
-  #'  and executable file, and select it
-  #'
-  #' @details The executable file may be in the current JavaStics bin folder,
-  #' or elsewhere and will be copied in the bin directory
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #' @param java_model_tag Model name (not executable file)
-  #' @param java_model_exe Model executable name or path
-  #'
-  #' @examples
-  #' \dontrun{
-  #'  add_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",
-  #'  "model_name","model_exe_name")
-  #' }
-  #'
-  #@export
+
 
   # checking javastics path
   check_java_path(javastics_path)
