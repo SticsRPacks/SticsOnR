@@ -163,7 +163,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                               param_values_usm= CroptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
                               SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
-                              SticsRFiles::set_codeoptim(run_dir,value=1)
+                              SticsRFiles:::set_codeoptim(run_dir,value=1)
                             }
                             ########################################################################
                             # TODO: and call it in/ or integrate parameters forcing in run_system function !

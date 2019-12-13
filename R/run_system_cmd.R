@@ -23,7 +23,7 @@ run_system_cmd <- function(command, args="", output=FALSE) {
        attr(ret,"class") == "try-error") {
     err_status = TRUE
     attr(err_status, "message") <- ret[1]
-    return(status)
+    return(err_status)
   }
 
   # Attaching the command output as a status attibute
