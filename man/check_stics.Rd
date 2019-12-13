@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_stics.R
 \name{check_stics}
 \alias{check_stics}
-\title{Checking if given path in a Stics executable}
+\title{Checking if given path is a Stics executable path}
 \usage{
 check_stics(model_path)
 }
@@ -13,5 +13,5 @@ check_stics(model_path)
 System output (error,...)
 }
 \description{
-Checking if given path in a Stics executable
+Checking if given path is a Stics executable path
 }
