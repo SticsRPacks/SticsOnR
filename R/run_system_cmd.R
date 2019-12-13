@@ -11,27 +11,27 @@
 # @examples
 run_system_cmd <- function(command, args="", output=FALSE) {
 
-  status = TRUE
+  err_status = FALSE
   ret <- try(system2( command = command, args = args,
                        stderr = TRUE,
-                       stdout = output),
+                       stdout = TRUE),
               silent = TRUE)
   #print(ret)
 
   # if any error, storing message as an attribute
   if ( "class" %in% names(attributes(ret)) &&
        attr(ret,"class") == "try-error") {
-    status = FALSE
-    attr(status, "message") <- ret[1]
+    err_status = TRUE
+    attr(err_status, "message") <- ret[1]
     return(status)
   }
 
   # Attaching the command output as a status attibute
   if (length(ret)) {
-    if ( output ) attr(status, "output") <- ret
+    if ( output ) attr(err_status, "output") <- ret
   }
 
-  return(invisible(status))
+  return(invisible(err_status))
 
 }
 

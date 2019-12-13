@@ -37,7 +37,7 @@ Imports:
     parallel,
     XML,
     iterators,
-    SticsOptimizR,
+    CroptimizR,
     methods
 Remotes: 
     github::SticsRPacks/SticsRFiles,

@@ -75,20 +75,8 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   time_display <- model_options$time_display
   warning_display <- model_options$warning_display
 
-  ## testing if the model executable file exist and if it is executable
-  if (!file.exists(stics_path)){
-    stop(paste("Stics executable file doesn't exist !",stics_path))
-  }
-  val <- try(system(paste(stics_path,'--version'),
-                    intern = FALSE,
-                    ignore.stdout = TRUE),
-             silent = TRUE)
-
-  if (val != 0) {
-    stop(paste(stics_path,"is not executable or is not a Stics executable !"))
-  }
-  ##############################################################################
-
+  # checking Stics executable
+  check_stics(stics_path)
 
   if (time_display)   start_time <- Sys.time()
 
@@ -102,6 +90,7 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
       cores_nb <- cores
     }
   }
+
   # Launching the cluster
   cl <- parallel :: makeCluster(cores_nb)
   doParallel::registerDoParallel(cl)
@@ -125,8 +114,8 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
 
   # Calculating directories list
   run_dirs=file.path(data_dir,situation_names)
-  # res=list(sim_list=vector("list", length(situation_names)),flag_allsim=TRUE)
-  # names(res$sim_list)=situation_names
+  # print(run_dirs)
+
 
   ## If data not provided for the required USM
   dirs_exist <- file.exists(run_dirs)
@@ -143,12 +132,13 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
   i <- 1
   ## Loops on the USMs that can be simulated
   out <- foreach::foreach(i = 1:length(dirs_idx),
-                          .export = c("get_daily_results",
-                                      "set_codeoptim",
-                                      "run_system",
-                                      "gen_param_sti",
-                                      "get_params_per_sit"),
-                          .packages=c("SticsRFiles","foreach")) %dopar% {
+                          .export = c(#"get_daily_results",
+                            #"set_codeoptim",
+                            "run_system"),
+                          #"gen_param_sti"),
+                          #"get_params_per_sit"),
+
+                          .packages=c("SticsRFiles","foreach", "CroptimizR")) %dopar% {
 
                             # Simulation flag status or output data selection status
                             flag_sim <- TRUE
@@ -166,22 +156,23 @@ stics_wrapper <- function( param_values=NULL, sit_var_dates_mask=NULL,
                               # remove param.sti in case of previous run using it ...
                               if (suppressWarnings(file.remove(file.path(run_dir,
                                                                          "param.sti")))) {
-                                SticsRFiles :: set_codeoptim(run_dir,value=0)
+                                SticsRFiles:::set_codeoptim(run_dir,value=0)
                               }
 
                             } else {
-                              param_values_usm= SticsOptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
+                              param_values_usm= CroptimizR::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
                               SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
                               SticsRFiles::set_codeoptim(run_dir,value=1)
                             }
                             ########################################################################
                             # TODO: and call it in/ or integrate parameters forcing in run_system function !
-                            ## Run the model
-                            usm_out= run_system(stics_path, run_dir)
+                            ## Run the model & forcing not to check the model executable
+                            usm_out <- run_system(stics_path, run_dir, check_exe = FALSE)
 
                             # if the model returns an error, ... treating next situation
-                            if (usm_out[[1]]$error > 0) {
+                            #if (usm_out[[1]]$error > 0) {
+                            if ( usm_out[[1]]$error ) {
 
                               mess <- warning(paste("Error running the Stics model for USM",situation,
                                                     ". \n ",usm_out[[1]]$message))

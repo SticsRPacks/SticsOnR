@@ -7,6 +7,7 @@
 #' @param data_dir Path of a Stics input directory or a vector of,
 #' or root directory of Stics directories (if usm_dir_names is given)
 #' @param usm_dir_names Name(s) of sub-directory(ies) of data_dir
+#' @param check_exe Logical, T for checking the model executable, F otherwise
 #'
 #' @return A list with usm names and execution error status
 #'
@@ -23,7 +24,8 @@
 #'
 #@export
 
-run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
+run_system <- function(model_path,data_dir,usm_dir_names=NULL,
+                       check_exe = TRUE) {
 
   if (! base::is.null(usm_dir_names)) {
     run_dir=file.path(data_dir,usm_dir_names)
@@ -32,6 +34,7 @@ run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
   }
 
   # testing id dirs exist
+  # print(run_dir)
   dirs_exist <- file.exists(run_dir)
 
   if ( !all(dirs_exist) ) {
@@ -39,16 +42,9 @@ run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
     stop("One or more directories does/do not exist !")
   }
 
-  # if (!file.exists(model_path)){
-  #   stop(paste("Executable file doesn't exist !",model_path))
-  # }
-  # # testing if the model is executable
-  # val <- try(system(paste(model_path,'--version'),intern = FALSE,ignore.stdout = TRUE), silent = TRUE)
-  # if (val != 0) {
-  #   stop("The file is not executable or is not a Stics executable !")
-  # }
 
-  check_stics(model_path)
+  # optional model executable checking
+  if ( check_exe )  check_stics(model_path)
 
   nb_usms <- length(run_dir)
   usms_out <- vector("list", nb_usms)
@@ -59,22 +55,23 @@ run_system <- function(model_path,data_dir,usm_dir_names=NULL) {
     usm_out$name=basename(usm_dir)
 
     setwd(usm_dir)
-    # usm_out$error <- try(system(model_path,ignore.stdout = TRUE,
-    #                             ignore.stderr = TRUE),silent = TRUE)
 
     # new function call, keeping error message as attribute
-    usm_out$error <-as.numeric(run_system_cmd(model_path))
+    usm_out$error <- run_system_cmd(model_path)
 
-    if (is.numeric(usm_out$error) & usm_out$error > 0) {
+    if ( usm_out$error ) {
       usm_out$message="Model execution error !"
     }
+
 
     # If history file doesn't exist or all of the output files
     # don't exist: output error
     usm_chk_out=check_output_files(usm_dir)
+
+    # additional check for missing output files
     if (!usm_out$error & usm_chk_out$error) {
       print(paste("Error, missing output file(s) : ", usm_dir))
-      usm_out$error=1
+      usm_out$error=TRUE
       usm_out$message=paste("No output files: ", usm_chk_out$missing)
     }
 
