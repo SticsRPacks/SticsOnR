@@ -34,8 +34,50 @@ Or using the lightweight
 remotes::install_github("SticsRPacks/SticsOnR")
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+Here are basic examples which show you how to run the model from a R
+model interface or a JavaStics one. More complete example are detailed
+in … vignette
+
+### Running the JavaStics interface
+
+We need for that a JavaStics folder and a JavaStics workspace folder.
+For example using the last distribution version for Stics 9.1 :
+JavaSTICS-1.41-stics-9.1 It contains an example folder.
+
+For running simulations from it, we can use the run\_javastics function
+as follows
+
+``` r
+javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
+# specifying a workspace as a subfolder of JavaStics 
+workspace_path <- "example"
+# or an absolute path to an extrenal folder
+# workspace_path <- "/path/to/javastics/workspace"
+
+# Running all usms contained in the workspace 
+run_javatics(javastics_path, workspace_path)
+```
+
+### Using the model
+
+We need for that a JavaStics folder and a directory, or a folder
+containing usms subdirectories with text input files (converted from xml
+JavaStics files).
+
+``` r
+# for windows/linux
+stics_path <- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo"
+# for Mac
+# stics_path <- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo_mac
+
+# specifying a directory  
+files_dir_path <- "/path/to/files/dir"
+run_stics(stics_path, files_dir_path)
+# or a root directory
+# files_root_dirs_path <- "/path/to/files/dirs/root"
+run_stics(stics_path, files_root_dirs_path)
+```
 
 -----
