@@ -1,17 +1,19 @@
 Package: SticsOnR
 Type: Package
 Title: A Package to manage STICS simulations https://github.com/SticsRPacks/SticsOnR
-Date: 2019-05-11
-Version: 0.0.0.9000
+Date: 2019-12-17
+Version: 0.1.0.9001
 Authors@R: c( person(given = "Patrice",family = "Lecharpentier",role = c("aut", "cre"),email = "patrice.lecharpentier@inra.fr"),
            person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = c("aut")),
            person("SticsRPacks", role= c("aut", "cph")),
            person(given = "Julie", family = "Constantin", email = "julie.constantin@inra.fr", role = c("rev")),
            person(given = "Dominique", family = "Ripoche", email = "dominique.ripoche@inra.fr", role = c("rev")),
-           person(given = "Marie", family = "Launay", email = "marie.launay@inra.fr", role = c("rev"))
+           person(given = "Marie", family = "Launay", email = "marie.launay@inra.fr", role = c("rev")),
+           person(given = "Christine", family = "Le Bas", email = "christine.lebas@inra.fr", role = c("rev")),
+           person(given = "Alain", family = "Mollier", email = "alain.mollier@inra.fr", role = c("rev"))
            )
 Description: SticsOnR allow users to set simulations (USM) as javaSTICS or Stics do, to run them in different folders on in sequential,
-  and to import the outputs from R. Learn more at https://SticsRPacks.github.io/SticsOnR/.
+  and to import the outputs from R.
 URL: https://github.com/SticsRPacks/SticsOnR
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
 License: file LICENSE

@@ -3,6 +3,7 @@
 export(check_stics)
 export(gen_usms_dirs)
 export(run_java)
+export(run_stics)
 export(stics_wrapper)
 export(stics_wrapper_options)
 importFrom(foreach,"%dopar%")
