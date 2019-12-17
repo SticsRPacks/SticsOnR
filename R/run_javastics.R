@@ -99,5 +99,5 @@ run_javastics <- function(javastics_path,javastics_workspace_path=NULL,
     }
   }
 
-  return(usms_out)
+  return(invisible(usms_out))
 }
