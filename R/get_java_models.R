@@ -17,11 +17,33 @@ get_java_models <- function(javastics_path){
   # checking javastics path
   check_java_path(javastics_path)
 
+  models=list()
+
   # if no preference have been set yet
   if (!exists_java_pref(javastics_path)) set_java_pref(javastics_path)
 
   xml_pref= SticsRFiles ::: xmldocument(file.path(javastics_path,"config","preferences.xml"))
   models_string= SticsRFiles ::: getValues(xml_pref,'//entry[@key="model.list"]')
+
+  # Setting the default model name and exe (not stored in preferences.xml,
+  # eventually model.last exists)
+  if ( base::is.null(models_string) ) {
+    #warning("No model have been selected in JavaStics, add model first !")
+    models$tags <- "modulostics"
+    models$exe <- "stics_modulo.exe"
+
+    if ( is_os_name("linux")) {
+      models$tags <- "modulostics_linux"
+      models$exe <- "stics_modulo"
+    }
+    if ( any( c(is_os_name("mac"), is_os_name("darwin"))) ) {
+      models$tags <- "modulostics_mac"
+      models$exe <- "stics_modulo_mac"
+    }
+
+    return(models)
+  }
+
   mod=strsplit(models_string,"\t")
   mod=unlist(lapply(mod, function(x) strsplit(x,",")))
   mod_tags=mod[seq(1,length(mod),2)]
@@ -29,7 +51,7 @@ get_java_models <- function(javastics_path){
   mod_tags=unlist(lapply(mod_tags,function(x) substr(x,2,nchar(x))))
   mod_exe=unlist(lapply(mod_exe,function(x) substr(x,1,nchar(x)-1)))
 
-  models=list()
+
   models$tags=mod_tags
   models$exe=mod_exe
   return(models)
