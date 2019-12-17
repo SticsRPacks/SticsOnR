@@ -14,6 +14,7 @@ exist_java_model <- function(javastics_path,java_model_tag){
   #'
   #' @return Existing status, logical
   #'
+  #' @keywords internal
   #@export
 
   # if no preference have been set yet

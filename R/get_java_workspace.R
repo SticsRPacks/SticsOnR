@@ -11,6 +11,8 @@ get_java_workspace <- function(javastics_path){
   #' get_java_wd("/path/to/JavaStics/directory")
   #'}
   #'
+  #' @keywords internal
+  #'
   #@export
 
 

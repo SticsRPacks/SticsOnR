@@ -12,7 +12,9 @@ get_java_model <- function(javastics_path){
   #'
   #' @return Current Stics model name used in JavaStics configuration
   #'
+  #' @keywords internal
   #@export
+
 
 
   # checking javastics path

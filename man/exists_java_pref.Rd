@@ -21,3 +21,4 @@ exists_pref <- exists_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v84
 }
 
 }
+\keyword{internal}

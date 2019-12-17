@@ -18,3 +18,4 @@ A named list ( with model tags ) of versions strings
 \description{
 Getting Stics versions list of executable in a JavaStics directory
 }
+\keyword{internal}

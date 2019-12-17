@@ -12,6 +12,8 @@ get_java_models <- function(javastics_path){
   #'
   #' @return A list with model name list ($tag), and model executables names ($exe)
   #'
+  #' @keywords internal
+  #'
   #@export
 
   # checking javastics path

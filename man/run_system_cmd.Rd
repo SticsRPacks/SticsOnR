@@ -19,3 +19,4 @@ A logical status T if it succeded or F if not (an attribute "message" is set wit
 \description{
 Run a system command
 }
+\keyword{internal}

@@ -21,3 +21,4 @@ current_model <- set_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841
 }
 
 }
+\keyword{internal}

@@ -10,6 +10,8 @@
 #' @export
 #'
 # @examples
+#' @keywords internal
+#'
 check_stics <- function(model_path, version = FALSE, stop = TRUE) {
 
   # TODO:

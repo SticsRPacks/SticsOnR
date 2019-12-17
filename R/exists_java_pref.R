@@ -12,6 +12,7 @@ exists_java_pref <- function(javastics_path){
   #'
   #' @return logical value, TRUE if file exists, FALSE otherwise
   #'
+  #' @keywords internal
   #@export
 
 

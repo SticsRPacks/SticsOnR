@@ -24,3 +24,4 @@ exist_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841/example","sti
 }
 
 }
+\keyword{internal}

@@ -18,3 +18,4 @@ and corresponding exiseing executable file
 \description{
 Getting the number of Stics executable registered in JavaStics
 }
+\keyword{internal}

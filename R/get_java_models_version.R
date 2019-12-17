@@ -5,6 +5,9 @@
 #'
 #' @return A named list ( with model tags ) of versions strings
 #' (got from the model executable)
+#'
+#' @keywords internal
+#'
 #@export
 #'
 #@examples

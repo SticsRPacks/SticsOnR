@@ -28,3 +28,4 @@ model_exe <- get_model_exe("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","m
 }
 
 }
+\keyword{internal}

@@ -20,3 +20,4 @@ System output (error,...)
 \description{
 Checking if given path is a Stics executable path
 }
+\keyword{internal}

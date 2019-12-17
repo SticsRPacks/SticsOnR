@@ -23,6 +23,8 @@ gen_usms_dirs <- function(javastics_path, javastics_workspace_path = NULL,
   # TODO
   #' @export
   #'
+  #' @keywords internal
+  #'
 
 
   ################### TODO ######################################

@@ -20,3 +20,4 @@ set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
 }
 
 }
+\keyword{internal}

@@ -16,7 +16,9 @@
 #'  "model_name","model_exe_name")
 #' }
 #'
+#' @keywords internal
 #@export
+
 
 add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
 

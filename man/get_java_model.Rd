@@ -21,3 +21,4 @@ current_model <- get_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v84
 }
 
 }
+\keyword{internal}

@@ -6,6 +6,8 @@
 #' @return a number of registered models in JavaStics preferences,
 #' and corresponding exiseing executable file
 #'
+#' @keywords internal
+#'
 #@export
 #'
 #@examples

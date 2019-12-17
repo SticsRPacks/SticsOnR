@@ -10,6 +10,7 @@ check_java_path <- function(javastics_path){
   #'check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
   #'}
   #'
+  #' @keywords internal
   #@export
 
 

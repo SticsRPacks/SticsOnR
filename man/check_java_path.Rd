@@ -21,3 +21,4 @@ check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
 }
 
 }
+\keyword{internal}

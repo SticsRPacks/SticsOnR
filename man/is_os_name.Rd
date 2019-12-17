@@ -22,3 +22,4 @@ is_os_name <- is_os_name("windows")
 }
 
 }
+\keyword{internal}

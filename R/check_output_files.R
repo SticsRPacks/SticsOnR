@@ -15,6 +15,7 @@ check_output_files <- function(run_dir,usm_name=NULL) {
   #' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
   #'}
   #'
+  #' @keywords internal
   #@export
 
   if (base::is.null(usm_name)) {

@@ -6,6 +6,8 @@
 #'
 #' @return A logical status T if it succeded or F if not (an attribute "message" is set with an error message)
 #'
+#' @keywords internal
+#'
 #@export
 #'
 # @examples

@@ -19,3 +19,4 @@ get_java_wd("/path/to/JavaStics/directory")
 }
 
 }
+\keyword{internal}
