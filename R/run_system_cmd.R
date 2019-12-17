@@ -9,13 +9,13 @@
 #@export
 #'
 # @examples
-run_system_cmd <- function(command, args="", output=FALSE) {
+run_system_cmd <- function(command, args = "", output = FALSE) {
 
   err_status = FALSE
   ret <- try(system2( command = command, args = args,
-                       stderr = TRUE,
-                       stdout = TRUE),
-              silent = TRUE)
+                      stderr = TRUE,
+                      stdout = TRUE),
+             silent = TRUE)
   #print(ret)
 
   # if any error, storing message as an attribute
@@ -25,6 +25,16 @@ run_system_cmd <- function(command, args="", output=FALSE) {
     attr(err_status, "message") <- ret[1]
     return(err_status)
   }
+
+  # Not a try-error ??? Why ?
+  # TODO: to be merged with preceeding conditionnal block !!!!!
+  if ( "status" %in% names(attributes(ret)) &&
+       attr(ret,"status") > 0) {
+    err_status = TRUE
+    attr(err_status, "message") <- ret[1]
+    return(err_status)
+  }
+
 
   # Attaching the command output as a status attibute
   if (length(ret)) {

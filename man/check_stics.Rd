@@ -4,10 +4,13 @@
 \alias{check_stics}
 \title{Checking if given path is a Stics executable path}
 \usage{
-check_stics(model_path)
+check_stics(model_path, version = FALSE, stop = TRUE)
 }
 \arguments{
 \item{model_path}{Model executable path}
+
+\item{version}{Logical, or getting system command return i.e.
+model version or not (default)}
 }
 \value{
 System output (error,...)
