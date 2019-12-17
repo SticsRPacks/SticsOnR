@@ -11,6 +11,8 @@ check_stics(model_path, version = FALSE, stop = TRUE)
 
 \item{version}{Logical, or getting system command return i.e.
 model version or not (default)}
+
+\item{stop}{Logical for stopping or not execution}
 }
 \value{
 System output (error,...)

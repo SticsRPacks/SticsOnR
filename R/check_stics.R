@@ -3,6 +3,7 @@
 #' @param model_path Model executable path
 #' @param version Logical, or getting system command return i.e.
 #' model version or not (default)
+#' @param stop Logical for stopping or not execution
 #'
 #' @return System output (error,...)
 #'
