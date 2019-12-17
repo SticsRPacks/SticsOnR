@@ -1,4 +1,4 @@
-run_java <- function(javastics_path,javastics_workspace_path=NULL,
+run_javastics <- function(javastics_path,javastics_workspace_path=NULL,
                      usms_list=c(),keep_history=TRUE, optim=FALSE) {
   #' @title Running one or several usms from a javastics workspace
   #'
