@@ -40,7 +40,7 @@
 #'
 #'
 
-gen_usms_dirs <- function(javastics_path,
+gen_usms_xml2txt <- function(javastics_path,
                           javastics_workspace_path = NULL,
                           target_path = NULL,
                           usms_list = c(),
