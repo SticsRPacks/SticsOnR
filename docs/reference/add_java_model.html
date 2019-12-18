@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adding a new Stics model version to use — add_java_model • SticsOnR</title>
+<title>Adding a new Stics model version to use in JavaStics configuration — add_java_model • SticsOnR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,7 @@
 
 
 
-<meta property="og:title" content="Adding a new Stics model version to use — add_java_model" />
+<meta property="og:title" content="Adding a new Stics model version to use in JavaStics configuration — add_java_model" />
 <meta property="og:description" content="Creating a new entry in preferences with a new model name
 and executable file, and select it" />
 <meta property="og:image" content="/logo.png" />
@@ -78,7 +78,7 @@ and executable file, and select it" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -92,9 +92,6 @@ and executable file, and select it" />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -117,7 +114,7 @@ and executable file, and select it" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adding a new Stics model version to use</h1>
+    <h1>Adding a new Stics model version to use in JavaStics configuration</h1>
     <small class="dont-index">Source: <a href='https://github.com/SticsRPacks/SticsOnR/blob/master/R/add_java_model.R'><code>R/add_java_model.R</code></a></small>
     <div class="hidden name"><code>add_java_model.Rd</code></div>
     </div>
@@ -138,7 +135,7 @@ and executable file, and select it</p>
     </tr>
     <tr>
       <th>java_model_tag</th>
-      <td><p>Model name (not executable file)</p></td>
+      <td><p>Model name/identifier (not executable file)</p></td>
     </tr>
     <tr>
       <th>java_model_exe</th>
@@ -153,7 +150,7 @@ or elsewhere and will be copied in the bin directory</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'>add_java_model</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,
+ <span class='fu'>add_java_model</span>(<span class='st'>"/path/to/JavaSTICS/dir"</span>,
  <span class='st'>"model_name"</span>,<span class='st'>"model_exe_name"</span>)
 }</div></pre>
   </div>

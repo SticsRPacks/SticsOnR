@@ -21,9 +21,9 @@ or corresponding one to the given model_name
 }
 \examples{
 \dontrun{
-Getting the current model executable
+# Getting the current model executable
 model_exe <- get_model_exe("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-Getting model executable correponding to the given "model_name"
+# Getting model executable correponding to the given "model_name"
 model_exe <- get_model_exe("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
 }
 

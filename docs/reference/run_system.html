@@ -79,7 +79,7 @@ or a/several subdirectory(ies) named with usm name — run_system" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -93,9 +93,6 @@ or a/several subdirectory(ies) named with usm name — run_system" />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -128,7 +125,7 @@ or a/several subdirectory(ies) named with usm name</h1>
     <p>This function uses Stics directly through a system call</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_system</span>(<span class='no'>model_path</span>, <span class='no'>data_dir</span>, <span class='kw'>usm_dir_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>run_system</span>(<span class='no'>model_path</span>, <span class='no'>data_dir</span>, <span class='kw'>usm_dir_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_exe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,6 +143,10 @@ or root directory of Stics directories (if usm_dir_names is given)</p></td>
       <th>usm_dir_names</th>
       <td><p>Name(s) of sub-directory(ies) of data_dir</p></td>
     </tr>
+    <tr>
+      <th>check_exe</th>
+      <td><p>Logical, T for checking the model executable, F otherwise</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -154,10 +155,13 @@ or root directory of Stics directories (if usm_dir_names is given)</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
+<span class='co'># Specifying individual usm directories</span>
 <span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsDir"</span>)
 <span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/home/username/Work/SticsInputsDir1"</span>,
 <span class='st'>"/home/username/Work/SticsInputsDir2"</span>))
 
+<span class='co'># Specifying a parent directory of usms directories</span>
 <span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,<span class='st'>"wheat"</span>)
 <span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"maize"</span>))

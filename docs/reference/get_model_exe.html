@@ -78,7 +78,7 @@ or corresponding one to the given model_name" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -92,9 +92,6 @@ or corresponding one to the given model_name" />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -147,7 +144,12 @@ or corresponding one to the given model_name" />
     <p>Stics model executable name (current, matching given model name)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Getting the current model executable</span>
+<span class='no'>model_exe</span> <span class='kw'>&lt;-</span> <span class='fu'>get_model_exe</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>)
+<span class='co'># Getting model executable correponding to the given "model_name"</span>
+<span class='no'>model_exe</span> <span class='kw'>&lt;-</span> <span class='fu'>get_model_exe</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"model_name"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

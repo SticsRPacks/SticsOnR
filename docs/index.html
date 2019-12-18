@@ -18,7 +18,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="A Package to manage STICS simulations https://github.com/SticsRPacks/SticsOnR">
 <meta property="og:description" content="SticsOnR allow users to set simulations (USM) as javaSTICS or Stics do, to run them in different folders on in sequential,
-  and to import the outputs from R. Learn more at https://SticsRPacks.github.io/SticsOnR/.">
+  and to import the outputs from R.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
       </span>
     </div>
 
@@ -53,9 +53,6 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -83,11 +80,9 @@
 </h1></div>
 
 <p>The goal of SticsOnR is to perform simulations of the Stics model.</p>
-<div id="development" class="section level2">
-<h2 class="hasAnchor">
-<a href="#development" class="anchor"></a>Development</h2>
-<p>Follow up the development <a href="sticsOnR.html">here</a>.</p>
-</div>
+<!--## Development 
+
+Follow up the development [here](sticsOnR.md).-->
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -97,11 +92,74 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("remotes")</span></a>
 <a class="sourceLine" id="cb2-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR"</span>)</a></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<a href="#examples" class="anchor"></a>Examples</h2>
+<p>Here are basic examples which show you how to run the model from a R model interface or a JavaStics one. More complete examples will be detailed in a specific documentation soon.</p>
+<div id="running-the-javastics-command-line-interface" class="section level3">
+<h3 class="hasAnchor">
+<a href="#running-the-javastics-command-line-interface" class="anchor"></a>Running the JavaStics command line interface</h3>
+<p>We need for that a JavaStics folder and a JavaStics workspace folder. For example using the last distribution version for Stics 9.1 (JavaSTICS-1.41-stics-9.1).<br>
+It contains an example folder.</p>
+<p>For running simulations from it, we can use the run_javastics function as follows</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Spefifying the JavaStics folder</span></a>
+<a class="sourceLine" id="cb3-2" title="2">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co"># specifying a workspace as a subfolder of JavaStics </span></a>
+<a class="sourceLine" id="cb3-4" title="4">workspace_path &lt;-<span class="st"> "example"</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co"># or an absolute path to an extrenal folder</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a>
+<a class="sourceLine" id="cb3-7" title="7"></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co"># Running all usms contained in the workspace </span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="kw">run_javatics</span>(javastics_path, workspace_path)</a></code></pre></div>
+</div>
+<div id="converting-javastics-workspace-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#converting-javastics-workspace-files" class="anchor"></a>Converting JavaStics workspace files</h3>
+<p>For using the model directly neither using the JavaStics graphical interface nor the run_javastics function interface, we provide a functionnality for converting JavasStics XML files to Stics text files from a JavaStics workspace. Observation files are also copied if they have a standard name as an usm name and a <code>.obs</code> extension. If not, they must be renamed to do so.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Spefifying the JavaStics folder</span></a>
+<a class="sourceLine" id="cb4-2" title="2">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co"># specifying a workspace as a subfolder of JavaStics </span></a>
+<a class="sourceLine" id="cb4-4" title="4">workspace_path &lt;-<span class="st"> "example"</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co"># or an absolute path to an extrenal folder</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a>
+<a class="sourceLine" id="cb4-7" title="7"></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co"># Generating files for all the usms contained in the workspace</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co"># one directory per usm</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path)</a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co"># In a specific folder</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>)</a>
+<a class="sourceLine" id="cb4-14" title="14"></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co"># Generating files for a subset of usms</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co"># In a specific folder</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>), <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>)</a>
+<a class="sourceLine" id="cb4-20" title="20"></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co"># Generating files directly in the workspace or a specific folder (no usm sub-folder) </span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co"># In a specific folder</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
+<div id="running-the-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#running-the-model" class="anchor"></a>Running the model</h3>
+<p>We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Spefifying the Stics executable file path</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co"># for windows/linux</span></a>
+<a class="sourceLine" id="cb5-3" title="3">stics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo"</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># for Mac</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co"># stics_path &lt;- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo_mac</span></a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co"># Specifying a directory containing Stics input files  </span></a>
+<a class="sourceLine" id="cb5-8" title="8">files_dir_path &lt;-<span class="st"> "/path/to/files/dir"</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, files_dir_path)</a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co"># or a root directory containing usms indicidual directories</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co"># files_root_dirs_path &lt;- "/path/to/files/dirs/root"</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, files_root_dirs_path)</a></code></pre></div>
 <hr>
+</div>
 </div>
 </div>
   </div>
