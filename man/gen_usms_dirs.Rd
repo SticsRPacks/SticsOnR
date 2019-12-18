@@ -11,23 +11,24 @@ gen_usms_dirs(
   target_path = NULL,
   usms_list = c(),
   display = FALSE,
-  flag_dirPerUsm = TRUE
+  dir_per_usm_flag = TRUE
 )
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
 
-\item{javastics_workspace_path}{Path of a JavaStics workspace (Optional)}
+\item{javastics_workspace_path}{Path of a JavaStics workspace (Optional), if not
+provided the current workspace stored in JavaStics preferences will be used.}
 
 \item{target_path}{The path of the directory where to create usms directories (Optional),
 if not provided the JavaStics workspace will be used as root}
 
-\item{usms_list}{List of usms to generate (Optional, if not provided, all
-usms contained in javastics_workspace_path/usms.xml file will be generated)}
+\item{usms_list}{List of usms to generate (Optional). If not provided, all
+usms contained in javastics_workspace_path/usms.xml file will be generated.}
 
 \item{display}{Logical value for displaying (TRUE) ot not (FALSE) usm name}
 
-\item{flag_dirPerUsm}{logical, TRUE if one want to create one directory per USM,
+\item{dir_per_usm_flag}{logical, TRUE if one want to create one directory per USM,
 FALSE if USM files are generated in the target_path (only useful for usms_list of size one)}
 }
 \value{
@@ -35,6 +36,10 @@ A list of created directories with Stics input files inside or
 NULL if any problem about the JavaStics workspace or JavaStics directory
 }
 \description{
-TODO
+The function creates sets of input files for one or multiple usms
+from usms data stored in a JavaStics workspace. For multiple usms, sets will
+be generated into individual folders named with usm names.. Observations
+files will be also copied if they are named \verb{[usm_name].obs}
+For one usm, files will be generated either in the workspace directory
+or in a subdirectory.
 }
-\keyword{internal}
