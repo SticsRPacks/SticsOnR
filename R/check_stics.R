@@ -7,7 +7,7 @@
 #'
 #' @return System output (error,...)
 #'
-#' @export
+#@export
 #'
 # @examples
 #' @keywords internal
