@@ -44,7 +44,7 @@ For one usm, files will be generated either in the workspace directory
 or in a subdirectory.
 }
 \examples{
-\dontrun {
+\dontrun{
 javastics <- "/path/to/javastics"
 javastics_workspace <- "/path/to/workspace"
 # For all usms

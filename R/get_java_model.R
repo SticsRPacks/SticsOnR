@@ -1,21 +1,20 @@
+#' @title Getting current Stics instance in use
+#'
+#' @description Extracting the last used model from preferences file
+#'
+#' @param javastics_path JavaStics installation root folder
+#'
+#' @examples
+#' \dontrun{
+#' current_model <- get_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+#'}
+#'
+#' @return Current Stics model name used in JavaStics configuration
+#'
+#' @keywords internal
+#@export
+
 get_java_model <- function(javastics_path){
-  #' @title Getting current Stics instance in use
-  #'
-  #' @description Extracting the last used model from preferences file
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #'
-  #' @examples
-  #' \dontrun{
-  #' current_model <- get_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-  #'}
-  #'
-  #' @return Current Stics model name used in JavaStics configuration
-  #'
-  #' @keywords internal
-  #@export
-
-
 
   # checking javastics path
   check_java_path(javastics_path)

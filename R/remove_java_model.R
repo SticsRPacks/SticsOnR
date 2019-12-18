@@ -1,23 +1,23 @@
-remove_java_model <- function(javastics_path,java_model_tag){
-  #' @title Removing a Stics model version to use from JavaStics
-  #'
-  #' @description Removing a model entry in preferences file (model exe name, model tag name)
-  #'
-  #' @details The executable file in the current JavaStics bin folder will not be deleted
-  #' @details It will not be possible to run it through JavaStics command line interface
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #' @param java_model_tag Model name (not executable file name)
-  #'
-  #' @examples
-  #' \dontrun{
-  #' remove_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
-  #'}
-  #'
-  #' @keywords internal
-  #'
-  #@export
+#' @title Removing a Stics model version to use from JavaStics
+#'
+#' @description Removing a model entry in preferences file (model exe name, model tag name)
+#'
+#' @details The executable file in the current JavaStics bin folder will not be deleted
+#' @details It will not be possible to run it through JavaStics command line interface
+#'
+#' @param javastics_path JavaStics installation root folder
+#' @param java_model_tag Model name (not executable file name)
+#'
+#' @examples
+#' \dontrun{
+#' remove_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
+#'}
+#'
+#' @keywords internal
+#'
+#@export
 
+remove_java_model <- function(javastics_path,java_model_tag){
 
   # checking javastics path
   check_java_path(javastics_path)

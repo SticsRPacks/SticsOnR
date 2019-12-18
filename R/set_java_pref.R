@@ -1,21 +1,21 @@
-set_java_pref <- function(javastics_path){
-  #' @title Setting default preferences
-  #'
-  #' @description According to system detection generating a default preference file for a OS specific executable
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #'
-  #' @examples
-  #'\dontrun{
-  #' current_model <- set_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-  #'}
-  #'
-  #' @return Current Stics model name used in JavaStics default configuration
-  #'
-  #' @keywords internal
-  #'
-  #@export
+#' @title Setting default preferences
+#'
+#' @description According to system detection generating a default preference file for a OS specific executable
+#'
+#' @param javastics_path JavaStics installation root folder
+#'
+#' @examples
+#'\dontrun{
+#' current_model <- set_java_pref("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+#'}
+#'
+#' @return Current Stics model name used in JavaStics default configuration
+#'
+#' @keywords internal
+#'
+#@export
 
+set_java_pref <- function(javastics_path){
 
   # checking javastics path
   check_java_path(javastics_path)

@@ -1,19 +1,20 @@
+#' @title Getting current workspace in JavaStics preferences configuration
+#'
+#' @description Getting current JavaStics working directory,
+#' if not any setting to `example` directory
+#'
+#' @param javastics_path JavaStics installation root folder
+#'
+#' @examples
+#' \dontrun{
+#' get_java_wd("/path/to/JavaStics/directory")
+#'}
+#'
+#' @keywords internal
+#'
+#@export
+
 get_java_workspace <- function(javastics_path){
-  #' @title Getting current workspace in JavaStics preferences configuration
-  #'
-  #' @description Getting current JavaStics working directory,
-  #' if not any setting to `example` directory
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #'
-  #' @examples
-  #' \dontrun{
-  #' get_java_wd("/path/to/JavaStics/directory")
-  #'}
-  #'
-  #' @keywords internal
-  #'
-  #@export
 
 
   # checking javastics path

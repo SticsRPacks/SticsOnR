@@ -1,20 +1,20 @@
-set_java_model <- function(javastics_path,java_model_tag){
-  #' @title Selecting Stics model to use
-  #'
-  #' @description Setting in preferences the Stics model version to use
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #' @param java_model_tag Model name (not executable file)
-  #'
-  #' @examples
-  #' \dontrun{
-  #' set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
-  #'}
-  #'
-  #' @keywords internal
-  #'
-  #@export
+#' @title Selecting Stics model to use
+#'
+#' @description Setting in preferences the Stics model version to use
+#'
+#' @param javastics_path JavaStics installation root folder
+#' @param java_model_tag Model name (not executable file)
+#'
+#' @examples
+#' \dontrun{
+#' set_java_model("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","model_name")
+#'}
+#'
+#' @keywords internal
+#'
+#@export
 
+set_java_model <- function(javastics_path,java_model_tag){
 
   # checking javastics path
   check_java_path(javastics_path)

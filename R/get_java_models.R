@@ -1,20 +1,21 @@
+#' @title Getting models list from a JavaStics configuration
+#'
+#' @description Extracting Stics model names and executables file names from preferences file
+#'
+#' @param javastics_path JavaStics installation root folder
+#'
+#' @examples
+#' \dontrun{
+#' models <- get_java_models("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+#'}
+#'
+#' @return A list with model name list ($tag), and model executables names ($exe)
+#'
+#' @keywords internal
+#'
+#@export
+
 get_java_models <- function(javastics_path){
-  #' @title Getting models list from a JavaStics configuration
-  #'
-  #' @description Extracting Stics model names and executables file names from preferences file
-  #'
-  #' @param javastics_path JavaStics installation root folder
-  #'
-  #' @examples
-  #' \dontrun{
-  #' models <- get_java_models("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-  #'}
-  #'
-  #' @return A list with model name list ($tag), and model executables names ($exe)
-  #'
-  #' @keywords internal
-  #'
-  #@export
 
   # checking javastics path
   check_java_path(javastics_path)

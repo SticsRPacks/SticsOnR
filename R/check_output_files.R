@@ -1,22 +1,22 @@
+#' @title Checking model outputs files
+#'
+#' @description This function checks if the model outputs files are correctly produced
+#'
+#' @param run_dir Directory name or path (absolute) of a working directory,
+#'  or root directory of working directories
+#' @param usm_name Usm name, to be set if it is the name of a sub-directory of the given argument run_dir
+#'
+#' @return A list with fields $error (logical, TRUE if any missing file, FALSE otherwise), $missing (missing files vector)
+#'
+#' @examples
+#' \dontrun{
+#' check_output_files("/home/username/Work/SticsInputsDir")
+#' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
+#'}
+#'
+#' @keywords internal
+#@export
 check_output_files <- function(run_dir,usm_name=NULL) {
-  #' @title Checking model outputs files
-  #'
-  #' @description This function checks if the model outputs files are correctly produced
-  #'
-  #' @param run_dir Directory name or path (absolute) of a working directory,
-  #'  or root directory of working directories
-  #' @param usm_name Usm name, to be set if it is the name of a sub-directory of the given argument run_dir
-  #'
-  #' @return A list with fields $error (logical, TRUE if any missing file, FALSE otherwise), $missing (missing files vector)
-  #'
-  #' @examples
-  #' \dontrun{
-  #' check_output_files("/home/username/Work/SticsInputsDir")
-  #' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
-  #'}
-  #'
-  #' @keywords internal
-  #@export
 
   if (base::is.null(usm_name)) {
     usm=basename(run_dir)

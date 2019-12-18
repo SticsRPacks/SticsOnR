@@ -1,17 +1,18 @@
+#' @title Checking JavaStics directory content
+#'
+#' @description Checking if directory exists and if it contains JavaStics jar files
+#' @details Rising an exception for each checking step !
+#' @param javastics_path JavaStics installation root folder
+#'
+#' @examples
+#'\dontrun{
+#'check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+#'}
+#'
+#' @keywords internal
+#@export
 check_java_path <- function(javastics_path){
-  #' @title Checking JavaStics directory content
-  #'
-  #' @description Checking if directory exists and if it contains JavaStics jar files
-  #' @details Rising an exception for each checking step !
-  #' @param javastics_path JavaStics installation root folder
-  #'
-  #' @examples
-  #'\dontrun{
-  #'check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
-  #'}
-  #'
-  #' @keywords internal
-  #@export
+
 
 
   if (!file.exists(javastics_path)) {

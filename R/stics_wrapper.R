@@ -1,4 +1,3 @@
-
 #' @title Running usm(s) from txt input files stored in one directory
 #' per `situation`, simulated results are returned in a list
 #'

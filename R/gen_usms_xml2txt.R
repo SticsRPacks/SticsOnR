@@ -24,7 +24,7 @@
 #' NULL if any problem about the JavaStics workspace or JavaStics directory
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' javastics <- "/path/to/javastics"
 #' javastics_workspace <- "/path/to/workspace"
 #' # For all usms
