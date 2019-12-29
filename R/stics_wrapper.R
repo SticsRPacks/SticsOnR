@@ -162,7 +162,16 @@ stics_wrapper <- function( param_values = NULL,
                             } else {
                               param_values_usm= CroptimizR:::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
-                              SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
+                              ret <- SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
+
+                              # if wrtiting the param.sti fails, treating next situation
+                              if ( ! ret ) {
+                                mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
+                                                      ". \n "))
+                                return(list(NA,FALSE,FALSE,mess))
+                              }
+
+
                               SticsRFiles:::set_codeoptim(run_dir, value=1)
                             }
                             ########################################################################
