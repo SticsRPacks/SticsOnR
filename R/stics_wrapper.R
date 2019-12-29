@@ -135,7 +135,7 @@ stics_wrapper <- function( param_values = NULL,
                           .export = c(#"get_daily_results",
                             #"set_codeoptim",
                             "run_system"),
-                          #"gen_param_sti"),
+                          #"gen_paramsti"),
                           #"get_params_per_sit"),
 
                           .packages = c("SticsRFiles","foreach", "CroptimizR")) %dopar% {
@@ -162,8 +162,8 @@ stics_wrapper <- function( param_values = NULL,
                             } else {
                               param_values_usm= CroptimizR:::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
-                              SticsRFiles::gen_param_sti(run_dir, names(param_values_usm), param_values_usm)
-                              SticsRFiles:::set_codeoptim(run_dir,value=1)
+                              SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
+                              SticsRFiles:::set_codeoptim(run_dir, value=1)
                             }
                             ########################################################################
                             # TODO: and call it in/ or integrate parameters forcing in run_system function !
@@ -177,7 +177,6 @@ stics_wrapper <- function( param_values = NULL,
                                                     ". \n ",usm_out[[1]]$message))
                               return(list(NA,FALSE,FALSE,mess))
                             }
-
 
                             ## Otherwise, getting results
                             sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
@@ -231,11 +230,13 @@ stics_wrapper <- function( param_values = NULL,
                             date_list=sit_var_dates_mask[[situation]]$Date
                             dates_idx <- sim_tmp$Date %in% date_list
                             inter_dates <- sim_tmp$Date[dates_idx]
+
                             if ( any(dates_idx) ) {
                               sim_tmp <- sim_tmp[dates_idx, ]
                             } else {
                               return(list(NA,FALSE,FALSE, mess))
                             }
+
                             if (length(inter_dates)<length(date_list)) {
                               mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
                                                     "is(are) not simulated for USM",situation))
