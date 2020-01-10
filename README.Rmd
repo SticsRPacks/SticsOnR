@@ -89,7 +89,7 @@ run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 run_javastics(javastics_path, workspace_path)
 
 # Getting returned information about execution 
-runs_info <- run_javastics(javastics_path, workspace_path, , usms_list = c("banana","wheat"), display = FALSE)
+runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"), display = FALSE)
 
 runs_info
 
@@ -188,4 +188,110 @@ runs_info <- run_stics(stics_path, output_path, usm_dir_names = c("banana","whea
 runs_info
 
 ```
+
+
+### Advanced simulations paramerization 
+
+A specific function `stics_wrapper` is dedicated to manage simulations with a higher level
+of parameterization than the `run_stics` function which only executes runs.
+
+This is a transitional version of the function that will be modified in order 
+to simplify parameter forcing independently from the optimization goal apart from the CroptimizR package context. EXPLIQUER!
+
+But it can be used as is,...
+
+
+This function allows
+* Specifying usms and dates to be used for simulations (according for example to observed variables and dates table)
+* Configuring simulations run behaviour options ( through a options list )
+* Parameters forcing for usms
+* Returning specific outputs daily data for each usm with possible dates and variables
+filtering
+* Parallelizing simulations runs
+
+
+
+As the `run_stics` function, the `stics_wrapper` operates on directories 
+containing text stics input files.
+In the next uses case, the directory in which usms sub-directories with text input files 
+were generated will be used.
+
+
+#### Defining simulations options
+
+TO BE COMPLETED... parallel, core, display
+```{r}
+stics_path <- file.path(javastics_path, "bin","stics_modulo")
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
+```
+
+
+#### Simple simulations case
+
+
+
+
+* Without filtering outputs
+
+```{r}
+
+results <- stics_wrapper(model_options = sim_options)
+
+```
+
+
+* Filtering on usms list
+
+```{r}
+
+usms_list <- list("wheat", "pea", "maize")
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
+
+```
+
+
+* Filtering outputs on usms variables and dates
+
+The argument `sit_var_dates_mask` must contain a named list (with usms names) containing
+data.frames organized as observations data or corresponding to observations data.
+
+```{r}
+obs_filenames <- paste0(usms_list,".obs")
+obs_list <- get_obs(dirpath = workspace_path, obs_filenames = obs_filenames)
+
+# Observations table for wheat
+obs_list$wheat
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
+
+```
+
+
+
+#### Simulations with forcing parameters
+
+In that case we can define variables containing information used for parameters forcing management.
+They are transmitted to `stics_wrapper` through 2 arguments, one containing a named vector of parameters values `param_values` and the other storing corresponding usms groups to which each parameter value of `param_values` will be applied before running the model.
+
+```{r}
+
+# No group list
+param_values <- c(0.002,50)
+names(param_values) <- c("dlaimax", "durvieF")
+group_list <- NULL
+
+# Defining usms groups
+# Groups list
+parameters_data <- data.frame(usm=c("wheat", "pea", "maize"), dlaimax=c(0.002,0.002, 0.001), durvieF=c(50, NA, 51), stringsAsFactors = F)
+
+# Parameters vector
+
+
+
+```
+
+
+
+
 

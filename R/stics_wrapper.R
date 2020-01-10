@@ -7,10 +7,11 @@
 #' @param param_values named vector containing the value(s) and names of the
 #' parameters to force (optional)
 #'
-#' @param sit_var_dates_mask List of situations, variables and dates for which
-#' simulated values should be returned. Typically a list containing the
-#' observations to which simulations should be compared as provided by
-#' SticsRFiles::read_obs_to_list
+#' @param sit_var_dates_mask List of situations:
+#' may be either a character vector of situation names or a named list containing
+#' information about variables and dates for which simulated values should be returned.
+#' Typically a list containing the observations to which simulations should be
+#' compared as provided by SticsRFiles::read_obs
 #'
 #' @param prior_information Prior information on the parameters to estimate.
 #' For the moment only uniform distribution are allowed.
@@ -103,15 +104,22 @@ stics_wrapper <- function( param_values = NULL,
   keep_all_data <- FALSE
   if (base::is.null(sit_var_dates_mask)) keep_all_data <- TRUE
 
-  # Getting situations names list
+  # Getting situations names from list
   # (from dir names or sit_var_dates_mask fields names)
   if (keep_all_data) {
     situation_names <- list.dirs(data_dir, full.names = FALSE)[-1]
     situation_names <- situation_names[sapply(situation_names,
                                               function(x) file.exists(file.path(data_dir,x,"new_travail.usm")))]
   } else {
-    situation_names <- names(sit_var_dates_mask)
+    if (base::is.list(sit_var_dates_mask)) situation_names <- names(sit_var_dates_mask)
   }
+
+  # Getting situation names from characters vector, no selection in outputs
+  if (base::is.character(sit_var_dates_mask)) {
+    situation_names <- sit_var_dates_mask
+    keep_all_data <- TRUE
+  }
+
 
   # Calculating directories list
   run_dirs <- file.path(data_dir,situation_names)
@@ -132,12 +140,7 @@ stics_wrapper <- function( param_values = NULL,
   i <- 1
   ## Loops on the USMs that can be simulated
   out <- foreach::foreach(i = 1:length(dirs_idx),
-                          .export = c(#"get_daily_results",
-                            #"set_codeoptim",
-                            "run_system"),
-                          #"gen_paramsti"),
-                          #"get_params_per_sit"),
-
+                          .export = c("run_system"),
                           .packages = c("SticsRFiles","foreach", "CroptimizR")) %dopar% {
 
                             # Simulation flag status or output data selection status
@@ -146,7 +149,6 @@ stics_wrapper <- function( param_values = NULL,
                             iusm <- dirs_idx[i]
                             run_dir <- run_dirs[iusm]
                             situation <- situation_names[iusm]
-                            keep_all_data <- TRUE
                             mess <- ""
                             ########################################################################
                             # TODO: make a function dedicated to forcing parameters of the model ?
@@ -164,7 +166,7 @@ stics_wrapper <- function( param_values = NULL,
 
                               ret <- SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
 
-                              # if wrtiting the param.sti fails, treating next situation
+                              # if writing the param.sti fails, treating next situation
                               if ( ! ret ) {
                                 mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
                                                       ". \n "))
@@ -198,33 +200,37 @@ stics_wrapper <- function( param_values = NULL,
 
                             }
 
-                            # Selecting variables from sit_var_dates_mask
-                            if ( !base::is.null(sit_var_dates_mask) &&
-                                 situation %in% situation_names) {
-                              keep_all_data <- FALSE
-                              var_list=colnames(sit_var_dates_mask[[situation]])
-                              out_var_list <- colnames(sim_tmp)
-                            }
 
                             # Keeping all outputs data
                             # - If no sit_var_dates_mask given as input arg
+                            # - if only usm names given in sit_var_dates_mask (vector)
                             # - If all output variables are in
                             #   sit_var_dates_mask[[situation]]
 
-                            # Nothing to select, eturning all data
+                            # Nothing to select, returning all data
                             if ( keep_all_data ) {
                               return(list( sim_tmp,TRUE, TRUE, mess))
                             }
 
-                            ## Keeping only the needed variables in the simulation results
+
+                            # Selecting variables from sit_var_dates_mask
+                            if ( !base::is.null(sit_var_dates_mask) &&
+                                 situation %in% situation_names) {
+                              var_list=colnames(sit_var_dates_mask[[situation]])
+                              out_var_list <- colnames(sim_tmp)
+                            }
+
+                            # Keeping only the needed variables in the simulation results
                             vars_idx= out_var_list %in% var_list
-                            inter_vars <- out_var_list[vars_idx]
 
                             if (any(vars_idx)) {
                               sim_tmp=sim_tmp[ , vars_idx]
                             } else {
                               return(list(NA,FALSE,FALSE))
                             }
+
+                            # Common variables
+                            inter_vars <- out_var_list[vars_idx]
 
                             # Indicating that variables are not simulated, adding them before simulating
                             if (length(inter_vars)<length(var_list)) {
@@ -238,13 +244,15 @@ stics_wrapper <- function( param_values = NULL,
                             ## Keeping only the needed dates in the simulation results
                             date_list=sit_var_dates_mask[[situation]]$Date
                             dates_idx <- sim_tmp$Date %in% date_list
-                            inter_dates <- sim_tmp$Date[dates_idx]
 
                             if ( any(dates_idx) ) {
                               sim_tmp <- sim_tmp[dates_idx, ]
                             } else {
                               return(list(NA,FALSE,FALSE, mess))
                             }
+
+                            # Common dates
+                            inter_dates <- sim_tmp$Date[dates_idx]
 
                             if (length(inter_dates)<length(date_list)) {
                               mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),

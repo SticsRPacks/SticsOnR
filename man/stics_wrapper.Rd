@@ -16,10 +16,11 @@ stics_wrapper(
 \item{param_values}{named vector containing the value(s) and names of the
 parameters to force (optional)}
 
-\item{sit_var_dates_mask}{List of situations, variables and dates for which
-simulated values should be returned. Typically a list containing the
-observations to which simulations should be compared as provided by
-SticsRFiles::read_obs_to_list}
+\item{sit_var_dates_mask}{List of situations:
+may be either a character vector of situation names or a named list containing
+information about variables and dates for which simulated values should be returned.
+Typically a list containing the observations to which simulations should be
+compared as provided by SticsRFiles::read_obs}
 
 \item{prior_information}{Prior information on the parameters to estimate.
 For the moment only uniform distribution are allowed.
