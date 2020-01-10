@@ -6,39 +6,44 @@
 \usage{
 run_javastics(
   javastics_path,
-  javastics_workspace_path = NULL,
-  usms_list = c(),
+  workspace_path = NULL,
+  usms_list = NULL,
   keep_history = TRUE,
-  optim = FALSE
+  optim = FALSE,
+  display = TRUE
 )
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
 
-\item{javastics_workspace_path}{Path of a JavaStics workspace (Optional)}
+\item{workspace_path}{Path of a JavaStics workspace (Optional)}
 
-\item{usms_list}{Vector of usms to run (Optional)}
+\item{usms_list}{Vector of usms to run (optional)}
 
-\item{keep_history}{Logical value (Optional) to keep a copy of history file
+\item{keep_history}{Logical value (optional) to keep a copy of history file
 use TRUE (default), FALSE otherwise}
 
-\item{optim}{Logical value (Optional) to force code_optim value to 1, use TRUE,
+\item{optim}{Logical value (optional), TRUE to force code_optim value to 1,
+FALSE otherwise (default)}
+
+\item{display}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
 }
 \value{
-A list with usms names and execution error status or NULL ikf  any problem about
+A list with usms names and execution error status or NULL if any problem about
 the JavaStics workspace or JavaStics installation directory
 }
 \description{
-This function uses basically Stics through his JavasStics command line interface
+This function uses basically Stics through his
+JavaStics command line interface
 }
 \examples{
 \dontrun{
-run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example")
-run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","/home/plecharpent/data/example")
-run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841","example",c("ble","pois"))
-run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"))
-run_java("/home/plecharpent/Work/JavaSTICS-v131-stics-v841",usms_list=c("ble","pois"), optim=TRUE)
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example")
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","/path/to/workspace")
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example",c("wheat","pea"))
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"))
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"), optim=TRUE)
 }
 
 }
