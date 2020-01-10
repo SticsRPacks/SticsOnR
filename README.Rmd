@@ -2,6 +2,10 @@
 output:
   github_document:
    html_preview: true
+params:
+  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0
+  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example
+  output_path: /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt
 ---
 
 
@@ -12,9 +16,12 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 options(tibble.print_min = 5, tibble.print_max = 5)
+
+suppressMessages(library(SticsOnR))
+
 ```
   
-# SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+# SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![Travis build status](https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master)](https://travis-ci.org/SticsRPacks/SticsOnR)
@@ -33,39 +40,61 @@ Follow up the development [here](sticsOnR.md).-->
 The development version from [GitHub](https://github.com/) can be installed with:
 
 ``` r
-devtools::install_github("SticsRPacks/SticsOnR")
+devtools::install_github("SticsRPacks/SticsOnR@*release")
 ```
 Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) package: 
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("SticsRPacks/SticsOnR")
+remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
 ## Examples
 
-Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation soon.
+Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.
 
 ### Running the JavaStics command line interface
 
-We need for that a JavaStics folder and a JavaStics workspace folder.
-For example using the last distribution version for Stics 9.1 (JavaSTICS-1.41-stics-9.1).    
+We need for that a JavaStics installed and a JavaStics workspace folder.
+For example using the last distribution version for Stics 9.1, (JavaSTICS-1.41-stics-9.1 downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).    
 It contains an `example` folder with a set of runnable usms.
 
 For running simulations from it, we can use the `run_javastics` function as follows:
 
+```{r echo = FALSE}
+javastics_path <- params$javastics_path
+workspace_path <- params$workspace_path
+output_path <- params$output_path
+```
 
-```{r run_stics, eval = FALSE}
-# Spefifying the JavaStics folder
+
+```{r run_javastics, eval = FALSE}
+
+# Specifying the JavaStics folder
 javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
-# specifying a workspace as a subfolder of JavaStics 
+
+# Specifying a workspace as a subfolder of JavaStics 
 workspace_path <- "example"
-# or an absolute path to an extrenal folder
+
+# or an absolute path to an external folder
 # workspace_path <- "/path/to/javastics/workspace"
 
-# Running all usms contained in the workspace 
-run_javatics(javastics_path, workspace_path)
 ```
+```{r}
+
+# Running specific usms from the workspace
+run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
+
+# Running all usms contained in the workspace 
+run_javastics(javastics_path, workspace_path)
+
+# Getting returned information about execution 
+runs_info <- run_javastics(javastics_path, workspace_path, , usms_list = c("banana","wheat"), display = FALSE)
+
+runs_info
+
+```
+
 
 
 ### Converting JavaStics workspace files
@@ -73,32 +102,50 @@ For using the model directly neither using the JavaStics graphical interface nor
 
 Observation files may also be copied if they have a standard name as an usm name and a `.obs` extension. If not, they must be renamed to do so.
 
-```{r gen_usms, eval = FALSE}
-# Spefifying the JavaStics folder
+```{r paths_def, eval = FALSE}
+# Specifying the JavaStics folder
 javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
-# specifying a workspace as a subfolder of JavaStics 
+
+# Specifying a workspace as a subfolder of JavaStics 
 workspace_path <- "example"
 # or an absolute path to an extrenal folder
 # workspace_path <- "/path/to/javastics/workspace"
 
+# Specifying an output folder path 
+output_path <- "/path/to/output/folder"
+
+```
+
+#### Converting files into separated folders (one per usm)
+```{r convert_to_separate}
 # Generating files for all the usms contained in the workspace
-# one directory per usm
 # In the workspace
 gen_usms_xml2txt(javastics_path, workspace_path)
-# In a specific folder
-gen_usms_xml2txt(javastics_path, workspace_path, target_path = "/path/to/output/folder")
+# In a specific output folderfolder
+gen_usms_xml2txt(javastics_path, workspace_path, target_path = output_path)
 
 # Generating files for a subset of usms
 # In the workspace
 gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 # In a specific folder
-gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = "/path/to/output/folder")
+gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = output_path)
 
+# Getting returned information about files generation
+gen_info <- gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = output_path)
+
+gen_info
+```
+
+#### Converting files into one folder (overwriting case) 
+```{r convert_to_one}
 # Generating files directly in the workspace or a specific folder (no usm sub-folder) 
+# In this case the model files are overwritten at each gen_usms_xml2txt call !
 # In the workspace
-gen_usms_xml2txt(javastics_path, workspace_path, dir_per_usm_flag = FALSE)
+gen_usms_xml2txt(javastics_path, workspace_path, usms_list = "banana", dir_per_usm_flag = FALSE)
+
 # In a specific folder
-gen_usms_xml2txt(javastics_path, workspace_path, target_path = "/path/to/output/folder", dir_per_usm_flag = FALSE)
+gen_usms_xml2txt(javastics_path, workspace_path, usms_list = "banana", 
+                 target_path = output_path, dir_per_usm_flag = FALSE)
 
 
 ```
@@ -106,24 +153,39 @@ gen_usms_xml2txt(javastics_path, workspace_path, target_path = "/path/to/output/
 
 ### Running the model
 
-We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files).
+We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files, see previous section).
 
 The `run_stics` function can be used as follows with one folder or multiple sub-folders.
 
-```{r run_javastics, eval = FALSE}
+```{r run_stics}
 # Spefifying the Stics executable file path
-# for windows/linux
-stics_path <- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo"
-# for Mac
-# stics_path <- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo_mac
 
-# Specifying a directory containing Stics input files  
-files_dir_path <- "/path/to/files/dir"
+# for windows/linux
+stics_path <- file.path(javastics_path,"bin","stics_modulo")
+
+# for Mac
+# stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
+
+# Specifying a directory containing Stics input files
+# For example reusing a generated sub-directory in the previous section
+# of the document
+# Running on usm
+files_dir_path <- file.path(output_path,"banana")
 run_stics(stics_path, files_dir_path)
-# or a root directory containing usms indicidual directories
-# files_root_dirs_path <- "/path/to/files/dirs/root"
-run_stics(stics_path, files_root_dirs_path)
+
+# Specifying a root directory containing usms individual directories
+# For example reusing a generated directory in the previous section
+# of the document
+# Running two usms
+run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
+
+# Running all usms sub-directories
+run_stics(stics_path, output_path, usm_dir_names = "all")
+
+# Getting returned information about stics runs
+runs_info <- run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
+
+runs_info
+
 ```
 
-
----
