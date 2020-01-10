@@ -46,10 +46,13 @@ gen_usms_xml2txt <- function(javastics_path,
                           usms_list = c(),
                           display = FALSE,
                           dir_per_usm_flag=TRUE) {
-                          #,parallelized = FALSE, exec_time = FALSE) {
+                          # overwrite = FALSE,parallelized = FALSE, exec_time = FALSE) {
 
 
   ################### TODO ######################################
+  # TODO : for file overwriting right, activate obverwriting arg
+  # and add overwriting management in the code !
+  #
   # TODO : for parallel work add a copy of javastics_workspace_path
   # and calculate if at the beginning of the foreach loop !
 
@@ -171,6 +174,12 @@ gen_usms_xml2txt <- function(javastics_path,
     if (!dir.exists(usm_path)) {
       dir.create(usm_path)
     }
+
+    ################################################
+    # TODO: check if overwrite = F and dir not empty
+    # and next, keeping in mind the dir list
+    # and display the list at the end ?
+    ################################################
 
     # Removing if any, optional files for associated crop
     # in the workspace
