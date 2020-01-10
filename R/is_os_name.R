@@ -14,7 +14,6 @@
 #'
 #' @keywords internal
 #'
-#@export
 #'
 #'
 is_os_name <- function(os_tag_name=character()){
