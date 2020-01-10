@@ -13,7 +13,8 @@ run_system(model_path, data_dir, usm_dir_names = NULL, check_exe = TRUE)
 \item{data_dir}{Path of a Stics input directory or a vector of,
 or root directory of Stics directories (if usm_dir_names is given)}
 
-\item{usm_dir_names}{Name(s) of sub-directory(ies) of data_dir}
+\item{usm_dir_names}{Name(s) vector of sub-directory(ies) of data_dir
+or "all" for extracting all sub-directories path}
 
 \item{check_exe}{Logical, T for checking the model executable, F otherwise}
 }
@@ -32,9 +33,13 @@ run_system("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
 "/home/username/Work/SticsInputsDir2"))
 
 # Specifying a parent directory of usms directories
-run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
-run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
+# running one or several usms
+run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
+run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
 c("wheat","maize"))
+# running all usms
+run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
+"all")
 }
 
 }
