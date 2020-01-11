@@ -18,9 +18,12 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 
 suppressMessages(library(SticsOnR))
+suppressMessages(library(SticsRFiles))
+suppressMessages(library(doParallel))
+suppressMessages(library(parallel))
 
 ```
-  
+
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -48,6 +51,9 @@ Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) pack
 # install.packages("remotes")
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
+Normaly, all packages dependencies will be installed, either CRAN packages or SticsRPacks 
+needed packages. In that case SticsRFiles and CroptimizR will be installed as well.
+
 
 ## Examples
 
@@ -195,43 +201,43 @@ runs_info
 A specific function `stics_wrapper` is dedicated to manage simulations with a higher level
 of parameterization than the `run_stics` function which only executes runs.
 
-This is a transitional version of the function that will be modified in order 
-to simplify parameter forcing independently from the optimization goal apart from the CroptimizR package context. EXPLIQUER!
+This is a transitional version of the function that will be modified in order to simplify parameter forcing independently from the optimization goal, so apart from the CroptimizR package context. 
 
-But it can be used as is,...
+This `stics_wrapper` function allows:
 
-
-This function allows
-* Specifying usms and dates to be used for simulations (according for example to observed variables and dates table)
-* Configuring simulations run behaviour options ( through a options list )
-* Parameters forcing for usms
+* Configuring simulations run behaviour ( through an options list )
+* Parameters forcing for usms (common or specific values)
 * Returning specific outputs daily data for each usm with possible dates and variables
 filtering
-* Parallelizing simulations runs
-
-
+* Parallelizing simulations runs, and execution time display
 
 As the `run_stics` function, the `stics_wrapper` operates on directories 
 containing text stics input files.
+
 In the next uses case, the directory in which usms sub-directories with text input files 
 were generated will be used.
 
 
 #### Defining simulations options
 
-TO BE COMPLETED... parallel, core, display
+The mandatory simulation options are fixed using the `stics_wrapper_options`: the model executable path and the directory path containing usms sub-directories with text input files.
+
 ```{r}
 stics_path <- file.path(javastics_path, "bin","stics_modulo")
 sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
 ```
+Optional fields in the `sim_options` list will be set later in this document, when paralellized executions will be activated. 
+
+The content of the options list with default values, can be displayed using the `stics_wrapper_options` function without any argument as follows:
+```{r}
+stics_wrapper_options()
+```
 
 
-#### Simple simulations case
+#### Simple simulations cases
 
 
-
-
-* Without filtering outputs
+* Without filtering usms or outputs
 
 ```{r}
 
@@ -244,14 +250,14 @@ results <- stics_wrapper(model_options = sim_options)
 
 ```{r}
 
-usms_list <- list("wheat", "pea", "maize")
+usms_list <- c("wheat", "pea", "maize")
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
 
 ```
 
 
-* Filtering outputs on usms variables and dates
+* Filtering outputs on usms variables and dates using observations data
 
 The argument `sit_var_dates_mask` must contain a named list (with usms names) containing
 data.frames organized as observations data or corresponding to observations data.
@@ -266,32 +272,82 @@ obs_list$wheat
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
 
 ```
+Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. Simulation period and output variables list may be fixed before restarting simulations.
 
+But, for variables names, perhaps they can be badly written and do not correspond exactly the model variables names. 
 
 
 #### Simulations with forcing parameters
 
-In that case we can define variables containing information used for parameters forcing management.
+In this case, we can define variables containing information used for parameters forcing management.
 They are transmitted to `stics_wrapper` through 2 arguments, one containing a named vector of parameters values `param_values` and the other storing corresponding usms groups to which each parameter value of `param_values` will be applied before running the model.
 
+* Applying a single parameter values vector for all the usms 
 ```{r}
 
-# No group list
+# No group list information given
+# Paratemers vector with unique values
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
-group_list <- NULL
 
-# Defining usms groups
-# Groups list
-parameters_data <- data.frame(usm=c("wheat", "pea", "maize"), dlaimax=c(0.002,0.002, 0.001), durvieF=c(50, NA, 51), stringsAsFactors = F)
-
-# Parameters vector
-
-
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
 
 ```
 
+* Using usms specific parameters values vectors 
+```{r}
+# Defining usms groups using same parameters values
+# (may be used in parameter optimization)
+# Parameters vector, with parameters values per usms groups
+param_values <- c(0.001, 0.002, 50, 51)
+names(param_values) <- c("dlaimax", "dlaimax", "durvieF", "durvieF")
+
+# Groups list
+# parameters_data <- data.frame(usm=c("wheat", "pea", "maize"), dlaimax=c(0.002,0.002, 0.001), durvieF=c(50, 51, 51), stringsAsFactors = F)
+groups_list <- list(dlaimax=list(sit_list=list(c("maize"),c("wheat", "pea"))),
+                   durvieF=list(sit_list=list(c("wheat"), c("maize", "pea"))))
 
 
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values, prior_information = groups_list)
+
+```
+
+For the moment, usms names must be restricted to usms names existing in groups_list. So usms names list must be provided as `sit_var_dates_mask` argument value (in this case ```c("wheat", "pea", "maize")```)
+
+
+#### Simulations using parallel executions
+
+* Getting standard simulations execution time
+
+```{r}
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     time_display = TRUE)
+
+results <- stics_wrapper(model_options = sim_options)
+
+```
+
+* Activating parallel execution and execution time display
+In that case, parallel execution is done over cores number minus 1.
+
+```{r}
+# Used cores number
+detectCores() - 1
+
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE)
+
+results <- stics_wrapper(model_options = sim_options)
+
+```
+* Specifying cores number to use
+
+```{r}
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2)
+
+results <- stics_wrapper(model_options = sim_options)
+
+```
 
 

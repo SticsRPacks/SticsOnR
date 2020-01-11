@@ -1,5 +1,5 @@
 
-# SticsOnR: The R package for the [STICS](https://www6.paca.inra.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+# SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
@@ -34,17 +34,22 @@ Or using the lightweight
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
+Normaly, all packages dependencies will be installed, either CRAN
+packages or SticsRPacks needed packages. In that case SticsRFiles and
+CroptimizR will be installed as well.
+
 ## Examples
 
 Here are basic examples which show you how to run the model either from
 a R model interface or a JavaStics (command line) one. More complete
-examples will be detailed in a specific documentation soon.
+examples will be detailed in a specific documentation later.
 
 ### Running the JavaStics command line interface
 
-We need for that a JavaStics folder and a JavaStics workspace folder.
-For example using the last distribution version for Stics 9.1
-(JavaSTICS-1.41-stics-9.1).  
+We need for that a JavaStics installed and a JavaStics workspace folder.
+For example using the last distribution version for Stics 9.1,
+(JavaSTICS-1.41-stics-9.1 downloadable
+[here](https://www6.paca.inrae.fr/stics_eng/Download)).  
 It contains an `example` folder with a set of runnable usms.
 
 For running simulations from it, we can use the `run_javastics` function
@@ -108,16 +113,16 @@ run_javastics(javastics_path, workspace_path)
 #> [1] "cc_CrimsonClover"
 #> [1] "proto_rice"
 
-# Getting execution returned information
-exec_info <- run_javastics(javastics_path, workspace_path, , usms_list = c("banana","wheat"), display = FALSE)
+# Getting returned information about execution 
+runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"), display = FALSE)
 
-head(exec_info)
+runs_info
 #> $names
 #> [1] "banana" "wheat" 
 #> 
 #> $error
-#> [1] "[09/01/20]-[18:08:05] INFO - Modulostics files generation..\n[09/01/20]-[18:08:05] INFO - Generating txt files ...\n[09/01/20]-[18:08:05] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
-#> [2] "[09/01/20]-[18:08:06] INFO - Modulostics files generation..\n[09/01/20]-[18:08:06] INFO - Generating txt files ...\n[09/01/20]-[18:08:07] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[11/01/20]-[18:17:46] INFO - Modulostics files generation..\n[11/01/20]-[18:17:46] INFO - Generating txt files ...\n[11/01/20]-[18:17:46] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [2] "[11/01/20]-[18:17:47] INFO - Modulostics files generation..\n[11/01/20]-[18:17:47] INFO - Generating txt files ...\n[11/01/20]-[18:17:48] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 ### Converting JavaStics workspace files
@@ -161,8 +166,7 @@ gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat")
 # Getting returned information about files generation
 gen_info <- gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = output_path)
 
-# Displaying returned information of head lines
-head(gen_info)
+gen_info
 #> $usms_paths
 #> [1] "banana" "wheat" 
 #> 
@@ -210,21 +214,24 @@ multiple sub-folders.
 
 ``` r
 # Spefifying the Stics executable file path
+
 # for windows/linux
 stics_path <- file.path(javastics_path,"bin","stics_modulo")
+
 # for Mac
 # stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
 
 # Specifying a directory containing Stics input files
 # For example reusing a generated sub-directory in the previous section
 # of the document
+# Running on usm
 files_dir_path <- file.path(output_path,"banana")
-#run_stics(stics_path, files_dir_path)
+run_stics(stics_path, files_dir_path)
 
 # Specifying a root directory containing usms individual directories
 # For example reusing a generated directory in the previous section
 # of the document
-# Running one usm
+# Running two usms
 run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
 
 # Running all usms sub-directories
@@ -233,7 +240,7 @@ run_stics(stics_path, output_path, usm_dir_names = "all")
 # Getting returned information about stics runs
 runs_info <- run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
 
-head(runs_info)
+runs_info
 #> [[1]]
 #> [[1]]$name
 #> [1] "banana"
@@ -248,4 +255,258 @@ head(runs_info)
 #> 
 #> [[2]]$error
 #> [1] FALSE
+```
+
+### Advanced simulations paramerization
+
+A specific function `stics_wrapper` is dedicated to manage simulations
+with a higher level of parameterization than the `run_stics` function
+which only executes runs.
+
+This is a transitional version of the function that will be modified in
+order to simplify parameter forcing independently from the optimization
+goal, so apart from the CroptimizR package context.
+
+This `stics_wrapper` function allows:
+
+  - Configuring simulations run behaviour ( through a options list )
+  - Parameters forcing for usms (common or specific values)
+  - Returning specific outputs daily data for each usm with possible
+    dates and variables filtering
+  - Parallelizing simulations runs, and execution time display
+
+As the `run_stics` function, the `stics_wrapper` operates on directories
+containing text stics input files.
+
+In the next uses case, the directory in which usms sub-directories with
+text input files were generated will be used.
+
+#### Defining simulations options
+
+The mandatory simulation options are fixed using the
+`stics_wrapper_options`: the model executable path and the directory
+path containing usms sub-directories with text input files.
+
+``` r
+stics_path <- file.path(javastics_path, "bin","stics_modulo")
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
+```
+
+Optional fields in the `sim_options` list will be set later in this
+document, when paralellized executions will be activated.
+
+The content of the options list with default values, can be displayed
+using the `stics_wrapper_options` function without any argument as
+follows:
+
+``` r
+stics_wrapper_options()
+#> $stics_path
+#> character(0)
+#> 
+#> $data_dir
+#> character(0)
+#> 
+#> $parallel
+#> [1] FALSE
+#> 
+#> $cores
+#> [1] NA
+#> 
+#> $time_display
+#> [1] FALSE
+#> 
+#> $warning_display
+#> [1] TRUE
+```
+
+#### Simple simulations cases
+
+  - Without filtering usms or outputs
+
+<!-- end list -->
+
+``` r
+
+results <- stics_wrapper(model_options = sim_options)
+#> Warning: Error reading outputs for  intercrop_pea_barley . 
+#> 
+```
+
+  - Filtering on usms list
+
+<!-- end list -->
+
+``` r
+
+usms_list <- c("wheat", "pea", "maize")
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
+```
+
+  - Filtering outputs on usms variables and dates using observations
+    data
+
+The argument `sit_var_dates_mask` must contain a named list (with usms
+names) containing data.frames organized as observations data or
+corresponding to observations data.
+
+``` r
+obs_filenames <- paste0(usms_list,".obs")
+obs_list <- get_obs(dirpath = workspace_path, obs_filenames = obs_filenames)
+
+# Observations table for wheat
+obs_list$wheat
+#>          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3
+#> 1  1995-01-30  0.29    0.25   NA   NA   NA     NA      NA      NA      NA
+#> 2  1995-02-03    NA      NA 21.1 18.8 12.4 133.26     3.1     2.9       4
+#> 3  1995-02-07  0.37    0.31   NA   NA   NA     NA      NA      NA      NA
+#> 4  1995-02-16  0.40    0.32   NA   NA   NA     NA      NA      NA      NA
+#> 5  1995-02-24  0.45    0.40   NA   NA   NA     NA      NA      NA      NA
+#> 6  1995-03-06  0.44    0.38   NA   NA   NA     NA      NA      NA      NA
+#> 7  1995-03-16  0.60    0.59   NA   NA   NA     NA      NA      NA      NA
+#> 8  1995-03-23  0.85    0.87   NA   NA   NA     NA      NA      NA      NA
+#> 9  1995-04-03  1.47    1.28   NA   NA   NA     NA      NA      NA      NA
+#> 10 1995-04-11  2.37    2.68   NA   NA   NA     NA      NA      NA      NA
+#> 11 1995-04-18  2.65    3.70   NA   NA   NA     NA      NA      NA      NA
+#> 12 1995-04-26  4.55    4.67   NA   NA   NA     NA      NA      NA      NA
+#> 13 1995-05-02  4.41    5.77   NA   NA   NA     NA      NA      NA      NA
+#> 14 1995-05-05    NA    6.01   NA   NA   NA     NA      NA      NA      NA
+#> 15 1995-05-09  5.20    7.51   NA   NA   NA     NA      NA      NA      NA
+#> 16 1995-05-12    NA    9.73   NA   NA   NA     NA      NA      NA      NA
+#> 17 1995-05-15  5.98    9.87   NA   NA   NA     NA      NA      NA      NA
+#> 18 1995-05-19    NA   11.08   NA   NA   NA     NA      NA      NA      NA
+#> 19 1995-05-29    NA   14.08   NA   NA   NA     NA      NA      NA      NA
+#> 20 1995-07-17    NA   21.91   NA   NA   NA     NA      NA      NA      NA
+#>    QNplante
+#> 1      9.24
+#> 2        NA
+#> 3     10.85
+#> 4     12.61
+#> 5     13.32
+#> 6     16.65
+#> 7     24.59
+#> 8     38.86
+#> 9     60.99
+#> 10    98.98
+#> 11   103.36
+#> 12   141.99
+#> 13   170.03
+#> 14       NA
+#> 15   188.57
+#> 16       NA
+#> 17   216.06
+#> 18       NA
+#> 19   258.38
+#> 20   258.45
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
+#> Warning: Variable(s) INN, hmax not simulated by the Stics model for USM pea =>
+#> try to add it(them) in /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt/
+#> pea/var.mod
+#> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
+```
+
+Some warnings may occur, indicating that observed variables and/or
+observations dates are missing in simulated data. Simulation period and
+output variables list may be fixed before restarting simulations.
+
+But, for variables names, perhaps they can be badly written and do not
+correspond exactly the model variables names.
+
+#### Simulations with forcing parameters
+
+In this case, we can define variables containing information used for
+parameters forcing management. They are transmitted to `stics_wrapper`
+through 2 arguments, one containing a named vector of parameters values
+`param_values` and the other storing corresponding usms groups to which
+each parameter value of `param_values` will be applied before running
+the model.
+
+  - Applying a single parameter values vector for all the usms
+
+<!-- end list -->
+
+``` r
+
+# No group list information given
+# Paratemers vector with unique values
+param_values <- c(0.002,50)
+names(param_values) <- c("dlaimax", "durvieF")
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
+```
+
+  - Using usms specific parameters values vectors
+
+<!-- end list -->
+
+``` r
+# Defining usms groups using same parameters values
+# (may be used in parameter optimization)
+# Parameters vector, with parameters values per usms groups
+param_values <- c(0.001, 0.002, 50, 51)
+names(param_values) <- c("dlaimax", "dlaimax", "durvieF", "durvieF")
+
+# Groups list
+# parameters_data <- data.frame(usm=c("wheat", "pea", "maize"), dlaimax=c(0.002,0.002, 0.001), durvieF=c(50, 51, 51), stringsAsFactors = F)
+groups_list <- list(dlaimax=list(sit_list=list(c("maize"),c("wheat", "pea"))),
+                   durvieF=list(sit_list=list(c("wheat"), c("maize", "pea"))))
+
+
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values, prior_information = groups_list)
+```
+
+For the moment, usms names must be restricted to usms names existing in
+groups\_list. So usms names list must be provided as
+`sit_var_dates_mask` argument value (in this case `c("wheat", "pea",
+"maize")`)
+
+#### Simulations using parallel executions
+
+  - Getting standard simulations execution time
+
+<!-- end list -->
+
+``` r
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     time_display = TRUE)
+
+results <- stics_wrapper(model_options = sim_options)
+#> Time difference of 23.02378 secs
+#> Warning: Error reading outputs for  intercrop_pea_barley . 
+#> 
+```
+
+  - Activating parallel execution and execution time display In that
+    case, parallel execution is done over cores number minus 1.
+
+<!-- end list -->
+
+``` r
+# Used cores number
+detectCores() - 1
+#> [1] 3
+
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE)
+
+results <- stics_wrapper(model_options = sim_options)
+#> Time difference of 12.5628 secs
+#> Warning: Error reading outputs for  intercrop_pea_barley . 
+#> 
+```
+
+  - Specifying cores number to use
+
+<!-- end list -->
+
+``` r
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2)
+
+results <- stics_wrapper(model_options = sim_options)
+#> Time difference of 12.9956 secs
+#> Warning: Error reading outputs for  intercrop_pea_barley . 
+#> 
 ```
