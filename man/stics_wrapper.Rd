@@ -13,8 +13,10 @@ stics_wrapper(
 )
 }
 \arguments{
-\item{param_values}{named vector containing the value(s) and names of the
-parameters to force (optional)}
+\item{param_values}{a named vector containing the value(s) and names of the
+parameters to force (optional). It may contains either unique value for each
+parameter name or multiple values for each parameter when \code{prior_information}
+argument is provided.}
 
 \item{sit_var_dates_mask}{List of situations:
 may be either a character vector of situation names or a named list containing

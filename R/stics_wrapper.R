@@ -4,8 +4,10 @@
 #' @description This function uses Stics directly through a system call, can
 #' force Stics input parameters with values given in arguments.
 #'
-#' @param param_values named vector containing the value(s) and names of the
-#' parameters to force (optional)
+#' @param param_values a named vector containing the value(s) and names of the
+#' parameters to force (optional). It may contains either unique value for each
+#' parameter name or multiple values for each parameter when `prior_information`
+#' argument is provided.
 #'
 #' @param sit_var_dates_mask List of situations:
 #' may be either a character vector of situation names or a named list containing
@@ -162,6 +164,9 @@ stics_wrapper <- function( param_values = NULL,
                               }
 
                             } else {
+                              # TODO: if the usm name is not in usms groups
+                              # param_values_usm == NULL(modify get_params_per_sit)
+                              # do not generate the param.sti file and do not set codeoptim to 1
                               param_values_usm= CroptimizR:::get_params_per_sit(prior_information,situation_names[iusm],param_values)
 
                               ret <- SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
@@ -176,6 +181,9 @@ stics_wrapper <- function( param_values = NULL,
 
                               SticsRFiles:::set_codeoptim(run_dir, value=1)
                             }
+
+                            # TODO: check or set the flagecriture to 15 to get daily data results !!!
+
                             ########################################################################
                             # TODO: and call it in/ or integrate parameters forcing in run_system function !
                             ## Run the model & forcing not to check the model executable
@@ -223,12 +231,7 @@ stics_wrapper <- function( param_values = NULL,
                             # Keeping only the needed variables in the simulation results
                             vars_idx= out_var_list %in% var_list
 
-                            if (any(vars_idx)) {
-                              sim_tmp=sim_tmp[ , vars_idx]
-                            } else {
-                              return(list(NA,FALSE,FALSE))
-                            }
-
+                            # Checking variables
                             # Common variables
                             inter_vars <- out_var_list[vars_idx]
 
@@ -241,25 +244,36 @@ stics_wrapper <- function( param_values = NULL,
                               select_sim <- TRUE
                             }
 
+                            if (any(vars_idx)) {
+                              sim_tmp=sim_tmp[ , vars_idx]
+                            } else {
+                              return(list(NA,FALSE,FALSE))
+                            }
+
                             ## Keeping only the needed dates in the simulation results
                             date_list=sit_var_dates_mask[[situation]]$Date
                             dates_idx <- sim_tmp$Date %in% date_list
 
+                            # Checking dates
+                            # Common dates
+                            inter_dates <- sim_tmp$Date[dates_idx]
+
+                            if ( length(inter_dates) < length(date_list) ) {
+                              missing_dates <- date_list[!date_list %in% inter_dates]
+                              mess <- warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
+                                                    "is(are) not simulated for USM",situation))
+                              flag_sim <- FALSE
+                              select_sim <- TRUE
+                            }
+
+                            # Filtering needed dates lines
                             if ( any(dates_idx) ) {
                               sim_tmp <- sim_tmp[dates_idx, ]
                             } else {
                               return(list(NA,FALSE,FALSE, mess))
                             }
 
-                            # Common dates
-                            inter_dates <- sim_tmp$Date[dates_idx]
 
-                            if (length(inter_dates)<length(date_list)) {
-                              mess <- warning(paste("Requested date(s)",paste(date_list[match(setdiff(date_list,inter_dates),date_list)], collapse=", "),
-                                                    "is(are) not simulated for USM",situation))
-                              flag_sim <- FALSE
-                              select_sim <- TRUE
-                            }
 
                             return(list(sim_tmp, flag_sim, select_sim, mess))
                           }
@@ -314,6 +328,9 @@ stics_wrapper <- function( param_values = NULL,
 #'
 stics_wrapper_options <- function(stics_path,
                                   data_dir, ... ) {
+
+  # TODO: add an input options list to be modified,
+  # or completed by the arguments content
 
   # Template list
   options <- list()
