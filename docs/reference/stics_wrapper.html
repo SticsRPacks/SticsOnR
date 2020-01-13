@@ -80,7 +80,7 @@ force Stics input parameters with values given in arguments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -139,15 +139,18 @@ force Stics input parameters with values given in arguments.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>param_values</th>
-      <td><p>named vector containing the value(s) and names of the
-parameters to force (optional)</p></td>
+      <td><p>a named vector containing the value(s) and names of the
+parameters to force (optional). It may contains either unique value for each
+parameter name or multiple values for each parameter when <code>prior_information</code>
+argument is provided.</p></td>
     </tr>
     <tr>
       <th>sit_var_dates_mask</th>
-      <td><p>List of situations, variables and dates for which
-simulated values should be returned. Typically a list containing the
-observations to which simulations should be compared as provided by
-SticsRFiles::read_obs_to_list</p></td>
+      <td><p>List of situations:
+may be either a character vector of situation names or a named list containing
+information about variables and dates for which simulated values should be returned.
+Typically a list containing the observations to which simulations should be
+compared as provided by SticsRFiles::read_obs</p></td>
     </tr>
     <tr>
       <th>prior_information</th>
@@ -174,12 +177,36 @@ format)</p></td>
 (<code>flag_allsim</code>) indicating if all required situations, variables and
 dates were simulated.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
+<span class='co'># Specifying the JavaStics folder</span>
+<span class='no'>javastics_path</span> <span class='kw'>&lt;-</span> <span class='st'>"/path/to/javastics"</span>
+
+<span class='co'># Setting the model executable path (windows, linux)</span>
+<span class='no'>stics_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>javastics_path</span>, <span class='st'>"bin"</span>,<span class='st'>"stics_modulo"</span>)
+
+<span class='co'># Setting the input data folder path, root directory of the usms directories</span>
+<span class='no'>data_path</span> <span class='kw'>&lt;-</span> <span class='st'>"/path/to/usms/subdirs/root"</span>
+
+<span class='co'># Setting the mandatory simulations options</span>
+<span class='co'># Running all the usms</span>
+<span class='no'>sim_options</span> <span class='kw'>&lt;-</span> <span class='fu'>stics_wrapper</span>(<span class='kw'>stics_path</span> <span class='kw'>=</span> <span class='no'>stics_path</span>, <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='no'>data_path</span>)
+
+<span class='co'># Running an usm list</span>
+<span class='no'>usms_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>, <span class='st'>"pea"</span>, <span class='st'>"maize"</span>)
+<span class='no'>sim_options</span> <span class='kw'>&lt;-</span> <span class='fu'>stics_wrapper</span>(<span class='kw'>stics_path</span> <span class='kw'>=</span> <span class='no'>stics_path</span>, <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='no'>data_path</span>,
+<span class='kw'>sit_var_dates_mask</span> <span class='kw'>=</span> <span class='no'>usms_list</span>)
+
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

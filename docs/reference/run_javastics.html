@@ -43,7 +43,8 @@
 
 
 <meta property="og:title" content="Running one or several usms from a javastics workspace — run_javastics" />
-<meta property="og:description" content="This function uses basically Stics through his JavasStics command line interface" />
+<meta property="og:description" content="This function uses basically Stics through his
+JavaStics command line interface" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -119,15 +120,17 @@
     </div>
 
     <div class="ref-description">
-    <p>This function uses basically Stics through his JavasStics command line interface</p>
+    <p>This function uses basically Stics through his
+JavaStics command line interface</p>
     </div>
 
     <pre class="usage"><span class='fu'>run_javastics</span>(
   <span class='no'>javastics_path</span>,
-  <span class='kw'>javastics_workspace_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>usms_list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
+  <span class='kw'>workspace_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>usms_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>keep_history</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>optim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>optim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -138,37 +141,42 @@
       <td><p>Path of JavaStics installation directory</p></td>
     </tr>
     <tr>
-      <th>javastics_workspace_path</th>
+      <th>workspace_path</th>
       <td><p>Path of a JavaStics workspace (Optional)</p></td>
     </tr>
     <tr>
       <th>usms_list</th>
-      <td><p>Vector of usms to run (Optional)</p></td>
+      <td><p>Vector of usms to run (optional)</p></td>
     </tr>
     <tr>
       <th>keep_history</th>
-      <td><p>Logical value (Optional) to keep a copy of history file
+      <td><p>Logical value (optional) to keep a copy of history file
 use TRUE (default), FALSE otherwise</p></td>
     </tr>
     <tr>
       <th>optim</th>
-      <td><p>Logical value (Optional) to force code_optim value to 1, use TRUE,
+      <td><p>Logical value (optional), TRUE to force code_optim value to 1,
+FALSE otherwise (default)</p></td>
+    </tr>
+    <tr>
+      <th>display</th>
+      <td><p>Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with usms names and execution error status or NULL ikf  any problem about
+    <p>A list with usms names and execution error status or NULL if any problem about
 the JavaStics workspace or JavaStics installation directory</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"example"</span>)
-<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"/home/plecharpent/data/example"</span>)
-<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"example"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>))
-<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>))
-<span class='fu'>run_java</span>(<span class='st'>"/home/plecharpent/Work/JavaSTICS-v131-stics-v841"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ble"</span>,<span class='st'>"pois"</span>), <span class='kw'>optim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'>run_javastics</span>(<span class='st'>"/path/to/JavaSTICS-1.41-stics-9.1"</span>,<span class='st'>"example"</span>)
+<span class='fu'>run_javastics</span>(<span class='st'>"/path/to/JavaSTICS-1.41-stics-9.1"</span>,<span class='st'>"/path/to/workspace"</span>)
+<span class='fu'>run_javastics</span>(<span class='st'>"/path/to/JavaSTICS-1.41-stics-9.1"</span>,<span class='st'>"example"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"pea"</span>))
+<span class='fu'>run_javastics</span>(<span class='st'>"/path/to/JavaSTICS-1.41-stics-9.1"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"pea"</span>))
+<span class='fu'>run_javastics</span>(<span class='st'>"/path/to/JavaSTICS-1.41-stics-9.1"</span>,<span class='kw'>usms_list</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"pea"</span>), <span class='kw'>optim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

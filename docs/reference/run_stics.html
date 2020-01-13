@@ -79,7 +79,7 @@ or a/several subdirectory(ies) named with usm name — run_stics" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -141,7 +141,8 @@ or root directory of Stics directories (if usm_dir_names is given)</p></td>
     </tr>
     <tr>
       <th>usm_dir_names</th>
-      <td><p>Name(s) of sub-directory(ies) of data_dir</p></td>
+      <td><p>Name(s) vector of sub-directory(ies) of data_dir
+or "all" for extracting all sub-directories path</p></td>
     </tr>
     <tr>
       <th>check_exe</th>
@@ -162,9 +163,13 @@ or root directory of Stics directories (if usm_dir_names is given)</p></td>
 <span class='st'>"/home/username/Work/SticsInputsDir2"</span>))
 
 <span class='co'># Specifying a parent directory of usms directories</span>
+<span class='co'># running one or several usms</span>
 <span class='fu'>run_stics</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,<span class='st'>"wheat"</span>)
 <span class='fu'>run_stics</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"maize"</span>))
+<span class='co'># running all usms</span>
+<span class='fu'>run_stics</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,
+<span class='st'>"all"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

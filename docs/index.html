@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
   <div class="contents col-md-9">
 <div id="sticsonr-the-r-package-for-the-stics-model-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor"></a>SticsOnR: The R package for the <a href="https://www6.paca.inra.fr/stics_eng/">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
+<a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor"></a>SticsOnR: The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
 </h1></div>
 
 <p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://www6.paca.inra.fr/stics_eng/Download" class="uri">https://www6.paca.inra.fr/stics_eng/Download</a>.</p>
@@ -87,81 +87,398 @@ Follow up the development [here](sticsOnR.md).-->
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The development version from <a href="https://github.com/">GitHub</a> can be installed with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR@*release"</span>)</a></code></pre></div>
 <p>Or using the lightweight <a href="https://github.com/r-lib/remotes#readme">remotes</a> package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("remotes")</span></a>
-<a class="sourceLine" id="cb2-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"SticsRPacks/SticsOnR@*release"</span>)</a></code></pre></div>
+<p>Normaly, all packages dependencies will be installed, either CRAN packages or SticsRPacks needed packages. In that case SticsRFiles and CroptimizR will be installed as well.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
-<p>Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation soon.</p>
+<p>Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.</p>
 <div id="running-the-javastics-command-line-interface" class="section level3">
 <h3 class="hasAnchor">
 <a href="#running-the-javastics-command-line-interface" class="anchor"></a>Running the JavaStics command line interface</h3>
-<p>We need for that a JavaStics folder and a JavaStics workspace folder. For example using the last distribution version for Stics 9.1 (JavaSTICS-1.41-stics-9.1).<br>
+<p>We need for that a JavaStics installed and a JavaStics workspace folder. For example using the last distribution version for Stics 9.1, (JavaSTICS-1.41-stics-9.1 downloadable <a href="https://www6.paca.inrae.fr/stics_eng/Download">here</a>).<br>
 It contains an <code>example</code> folder with a set of runnable usms.</p>
-<p>For running simulations from it, we can use the <code>run_javastics</code> function as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Spefifying the JavaStics folder</span></a>
-<a class="sourceLine" id="cb3-2" title="2">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co"># specifying a workspace as a subfolder of JavaStics </span></a>
-<a class="sourceLine" id="cb3-4" title="4">workspace_path &lt;-<span class="st"> "example"</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co"># or an absolute path to an extrenal folder</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a>
+<p>For running simulations from it, we can use the <code>run_javastics</code> function.</p>
+<p>In this SticsOnR package, for the moment, only one Stics version can be used with it (i.e. the one delivered with the JavaStics installation archive). JavaStics GUI, allows to manage several Stics executables, but in that case one must take care of consistency between executables version and input files format (advanced use case).</p>
+<p>So, at this point, it is at your own risk if you try to use another version than the JavaStics distribution one.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co"># Specifying the JavaStics folder</span></a>
+<a class="sourceLine" id="cb3-3" title="3">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co"># Specifying a workspace as a subfolder of JavaStics </span></a>
+<a class="sourceLine" id="cb3-6" title="6">workspace_path &lt;-<span class="st"> "example"</span></a>
 <a class="sourceLine" id="cb3-7" title="7"></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co"># Running all usms contained in the workspace </span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw">run_javatics</span>(javastics_path, workspace_path)</a></code></pre></div>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co"># or an absolute path to an external folder</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co"># Running specific usms from the workspace</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="reference/run_javastics.html">run_javastics</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; [1] "banana"</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; [1] "wheat"</span></a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co"># Running all usms contained in the workspace </span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="kw"><a href="reference/run_javastics.html">run_javastics</a></span>(javastics_path, workspace_path)</a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; [1] "SugarCane"</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; [1] "potato"</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1] "banana"</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; [1] "sorghum"</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; [1] "barley"</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; [1] "sugarbeet"</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; [1] "wheat"</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; [1] "maize"</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; [1] "soybean"</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; [1] "lettuce"</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; [1] "tomato"</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; [1] "DurumWheat"</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; [1] "rapeseed"</span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; [1] "sunflower"</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; [1] "grass"</span></a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; [1] "BareSoil"</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; [1] "demo_Wheat1"</span></a>
+<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt; [1] "demo_BareSoil2"</span></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt; [1] "demo_maize3"</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; [1] "DurumWheat_4years"</span></a>
+<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt; [1] "maize_4years"</span></a>
+<a class="sourceLine" id="cb4-30" title="30"><span class="co">#&gt; [1] "strawberry"</span></a>
+<a class="sourceLine" id="cb4-31" title="31"><span class="co">#&gt; [1] "pea"</span></a>
+<a class="sourceLine" id="cb4-32" title="32"><span class="co">#&gt; [1] "vine"</span></a>
+<a class="sourceLine" id="cb4-33" title="33"><span class="co">#&gt; [1] "fescue"</span></a>
+<a class="sourceLine" id="cb4-34" title="34"><span class="co">#&gt; [1] "flax"</span></a>
+<a class="sourceLine" id="cb4-35" title="35"><span class="co">#&gt; [1] "intercrop_pea_barley"</span></a>
+<a class="sourceLine" id="cb4-36" title="36"><span class="co">#&gt; [1] "timothy"</span></a>
+<a class="sourceLine" id="cb4-37" title="37"><span class="co">#&gt; [1] "DurumWheat_snow"</span></a>
+<a class="sourceLine" id="cb4-38" title="38"><span class="co">#&gt; [1] "Turmeric"</span></a>
+<a class="sourceLine" id="cb4-39" title="39"><span class="co">#&gt; [1] "cc_BristleOat"</span></a>
+<a class="sourceLine" id="cb4-40" title="40"><span class="co">#&gt; [1] "cc_mustard"</span></a>
+<a class="sourceLine" id="cb4-41" title="41"><span class="co">#&gt; [1] "cc_ItalianRyegrass"</span></a>
+<a class="sourceLine" id="cb4-42" title="42"><span class="co">#&gt; [1] "cc_vetch"</span></a>
+<a class="sourceLine" id="cb4-43" title="43"><span class="co">#&gt; [1] "cc_CrimsonClover"</span></a>
+<a class="sourceLine" id="cb4-44" title="44"><span class="co">#&gt; [1] "proto_rice"</span></a>
+<a class="sourceLine" id="cb4-45" title="45"></a>
+<a class="sourceLine" id="cb4-46" title="46"><span class="co"># Getting returned information about execution </span></a>
+<a class="sourceLine" id="cb4-47" title="47">runs_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/run_javastics.html">run_javastics</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>), <span class="dt">display =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-48" title="48"></a>
+<a class="sourceLine" id="cb4-49" title="49">runs_info</a>
+<a class="sourceLine" id="cb4-50" title="50"><span class="co">#&gt; $names</span></a>
+<a class="sourceLine" id="cb4-51" title="51"><span class="co">#&gt; [1] "banana" "wheat" </span></a>
+<a class="sourceLine" id="cb4-52" title="52"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-53" title="53"><span class="co">#&gt; $error</span></a>
+<a class="sourceLine" id="cb4-54" title="54"><span class="co">#&gt; [1] "[13/01/20]-[15:52:22] INFO - Modulostics files generation..\n[13/01/20]-[15:52:22] INFO - Generating txt files ...\n[13/01/20]-[15:52:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"</span></a>
+<a class="sourceLine" id="cb4-55" title="55"><span class="co">#&gt; [2] "[13/01/20]-[15:52:23] INFO - Modulostics files generation..\n[13/01/20]-[15:52:23] INFO - Generating txt files ...\n[13/01/20]-[15:52:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"</span></a></code></pre></div>
+<p>In the returned information, the error field name gives a list of messages got from JavaStics commandline interface. If any <code>Error</code> key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the the error’s origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).</p>
 </div>
 <div id="converting-javastics-workspace-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-javastics-workspace-files" class="anchor"></a>Converting JavaStics workspace files</h3>
-<p>For using the model directly neither using the JavaStics graphical interface nor the run_javastics function interface, we provide a function, <code>gen_usms_xml2txt</code>, for converting JavasStics XML files to Stics text files from a JavaStics workspace.</p>
+<p>For using the model directly neither using the JavaStics graphical interface nor the <code>run_javastics</code> function interface, we provide a function, <code>gen_usms_xml2txt</code>, for converting JavasStics XML files to Stics text files from a JavaStics workspace.</p>
 <p>Observation files may also be copied if they have a standard name as an usm name and a <code>.obs</code> extension. If not, they must be renamed to do so.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Spefifying the JavaStics folder</span></a>
-<a class="sourceLine" id="cb4-2" title="2">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co"># specifying a workspace as a subfolder of JavaStics </span></a>
-<a class="sourceLine" id="cb4-4" title="4">workspace_path &lt;-<span class="st"> "example"</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co"># or an absolute path to an extrenal folder</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a>
-<a class="sourceLine" id="cb4-7" title="7"></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co"># Generating files for all the usms contained in the workspace</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co"># one directory per usm</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co"># In the workspace</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path)</a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co"># In a specific folder</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>)</a>
-<a class="sourceLine" id="cb4-14" title="14"></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co"># Generating files for a subset of usms</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co"># In the workspace</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co"># In a specific folder</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>), <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>)</a>
-<a class="sourceLine" id="cb4-20" title="20"></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="co"># Generating files directly in the workspace or a specific folder (no usm sub-folder) </span></a>
-<a class="sourceLine" id="cb4-22" title="22"><span class="co"># In the workspace</span></a>
-<a class="sourceLine" id="cb4-23" title="23"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-24" title="24"><span class="co"># In a specific folder</span></a>
-<a class="sourceLine" id="cb4-25" title="25"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">target_path =</span> <span class="st">"/path/to/output/folder"</span>, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Specifying the JavaStics folder</span></a>
+<a class="sourceLine" id="cb5-2" title="2">javastics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1"</span></a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># Specifying a workspace as a subfolder of JavaStics </span></a>
+<a class="sourceLine" id="cb5-5" title="5">workspace_path &lt;-<span class="st"> "example"</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co"># or an absolute path to an extrenal folder</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co"># Specifying an output folder path </span></a>
+<a class="sourceLine" id="cb5-10" title="10">output_path &lt;-<span class="st"> "/path/to/output/folder"</span></a></code></pre></div>
+<div id="converting-files-into-separated-folders-one-per-usm" class="section level4">
+<h4 class="hasAnchor">
+<a href="#converting-files-into-separated-folders-one-per-usm" class="anchor"></a>Converting files into separated folders (one per usm)</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Generating files for all the usms contained in the workspace</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path)</a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co"># In a specific output folderfolder</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">target_path =</span> output_path)</a>
+<a class="sourceLine" id="cb6-6" title="6"></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co"># Generating files for a subset of usms</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co"># In a specific folder</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>), <span class="dt">target_path =</span> output_path)</a>
+<a class="sourceLine" id="cb6-12" title="12"></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co"># Getting returned information about files generation</span></a>
+<a class="sourceLine" id="cb6-14" title="14">gen_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>), <span class="dt">target_path =</span> output_path)</a>
+<a class="sourceLine" id="cb6-15" title="15"></a>
+<a class="sourceLine" id="cb6-16" title="16">gen_info</a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; $usms_paths</span></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt; [1] "banana" "wheat" </span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="co">#&gt; $files_path</span></a>
+<a class="sourceLine" id="cb6-21" title="21"><span class="co">#&gt;  [1] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/climat.txt"     </span></a>
+<a class="sourceLine" id="cb6-22" title="22"><span class="co">#&gt;  [2] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/param.sol"      </span></a>
+<a class="sourceLine" id="cb6-23" title="23"><span class="co">#&gt;  [3] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficini.txt"     </span></a>
+<a class="sourceLine" id="cb6-24" title="24"><span class="co">#&gt;  [4] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficplt1.txt"    </span></a>
+<a class="sourceLine" id="cb6-25" title="25"><span class="co">#&gt;  [5] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/fictec1.txt"    </span></a>
+<a class="sourceLine" id="cb6-26" title="26"><span class="co">#&gt;  [6] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/station.txt"    </span></a>
+<a class="sourceLine" id="cb6-27" title="27"><span class="co">#&gt;  [7] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/new_travail.usm"</span></a>
+<a class="sourceLine" id="cb6-28" title="28"><span class="co">#&gt;  [8] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/tempopar.sti"   </span></a>
+<a class="sourceLine" id="cb6-29" title="29"><span class="co">#&gt;  [9] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/tempoparv6.sti" </span></a>
+<a class="sourceLine" id="cb6-30" title="30"><span class="co">#&gt; [10] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficplt2.txt"    </span></a>
+<a class="sourceLine" id="cb6-31" title="31"><span class="co">#&gt; [11] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/fictec2.txt"    </span></a>
+<a class="sourceLine" id="cb6-32" title="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-33" title="33"><span class="co">#&gt; $copy_status</span></a>
+<a class="sourceLine" id="cb6-34" title="34"><span class="co">#&gt; [1] TRUE TRUE</span></a>
+<a class="sourceLine" id="cb6-35" title="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-36" title="36"><span class="co">#&gt; $obs_copy_status</span></a>
+<a class="sourceLine" id="cb6-37" title="37"><span class="co">#&gt; [1] TRUE TRUE</span></a></code></pre></div>
+</div>
+<div id="converting-files-into-one-folder-overwriting-case" class="section level4">
+<h4 class="hasAnchor">
+<a href="#converting-files-into-one-folder-overwriting-case" class="anchor"></a>Converting files into one folder (overwriting case)</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Generating files directly in the workspace or a specific folder (no usm sub-folder) </span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co"># In this case the model files are overwritten at each gen_usms_xml2txt call !</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co"># In the workspace</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="st">"banana"</span>, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co"># In a specific folder</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw"><a href="reference/gen_usms_xml2txt.html">gen_usms_xml2txt</a></span>(javastics_path, workspace_path, <span class="dt">usms_list =</span> <span class="st">"banana"</span>, </a>
+<a class="sourceLine" id="cb7-8" title="8">                 <span class="dt">target_path =</span> output_path, <span class="dt">dir_per_usm_flag =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
 </div>
 <div id="running-the-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#running-the-model" class="anchor"></a>Running the model</h3>
-<p>We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files).</p>
+<p>We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files, see previous section).</p>
 <p>The <code>run_stics</code> function can be used as follows with one folder or multiple sub-folders.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Spefifying the Stics executable file path</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co"># for windows/linux</span></a>
-<a class="sourceLine" id="cb5-3" title="3">stics_path &lt;-<span class="st"> "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo"</span></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="co"># for Mac</span></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="co"># stics_path &lt;- "/path/to/JavaSTICS-1.41-stics-9.1/stics_modulo_mac</span></a>
-<a class="sourceLine" id="cb5-6" title="6"></a>
-<a class="sourceLine" id="cb5-7" title="7"><span class="co"># Specifying a directory containing Stics input files  </span></a>
-<a class="sourceLine" id="cb5-8" title="8">files_dir_path &lt;-<span class="st"> "/path/to/files/dir"</span></a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, files_dir_path)</a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co"># or a root directory containing usms indicidual directories</span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co"># files_root_dirs_path &lt;- "/path/to/files/dirs/root"</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, files_root_dirs_path)</a></code></pre></div>
-<hr>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># Spefifying the Stics executable file path</span></a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co"># for windows/linux</span></a>
+<a class="sourceLine" id="cb8-4" title="4">stics_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(javastics_path,<span class="st">"bin"</span>,<span class="st">"stics_modulo"</span>)</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co"># for Mac</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co"># stics_path &lt;- file.path(javastics_path,"bin","stics_modulo_mac")</span></a>
+<a class="sourceLine" id="cb8-8" title="8"></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co"># Specifying a directory containing Stics input files</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co"># For example reusing a generated sub-directory in the previous section</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co"># of the document</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co"># Running on usm</span></a>
+<a class="sourceLine" id="cb8-13" title="13">files_dir_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(output_path,<span class="st">"banana"</span>)</a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, files_dir_path)</a>
+<a class="sourceLine" id="cb8-15" title="15"></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co"># Specifying a root directory containing usms individual directories</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co"># For example reusing a generated directory in the previous section</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="co"># of the document</span></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co"># Running two usms</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, output_path, <span class="dt">usm_dir_names =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
+<a class="sourceLine" id="cb8-21" title="21"></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="co"># Running all usms sub-directories</span></a>
+<a class="sourceLine" id="cb8-23" title="23"><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, output_path, <span class="dt">usm_dir_names =</span> <span class="st">"all"</span>)</a>
+<a class="sourceLine" id="cb8-24" title="24"></a>
+<a class="sourceLine" id="cb8-25" title="25"><span class="co"># Getting returned information about stics runs</span></a>
+<a class="sourceLine" id="cb8-26" title="26">runs_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/run_stics.html">run_stics</a></span>(stics_path, output_path, <span class="dt">usm_dir_names =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"banana"</span>,<span class="st">"wheat"</span>))</a>
+<a class="sourceLine" id="cb8-27" title="27"></a>
+<a class="sourceLine" id="cb8-28" title="28">runs_info</a>
+<a class="sourceLine" id="cb8-29" title="29"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb8-30" title="30"><span class="co">#&gt; [[1]]$name</span></a>
+<a class="sourceLine" id="cb8-31" title="31"><span class="co">#&gt; [1] "banana"</span></a>
+<a class="sourceLine" id="cb8-32" title="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-33" title="33"><span class="co">#&gt; [[1]]$error</span></a>
+<a class="sourceLine" id="cb8-34" title="34"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-36" title="36"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb8-38" title="38"><span class="co">#&gt; [[2]]$name</span></a>
+<a class="sourceLine" id="cb8-39" title="39"><span class="co">#&gt; [1] "wheat"</span></a>
+<a class="sourceLine" id="cb8-40" title="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-41" title="41"><span class="co">#&gt; [[2]]$error</span></a>
+<a class="sourceLine" id="cb8-42" title="42"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
 </div>
+<div id="advanced-simulations-paramerization" class="section level3">
+<h3 class="hasAnchor">
+<a href="#advanced-simulations-paramerization" class="anchor"></a>Advanced simulations paramerization</h3>
+<p>A specific function <code>stics_wrapper</code> is dedicated to manage simulations with a higher level of parameterization than the <code>run_stics</code> function which only executes runs.</p>
+<p>This is a transitional version of the function that will be modified in order to simplify parameter forcing independently from the optimization goal, so apart from the CroptimizR package context.</p>
+<p>This <code>stics_wrapper</code> function allows:</p>
+<ul>
+<li>Configuring simulations run behaviour ( through an options list )</li>
+<li>Parameters forcing for usms (common or specific values)</li>
+<li>Returning specific outputs daily data for each usm with possible dates and variables filtering</li>
+<li>Parallelizing simulations runs, and execution time display</li>
+</ul>
+<p>As the <code>run_stics</code> function, the <code>stics_wrapper</code> operates on directories containing text stics input files.</p>
+<p>In the next uses case, the directory in which usms sub-directories with text input files were generated will be used.</p>
+<div id="defining-simulations-options" class="section level4">
+<h4 class="hasAnchor">
+<a href="#defining-simulations-options" class="anchor"></a>Defining simulations options</h4>
+<p>The mandatory simulation options are fixed using the <code>stics_wrapper_options</code>: the model executable path and the directory path containing usms sub-directories with text input files.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">stics_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(javastics_path, <span class="st">"bin"</span>,<span class="st">"stics_modulo"</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2">sim_options &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span>(<span class="dt">stics_path =</span> stics_path, <span class="dt">data_dir =</span> output_path)</a></code></pre></div>
+<p>Optional fields in the <code>sim_options</code> list will be set later in this document, when paralellized executions will be activated.</p>
+<p>The content of the options list with default values, can be displayed using the <code>stics_wrapper_options</code> function without any argument as follows:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span>()</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; $stics_path</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; character(0)</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; $data_dir</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; character(0)</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; $parallel</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; $cores</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt; [1] NA</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">#&gt; $time_display</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="co">#&gt; $warning_display</span></a>
+<a class="sourceLine" id="cb10-18" title="18"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+</div>
+<div id="simple-simulations-cases" class="section level4">
+<h4 class="hasAnchor">
+<a href="#simple-simulations-cases" class="anchor"></a>Simple simulations cases</h4>
+<ul>
+<li>Without filtering usms or outputs</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"></a>
+<a class="sourceLine" id="cb11-2" title="2">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a></code></pre></div>
+<ul>
+<li>Filtering on usms list</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"></a>
+<a class="sourceLine" id="cb12-2" title="2">usms_list &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span>)</a>
+<a class="sourceLine" id="cb12-3" title="3"></a>
+<a class="sourceLine" id="cb12-4" title="4">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options, <span class="dt">sit_var_dates_mask =</span> usms_list)</a></code></pre></div>
+<ul>
+<li>Filtering outputs on usms variables and dates using observations data</li>
+</ul>
+<p>The argument <code>sit_var_dates_mask</code> must contain a named list (with usms names) containing data.frames organized as observations data or corresponding to observations data.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">obs_filenames &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(usms_list,<span class="st">".obs"</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2">obs_list &lt;-<span class="st"> </span><span class="kw">get_obs</span>(<span class="dt">dirpath =</span> workspace_path, <span class="dt">obs_filenames =</span> obs_filenames)</a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co"># Observations table for wheat</span></a>
+<a class="sourceLine" id="cb13-5" title="5">obs_list<span class="op">$</span>wheat</a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt;          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; 1  1995-01-30  0.29    0.25   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; 2  1995-02-03    NA      NA 21.1 18.8 12.4 133.26     3.1     2.9       4</span></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; 3  1995-02-07  0.37    0.31   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; 4  1995-02-16  0.40    0.32   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt; 5  1995-02-24  0.45    0.40   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt; 6  1995-03-06  0.44    0.38   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; 7  1995-03-16  0.60    0.59   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; 8  1995-03-23  0.85    0.87   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; 9  1995-04-03  1.47    1.28   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; 10 1995-04-11  2.37    2.68   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; 11 1995-04-18  2.65    3.70   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt; 12 1995-04-26  4.55    4.67   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt; 13 1995-05-02  4.41    5.77   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt; 14 1995-05-05    NA    6.01   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt; 15 1995-05-09  5.20    7.51   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-22" title="22"><span class="co">#&gt; 16 1995-05-12    NA    9.73   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-23" title="23"><span class="co">#&gt; 17 1995-05-15  5.98    9.87   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-24" title="24"><span class="co">#&gt; 18 1995-05-19    NA   11.08   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-25" title="25"><span class="co">#&gt; 19 1995-05-29    NA   14.08   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-26" title="26"><span class="co">#&gt; 20 1995-07-17    NA   21.91   NA   NA   NA     NA      NA      NA      NA</span></a>
+<a class="sourceLine" id="cb13-27" title="27"><span class="co">#&gt;    QNplante</span></a>
+<a class="sourceLine" id="cb13-28" title="28"><span class="co">#&gt; 1      9.24</span></a>
+<a class="sourceLine" id="cb13-29" title="29"><span class="co">#&gt; 2        NA</span></a>
+<a class="sourceLine" id="cb13-30" title="30"><span class="co">#&gt; 3     10.85</span></a>
+<a class="sourceLine" id="cb13-31" title="31"><span class="co">#&gt; 4     12.61</span></a>
+<a class="sourceLine" id="cb13-32" title="32"><span class="co">#&gt; 5     13.32</span></a>
+<a class="sourceLine" id="cb13-33" title="33"><span class="co">#&gt; 6     16.65</span></a>
+<a class="sourceLine" id="cb13-34" title="34"><span class="co">#&gt; 7     24.59</span></a>
+<a class="sourceLine" id="cb13-35" title="35"><span class="co">#&gt; 8     38.86</span></a>
+<a class="sourceLine" id="cb13-36" title="36"><span class="co">#&gt; 9     60.99</span></a>
+<a class="sourceLine" id="cb13-37" title="37"><span class="co">#&gt; 10    98.98</span></a>
+<a class="sourceLine" id="cb13-38" title="38"><span class="co">#&gt; 11   103.36</span></a>
+<a class="sourceLine" id="cb13-39" title="39"><span class="co">#&gt; 12   141.99</span></a>
+<a class="sourceLine" id="cb13-40" title="40"><span class="co">#&gt; 13   170.03</span></a>
+<a class="sourceLine" id="cb13-41" title="41"><span class="co">#&gt; 14       NA</span></a>
+<a class="sourceLine" id="cb13-42" title="42"><span class="co">#&gt; 15   188.57</span></a>
+<a class="sourceLine" id="cb13-43" title="43"><span class="co">#&gt; 16       NA</span></a>
+<a class="sourceLine" id="cb13-44" title="44"><span class="co">#&gt; 17   216.06</span></a>
+<a class="sourceLine" id="cb13-45" title="45"><span class="co">#&gt; 18       NA</span></a>
+<a class="sourceLine" id="cb13-46" title="46"><span class="co">#&gt; 19   258.38</span></a>
+<a class="sourceLine" id="cb13-47" title="47"><span class="co">#&gt; 20   258.45</span></a>
+<a class="sourceLine" id="cb13-48" title="48"></a>
+<a class="sourceLine" id="cb13-49" title="49">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options, <span class="dt">sit_var_dates_mask =</span> obs_list)</a>
+<a class="sourceLine" id="cb13-50" title="50"><span class="co">#&gt; Warning: Variable(s) INN, hmax not simulated by the Stics model for USM pea =&gt;</span></a>
+<a class="sourceLine" id="cb13-51" title="51"><span class="co">#&gt; try to add it(them) in /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt/</span></a>
+<a class="sourceLine" id="cb13-52" title="52"><span class="co">#&gt; pea/var.mod</span></a>
+<a class="sourceLine" id="cb13-53" title="53"><span class="co">#&gt; Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize</span></a></code></pre></div>
+<p>Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. Simulation period and output variables list may be fixed before restarting simulations.</p>
+<p>But, for variables names, perhaps they can be badly written and do not correspond exactly the model variables names.</p>
+</div>
+<div id="simulations-with-forcing-parameters" class="section level4">
+<h4 class="hasAnchor">
+<a href="#simulations-with-forcing-parameters" class="anchor"></a>Simulations with forcing parameters</h4>
+<p>In this case, we can define variables containing information used for parameters forcing management. They are transmitted to <code>stics_wrapper</code> through 2 arguments, one containing a named vector of parameters values <code>param_values</code> and the other storing corresponding usms groups to which each parameter value of <code>param_values</code> will be applied before running the model.</p>
+<ul>
+<li>Applying a single parameter values vector for all the usms</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co"># No group list information given</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co"># Paratemers vector with unique values</span></a>
+<a class="sourceLine" id="cb14-4" title="4">param_values &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.002</span>,<span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(param_values) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span>)</a>
+<a class="sourceLine" id="cb14-6" title="6"></a>
+<a class="sourceLine" id="cb14-7" title="7">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options, <span class="dt">sit_var_dates_mask =</span> usms_list, <span class="dt">param_values =</span> param_values)</a></code></pre></div>
+<ul>
+<li>Using usms specific parameters values vectors</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># Defining usms groups using same parameters values</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co"># (may be used in parameter optimization)</span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co"># Parameters vector, with parameters values per usms groups</span></a>
+<a class="sourceLine" id="cb15-4" title="4">param_values &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="dv">50</span>, <span class="dv">51</span>)</a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(param_values) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dlaimax"</span>, <span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span>, <span class="st">"durvieF"</span>)</a>
+<a class="sourceLine" id="cb15-6" title="6"></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co"># Groups list</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co"># parameters_data &lt;- data.frame(usm=c("wheat", "pea", "maize"), dlaimax=c(0.002,0.002, 0.001), durvieF=c(50, 51, 51), stringsAsFactors = F)</span></a>
+<a class="sourceLine" id="cb15-9" title="9">groups_list &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">dlaimax=</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">sit_list=</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"maize"</span>),<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat"</span>, <span class="st">"pea"</span>))),</a>
+<a class="sourceLine" id="cb15-10" title="10">                   <span class="dt">durvieF=</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">sit_list=</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"wheat"</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"maize"</span>, <span class="st">"pea"</span>))))</a>
+<a class="sourceLine" id="cb15-11" title="11"></a>
+<a class="sourceLine" id="cb15-12" title="12"></a>
+<a class="sourceLine" id="cb15-13" title="13">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options, <span class="dt">sit_var_dates_mask =</span> usms_list, <span class="dt">param_values =</span> param_values, <span class="dt">prior_information =</span> groups_list)</a></code></pre></div>
+<p>For the moment, usms names must be restricted to usms names existing in groups_list. So usms names list must be provided as <code>sit_var_dates_mask</code> argument value (in this case <code><a href="https://rdrr.io/r/base/c.html">c("wheat", "pea", "maize")</a></code>)</p>
+</div>
+<div id="simulations-using-parallel-executions" class="section level4">
+<h4 class="hasAnchor">
+<a href="#simulations-using-parallel-executions" class="anchor"></a>Simulations using parallel executions</h4>
+<ul>
+<li>Getting standard simulations execution time</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">sim_options &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span>(<span class="dt">stics_path =</span> stics_path, <span class="dt">data_dir =</span> output_path,</a>
+<a class="sourceLine" id="cb16-2" title="2">                                     <span class="dt">time_display =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb16-3" title="3"></a>
+<a class="sourceLine" id="cb16-4" title="4">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; Time difference of 21.86298 secs</span></a></code></pre></div>
+<ul>
+<li>Activating parallel execution and execution time display In that case, parallel execution is done over cores number minus 1.</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># Used cores number</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="kw">detectCores</span>() <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb17-4" title="4"></a>
+<a class="sourceLine" id="cb17-5" title="5">sim_options &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span>(<span class="dt">stics_path =</span> stics_path, <span class="dt">data_dir =</span> output_path,</a>
+<a class="sourceLine" id="cb17-6" title="6">                                     <span class="dt">parallel =</span><span class="ot">TRUE</span>, <span class="dt">time_display =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb17-7" title="7"></a>
+<a class="sourceLine" id="cb17-8" title="8">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
+<a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt; Time difference of 14.46257 secs</span></a></code></pre></div>
+<ul>
+<li>Specifying cores number to use</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">sim_options &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span>(<span class="dt">stics_path =</span> stics_path, <span class="dt">data_dir =</span> output_path,</a>
+<a class="sourceLine" id="cb18-2" title="2">                                     <span class="dt">parallel =</span><span class="ot">TRUE</span>, <span class="dt">time_display =</span> <span class="ot">TRUE</span>, <span class="dt">cores =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb18-3" title="3"></a>
+<a class="sourceLine" id="cb18-4" title="4">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt; Time difference of 15.09144 secs</span></a></code></pre></div>
+</div>
+</div>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
+<p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
+<div id="authors-and-acknowledgments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#authors-and-acknowledgments" class="anchor"></a>Authors and acknowledgments</h2>
+<p>The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy and the <a href="https://github.com/orgs/SticsRPacks/teams/sticsonr">SticsOnR Team</a>.</p>
 </div>
 </div>
   </div>

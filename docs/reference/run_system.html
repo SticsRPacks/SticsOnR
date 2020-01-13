@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Getting a stics_wrapper options list with initialized fields — stics_wrapper_options • SticsOnR</title>
+<title>Running usm(s) from a/several directory(ies)
+or a/several subdirectory(ies) named with usm name — run_system • SticsOnR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +43,9 @@
 
 
 
-<meta property="og:title" content="Getting a stics_wrapper options list with initialized fields — stics_wrapper_options" />
-<meta property="og:description" content="This function returns a default options list" />
+<meta property="og:title" content="Running usm(s) from a/several directory(ies)
+or a/several subdirectory(ies) named with usm name — run_system" />
+<meta property="og:description" content="This function uses Stics directly through a system call" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -113,91 +115,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Getting a stics_wrapper options list with initialized fields</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SticsRPacks/SticsOnR/blob/master/R/stics_wrapper.R'><code>R/stics_wrapper.R</code></a></small>
-    <div class="hidden name"><code>stics_wrapper_options.Rd</code></div>
+    <h1>Running usm(s) from a/several directory(ies)
+or a/several subdirectory(ies) named with usm name</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SticsRPacks/SticsOnR/blob/master/R/run_system.R'><code>R/run_system.R</code></a></small>
+    <div class="hidden name"><code>run_system.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function returns a default options list</p>
+    <p>This function uses Stics directly through a system call</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stics_wrapper_options</span>(<span class='no'>stics_path</span>, <span class='no'>data_dir</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>run_system</span>(<span class='no'>model_path</span>, <span class='no'>data_dir</span>, <span class='kw'>usm_dir_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_exe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stics_path</th>
-      <td><p>Path of the Stics binary executable file (delivered with
-JavaStics interface)</p></td>
+      <th>model_path</th>
+      <td><p>Path of Stics executable file</p></td>
     </tr>
     <tr>
       <th>data_dir</th>
-      <td><p>Path(s) of the situation(s) input files directorie(s)
-or the root path of the situation(s) input files directorie(s)</p></td>
+      <td><p>Path of a Stics input directory or a vector of,
+or root directory of Stics directories (if usm_dir_names is given)</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Add further arguments set the options list values</p></td>
+      <th>usm_dir_names</th>
+      <td><p>Name(s) vector of sub-directory(ies) of data_dir
+or "all" for extracting all sub-directories path</p></td>
+    </tr>
+    <tr>
+      <th>check_exe</th>
+      <td><p>Logical, T for checking the model executable, F otherwise</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing Stics model stics_wrapper options</p>
+    <p>A list with usm names and execution error status</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># Getting simulations options and defaults values for the stics_wrapper function</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 
-<span class='fu'>stics_wrapper_options</span>()
+<span class='co'># Specifying individual usm directories</span>
+<span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsDir"</span>)
+<span class='fu'>run_system</span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"/home/username/Work/SticsInputsDir1"</span>,
+<span class='st'>"/home/username/Work/SticsInputsDir2"</span>))
 
-<span class='co'>#&gt; $stics_path</span>
-<span class='co'>#&gt; "/path/to/javastics/bin/stics_modulo"</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $data_dir</span>
-<span class='co'>#&gt; "/path/to/usms/subdirs/root"</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $parallel</span>
-<span class='co'>#&gt; [1] FALSE</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $cores</span>
-<span class='co'>#&gt; [1] NA</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $time_display</span>
-<span class='co'>#&gt; [1] FALSE</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $warning_display</span>
-<span class='co'>#&gt; [1] TRUE</span>
-
-<span class='co'># Setting mandatory simulations options</span>
-<span class='no'>sim_options</span> <span class='kw'>&lt;-</span> <span class='fu'>stics_wrapper_options</span>(<span class='kw'>stics_path</span> <span class='kw'>=</span> <span class='no'>stics_path</span>, <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='no'>data_path</span>)
-
-<span class='co'># Setting other options using option name as a function argument</span>
-<span class='co'># Example for activating parallel simulations</span>
-<span class='no'>sim_options</span> <span class='kw'>&lt;-</span> <span class='fu'>stics_wrapper_options</span>(<span class='kw'>stics_path</span> <span class='kw'>=</span> <span class='no'>stics_path</span>,
-<span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='no'>data_path</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'>#&gt; $stics_path</span>
-<span class='co'>#&gt; "/path/to/javastics/bin/stics_modulo"</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $data_dir</span>
-<span class='co'>#&gt; "/path/to/usms/subdirs/root"</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $parallel</span>
-<span class='co'>#&gt; [1] TRUE</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $cores</span>
-<span class='co'>#&gt; [1] NA</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $time_display</span>
-<span class='co'>#&gt; [1] FALSE</span>
-<span class='co'>#&gt;</span>
-<span class='co'>#&gt; $warning_display</span>
-<span class='co'>#&gt; [1] TRUE</span>
-
+<span class='co'># Specifying a parent directory of usms directories</span>
+<span class='co'># running one or several usms</span>
+<span class='fu'><a href='run_stics.html'>run_stics</a></span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,<span class='st'>"wheat"</span>)
+<span class='fu'><a href='run_stics.html'>run_stics</a></span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wheat"</span>,<span class='st'>"maize"</span>))
+<span class='co'># running all usms</span>
+<span class='fu'><a href='run_stics.html'>run_stics</a></span>(<span class='st'>"/home/username/bin/Stics"</span>,<span class='st'>"/home/username/Work/SticsInputsRootDir"</span>,
+<span class='st'>"all"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

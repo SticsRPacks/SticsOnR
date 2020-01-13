@@ -84,7 +84,7 @@ or in a subdirectory." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -186,11 +186,14 @@ NULL if any problem about the JavaStics workspace or JavaStics directory</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>javastics</span> <span class='kw'>&lt;-</span> <span class='st'>"/path/to/javastics"</span>
 <span class='no'>javastics_workspace</span> <span class='kw'>&lt;-</span> <span class='st'>"/path/to/workspace"</span>
+
 <span class='co'># For all usms</span>
 <span class='fu'>gen_usms_xml2txt</span>(<span class='no'>javastics</span>, <span class='no'>javastics_workspace</span>)
+
 <span class='co'># For an usms list</span>
 <span class='no'>usm_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"usm1"</span>, <span class='st'>"usm2"</span>)
 <span class='fu'>gen_usms_xml2txt</span>(<span class='no'>javastics</span>, <span class='no'>javastics_workspace</span>, <span class='no'>usm_list</span>)
+
 <span class='co'># For one usm</span>
 <span class='fu'>gen_usms_xml2txt</span>(<span class='no'>javastics</span>, <span class='no'>javastics_workspace</span>, <span class='kw'>dir_per_usm_flag</span><span class='kw'>=</span><span class='no'>F</span>, <span class='st'>"usm1"</span>)
 
