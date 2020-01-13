@@ -47,11 +47,14 @@ or in a subdirectory.
 \dontrun{
 javastics <- "/path/to/javastics"
 javastics_workspace <- "/path/to/workspace"
+
 # For all usms
 gen_usms_xml2txt(javastics, javastics_workspace)
+
 # For an usms list
 usm_list <- c("usm1", "usm2")
 gen_usms_xml2txt(javastics, javastics_workspace, usm_list)
+
 # For one usm
 gen_usms_xml2txt(javastics, javastics_workspace, dir_per_usm_flag=F, "usm1")
 

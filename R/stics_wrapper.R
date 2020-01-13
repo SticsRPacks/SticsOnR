@@ -32,6 +32,31 @@
 #' (`flag_allsim`) indicating if all required situations, variables and
 #' dates were simulated.
 #'
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' # Specifying the JavaStics folder
+#' javastics_path <- "/path/to/javastics"
+#'
+#' # Setting the model executable path (windows, linux)
+#' stics_path <- file.path(javastics_path, "bin","stics_modulo")
+#'
+#' # Setting the input data folder path, root directory of the usms directories
+#' data_path <- "/path/to/usms/subdirs/root"
+#'
+#' # Setting the mandatory simulations options
+#' # Running all the usms
+#' sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path)
+#'
+#' # Running an usm list
+#' usms_list <- c("wheat", "pea", "maize")
+#' sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path,
+#' sit_var_dates_mask = usms_list)
+#'
+#' }
+#'
 #' @export
 #'
 #' @importFrom foreach %dopar%
@@ -320,9 +345,62 @@ stics_wrapper <- function( param_values = NULL,
 #' @param data_dir Path(s) of the situation(s) input files directorie(s)
 #' or the root path of the situation(s) input files directorie(s)
 #'
-#' @param ... Add further arguments to the options
+#' @param ... Add further arguments set the options list values
 #'
 #' @return A list containing Stics model stics_wrapper options
+#'
+#' @examples
+#'
+#' \dontrun{
+#' # Getting simulations options and defaults values for the stics_wrapper function
+#'
+#' stics_wrapper_options()
+#'
+#' #> $stics_path
+#' #> "/path/to/javastics/bin/stics_modulo"
+#' #>
+#' #> $data_dir
+#' #> "/path/to/usms/subdirs/root"
+#' #>
+#' #> $parallel
+#' #> [1] FALSE
+#' #>
+#' #> $cores
+#' #> [1] NA
+#' #>
+#' #> $time_display
+#' #> [1] FALSE
+#' #>
+#' #> $warning_display
+#' #> [1] TRUE
+#'
+#' # Setting mandatory simulations options
+#' sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
+#'
+#' # Setting other options using option name as a function argument
+#' # Example for activating parallel simulations
+#' sim_options <- stics_wrapper_options(stics_path = stics_path,
+#' data_dir = data_path, parallel = TRUE)
+#'
+#' #> $stics_path
+#' #> "/path/to/javastics/bin/stics_modulo"
+#' #>
+#' #> $data_dir
+#' #> "/path/to/usms/subdirs/root"
+#' #>
+#' #> $parallel
+#' #> [1] TRUE
+#' #>
+#' #> $cores
+#' #> [1] NA
+#' #>
+#' #> $time_display
+#' #> [1] FALSE
+#' #>
+#' #> $warning_display
+#' #> [1] TRUE
+#'
+#' }
 #'
 #' @export
 #'

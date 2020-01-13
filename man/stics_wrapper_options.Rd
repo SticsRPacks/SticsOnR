@@ -13,11 +13,65 @@ JavaStics interface)}
 \item{data_dir}{Path(s) of the situation(s) input files directorie(s)
 or the root path of the situation(s) input files directorie(s)}
 
-\item{...}{Add further arguments to the options}
+\item{...}{Add further arguments set the options list values}
 }
 \value{
 A list containing Stics model stics_wrapper options
 }
 \description{
 This function returns a default options list
+}
+\examples{
+
+\dontrun{
+# Getting simulations options and defaults values for the stics_wrapper function
+
+stics_wrapper_options()
+
+#> $stics_path
+#> "/path/to/javastics/bin/stics_modulo"
+#>
+#> $data_dir
+#> "/path/to/usms/subdirs/root"
+#>
+#> $parallel
+#> [1] FALSE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $warning_display
+#> [1] TRUE
+
+# Setting mandatory simulations options
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
+
+# Setting other options using option name as a function argument
+# Example for activating parallel simulations
+sim_options <- stics_wrapper_options(stics_path = stics_path,
+data_dir = data_path, parallel = TRUE)
+
+#> $stics_path
+#> "/path/to/javastics/bin/stics_modulo"
+#>
+#> $data_dir
+#> "/path/to/usms/subdirs/root"
+#>
+#> $parallel
+#> [1] TRUE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $warning_display
+#> [1] TRUE
+
+}
+
 }

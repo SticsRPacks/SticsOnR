@@ -46,3 +46,28 @@ dates were simulated.
 This function uses Stics directly through a system call, can
 force Stics input parameters with values given in arguments.
 }
+\examples{
+
+\dontrun{
+
+# Specifying the JavaStics folder
+javastics_path <- "/path/to/javastics"
+
+# Setting the model executable path (windows, linux)
+stics_path <- file.path(javastics_path, "bin","stics_modulo")
+
+# Setting the input data folder path, root directory of the usms directories
+data_path <- "/path/to/usms/subdirs/root"
+
+# Setting the mandatory simulations options
+# Running all the usms
+sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path)
+
+# Running an usm list
+usms_list <- c("wheat", "pea", "maize")
+sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path,
+sit_var_dates_mask = usms_list)
+
+}
+
+}
