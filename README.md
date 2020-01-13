@@ -52,8 +52,17 @@ For example using the last distribution version for Stics 9.1,
 [here](https://www6.paca.inrae.fr/stics_eng/Download)).  
 It contains an `example` folder with a set of runnable usms.
 
-For running simulations from it, we can use the `run_javastics` function
-as follows:
+For running simulations from it, we can use the `run_javastics`
+function.
+
+In this SticsOnR package, for the moment, only one Stics version can be
+used with it (i.e. the one delivered with the JavaStics installation
+archive). JavaStics GUI, allows to manage several Stics executables, but
+in that case one must take care of consistency between executables
+version and input files format (advanced use case).
+
+So, at this point, it is at your own risk if you try to use another
+version than the JavaStics distribution one.
 
 ``` r
 
@@ -121,14 +130,22 @@ runs_info
 #> [1] "banana" "wheat" 
 #> 
 #> $error
-#> [1] "[11/01/20]-[18:17:46] INFO - Modulostics files generation..\n[11/01/20]-[18:17:46] INFO - Generating txt files ...\n[11/01/20]-[18:17:46] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
-#> [2] "[11/01/20]-[18:17:47] INFO - Modulostics files generation..\n[11/01/20]-[18:17:47] INFO - Generating txt files ...\n[11/01/20]-[18:17:48] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[13/01/20]-[15:52:22] INFO - Modulostics files generation..\n[13/01/20]-[15:52:22] INFO - Generating txt files ...\n[13/01/20]-[15:52:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [2] "[13/01/20]-[15:52:23] INFO - Modulostics files generation..\n[13/01/20]-[15:52:23] INFO - Generating txt files ...\n[13/01/20]-[15:52:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
+
+In the returned information, the error field name gives a list of
+messages got from JavaStics commandline interface. If any `Error` key
+word appears in a message, the corresponding simulation failed. But, at
+the moment it is impossible to identify what is the the error’s origin.
+Things must be checked manually in the workspace, after running again
+the faulty usm (because the model input files are overwritten at each
+usms simulation).
 
 ### Converting JavaStics workspace files
 
 For using the model directly neither using the JavaStics graphical
-interface nor the run\_javastics function interface, we provide a
+interface nor the `run_javastics` function interface, we provide a
 function, `gen_usms_xml2txt`, for converting JavasStics XML files to
 Stics text files from a JavaStics workspace.
 
@@ -269,7 +286,7 @@ goal, so apart from the CroptimizR package context.
 
 This `stics_wrapper` function allows:
 
-  - Configuring simulations run behaviour ( through a options list )
+  - Configuring simulations run behaviour ( through an options list )
   - Parameters forcing for usms (common or specific values)
   - Returning specific outputs daily data for each usm with possible
     dates and variables filtering
@@ -329,8 +346,6 @@ stics_wrapper_options()
 ``` r
 
 results <- stics_wrapper(model_options = sim_options)
-#> Warning: Error reading outputs for  intercrop_pea_barley . 
-#> 
 ```
 
   - Filtering on usms list
@@ -473,9 +488,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 23.02378 secs
-#> Warning: Error reading outputs for  intercrop_pea_barley . 
-#> 
+#> Time difference of 21.86298 secs
 ```
 
   - Activating parallel execution and execution time display In that
@@ -492,9 +505,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.5628 secs
-#> Warning: Error reading outputs for  intercrop_pea_barley . 
-#> 
+#> Time difference of 14.46257 secs
 ```
 
   - Specifying cores number to use
@@ -506,7 +517,17 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.9956 secs
-#> Warning: Error reading outputs for  intercrop_pea_barley . 
-#> 
+#> Time difference of 15.09144 secs
 ```
+
+## Code of conduct
+
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.
+
+## Authors and acknowledgments
+
+The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy
+and the [SticsOnR
+Team](https://github.com/orgs/SticsRPacks/teams/sticsonr).

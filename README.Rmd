@@ -65,7 +65,14 @@ We need for that a JavaStics installed and a JavaStics workspace folder.
 For example using the last distribution version for Stics 9.1, (JavaSTICS-1.41-stics-9.1 downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).    
 It contains an `example` folder with a set of runnable usms.
 
-For running simulations from it, we can use the `run_javastics` function as follows:
+
+For running simulations from it, we can use the `run_javastics` function.
+
+In this SticsOnR package, for the moment, only one Stics version can be used with it (i.e. the one delivered with the JavaStics installation archive). JavaStics GUI, allows to manage several Stics executables, but in that case one must take care of consistency between executables version and input files format (advanced use case). 
+
+So, at this point, it is at your own risk if you try to use another version than the JavaStics distribution one.
+
+
 
 ```{r echo = FALSE}
 javastics_path <- params$javastics_path
@@ -101,10 +108,11 @@ runs_info
 
 ```
 
+In the returned information, the error field name gives a list of messages got from JavaStics commandline interface. If any `Error` key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the the error's origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).
 
 
 ### Converting JavaStics workspace files
-For using the model directly neither using the JavaStics graphical interface nor the run_javastics function interface, we provide a function, `gen_usms_xml2txt`, for converting JavasStics XML files to Stics text files from a JavaStics workspace.
+For using the model directly neither using the JavaStics graphical interface nor the `run_javastics` function interface, we provide a function, `gen_usms_xml2txt`, for converting JavasStics XML files to Stics text files from a JavaStics workspace.
 
 Observation files may also be copied if they have a standard name as an usm name and a `.obs` extension. If not, they must be renamed to do so.
 
@@ -156,12 +164,20 @@ gen_usms_xml2txt(javastics_path, workspace_path, usms_list = "banana",
 
 ```
 
+```{r, echo=F}
+
+unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
+
+```
 
 ### Running the model
 
 We need for that a JavaStics folder and a directory, or a folder containing usms subdirectories with text input files (converted from xml JavaStics files, see previous section).
 
 The `run_stics` function can be used as follows with one folder or multiple sub-folders.
+
+
+
 
 ```{r run_stics}
 # Spefifying the Stics executable file path
@@ -351,3 +367,10 @@ results <- stics_wrapper(model_options = sim_options)
 ```
 
 
+## Code of conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+## Authors and acknowledgments
+
+The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy and the [SticsOnR Team](https://github.com/orgs/SticsRPacks/teams/sticsonr).
