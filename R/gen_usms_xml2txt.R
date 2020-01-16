@@ -96,7 +96,7 @@ gen_usms_xml2txt <- function(javastics_path,
   }
 
   # Retrieving usm names list from the usms.xml file
-  full_usms_list = SticsRFiles :: get_usms_list(ws)
+  full_usms_list = SticsRFiles :: get_usms_list(ws)[[1]]
 
   if (length(usms_list) == 0){
 

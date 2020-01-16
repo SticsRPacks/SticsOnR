@@ -58,10 +58,10 @@ run_javastics <- function(javastics_path,
   }
 
   # Retrieving usms names list from the usms.xml file
-  full_usms_list = SticsRFiles::get_usms_list(ws)
+  full_usms_list = SticsRFiles::get_usms_list(ws)[[1]]
 
   # Checking and selecting usms, if needed
-  if (length(usms_list) == 0){
+  if (length(usms_list) == 0) {
     usms_list = full_usms_list
   } else {
     usm_exist <- full_usms_list %in% usms_list

@@ -16,7 +16,8 @@ compare_2usms <- function(first_dir,second_dir,in_usms_list=c()){
   # getting common usms
   first_dir_path=file.path(first_dir,"usms.xml")
   second_dir_path=file.path(second_dir,"usms.xml")
-  usms_list=base :: intersect(SticsRFiles::get_usms_list(first_dir_path),SticsRFiles::get_usms_list(second_dir_path))
+  usms_list=base :: intersect(SticsRFiles::get_usms_list(first_dir_path)[[1]],
+                              SticsRFiles::get_usms_list(second_dir_path)[[1]])
   # getting common usms with input list
   if (length(in_usms_list)>0) usms_list=base :: intersect(usms_list,in_usms_list)
 
