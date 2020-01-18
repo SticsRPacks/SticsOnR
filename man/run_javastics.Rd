@@ -30,8 +30,8 @@ FALSE otherwise (default)}
 FALSE otherwise (default)}
 }
 \value{
-A list with usms names and execution error status or NULL if any problem about
-the JavaStics workspace or JavaStics installation directory
+A list in which each element contains: usm "name", "error" status (logical)
+and an output "message" (JavaStics commandline execution output)
 }
 \description{
 This function uses basically Stics through his

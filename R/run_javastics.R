@@ -13,8 +13,8 @@
 #' @param display Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
 #'
-#' @return A list with usms names and execution error status or NULL if any problem about
-#' the JavaStics workspace or JavaStics installation directory
+#' @return A list in which each element contains: usm "name", "error" status (logical)
+#' and an output "message" (JavaStics commandline execution output)
 #'
 #'
 #' @examples
@@ -77,9 +77,8 @@ run_javastics <- function(javastics_path,
     }
   }
 
-  usms_out=list()
-  usms_out$names=usms_list
-  usms_out$error=rep(NaN,length(usms_list))
+  nb_usms <- length(usms_list)
+  usms_out <- vector("list", nb_usms)
 
   # cmd string without usm name
   cmd_generate=paste("java -jar",jexe,"--generate-txt",ws)
@@ -87,9 +86,11 @@ run_javastics <- function(javastics_path,
 
   histo_file <- file.path(workspace_path,"modhistory.sti")
 
-  for (i in 1:length(usms_list)){
+  for (i in 1:nb_usms) {
 
     usm_name=usms_list[i]
+    usm_out=list()
+    usm_out$name=usm_name
 
     # Managing historical files
     if (base::file.exists(histo_file)) base::file.remove(histo_file)
@@ -102,17 +103,20 @@ run_javastics <- function(javastics_path,
       system(paste(cmd_generate,usm_name), intern = T)
       tmp=run_system(stics_path, workspace_path) #, optim=optim)
 
-      usms_out$error[i]=tmp[[1]]$error
+      usm_out$error <- tmp[[1]]$error
+      usm_out$message <- tmp[[1]]$message
 
     } else {
       status <- system(paste(cmd_run,usm_name), intern = T)
       err <- grep(pattern = "[eE]rror", tolower(status))
       if (length(err)) {
         # Any error, keeping the line with Error message
-        usms_out$error[i]=status[err]
+        usm_out$error <- TRUE
+        usm_out$message <- status[err]
       } else {
         # No errors: keeping lines of JavaSticsCmd execution
-        usms_out$error[i]=paste(status, collapse = "\n")
+        usm_out$error <- FALSE
+        usm_out$message <- paste(status, collapse = "\n")
       }
     }
 
@@ -120,7 +124,13 @@ run_javastics <- function(javastics_path,
     if (keep_history && base::file.exists(histo_file)) {
       base::file.copy(histo_file, histo_copy)
     }
+
+    # Storing usm output infos
+    usms_out[[i]] <- usm_out
   }
+
+  # Naming the list elements
+  # names(usms_out) <- usms_list
 
   # Returning usms list with execution return
   return(invisible(usms_out))
