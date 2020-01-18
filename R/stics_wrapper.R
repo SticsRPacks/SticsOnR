@@ -429,8 +429,8 @@ stics_wrapper_options <- function(stics_path = NULL,
   # Template list
   if (base::is.null(options)) {
     options <- list()
-    options$stics_path <- NULL
-    options$data_dir <- NULL
+    options$stics_path <- character(0)
+    options$data_dir <- character(0)
     options$parallel <- FALSE
     options$cores <- NA
     options$time_display <- FALSE
@@ -469,11 +469,17 @@ stics_wrapper_options <- function(stics_path = NULL,
 
   # Checking paths
   dirs <- c(options$stics_path, options$data_dir)
+
+  # Checking if dirs is a character vector
+  if (!all(base::is.character(dirs))) {
+    stop("stics_path and/or data_dir are/is not path(s) !")
+  }
+
+  # Checking if paths exist
   exist_dirs <- file.exists(dirs)
   if (!all(exist_dirs)) {
     stop("Mandatory path(s) does(do) not exist: \n",
          paste(dirs[!exist_dirs], collapse = "\n"))
-
   }
 
   return(options)
