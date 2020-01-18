@@ -212,7 +212,7 @@ stics_wrapper <- function( param_values = NULL,
                             ########################################################################
                             # TODO: and call it in/ or integrate parameters forcing in run_system function !
                             ## Run the model & forcing not to check the model executable
-                            usm_out <- run_system(stics_path, run_dir, check_exe = FALSE)
+                            usm_out <- run_stics(stics_path, run_dir, check_exe = FALSE)
 
                             # if the model returns an error, ... treating next situation
                             if ( usm_out[[1]]$error ) {
@@ -261,7 +261,7 @@ stics_wrapper <- function( param_values = NULL,
                             inter_vars <- out_var_list[vars_idx]
 
                             # Indicating that variables are not simulated, adding them before simulating
-                            if (length(inter_vars)<length(var_list)) {
+                            if (length(inter_vars) < length(var_list)) {
                               mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
                                                     "not simulated by the Stics model for USM",situation,
                                                     "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
@@ -272,7 +272,9 @@ stics_wrapper <- function( param_values = NULL,
                             if (any(vars_idx)) {
                               sim_tmp=sim_tmp[ , vars_idx]
                             } else {
-                              return(list(NA,FALSE,FALSE))
+                              mess <- warning(paste("Not any variable simulated by the Stics model for USM", situation,
+                                                    "=> they must be set in",file.path(data_dir,situation,"var.mod")))
+                              return(list(NA, FALSE, FALSE, mess))
                             }
 
                             ## Keeping only the needed dates in the simulation results
