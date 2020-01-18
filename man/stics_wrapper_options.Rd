@@ -2,9 +2,15 @@
 % Please edit documentation in R/stics_wrapper.R
 \name{stics_wrapper_options}
 \alias{stics_wrapper_options}
-\title{Getting a stics_wrapper options list with initialized fields}
+\title{Getting/setting a stics_wrapper options list with initialized fields,
+or validating an existing list}
 \usage{
-stics_wrapper_options(stics_path, data_dir, ...)
+stics_wrapper_options(
+  stics_path = NULL,
+  data_dir = NULL,
+  in_options = NULL,
+  ...
+)
 }
 \arguments{
 \item{stics_path}{Path of the Stics binary executable file (delivered with
@@ -13,13 +19,17 @@ JavaStics interface)}
 \item{data_dir}{Path(s) of the situation(s) input files directorie(s)
 or the root path of the situation(s) input files directorie(s)}
 
+\item{in_options}{An existing options list, for updating elements}
+
 \item{...}{Add further arguments set the options list values}
 }
 \value{
 A list containing Stics model stics_wrapper options
 }
 \description{
-This function returns a default options list
+This function returns a default options list, or allow to set
+list elements values or validate the input options list elements values
+(only the mandatories ones)
 }
 \examples{
 

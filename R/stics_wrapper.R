@@ -28,9 +28,9 @@
 #' for each USM (one folder per USM where Stics input files are stored in txt
 #' format)
 #'
-#' @return A list containing simulated values (`sim_list`) and a flag
-#' (`flag_allsim`) indicating if all required situations, variables and
-#' dates were simulated.
+#' @return A list containing simulated values (`sim_list`: a named list containing
+#' usms outputs data.frames) and a flag (`flag_allsim`) indicating if all
+#' required situations, variables and dates were simulated.
 #'
 #'
 #' @examples
@@ -86,17 +86,11 @@ stics_wrapper <- function( param_values = NULL,
 
   # Preliminary model checks ---------------------------------------------------
 
+  # Checking model_options content, stopping when mandatory
+  # values are not set or not valid
+  stics_wrapper_options(in_options = model_options)
 
-  ##############################################################################
-  # TODO : make a function dedicated to checking model_options
-  # Because it may be model dependant, so it could be possible to pass anything
-  # usefull in the model running function...
-  # Reuse next lines before `Run Stics` block
-  ## check presence of mandatory information in model model_options list
-  if (base::is.null(model_options$stics_path) || base::is.null(model_options$data_dir)) {
-    stop("stics_path and data_dir should be elements of the model_model_options
-    list for the Stics model")
-  }
+  # Getting list values into separated variables
   stics_path <- model_options$stics_path
   data_dir <- model_options$data_dir
   parallel <- model_options$parallel
@@ -106,6 +100,12 @@ stics_wrapper <- function( param_values = NULL,
 
   # Checking Stics executable
   check_stics(stics_path)
+
+  # Default output data list
+  res <- list()
+  res$flag_allsim <- FALSE
+  res$flag_allusms <- FALSE
+  res$sim_list <- list()
 
   if (time_display)   start_time <- Sys.time()
 
@@ -147,24 +147,31 @@ stics_wrapper <- function( param_values = NULL,
     keep_all_data <- TRUE
   }
 
-
   # Calculating directories list
   run_dirs <- file.path(data_dir,situation_names)
-  # print(run_dirs)
 
-
-  ## If data not provided for the required USM
+  # Checking if dirs exist
   dirs_exist <- file.exists(run_dirs)
-  flag_allsim <- TRUE
-  if (!all(dirs_exist)) {
-    warning(paste("No folder provided for USM(s)",paste(situation_names[!dirs_exist], collapse = ", "),
-                  "in data_dir",data_dir))
-    flag_allsim <- FALSE
+
+  # Not any existing dir
+  # Exiting the function, returning a list with no data
+  if (!any(dirs_exist)) {
+    warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
+    return(res)
   }
 
+  # Some dirs do not exist
+  if (!all(dirs_exist)) {
+    warning(paste("Folder(s) does(do) not exist",
+                  "in data_dir\n",data_dir,":\n => ",
+                  paste(situation_names[!dirs_exist], collapse = "\n => ")))
+  } else {
+    res$flag_allusms <- TRUE
+  }
+
+  # Getting existing dir index list
   dirs_idx <- which(dirs_exist)
-  res <- list()
-  i <- 1
+
   ## Loops on the USMs that can be simulated
   out <- foreach::foreach(i = 1:length(dirs_idx),
                           .export = c("run_system"),
@@ -299,18 +306,18 @@ stics_wrapper <- function( param_values = NULL,
                             } else {
                               return(list(NA,FALSE,FALSE, mess))
                             }
-
-
-
                             return(list(sim_tmp, flag_sim, select_sim, mess))
                           }
 
   # TODO: optimize res generation without copying out elements !
-  # Formatting output list
-  names(out) <- situation_names
+  # Formatting the output list
+
+  # Filtering situation names, existing dirs !
+  names(out) <- situation_names[dirs_exist]
+
   # for calculating allsim status
   sim_idx <- unlist(lapply(out, function(x) return(x[[2]])))
-  res$flag_allsim <- all(sim_idx) & flag_allsim
+  res$flag_allsim <- all(sim_idx)
   # for selecting output data.frame from the list
   sel_idx <- unlist(lapply(out, function(x) return(x[[3]])))
   #browser()
@@ -337,15 +344,20 @@ stics_wrapper <- function( param_values = NULL,
 
 
 
-#' @title Getting a stics_wrapper options list with initialized fields
+#' @title Getting/setting a stics_wrapper options list with initialized fields,
+#' or validating an existing list
 #'
-#' @description This function returns a default options list
+#' @description This function returns a default options list, or allow to set
+#' list elements values or validate the input options list elements values
+#' (only the mandatories ones)
 #'
 #' @param stics_path Path of the Stics binary executable file (delivered with
 #' JavaStics interface)
 #'
 #' @param data_dir Path(s) of the situation(s) input files directorie(s)
 #' or the root path of the situation(s) input files directorie(s)
+#'
+#' @param in_options An existing options list, for updating elements
 #'
 #' @param ... Add further arguments set the options list values
 #'
@@ -406,21 +418,24 @@ stics_wrapper <- function( param_values = NULL,
 #'
 #' @export
 #'
-stics_wrapper_options <- function(stics_path,
-                                  data_dir, ... ) {
+stics_wrapper_options <- function(stics_path = NULL,
+                                  data_dir = NULL,
+                                  in_options = NULL,
+                                  ... ) {
 
-  # TODO: add an input options list to be modified,
-  # or completed by the arguments content
+  # Getting the input options list
+  options <- in_options
 
   # Template list
-  options <- list()
-  options$stics_path <- character(0)
-  options$data_dir <- character(0)
-  options$parallel <- FALSE
-  options$cores <- NA
-  options$time_display <- FALSE
-  options$warning_display <- TRUE
-
+  if (base::is.null(options)) {
+    options <- list()
+    options$stics_path <- NULL
+    options$data_dir <- NULL
+    options$parallel <- FALSE
+    options$cores <- NA
+    options$time_display <- FALSE
+    options$warning_display <- TRUE
+  }
 
   # For getting the template
   # running stics_wrapper_options
@@ -428,8 +443,8 @@ stics_wrapper_options <- function(stics_path,
 
 
   # For fixing mandatory fields values
-  options$stics_path <- stics_path
-  options$data_dir <- data_dir
+  if (!base::is.null(stics_path)) options$stics_path <- stics_path
+  if (!base::is.null(data_dir)) options$data_dir <- data_dir
 
   # Fixing optional fields,
   # if corresponding to exact field names
@@ -441,6 +456,24 @@ stics_wrapper_options <- function(stics_path,
     if ( n %in% list_names) {
       options[[n]] <- add_args[[n]]
     }
+  }
+
+  # Checking mandatory fields
+  missing_opts <- c(base::is.null(options$stics_path),
+                    base::is.null(options$data_dir))
+  if (base::any(missing_opts)) {
+    stop("Mandatory option(s) is/are missing: ",
+         paste(c("stics_path", "data_dir")[missing_opts],
+               collapse = ", "))
+  }
+
+  # Checking paths
+  dirs <- c(options$stics_path, options$data_dir)
+  exist_dirs <- file.exists(dirs)
+  if (!all(exist_dirs)) {
+    stop("Mandatory path(s) does(do) not exist: \n",
+         paste(dirs[!exist_dirs], collapse = "\n"))
+
   }
 
   return(options)

@@ -38,9 +38,9 @@ for each USM (one folder per USM where Stics input files are stored in txt
 format)}
 }
 \value{
-A list containing simulated values (\code{sim_list}) and a flag
-(\code{flag_allsim}) indicating if all required situations, variables and
-dates were simulated.
+A list containing simulated values (\code{sim_list}: a named list containing
+usms outputs data.frames) and a flag (\code{flag_allsim}) indicating if all
+required situations, variables and dates were simulated.
 }
 \description{
 This function uses Stics directly through a system call, can
