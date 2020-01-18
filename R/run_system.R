@@ -10,7 +10,8 @@
 #' or "all" for extracting all sub-directories path
 #' @param check_exe Logical, T for checking the model executable, F otherwise
 #'
-#' @return A list with usm names and execution error status
+#' @return A list in which each element contains: usm "name", "error" status (logical)
+#' and an output "message" (model execution output)
 #'
 #' @examples
 #' \dontrun{
@@ -74,10 +75,14 @@ run_system <- function(model_path,
     setwd(usm_dir)
 
     # new function call, keeping error message as attribute
-    usm_out$error <- run_system_cmd(model_path)
+    ret <- run_system_cmd(model_path, output = TRUE)
+    usm_out$error <- as.logical(ret)
+    usm_out$message <- attr(ret, "output")
 
     if ( usm_out$error ) {
-      usm_out$message="Model execution error !"
+      # TODO: see if concatenation !
+      #usm_out$message="Model execution error !"
+      usm_out$message <- attr(ret, "message")
     }
 
 

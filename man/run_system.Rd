@@ -19,7 +19,8 @@ or "all" for extracting all sub-directories path}
 \item{check_exe}{Logical, T for checking the model executable, F otherwise}
 }
 \value{
-A list with usm names and execution error status
+A list in which each element contains: usm "name", "error" status (logical)
+and an output "message" (model execution output)
 }
 \description{
 This function uses Stics directly through a system call
