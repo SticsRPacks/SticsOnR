@@ -11,10 +11,13 @@ run_system_cmd(command, args = "", output = FALSE)
 
 \item{args}{A list of arguments to pass to the command}
 
-\item{output}{A logical value to specify returning the command output (T) or not (F, default)}
+\item{output}{A logical value to specify returning (T) or not (F, default)
+the command output in the function return "output" attribute}
 }
 \value{
-A logical status T if it succeded or F if not (an attribute "message" is set with an error message)
+A logical status T if it succeded or F if not
+a "message" attribute is set with an error message, and optionaly
+an "output" attribute is set with the command output
 }
 \description{
 Run a system command

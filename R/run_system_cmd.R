@@ -2,9 +2,12 @@
 #'
 #' @param command A system command
 #' @param args A list of arguments to pass to the command
-#' @param output A logical value to specify returning the command output (T) or not (F, default)
+#' @param output A logical value to specify returning (T) or not (F, default)
+#' the command output in the function return "output" attribute
 #'
-#' @return A logical status T if it succeded or F if not (an attribute "message" is set with an error message)
+#' @return A logical status T if it succeded or F if not
+#' a "message" attribute is set with an error message, and optionaly
+#' an "output" attribute is set with the command output
 #'
 #' @keywords internal
 #'
@@ -38,7 +41,7 @@ run_system_cmd <- function(command, args = "", output = FALSE) {
   }
 
 
-  # Attaching the command output as a status attibute
+  # Attaching the command output as a status attribute
   if (length(ret)) {
     if ( output ) attr(err_status, "output") <- ret
   }
