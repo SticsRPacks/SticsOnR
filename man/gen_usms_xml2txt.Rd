@@ -32,8 +32,12 @@ usms contained in javastics_workspace_path/usms.xml file will be generated.}
 FALSE if USM files are generated in the target_path (only useful for usms_list of size one)}
 }
 \value{
-A list of created directories with Stics input files inside or
-NULL if any problem about the JavaStics workspace or JavaStics directory
+A list with named elements:
+usms_paths : created directories names (Stics input files),
+files_path : generated files list paths (in JavaStics workspace origin),
+copy_status : logical value vector, indicating if all files have been generated
+obs_copy_status : logical value vector, indicating if observaion files have been
+successfully copied in usms directories
 }
 \description{
 The function creates sets of input files for one or multiple usms
