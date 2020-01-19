@@ -36,7 +36,34 @@ The goal of SticsOnR is to perform simulations of the Stics model, downloadable 
 
 Follow up the development [here](sticsOnR.md).-->
 
+## Pre-requisities and technical tips
 
+### JavaStics software
+
+JavaStics must be installed and the minimal version is 1.41.
+
+The last distribution version for Stics 9.1, JavaSTICS-1.41-stics-9.1, is downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).
+
+The installation process only constists of unzipping the JavaStics archive.
+
+### Under linux operating systems
+
+#### Java version
+
+For using the JavaStics software (GUI and command line interface) under a `linux` operating system, the java version must be at most the Java 8 version.
+
+So for recent distributions on which a higher version is installed some manipulations can be done. 
+
+A description is given [here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html) on how to fix it for using the R package (i.e. underlying JavaStics command line interface).
+
+#### System libraries
+For the linux operating system, the SticsOnR package may require to install an `xslt` library.
+
+If the SticsOnR installation fails, and the `xslt` library is missing, the error message indicates what is the name of the xslt library to be installed (according to the common linux distributions). For example, for the Ubuntu or Debian OS `libxslt1-dev` must be installed.
+
+#### Files/directories paths syntax
+Using the `~` in files or directories paths may cause errors in SticsOnR functions.
+So, it is safer for the moment to use absolute paths. This will be fixed in the future versions.
 
 ## Installation
 
@@ -61,9 +88,7 @@ Here are basic examples which show you how to run the model either from a R mode
 
 ### Running the JavaStics command line interface
 
-We need for that a JavaStics installed and a JavaStics workspace folder.
-For example using the last distribution version for Stics 9.1, (JavaSTICS-1.41-stics-9.1 downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).    
-It contains an `example` folder with a set of runnable usms.
+The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contains an `example` workspace folder with a set of runnable usms.
 
 
 For running simulations from it, we can use the `run_javastics` function.
@@ -223,9 +248,11 @@ This `stics_wrapper` function allows:
 
 * Configuring simulations run behaviour ( through an options list )
 * Parameters forcing for usms (common or specific values)
-* Returning specific outputs daily data for each usm with possible dates and variables
-filtering
+* Returning specific outputs daily data for each usm with possible dates and variables filtering
 * Parallelizing simulations runs, and execution time display
+
+Be aware that for the moment, it **is not possible** to get daily outputs for an `inter-cropping` use case. This will be implemented in future developments.
+
 
 As the `run_stics` function, the `stics_wrapper` operates on directories 
 containing text stics input files.

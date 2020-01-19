@@ -31,6 +31,7 @@
 #' @return A list containing simulated values (`sim_list`: a named list containing
 #' usms outputs data.frames) and a flag (`flag_allsim`) indicating if all
 #' required situations, variables and dates were simulated.
+#' Inter-crops are not yet taken into account for extracting output data from files.
 #'
 #'
 #' @examples

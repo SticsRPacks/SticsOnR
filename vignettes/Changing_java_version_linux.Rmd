@@ -1,0 +1,99 @@
+---
+title: "Changing Java version procedure under linux"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Changing_Java_version}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Java installation
+
+The highest version of Java usable with the `SticsOnR` or `SticsRFiles` packages is version 8. Even if a more recent version is installed on the system, it is possible to add a Java 8 version.
+
+The next sections are giving information about how to switch to Java 8 and go back to the last version.
+
+These information are partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.
+
+## Switching the java version to Java version 8. 
+
+After the Java 8 installation, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
+
+```{bash, eval = TRUE}
+#!/bin/bash
+
+# Changing last installed Java version to Java version 8
+echo "The current Java version is : "
+java -version
+
+version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+
+if ! [ -z $(echo $version | grep ^1.8) ];then
+  echo "The Java version is already Java 8"
+  exit 0
+fi
+
+echo "Changing Java version to Java 8"
+if [ -e /usr/lib/jvm/java-8-openjdk-amd64/bin/java ];then
+	     sudo rm /usr/bin/java
+	     sudo ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java
+fi
+
+version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+
+if [ -z $(echo $version | grep ^1.8) ];then
+  echo
+  echo "Java 8 is not installed !"
+  exit 1
+fi
+
+echo "The Java version is now : "
+java -version
+
+```
+
+
+After that, 
+
+> the **SticsOnR** package functions using the
+> JavaStics command line interface **can be used**.
+
+
+## Switch back to the last Java version on the system.
+For restoring the initial Java version, a script like the following can be ran. 
+
+
+```{bash, eval = TRUE}
+#!/bin/bash
+
+# Changing to the last installed Java version
+
+echo "Current Java version is : "
+java -version
+
+version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+
+if [ -z $(echo $version | grep ^1.8) ];then
+  echo
+  echo "The Java version is not Java 8"
+  exit 0
+fi
+
+
+last_version=$(/etc/alternatives/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+
+if ! [ -z $(echo $last_version | grep ^1.8) ];then
+  echo
+  echo "No more recent version of Java is available on the system !"
+  exit 0
+fi
+  
+sudo rm /usr/bin/java
+sudo ln -s /etc/alternatives/java /usr/bin/java
+echo "JAVA version is now : "
+java -version
+
+
+```
+
+

@@ -41,6 +41,7 @@ format)}
 A list containing simulated values (\code{sim_list}: a named list containing
 usms outputs data.frames) and a flag (\code{flag_allsim}) indicating if all
 required situations, variables and dates were simulated.
+Inter-crops are not yet taken into account for extracting output data from files.
 }
 \description{
 This function uses Stics directly through a system call, can

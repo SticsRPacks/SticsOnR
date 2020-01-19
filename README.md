@@ -17,6 +17,48 @@ downloadable with its graphical user interface from
 
 Follow up the development [here](sticsOnR.md).-->
 
+## Pre-requisities and technical tips
+
+### JavaStics software
+
+JavaStics must be installed and the minimal version is 1.41.
+
+The last distribution version for Stics 9.1, JavaSTICS-1.41-stics-9.1 is
+downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).
+
+The installation process only constists of unzipping the JavaStics
+archive.
+
+### Under linux operating systems
+
+#### Java version
+
+For using the JavaStics software (GUI and command line interface) under
+a `linux` operating system, the java version must be at most the java 8
+version.
+
+So for recent distributions on which a higher version is installed some
+manipulations can be done.
+
+A description is given
+[here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html).
+
+#### System libraries
+
+For the linux operating system, the SticsOnR package may require to
+install an `xslt` library.
+
+If the SticsOnR installation fails, and the `xslt` library is missing,
+the error message indicates what is the name of the xslt library to be
+installed (according to the common linux distributions). For example,
+for the Ubuntu or Debian OS `libxslt1-dev` must be installed.
+
+#### Files/directories paths syntax
+
+Using the `~` in files or directories paths may cause errors in SticsOnR
+functions. So, it is safer for the moment to use absolute paths. This
+will be fixed in the future versions.
+
 ## Installation
 
 The development version from [GitHub](https://github.com/) can be
@@ -46,11 +88,9 @@ examples will be detailed in a specific documentation later.
 
 ### Running the JavaStics command line interface
 
-We need for that a JavaStics installed and a JavaStics workspace folder.
-For example using the last distribution version for Stics 9.1,
-(JavaSTICS-1.41-stics-9.1 downloadable
-[here](https://www6.paca.inrae.fr/stics_eng/Download)).  
-It contains an `example` folder with a set of runnable usms.
+The JavaStics installation folder (for example,
+JavaSTICS-1.41-stics-9.1) contains an `example` workspace folder with a
+set of runnable usms.
 
 For running simulations from it, we can use the `run_javastics`
 function.
@@ -134,7 +174,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[18/01/20]-[16:30:30] INFO - Modulostics files generation..\n[18/01/20]-[16:30:30] INFO - Generating txt files ...\n[18/01/20]-[16:30:30] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[18/01/20]-[18:52:30] INFO - Modulostics files generation..\n[18/01/20]-[18:52:30] INFO - Generating txt files ...\n[18/01/20]-[18:52:31] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -145,7 +185,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[18/01/20]-[16:30:31] INFO - Modulostics files generation..\n[18/01/20]-[16:30:31] INFO - Generating txt files ...\n[18/01/20]-[16:30:31] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[18/01/20]-[18:52:31] INFO - Modulostics files generation..\n[18/01/20]-[18:52:31] INFO - Generating txt files ...\n[18/01/20]-[18:52:32] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -313,6 +353,10 @@ This `stics_wrapper` function allows:
   - Returning specific outputs daily data for each usm with possible
     dates and variables filtering
   - Parallelizing simulations runs, and execution time display
+
+Be aware that for the moment, it **is not possible** to get daily
+outputs for an `inter-cropping` use case. This will be implemented in
+future developments.
 
 As the `run_stics` function, the `stics_wrapper` operates on directories
 containing text stics input files.
@@ -510,7 +554,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 22.24381 secs
+#> Time difference of 21.75202 secs
 ```
 
   - Activating parallel execution and execution time display In that
@@ -527,7 +571,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.96338 secs
+#> Time difference of 12.66302 secs
 ```
 
   - Specifying cores number to use
@@ -539,7 +583,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.24036 secs
+#> Time difference of 13.53429 secs
 ```
 
 ## Code of conduct
