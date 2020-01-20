@@ -21,10 +21,10 @@ Follow up the development [here](sticsOnR.md).-->
 
 ### JavaStics software
 
-JavaStics must be installed and the minimal version is 1.41.
+JavaStics must be installed and the minimal version is version 1.41.
 
-The last distribution version for Stics 9.1, JavaSTICS-1.41-stics-9.1 is
-downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download)).
+The last distribution version for Stics 9.1, JavaSTICS-1.41-stics-9.1,
+is downloadable [here](https://www6.paca.inrae.fr/stics_eng/Download).
 
 The installation process only constists of unzipping the JavaStics
 archive.
@@ -34,14 +34,16 @@ archive.
 #### Java version
 
 For using the JavaStics software (GUI and command line interface) under
-a `linux` operating system, the java version must be at most the java 8
+a `linux` operating system, the java version must be at most the Java 8
 version.
 
 So for recent distributions on which a higher version is installed some
 manipulations can be done.
 
 A description is given
-[here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html).
+[here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html)
+on how to fix it for using the R package (i.e. underlying JavaStics
+command line interface).
 
 #### System libraries
 
@@ -174,7 +176,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[18/01/20]-[18:52:30] INFO - Modulostics files generation..\n[18/01/20]-[18:52:30] INFO - Generating txt files ...\n[18/01/20]-[18:52:31] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[09:58:47] INFO - Modulostics files generation..\n[20/01/20]-[09:58:47] INFO - Generating txt files ...\n[20/01/20]-[09:58:48] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -185,100 +187,36 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[18/01/20]-[18:52:31] INFO - Modulostics files generation..\n[18/01/20]-[18:52:31] INFO - Generating txt files ...\n[18/01/20]-[18:52:32] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[09:58:49] INFO - Modulostics files generation..\n[20/01/20]-[09:58:49] INFO - Generating txt files ...\n[20/01/20]-[09:58:49] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
 messages got from JavaStics commandline interface. If any `Error` key
 word appears in a message, the corresponding simulation failed. But, at
-the moment it is impossible to identify what is the the error’s origin.
+the moment it is impossible to identify what is the error’s origin.
 Things must be checked manually in the workspace, after running again
 the faulty usm (because the model input files are overwritten at each
 usms simulation).
 
-### Converting JavaStics workspace files
-
-For using the model directly neither using the JavaStics graphical
-interface nor the `run_javastics` function interface, we provide a
-function, `gen_usms_xml2txt`, for converting JavasStics XML files to
-Stics text files from a JavaStics workspace.
-
-Observation files may also be copied if they have a standard name as an
-usm name and a `.obs` extension. If not, they must be renamed to do so.
-
-``` r
-# Specifying the JavaStics folder
-javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
-
-# Specifying a workspace as a subfolder of JavaStics 
-workspace_path <- "example"
-# or an absolute path to an extrenal folder
-# workspace_path <- "/path/to/javastics/workspace"
-
-# Specifying an output folder path 
-output_path <- "/path/to/output/folder"
-```
-
-#### Converting files into separated folders (one per usm)
-
-``` r
-# Generating files for all the usms contained in the workspace
-# In the workspace
-gen_usms_xml2txt(javastics_path, workspace_path)
-# In a specific output folderfolder
-gen_usms_xml2txt(javastics_path, workspace_path, target_path = output_path)
-
-# Generating files for a subset of usms
-# In the workspace
-gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"))
-# In a specific folder
-gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = output_path)
-
-# Getting returned information about files generation
-gen_info <- gen_usms_xml2txt(javastics_path, workspace_path, usms_list = c("banana","wheat"), target_path = output_path)
-
-gen_info
-#> $usms_paths
-#> [1] "banana" "wheat" 
-#> 
-#> $files_path
-#>  [1] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/climat.txt"     
-#>  [2] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/param.sol"      
-#>  [3] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficini.txt"     
-#>  [4] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficplt1.txt"    
-#>  [5] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/fictec1.txt"    
-#>  [6] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/station.txt"    
-#>  [7] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/new_travail.usm"
-#>  [8] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/tempopar.sti"   
-#>  [9] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/tempoparv6.sti" 
-#> [10] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/ficplt2.txt"    
-#> [11] "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/fictec2.txt"    
-#> 
-#> $copy_status
-#> [1] TRUE TRUE
-#> 
-#> $obs_copy_status
-#> [1] TRUE TRUE
-```
-
-#### Converting files into one folder (overwriting case)
-
-``` r
-# Generating files directly in the workspace or a specific folder (no usm sub-folder) 
-# In this case the model files are overwritten at each gen_usms_xml2txt call !
-# In the workspace
-gen_usms_xml2txt(javastics_path, workspace_path, usms_list = "banana", dir_per_usm_flag = FALSE)
-
-# In a specific folder
-gen_usms_xml2txt(javastics_path, workspace_path, usms_list = "banana", 
-                 target_path = output_path, dir_per_usm_flag = FALSE)
-```
+<!-- SET eval to TRUE gen_usms_xml2txt has been moved to SticsRFiles -->
 
 ### Running the model
 
-We need for that a JavaStics folder and a directory, or a folder
-containing usms subdirectories with text input files (converted from xml
-JavaStics files, see previous section).
+We need for that a JavaStics folder and a directory with text input
+files for Stics, or a folder containing usms individual sub-directories
+.
+
+These directories can be generated using the `gen_usms_xml2txt` function
+from the **SticsRFiles** package, by converting automatically XML files
+to Stics input text files. See the documentation
+[here](https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html).
+
+Example of use:
+
+``` r
+# Generating files for all the usms contained in the workspace
+SticsRFiles::gen_usms_xml2txt(javastics_path,javastics_workspace_path =  workspace_path, target_path = output_path)
+```
 
 The `run_stics` function can be used as follows with one folder or
 multiple sub-folders.
@@ -554,7 +492,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 21.75202 secs
+#> Time difference of 21.66015 secs
 ```
 
   - Activating parallel execution and execution time display In that
@@ -571,7 +509,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.66302 secs
+#> Time difference of 14.21966 secs
 ```
 
   - Specifying cores number to use
@@ -583,7 +521,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 13.53429 secs
+#> Time difference of 14.00784 secs
 ```
 
 ## Code of conduct
