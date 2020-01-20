@@ -478,7 +478,8 @@ stics_wrapper_options <- function(stics_path = NULL,
   # Checking if paths exist
   exist_dirs <- file.exists(dirs)
   if (!all(exist_dirs)) {
-    stop("Mandatory path(s) does(do) not exist: \n",
+    stop(paste("Mandatory path(s)",c("stics_path", "data_dir")[!exist_dirs],
+               collapse = "\n  ")," does(do) not exist: \n",
          paste(dirs[!exist_dirs], collapse = "\n"))
   }
 
