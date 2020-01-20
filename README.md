@@ -176,7 +176,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[20/01/20]-[09:58:47] INFO - Modulostics files generation..\n[20/01/20]-[09:58:47] INFO - Generating txt files ...\n[20/01/20]-[09:58:48] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[10:29:41] INFO - Modulostics files generation..\n[20/01/20]-[10:29:41] INFO - Generating txt files ...\n[20/01/20]-[10:29:42] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -187,7 +187,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[20/01/20]-[09:58:49] INFO - Modulostics files generation..\n[20/01/20]-[09:58:49] INFO - Generating txt files ...\n[20/01/20]-[09:58:49] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[10:29:42] INFO - Modulostics files generation..\n[20/01/20]-[10:29:42] INFO - Generating txt files ...\n[20/01/20]-[10:29:43] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -274,7 +274,7 @@ runs_info
 #> [2] " The execution has been successfully accomplished."
 ```
 
-### Advanced simulations paramerization
+### Advanced simulations parameterization
 
 A specific function `stics_wrapper` is dedicated to manage simulations
 with a higher level of parameterization than the `run_stics` function
@@ -314,19 +314,19 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
 ```
 
 Optional fields in the `sim_options` list will be set later in this
-document, when paralellized executions will be activated.
+document, when parallelized executions will be activated.
 
 The content of the options list with default values, can be displayed
-using the `stics_wrapper_options` function without any argument as
+obtained the `stics_wrapper_options` function without any argument as
 follows:
 
 ``` r
 stics_wrapper_options()
 #> $stics_path
-#> character(0)
+#> [1] "unknown"
 #> 
 #> $data_dir
-#> character(0)
+#> [1] "unknown"
 #> 
 #> $parallel
 #> [1] FALSE
@@ -339,6 +339,13 @@ stics_wrapper_options()
 #> 
 #> $warning_display
 #> [1] TRUE
+```
+
+An existing options list may be updated with new values using named
+arguments as follows:
+
+``` r
+sim_options <- stics_wrapper_options(in_options = sim_options, parallel = TRUE)
 ```
 
 #### Simple simulations cases
@@ -492,7 +499,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 21.66015 secs
+#> Time difference of 22.15747 secs
 ```
 
   - Activating parallel execution and execution time display In that
@@ -509,7 +516,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.21966 secs
+#> Time difference of 14.19542 secs
 ```
 
   - Specifying cores number to use
@@ -521,7 +528,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.00784 secs
+#> Time difference of 14.36561 secs
 ```
 
 ## Code of conduct

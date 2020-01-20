@@ -430,8 +430,8 @@ stics_wrapper_options <- function(stics_path = NULL,
   # Template list
   if (base::is.null(options)) {
     options <- list()
-    options$stics_path <- character(0)
-    options$data_dir <- character(0)
+    options$stics_path <- "unknown"
+    options$data_dir <- "unknown"
     options$parallel <- FALSE
     options$cores <- NA
     options$time_display <- FALSE
@@ -460,8 +460,7 @@ stics_wrapper_options <- function(stics_path = NULL,
   }
 
   # Checking mandatory fields
-  missing_opts <- c(base::is.null(options$stics_path),
-                    base::is.null(options$data_dir))
+  missing_opts <- c(options$stics_path, options$data_dir ) == "unknown"
   if (base::any(missing_opts)) {
     stop("Mandatory option(s) is/are missing: ",
          paste(c("stics_path", "data_dir")[missing_opts],
