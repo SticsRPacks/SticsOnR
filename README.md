@@ -82,6 +82,8 @@ Normaly, all packages dependencies will be installed, either CRAN
 packages or SticsRPacks needed packages. In that case SticsRFiles and
 CroptimizR will be installed as well.
 
+## Loading libraries
+
 ## Examples
 
 Here are basic examples which show you how to run the model either from
@@ -176,7 +178,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[20/01/20]-[10:29:41] INFO - Modulostics files generation..\n[20/01/20]-[10:29:41] INFO - Generating txt files ...\n[20/01/20]-[10:29:42] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[11:36:17] INFO - Modulostics files generation..\n[20/01/20]-[11:36:17] INFO - Generating txt files ...\n[20/01/20]-[11:36:17] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -187,7 +189,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[20/01/20]-[10:29:42] INFO - Modulostics files generation..\n[20/01/20]-[10:29:42] INFO - Generating txt files ...\n[20/01/20]-[10:29:43] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[20/01/20]-[11:36:18] INFO - Modulostics files generation..\n[20/01/20]-[11:36:18] INFO - Generating txt files ...\n[20/01/20]-[11:36:18] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -499,7 +501,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 22.15747 secs
+#> Time difference of 23.08314 secs
 ```
 
   - Activating parallel execution and execution time display In that
@@ -516,7 +518,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.19542 secs
+#> Time difference of 15.73907 secs
 ```
 
   - Specifying cores number to use
@@ -528,7 +530,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 14.36561 secs
+#> Time difference of 15.02029 secs
 ```
 
 ## Code of conduct

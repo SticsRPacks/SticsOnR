@@ -36,7 +36,7 @@ The goal of SticsOnR is to perform simulations of the Stics model, downloadable 
 
 Follow up the development [here](sticsOnR.md).-->
 
-## Pre-requisities and technical tips
+## Prerequisites and technical tips
 
 ### JavaStics software
 
@@ -80,7 +80,6 @@ remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 Normaly, all packages dependencies will be installed, either CRAN packages or SticsRPacks 
 needed packages. In that case SticsRFiles and CroptimizR will be installed as well.
-
 
 ## Examples
 
