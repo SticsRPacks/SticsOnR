@@ -5,8 +5,7 @@
 \title{Running usm(s) from txt input files stored in one directory
 per \code{situation}, simulated results are returned in a list}
 \usage{
-stics_wrapper(model_options, param_values = NULL,
-  sit_var_dates_mask = NULL)
+stics_wrapper(model_options, param_values = NULL, sit_var_dates_mask = NULL)
 }
 \arguments{
 \item{model_options}{List containing any information needed by the model.

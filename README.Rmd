@@ -160,17 +160,27 @@ SticsRFiles::gen_usms_xml2txt(javastics_path,javastics_workspace_path =  workspa
 
 The `run_stics` function can be used as follows with one folder or multiple sub-folders.
 
+```{r run_stics_int, echo = FALSE, results='hide'}
+# Specifying the Stics executable file path
+
+# for windows
+# stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+# for linux
+stics_path <- file.path(javastics_path,"bin","stics_modulo")
+# for linux
+# stics_path <- file.path(javastics_path,"bin","stics_modulo")
+
+```
 
 
 
 ```{r run_stics}
-# Spefifying the Stics executable file path
+# Specifying the Stics executable file path
 
 # for windows
-stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+# stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
 # for linux
 # stics_path <- file.path(javastics_path,"bin","stics_modulo")
-
 # for Mac
 # stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
 
@@ -219,9 +229,12 @@ containing text stics input files.
 Simulation options can be fixed using the `stics_wrapper_options` function. 
 Both of them are mandatory: the model executable path and the directory path containing usms sub-directories with text input files.
 
+Here we reuse the model executable path defined prevously with respect to the operating system (Windows, Linux or Mac) and the directory where individual Usms input directories have been generated.
+
 ```{r}
-stics_path <- file.path(javastics_path, "bin","stics_modulo")
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
+
+sim_options <- stics_wrapper_options(stics_path = stics_path, 
+                                     data_dir = output_path)
 ```
 Optional fields in the `sim_options` list will be detailed later in this document. 
 

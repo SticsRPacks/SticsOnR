@@ -17,7 +17,7 @@ downloadable with its graphical user interface from
 
 Follow up the development [here](sticsOnR.md).-->
 
-## Pre-requisities and technical tips
+## Prerequisites and technical tips
 
 ### JavaStics software
 
@@ -81,8 +81,6 @@ remotes::install_github("SticsRPacks/SticsOnR@*release")
 Normaly, all packages dependencies will be installed, either CRAN
 packages or SticsRPacks needed packages. In that case SticsRFiles and
 CroptimizR will be installed as well.
-
-## Loading libraries
 
 ## Examples
 
@@ -178,7 +176,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[20/01/20]-[11:36:17] INFO - Modulostics files generation..\n[20/01/20]-[11:36:17] INFO - Generating txt files ...\n[20/01/20]-[11:36:17] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[24/01/20]-[16:53:22] INFO - Modulostics files generation..\n[24/01/20]-[16:53:22] INFO - Generating txt files ...\n[24/01/20]-[16:53:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -189,7 +187,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[20/01/20]-[11:36:18] INFO - Modulostics files generation..\n[20/01/20]-[11:36:18] INFO - Generating txt files ...\n[20/01/20]-[11:36:18] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[24/01/20]-[16:53:24] INFO - Modulostics files generation..\n[24/01/20]-[16:53:24] INFO - Generating txt files ...\n[24/01/20]-[16:53:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -224,11 +222,12 @@ The `run_stics` function can be used as follows with one folder or
 multiple sub-folders.
 
 ``` r
-# Spefifying the Stics executable file path
+# Specifying the Stics executable file path
 
-# for windows/linux
-stics_path <- file.path(javastics_path,"bin","stics_modulo")
-
+# for windows
+# stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+# for linux
+# stics_path <- file.path(javastics_path,"bin","stics_modulo")
 # for Mac
 # stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
 
@@ -279,20 +278,15 @@ runs_info
 ### Advanced simulations parameterization
 
 A specific function `stics_wrapper` is dedicated to manage simulations
-with a higher level of parameterization than the `run_stics` function
-which only executes runs.
-
-This is a transitional version of the function that will be modified in
-order to simplify parameter forcing independently from the optimization
-goal, so apart from the CroptimizR package context.
+with a higher level of parameterization than what `run_stics` offers.
 
 This `stics_wrapper` function allows:
 
-  - Configuring simulations run behaviour ( through an options list )
-  - Parameters forcing for usms (common or specific values)
-  - Returning specific outputs daily data for each usm with possible
-    dates and variables filtering
-  - Parallelizing simulations runs, and execution time display
+  - Forcing the values of a set of parameters (common or specific values
+    per USM)
+  - Returning simulated daily outputs for each usm with possible dates
+    and variables filtering
+  - Parallelizing simulations, and displaying execution time
 
 Be aware that for the moment, it **is not possible** to get daily
 outputs for an `inter-cropping` use case. This will be implemented in
@@ -301,26 +295,28 @@ future developments.
 As the `run_stics` function, the `stics_wrapper` operates on directories
 containing text stics input files.
 
-In the next uses case, the directory in which usms sub-directories with
-text input files were generated will be used.
-
 #### Defining simulations options
 
-The mandatory simulation options are fixed using the
-`stics_wrapper_options`: the model executable path and the directory
-path containing usms sub-directories with text input files.
+Simulation options can be fixed using the `stics_wrapper_options`
+function. Both of them are mandatory: the model executable path and the
+directory path containing usms sub-directories with text input files.
+
+Here we reuse the model executable path defined prevously with respect
+to the operating system (Windows, Linux or Mac) and the directory where
+individual Usms input directories have been generated.
 
 ``` r
-stics_path <- file.path(javastics_path, "bin","stics_modulo")
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
+
+sim_options <- stics_wrapper_options(stics_path = stics_path, 
+                                     data_dir = output_path)
 ```
 
-Optional fields in the `sim_options` list will be set later in this
-document, when parallelized executions will be activated.
+Optional fields in the `sim_options` list will be detailed later in this
+document.
 
-The content of the options list with default values, can be displayed
-obtained the `stics_wrapper_options` function without any argument as
-follows:
+Default values for these optional fields are set by
+`stics_wrapper_options`. They can be displayed by calling the
+`stics_wrapper_options` function without any argument as follows:
 
 ``` r
 stics_wrapper_options()
@@ -436,63 +432,202 @@ results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_l
 ```
 
 Some warnings may occur, indicating that observed variables and/or
-observations dates are missing in simulated data. Simulation period and
-output variables list may be fixed before restarting simulations.
-
-But, for variables names, perhaps they can be badly written and do not
-correspond exactly the model variables names.
+observations dates are missing in simulated data. Concerning the dates,
+this may be due to the USMs simulation period that may not include
+observed dates. For the variables, this may be due to an incorrect
+spelling of the variables in obs\_list or to the list of simulated
+variables defined in the var.mod file.
 
 #### Simulations with forcing parameters
 
-In this case, we can define variables containing information used for
-parameters forcing management. They are transmitted to `stics_wrapper`
-through 2 arguments, one containing a named vector of parameters values
-`param_values` and the other storing corresponding usms groups to which
-each parameter value of `param_values` will be applied before running
-the model.
+  - Applying a single parameter values vector for all the selected usms
 
-  - Applying a single parameter values vector for all the usms
-
-<!-- end list -->
+Parameters values are prescribed using the `param_values` argument. It
+can be a named vector containing the values and names of the parameters
+to force. In this case, the same values will be applied for all the
+simulated usms.
 
 ``` r
 
-# No group list information given
-# Paratemers vector with unique values
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
 ```
 
-  - Using usms specific parameters values vectors
+  - Defining different parameters values depending on the usms or
+    defining several parameters values per usms
 
-<!-- end list -->
+`param_values` can also be a named 3D array containing the value(s) and
+names of the parameters to force for each situation to simulate. This
+array contains the different parameters values (first dimension) for the
+different parameters (second dimension) and for the different usms
+(third dimension). By this way, the parameters can take different values
+depending on the usms. Also, usms can be simulated several times each
+with different values of the parameters.
 
 ``` r
-# Defining usms groups using same parameters values
-# (may be used in parameter optimization)
-# Parameters vector, with parameters values per usms groups
-param_values <- c(0.001, 0.002, 50, 51)
-names(param_values) <- c("dlaimax", "dlaimax", "durvieF", "durvieF")
 
-# Groups list
-# parameters_data
-groups_list <- list(dlaimax=list(sit_list=list(c("maize"),c("wheat", "pea"))),
-                   durvieF=list(sit_list=list(c("wheat"), c("maize", "pea"))))
+# Let's run usm wheat with c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
+# usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
+# and usm maize with c(dlaimax=0.001, durvieF=70) and c(dlaimax=0.002, durvieF=70)
+param_values <- array( c(0.001, 0.002, 50, 50, 
+                         0.001, 0.002, 60, 60, 
+                         0.001, 0.002, 70, 70),
+                      dim=c(2,2,3),
+                      dimnames=list(NULL,c("dlaimax", "durvieF"),c("wheat", "pea", "maize")))
+                      
+# Let's display it
+param_values
+#> , , wheat
+#> 
+#>      dlaimax durvieF
+#> [1,]   0.001      50
+#> [2,]   0.002      50
+#> 
+#> , , pea
+#> 
+#>      dlaimax durvieF
+#> [1,]   0.001      60
+#> [2,]   0.002      60
+#> 
+#> , , maize
+#> 
+#>      dlaimax durvieF
+#> [1,]   0.001      70
+#> [2,]   0.002      70
 
+# In this case, no need to redefine the usms list in sit_var_dates_mask argument, it is already
+# given in param_values
+results <- stics_wrapper(model_options = sim_options, param_values = param_values)
 
-results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values, prior_information = groups_list)
+# Let's display the results
+head(results)
+#> $error
+#> [1] FALSE
+#> 
+#> $sim_list
+#> $sim_list[[1]]
+#> $sim_list[[1]]$wheat
+#> # A tibble: 411 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 1994-10-17 00:00:00  1994    10    17   290     0       0       0  2.53  4.80
+#> 2 1994-10-18 00:00:00  1994    10    18   291     0       0       0  2.31  4.66
+#> 3 1994-10-19 00:00:00  1994    10    19   292     0       0       0  4.55  4.44
+#> 4 1994-10-20 00:00:00  1994    10    20   293     0       0       0  4.49  4.41
+#> 5 1994-10-21 00:00:00  1994    10    21   294     0       0       0  5.36  4.35
+#> # … with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <dbl>
+#> 
+#> $sim_list[[1]]$pea
+#> # A tibble: 129 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0  20.8  25.7
+#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0  20.3  25.7
+#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0  19.7  25.6
+#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0  18.9  25.5
+#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0  18.1  25.4
+#> # … with 124 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
+#> 
+#> $sim_list[[1]]$maize
+#> # A tibble: 249 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 1996-04-21 00:00:00  1996     4    21   112     0       0       0  22.4  22.3
+#> 2 1996-04-22 00:00:00  1996     4    22   113     0       0       0  22.5  24.5
+#> 3 1996-04-23 00:00:00  1996     4    23   114     0       0       0  22.5  24.7
+#> 4 1996-04-24 00:00:00  1996     4    24   115     0       0       0  22.2  24.7
+#> 5 1996-04-25 00:00:00  1996     4    25   116     0       0       0  22.0  24.7
+#> # … with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
+#> 
+#> 
+#> $sim_list[[2]]
+#> $sim_list[[2]]$wheat
+#> # A tibble: 411 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 1994-10-17 00:00:00  1994    10    17   290     0       0       0  2.53  4.80
+#> 2 1994-10-18 00:00:00  1994    10    18   291     0       0       0  2.31  4.66
+#> 3 1994-10-19 00:00:00  1994    10    19   292     0       0       0  4.55  4.44
+#> 4 1994-10-20 00:00:00  1994    10    20   293     0       0       0  4.49  4.41
+#> 5 1994-10-21 00:00:00  1994    10    21   294     0       0       0  5.36  4.35
+#> # … with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <dbl>
+#> 
+#> $sim_list[[2]]$pea
+#> # A tibble: 129 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0  20.8  25.7
+#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0  20.3  25.7
+#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0  19.7  25.6
+#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0  18.9  25.5
+#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0  18.1  25.4
+#> # … with 124 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
+#> 
+#> $sim_list[[2]]$maize
+#> # A tibble: 249 x 51
+#>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
+#>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
+#> 1 1996-04-21 00:00:00  1996     4    21   112     0       0       0  22.4  22.3
+#> 2 1996-04-22 00:00:00  1996     4    22   113     0       0       0  22.5  24.5
+#> 3 1996-04-23 00:00:00  1996     4    23   114     0       0       0  22.5  24.7
+#> 4 1996-04-24 00:00:00  1996     4    24   115     0       0       0  22.2  24.7
+#> 5 1996-04-25 00:00:00  1996     4    25   116     0       0       0  22.0  24.7
+#> # … with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
+#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
+#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
+#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
+#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
+#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
+#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
 ```
 
-For the moment, usms names must be restricted to usms names existing in
-groups\_list. So usms names list must be provided as
-`sit_var_dates_mask` argument value (in this case `c("wheat", "pea",
-"maize")`)
+#### Optional arguments
 
-#### Simulations using parallel executions
-
-  - Getting standard simulations execution time
+  - Displaying execution time
 
 <!-- end list -->
 
@@ -501,13 +636,23 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 23.08314 secs
+#> Time difference of 22.00408 secs
 ```
 
-  - Activating parallel execution and execution time display In that
-    case, parallel execution is done over cores number minus 1.
+  - Activating parallel execution
 
-<!-- end list -->
+On may specify the number of cores to use with the cores argument.
+
+``` r
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2)
+
+results <- stics_wrapper(model_options = sim_options)
+#> Time difference of 13.30597 secs
+```
+
+If cores is not given, parallel execution is performed over machine
+total cores number minus 1.
 
 ``` r
 # Used cores number
@@ -518,19 +663,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 15.73907 secs
-```
-
-  - Specifying cores number to use
-
-<!-- end list -->
-
-``` r
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, cores = 2)
-
-results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 15.02029 secs
+#> Time difference of 11.3027 secs
 ```
 
 ## Code of conduct
