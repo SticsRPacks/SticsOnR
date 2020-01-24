@@ -5,12 +5,8 @@
 \title{Getting/setting a stics_wrapper options list with initialized fields,
 or validating an existing list}
 \usage{
-stics_wrapper_options(
-  stics_path = NULL,
-  data_dir = NULL,
-  in_options = NULL,
-  ...
-)
+stics_wrapper_options(stics_path = NULL, data_dir = NULL,
+  in_options = NULL, ...)
 }
 \arguments{
 \item{stics_path}{Path of the Stics binary executable file (delivered with
