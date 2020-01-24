@@ -28,7 +28,6 @@ Imports:
     ggplot2,
     reshape2,
     dplyr,
-    sensitivity,
     crayon (>= 1.3.4),
     rstudioapi,
     SticsRFiles,
@@ -39,11 +38,9 @@ Imports:
     parallel,
     XML,
     iterators,
-    CroptimizR,
     methods
 Remotes: 
-    github::SticsRPacks/SticsRFiles,
-    github::SticsRPacks/CroptimizR
+    github::SticsRPacks/SticsRFiles
 Suggests:
     testthat,
     covr,

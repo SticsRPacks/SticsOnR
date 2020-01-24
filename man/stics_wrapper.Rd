@@ -5,42 +5,36 @@
 \title{Running usm(s) from txt input files stored in one directory
 per \code{situation}, simulated results are returned in a list}
 \usage{
-stics_wrapper(
-  param_values = NULL,
-  sit_var_dates_mask = NULL,
-  prior_information = NULL,
-  model_options
-)
+stics_wrapper(model_options, param_values = NULL,
+  sit_var_dates_mask = NULL)
 }
 \arguments{
-\item{param_values}{a named vector containing the value(s) and names of the
-parameters to force (optional). It may contains either unique value for each
-parameter name or multiple values for each parameter when \code{prior_information}
-argument is provided.}
-
-\item{sit_var_dates_mask}{List of situations:
-may be either a character vector of situation names or a named list containing
-information about variables and dates for which simulated values should be returned.
-Typically a list containing the observations to which simulations should be
-compared as provided by SticsRFiles::read_obs}
-
-\item{prior_information}{Prior information on the parameters to estimate.
-For the moment only uniform distribution are allowed.
-Either a list containing (named) vectors of upper and lower
-bounds (\code{ub} and \code{lb}), or a named list containing for each
-parameter the list of situations per group (\code{sit_list})
-and the vector of upper and lower bounds (one value per group) (\code{ub} and \code{lb})}
-
 \item{model_options}{List containing any information needed by the model.
 In the case of Stics: \code{stics_path} the path of Stics executable file and
 \code{data_dir} the path of the directory containing the Stics input data
 for each USM (one folder per USM where Stics input files are stored in txt
 format)}
+
+\item{param_values}{(optional) either a named vector or a named 3D array.
+Use a named vector that contains the values and names of the parameters to force
+the same values of the parameters whatever the simulated situations (usms).
+If one wants to force the model with different values of parameters for the
+simulated situations or to simulate the situations several times but with different
+values of the parameters, use a 3D array containing the value(s) and names of the
+parameters to force for each situation to simulate. This array contains the different
+parameters values (first dimension) for the different parameters (second dimension)
+and for the different situations (third dimension). See examples for more details.}
+
+\item{sit_var_dates_mask}{(optional) List of situations:
+may be either a character vector of situation names or a named list containing
+information about variables and dates for which simulated values should be returned.
+Typically a list containing the observations to which simulations should be
+compared as provided by SticsRFiles::read_obs}
 }
 \value{
-A list containing simulated values (\code{sim_list}: a named list containing
-usms outputs data.frames) and a flag (\code{flag_allsim}) indicating if all
-required situations, variables and dates were simulated.
+A list containing simulated values (\code{sim_list}: a vector of list (one
+element per values of parameters) containing usms outputs data.frames) and an
+error code (\code{error}) indicating if at least one simulation ended with an error.
 Inter-crops are not yet taken into account for extracting output data from files.
 }
 \description{
@@ -61,14 +55,32 @@ stics_path <- file.path(javastics_path, "bin","stics_modulo")
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-# Running all the usms
-sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path)
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
 
-# Running an usm list
+# Running all the usms that have a corresponding input folder in data_path
+results <- stics_wrapper(sim_options)
+
+# Running a sublist of usm
 usms_list <- c("wheat", "pea", "maize")
-sim_options <- stics_wrapper(stics_path = stics_path, data_dir = data_path,
-sit_var_dates_mask = usms_list)
+results <- stics_wrapper(sim_options, sit_var_dates_mask = usms_list)
 
+# Applying a single parameter values vector for the sublist of usms
+param_values <- c(0.002,50)
+names(param_values) <- c("dlaimax", "durvieF")
+results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
+
+# Applying different values of the parameters for the usms
+# Let's run usm wheat with c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
+# usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
+# and usm maize with c(dlaimax=0.001, durvieF=70) and c(dlaimax=0.002, durvieF=70)
+param_values <- array( c(0.001, 0.002, 50, 50,
+                         0.001, 0.002, 60, 60,
+                         0.001, 0.002, 70, 70),
+                       dim=c(2,2,3),
+                       dimnames=list(NULL,c("dlaimax", "durvieF"),c("wheat", "pea", "maize")))
+# In this case, no need to redefine the usms list in sit_var_dates_mask argument, it is already
+# given in param_values
+results <- stics_wrapper(model_options = sim_options, param_values = param_values)
 }
 
 }

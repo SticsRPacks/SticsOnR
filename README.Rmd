@@ -9,7 +9,7 @@ params:
 ---
 
 
-```{r setup, echo = FALSE}
+```{r setup, echo = FALSE, warning=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -139,7 +139,7 @@ In the returned information, the error field name gives a list of messages got f
 ```{r, echo=F, results='hide', eval = TRUE}
 # Preparing simulation folders for running the model with run_stics
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path,javastics_workspace_path =  workspace_path, target_path = output_path )
+SticsRFiles::gen_usms_xml2txt(javastics_path,workspace_path =  workspace_path, target_path = output_path )
 unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
 
 ```
@@ -166,8 +166,10 @@ The `run_stics` function can be used as follows with one folder or multiple sub-
 ```{r run_stics}
 # Spefifying the Stics executable file path
 
-# for windows/linux
-stics_path <- file.path(javastics_path,"bin","stics_modulo")
+# for windows
+stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+# for linux
+# stics_path <- file.path(javastics_path,"bin","stics_modulo")
 
 # for Mac
 # stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
@@ -199,38 +201,32 @@ runs_info
 ### Advanced simulations parameterization 
 
 A specific function `stics_wrapper` is dedicated to manage simulations with a higher level
-of parameterization than the `run_stics` function which only executes runs.
-
-This is a transitional version of the function that will be modified in order to simplify parameter forcing independently from the optimization goal, so apart from the CroptimizR package context. 
+of parameterization than what `run_stics` offers.
 
 This `stics_wrapper` function allows:
 
-* Configuring simulations run behaviour ( through an options list )
-* Parameters forcing for usms (common or specific values)
-* Returning specific outputs daily data for each usm with possible dates and variables filtering
-* Parallelizing simulations runs, and execution time display
+* Forcing the values of a set of parameters (common or specific values per USM)
+* Returning simulated daily outputs for each usm with possible dates and variables filtering
+* Parallelizing simulations, and displaying execution time
 
 Be aware that for the moment, it **is not possible** to get daily outputs for an `inter-cropping` use case. This will be implemented in future developments.
-
 
 As the `run_stics` function, the `stics_wrapper` operates on directories 
 containing text stics input files.
 
-In the next uses case, the directory in which usms sub-directories with text input files 
-were generated will be used.
-
-
 #### Defining simulations options
 
-The mandatory simulation options are fixed using the `stics_wrapper_options`: the model executable path and the directory path containing usms sub-directories with text input files.
+Simulation options can be fixed using the `stics_wrapper_options` function. 
+Both of them are mandatory: the model executable path and the directory path containing usms sub-directories with text input files.
 
 ```{r}
 stics_path <- file.path(javastics_path, "bin","stics_modulo")
 sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path)
 ```
-Optional fields in the `sim_options` list will be set later in this document, when parallelized executions will be activated. 
+Optional fields in the `sim_options` list will be detailed later in this document. 
 
-The content of the options list with default values, can be displayed obtained the `stics_wrapper_options` function without any argument as follows:
+Default values for these optional fields are set by `stics_wrapper_options`. 
+They can be displayed by calling the `stics_wrapper_options` function without any argument as follows:
 ```{r}
 stics_wrapper_options()
 ```
@@ -281,21 +277,20 @@ obs_list$wheat
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
 
 ```
-Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. Simulation period and output variables list may be fixed before restarting simulations.
-
-But, for variables names, perhaps they can be badly written and do not correspond exactly the model variables names. 
+Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. 
+Concerning the dates, this may be due to the USMs simulation period that may not include observed dates.
+For the variables, this may be due to an incorrect spelling of the variables in obs_list or to the list of simulated variables defined in the var.mod file.
 
 
 #### Simulations with forcing parameters
 
-In this case, we can define variables containing information used for parameters forcing management.
-They are transmitted to `stics_wrapper` through 2 arguments, one containing a named vector of parameters values `param_values` and the other storing corresponding usms groups to which each parameter value of `param_values` will be applied before running the model.
+* Applying a single parameter values vector for all the selected usms 
 
-* Applying a single parameter values vector for all the usms 
+Parameters values are prescribed using the `param_values` argument. It can be a named vector containing the values and names of the parameters to force.
+In this case, the same values will be applied for all the simulated usms.
+
 ```{r}
 
-# No group list information given
-# Paratemers vector with unique values
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
@@ -303,30 +298,38 @@ results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_
 
 ```
 
-* Using usms specific parameters values vectors 
+* Defining different parameters values depending on the usms or defining several parameters values per usms
+
+`param_values` can also be a named 3D array containing the value(s) and names of the parameters to force for each situation to simulate. 
+This array contains the different parameters values (first dimension) for the different parameters (second dimension) and for the different usms (third dimension). 
+By this way, the parameters can take different values depending on the usms. Also, usms can be simulated several times each with different values of the parameters.
+
 ```{r}
-# Defining usms groups using same parameters values
-# (may be used in parameter optimization)
-# Parameters vector, with parameters values per usms groups
-param_values <- c(0.001, 0.002, 50, 51)
-names(param_values) <- c("dlaimax", "dlaimax", "durvieF", "durvieF")
 
-# Groups list
-# parameters_data
-groups_list <- list(dlaimax=list(sit_list=list(c("maize"),c("wheat", "pea"))),
-                   durvieF=list(sit_list=list(c("wheat"), c("maize", "pea"))))
+# Let's run usm wheat with c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
+# usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
+# and usm maize with c(dlaimax=0.001, durvieF=70) and c(dlaimax=0.002, durvieF=70)
+param_values <- array( c(0.001, 0.002, 50, 50, 
+                         0.001, 0.002, 60, 60, 
+                         0.001, 0.002, 70, 70),
+                      dim=c(2,2,3),
+                      dimnames=list(NULL,c("dlaimax", "durvieF"),c("wheat", "pea", "maize")))
+                      
+# Let's display it
+param_values
 
+# In this case, no need to redefine the usms list in sit_var_dates_mask argument, it is already
+# given in param_values
+results <- stics_wrapper(model_options = sim_options, param_values = param_values)
 
-results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values, prior_information = groups_list)
+# Let's display the results
+head(results)
 
 ```
 
-For the moment, usms names must be restricted to usms names existing in groups_list. So usms names list must be provided as `sit_var_dates_mask` argument value (in this case ```c("wheat", "pea", "maize")```)
+#### Optional arguments
 
-
-#### Simulations using parallel executions
-
-* Getting standard simulations execution time
+* Displaying execution time
 
 ```{r}
 sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
@@ -336,8 +339,19 @@ results <- stics_wrapper(model_options = sim_options)
 
 ```
 
-* Activating parallel execution and execution time display
-In that case, parallel execution is done over cores number minus 1.
+* Activating parallel execution
+
+On may specify the number of cores to use with the cores argument.
+
+```{r}
+sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2)
+
+results <- stics_wrapper(model_options = sim_options)
+
+```
+
+If cores is not given, parallel execution is performed over machine total cores number minus 1.
 
 ```{r}
 # Used cores number
@@ -345,15 +359,6 @@ detectCores() - 1
 
 sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
                                      parallel =TRUE, time_display = TRUE)
-
-results <- stics_wrapper(model_options = sim_options)
-
-```
-* Specifying cores number to use
-
-```{r}
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
 
