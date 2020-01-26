@@ -1,4 +1,11 @@
 
+``` r
+library(SticsOnR)
+#> Learn SticsOnR at: https://SticsRPacks.github.io/SticsOnR
+library(SticsRFiles)
+#> Learn SticsRFiles at: https://SticsRPacks.github.io/SticsRFiles
+```
+
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 [![Project Status: WIP – Initial development is in progress, but there
@@ -215,7 +222,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[26/01/20]-[09:13:56] INFO - Modulostics files generation..\n[26/01/20]-[09:13:56] INFO - Generating txt files ...\n[26/01/20]-[09:13:57] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[26/01/20]-[12:46:55] INFO - Modulostics files generation..\n[26/01/20]-[12:46:55] INFO - Generating txt files ...\n[26/01/20]-[12:46:56] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -226,7 +233,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[26/01/20]-[09:13:57] INFO - Modulostics files generation..\n[26/01/20]-[09:13:57] INFO - Generating txt files ...\n[26/01/20]-[09:13:58] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[26/01/20]-[12:46:57] INFO - Modulostics files generation..\n[26/01/20]-[12:46:57] INFO - Generating txt files ...\n[26/01/20]-[12:46:57] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -675,7 +682,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 21.08648 secs
+#> Time difference of 20.7258 secs
 ```
 
   - Activating parallel execution
@@ -687,13 +694,15 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.35271 secs
+#> Time difference of 12.83794 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
 total cores number minus 1.
 
 ``` r
+library(parallel)
+
 # Used cores number
 detectCores() - 1
 #> [1] 3
@@ -702,7 +711,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.12715 secs
+#> Time difference of 11.70129 secs
 ```
 
 ## Code of conduct
@@ -710,6 +719,10 @@ results <- stics_wrapper(model_options = sim_options)
 Please note that this project is released with a [Contributor Code of
 Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
 to abide by its terms.
+
+The package is under intensive development, so you can fill an issue or
+request us a feature
+[here](https://github.com/SticsRPacks/SticsOnR/issues) at any time.
 
 ## Authors and acknowledgments
 

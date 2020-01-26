@@ -77,6 +77,8 @@
 #' @export
 #'
 #' @importFrom foreach %dopar%
+#' @import parallel
+#' @import doParallel
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,

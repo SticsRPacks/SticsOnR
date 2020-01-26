@@ -341,11 +341,6 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb1-27" title="27"></a>
 <a class="sourceLine" id="cb1-28" title="28"><span class="bu">echo</span> <span class="st">&quot;The Java version is now : &quot;</span></a>
 <a class="sourceLine" id="cb1-29" title="29"><span class="ex">java</span> -version</a></code></pre></div>
-<pre><code>## The current Java version is : 
-## openjdk version &quot;1.8.0_222&quot;
-## OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1~14.04-b10)
-## OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
-## The Java version is already Java 8</code></pre>
 <p>After that,</p>
 <blockquote>
 <p>the <strong>SticsOnR</strong> package functions using the JavaStics command line interface <strong>can be used</strong>.</p>
@@ -354,40 +349,34 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="switch-back-to-the-last-java-version-on-the-system." class="section level2">
 <h2>Switch back to the last Java version on the system.</h2>
 <p>For restoring the initial Java version, a script like the following can be ran.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co"># Changing to the last installed Java version</span></a>
-<a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="bu">echo</span> <span class="st">&quot;Current Java version is : &quot;</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="ex">java</span> -version</a>
-<a class="sourceLine" id="cb3-7" title="7"></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="va">version=$(</span><span class="ex">java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">&#39;&quot;&#39;</span> <span class="st">&#39;/version/ {print $2}&#39;</span><span class="va">)</span></a>
-<a class="sourceLine" id="cb3-9" title="9"></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^1.8<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb3-11" title="11">  <span class="bu">echo</span></a>
-<a class="sourceLine" id="cb3-12" title="12">  <span class="bu">echo</span> <span class="st">&quot;The Java version is not Java 8&quot;</span></a>
-<a class="sourceLine" id="cb3-13" title="13">  <span class="bu">exit</span> 0</a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb3-15" title="15"></a>
-<a class="sourceLine" id="cb3-16" title="16"></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="va">last_version=$(</span><span class="ex">/etc/alternatives/java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">&#39;&quot;&#39;</span> <span class="st">&#39;/version/ {print $2}&#39;</span><span class="va">)</span></a>
-<a class="sourceLine" id="cb3-18" title="18"></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="kw">if</span> !<span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$last_version</span> <span class="kw">|</span> <span class="fu">grep</span> ^1.8<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb3-20" title="20">  <span class="bu">echo</span></a>
-<a class="sourceLine" id="cb3-21" title="21">  <span class="bu">echo</span> <span class="st">&quot;No more recent version of Java is available on the system !&quot;</span></a>
-<a class="sourceLine" id="cb3-22" title="22">  <span class="bu">exit</span> 0</a>
-<a class="sourceLine" id="cb3-23" title="23"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb3-24" title="24">  </a>
-<a class="sourceLine" id="cb3-25" title="25"><span class="fu">sudo</span> rm /usr/bin/java</a>
-<a class="sourceLine" id="cb3-26" title="26"><span class="fu">sudo</span> ln -s /etc/alternatives/java /usr/bin/java</a>
-<a class="sourceLine" id="cb3-27" title="27"><span class="bu">echo</span> <span class="st">&quot;JAVA version is now : &quot;</span></a>
-<a class="sourceLine" id="cb3-28" title="28"><span class="ex">java</span> -version</a></code></pre></div>
-<pre><code>## Current Java version is : 
-## openjdk version &quot;1.8.0_222&quot;
-## OpenJDK Runtime Environment (build 1.8.0_222-8u222-b10-1~14.04-b10)
-## OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
-## 
-## No more recent version of Java is available on the system !</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># Changing to the last installed Java version</span></a>
+<a class="sourceLine" id="cb2-4" title="4"></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="bu">echo</span> <span class="st">&quot;Current Java version is : &quot;</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="ex">java</span> -version</a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="va">version=$(</span><span class="ex">java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">&#39;&quot;&#39;</span> <span class="st">&#39;/version/ {print $2}&#39;</span><span class="va">)</span></a>
+<a class="sourceLine" id="cb2-9" title="9"></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^1.8<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb2-11" title="11">  <span class="bu">echo</span></a>
+<a class="sourceLine" id="cb2-12" title="12">  <span class="bu">echo</span> <span class="st">&quot;The Java version is not Java 8&quot;</span></a>
+<a class="sourceLine" id="cb2-13" title="13">  <span class="bu">exit</span> 0</a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb2-15" title="15"></a>
+<a class="sourceLine" id="cb2-16" title="16"></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="va">last_version=$(</span><span class="ex">/etc/alternatives/java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">&#39;&quot;&#39;</span> <span class="st">&#39;/version/ {print $2}&#39;</span><span class="va">)</span></a>
+<a class="sourceLine" id="cb2-18" title="18"></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="kw">if</span> !<span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$last_version</span> <span class="kw">|</span> <span class="fu">grep</span> ^1.8<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb2-20" title="20">  <span class="bu">echo</span></a>
+<a class="sourceLine" id="cb2-21" title="21">  <span class="bu">echo</span> <span class="st">&quot;No more recent version of Java is available on the system !&quot;</span></a>
+<a class="sourceLine" id="cb2-22" title="22">  <span class="bu">exit</span> 0</a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb2-24" title="24">  </a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="fu">sudo</span> rm /usr/bin/java</a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="fu">sudo</span> ln -s /etc/alternatives/java /usr/bin/java</a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="bu">echo</span> <span class="st">&quot;JAVA version is now : &quot;</span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="ex">java</span> -version</a></code></pre></div>
 </div>
 
 

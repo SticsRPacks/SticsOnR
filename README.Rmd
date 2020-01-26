@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 )
 options(tibble.print_min = 5, tibble.print_max = 5)
 
-suppressMessages(library(SticsOnR))
-suppressMessages(library(SticsRFiles))
-suppressMessages(library(doParallel))
-suppressMessages(library(parallel))
+```
 
+```{r lib_load}
+library(SticsOnR)
+library(SticsRFiles)
 ```
 
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
@@ -400,6 +400,8 @@ results <- stics_wrapper(model_options = sim_options)
 If cores is not given, parallel execution is performed over machine total cores number minus 1.
 
 ```{r}
+library(parallel)
+
 # Used cores number
 detectCores() - 1
 
