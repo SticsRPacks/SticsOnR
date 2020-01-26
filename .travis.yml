@@ -7,5 +7,10 @@ os:
   - linux
   - osx
 
+r_github_packages:
+  - SticsRPacks/SticsRFiles
+
 after_success:
   - Rscript -e 'covr::codecov()'
+
+
