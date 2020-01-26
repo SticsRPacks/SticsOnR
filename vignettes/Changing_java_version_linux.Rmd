@@ -19,7 +19,7 @@ These information are partially specific of installation procedures on Debian li
 
 After the Java 8 installation, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
 
-```{bash, eval = TRUE}
+```{bash, eval = FALSE}
 #!/bin/bash
 
 # Changing last installed Java version to Java version 8
@@ -63,7 +63,7 @@ After that,
 For restoring the initial Java version, a script like the following can be ran. 
 
 
-```{bash, eval = TRUE}
+```{bash, eval = FALSE}
 #!/bin/bash
 
 # Changing to the last installed Java version
