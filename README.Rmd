@@ -36,6 +36,7 @@ The goal of SticsOnR is to perform simulations of the Stics model, downloadable 
 
 Follow up the development [here](sticsOnR.md).-->
 
+
 ## Prerequisites and technical tips
 
 ### JavaStics software
@@ -65,21 +66,53 @@ If the SticsOnR installation fails, and the `xslt` library is missing, the error
 Using the `~` in files or directories paths may cause errors in SticsOnR functions.
 So, it is safer for the moment to use absolute paths. This will be fixed in the future versions.
 
+
+#### Remote installation tools
+
+For installing packages from the Github site an additional package must be installed. One can use either `devtools` or [`remotes`](https://github.com/r-lib/remotes#readme)
+
+For `devtools`, installation requires systeme dependent tools. They must be installed first.  
+
+* For Windows     
+RTools must be installed using the last installer from  [here](https://cran.r-project.org/bin/windows/Rtools)
+* For linux    
+Development tools must be installed first, like the `build-essentials` package for a Debian like distribution for example.
+
+Then the `devtools` package can be installed using 
+```
+install:::packages("devtools")
+```
+
+For `remotes`, it can be directly installed using
+```
+install:::packages("remotes")
+```
+
+
 ## Installation
 
-The development version from [GitHub](https://github.com/) can be installed with:
+### SticsOnR
+The package installation can be remotely done directly from [GitHub](https://github.com/) using either `devtools` or the lightweight `remote` one package
+
+The last release version can be installed using:
+
+* With `devtools`
 
 ``` r
 devtools::install_github("SticsRPacks/SticsOnR@*release")
 ```
-Or using the lightweight [remotes](https://github.com/r-lib/remotes#readme) package: 
+* With `remotes`
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
-Normaly, all packages dependencies will be installed, either CRAN packages or SticsRPacks 
-needed packages. In that case SticsRFiles and CroptimizR will be installed as well.
+
+Normaly, all the package dependencies will be installed for CRAN packages.
+
+
+### SticsRFiles
+`SticsRFiles` must be installed manually, remotely using the above syntax, just replacing  **SticsOnR** with **SticsRFiles**. 
 
 ## Examples
 
@@ -381,6 +414,8 @@ results <- stics_wrapper(model_options = sim_options)
 ## Code of conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+The package is under intensive development, so you can fill an issue or request us a feature [here](https://github.com/SticsRPacks/SticsOnR/issues) at any time. 
 
 ## Authors and acknowledgments
 

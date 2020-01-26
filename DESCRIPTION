@@ -39,9 +39,8 @@ Imports:
     XML,
     iterators,
     methods
-Remotes: 
-    github::SticsRPacks/SticsRFiles
 Suggests:
+    SticsRFiles,
     testthat,
     covr,
     knitr,

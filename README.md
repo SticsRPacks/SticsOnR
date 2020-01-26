@@ -61,26 +61,65 @@ Using the `~` in files or directories paths may cause errors in SticsOnR
 functions. So, it is safer for the moment to use absolute paths. This
 will be fixed in the future versions.
 
+#### Remote installation tools
+
+For installing packages from the Github site an additional package must
+be installed. One can use either `devtools` or
+[`remotes`](https://github.com/r-lib/remotes#readme)
+
+For `devtools`, installation requires systeme dependent tools. They must
+be installed first.
+
+  - For Windows  
+    RTools must be installed using the last installer from
+    [here](https://cran.r-project.org/bin/windows/Rtools)
+  - For linux  
+    Development tools must be installed first, like the
+    `build-essentials` package for a Debian like distribution for
+    example.
+
+Then the `devtools` package can be installed using
+
+    install:::packages("devtools")
+
+For `remotes`, it can be directly installed using
+
+    install:::packages("remotes")
+
 ## Installation
 
-The development version from [GitHub](https://github.com/) can be
-installed with:
+### SticsOnR
+
+The package installation can be remotely done directly from
+[GitHub](https://github.com/) using either `devtools` or the lightweight
+`remote` one package
+
+The last release version can be installed using:
+
+  - With `devtools`
+
+<!-- end list -->
 
 ``` r
 devtools::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
-Or using the lightweight
-[remotes](https://github.com/r-lib/remotes#readme) package:
+  - With `remotes`
+
+<!-- end list -->
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
-Normaly, all packages dependencies will be installed, either CRAN
-packages or SticsRPacks needed packages. In that case SticsRFiles and
-CroptimizR will be installed as well.
+Normaly, all the package dependencies will be installed for CRAN
+packages.
+
+### SticsRFiles
+
+`SticsRFiles` must be installed manually, remotely using the above
+syntax, just replacing **SticsOnR** with **SticsRFiles**.
 
 ## Examples
 
@@ -176,7 +215,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[24/01/20]-[16:53:22] INFO - Modulostics files generation..\n[24/01/20]-[16:53:22] INFO - Generating txt files ...\n[24/01/20]-[16:53:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[26/01/20]-[09:13:56] INFO - Modulostics files generation..\n[26/01/20]-[09:13:56] INFO - Generating txt files ...\n[26/01/20]-[09:13:57] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -187,7 +226,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[24/01/20]-[16:53:24] INFO - Modulostics files generation..\n[24/01/20]-[16:53:24] INFO - Generating txt files ...\n[24/01/20]-[16:53:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[26/01/20]-[09:13:57] INFO - Modulostics files generation..\n[26/01/20]-[09:13:57] INFO - Generating txt files ...\n[26/01/20]-[09:13:58] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -636,7 +675,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 22.00408 secs
+#> Time difference of 21.08648 secs
 ```
 
   - Activating parallel execution
@@ -648,7 +687,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 13.30597 secs
+#> Time difference of 12.35271 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -663,7 +702,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 11.3027 secs
+#> Time difference of 12.12715 secs
 ```
 
 ## Code of conduct
