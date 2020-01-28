@@ -30,7 +30,6 @@ Imports:
     dplyr,
     crayon (>= 1.3.4),
     rstudioapi,
-    SticsRFiles,
     dfoptim,
     rlang,
     doParallel,
