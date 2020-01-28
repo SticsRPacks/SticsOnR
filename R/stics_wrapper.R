@@ -11,25 +11,28 @@
 #' format)
 #'
 #' @param param_values (optional) either a named vector or a named 3D array.
-#' Use a named vector that contains the values and names of the parameters to force
-#' the same values of the parameters whatever the simulated situations (usms).
-#' If one wants to force the model with different values of parameters for the
-#' simulated situations or to simulate the situations several times but with different
-#' values of the parameters, use a 3D array containing the value(s) and names of the
-#' parameters to force for each situation to simulate. This array contains the different
-#' parameters values (first dimension) for the different parameters (second dimension)
-#' and for the different situations (third dimension). See examples for more details.
+#' Use a named vector that contains the values and names of the parameters
+#' to force the same values of the parameters whatever the simulated
+#' situations (usms). If one wants to force the model with different values
+#' of parameters for the simulated situations or to simulate the situations
+#' several times but with different values of the parameters, use a 3D array
+#' containing the value(s) and names of the parameters to force for each
+#' situation to simulate. This array contains the different parameters
+#' values (first dimension) for the different parameters (second dimension)
+#' and for the different situations (third dimension).
+#' See examples for more details.
 #'
 #' @param sit_var_dates_mask (optional) List of situations:
-#' may be either a character vector of situation names or a named list containing
-#' information about variables and dates for which simulated values should be returned.
-#' Typically a list containing the observations to which simulations should be
-#' compared as provided by SticsRFiles::read_obs
+#' may be either a character vector of situation names or a named list
+#' containing information about variables and dates for which simulated values
+#' should be returned. Typically a list containing the observations to which
+#' simulations should be compared as provided by SticsRFiles::read_obs
 #'
 #' @return A list containing simulated values (`sim_list`: a vector of list (one
 #' element per values of parameters) containing usms outputs data.frames) and an
-#' error code (`error`) indicating if at least one simulation ended with an error.
-#' Inter-crops are not yet taken into account for extracting output data from files.
+#' error code (`error`) indicating if at least one simulation ended with an
+#' error. Inter-crops are not yet taken into account for extracting output
+#' data from files.
 #'
 #'
 #' @examples
@@ -46,7 +49,8 @@
 #' data_path <- "/path/to/usms/subdirs/root"
 #'
 #' # Setting the mandatory simulations options
-#' sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
+#' sim_options <- stics_wrapper_options(stics_path = stics_path,
+#' data_dir = data_path)
 #'
 #' # Running all the usms that have a corresponding input folder in data_path
 #' results <- stics_wrapper(sim_options)
@@ -58,20 +62,26 @@
 #' # Applying a single parameter values vector for the sublist of usms
 #' param_values <- c(0.002,50)
 #' names(param_values) <- c("dlaimax", "durvieF")
-#' results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
+#' results <- stics_wrapper(model_options = sim_options,
+#' sit_var_dates_mask = usms_list, param_values = param_values)
 #'
 #' # Applying different values of the parameters for the usms
-#' # Let's run usm wheat with c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
+#' # Let's run usm wheat with
+#' # c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
 #' # usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
-#' # and usm maize with c(dlaimax=0.001, durvieF=70) and c(dlaimax=0.002, durvieF=70)
+#' # and usm maize with c(dlaimax=0.001, durvieF=70)
+#' # and c(dlaimax=0.002, durvieF=70)
 #' param_values <- array( c(0.001, 0.002, 50, 50,
 #'                          0.001, 0.002, 60, 60,
 #'                          0.001, 0.002, 70, 70),
 #'                        dim=c(2,2,3),
-#'                        dimnames=list(NULL,c("dlaimax", "durvieF"),c("wheat", "pea", "maize")))
-#' # In this case, no need to redefine the usms list in sit_var_dates_mask argument, it is already
-#' # given in param_values
-#' results <- stics_wrapper(model_options = sim_options, param_values = param_values)
+#'                        dimnames=list(NULL,c("dlaimax", "durvieF"),
+#'                        c("wheat", "pea", "maize")))
+#' # In this case, no need to redefine the usms list in sit_var_dates_mask
+#' # argument, it is already given in param_values
+#' results <- stics_wrapper(model_options = sim_options,
+#' param_values = param_values)
+#'
 #' }
 #'
 #' @export
@@ -213,9 +223,12 @@ stics_wrapper <- function(model_options,
 
     ## Loops on the USMs that can be simulated
     ## out is a list containing: the list of simulated outputs,
-    ##                           a flag TRUE if the requested simulation has been not performed (model error),
-    ##                           a flag FALSE if all the requested dates and variables were not simulated,
-    ##                           a message in case of warning or error
+    ##  a flag TRUE if the requested simulation has been not performed (model error),
+    ##  a flag FALSE if all the requested dates and variables were not simulated,
+    ##  a message in case of warning or error
+
+    # initialization not a global variable !
+    i <- 1
     out <- foreach::foreach(i = 1:length(dirs_idx),
                             .export = c("run_system"),
                             .packages = c("SticsRFiles","foreach")) %dopar% {
