@@ -20,10 +20,6 @@ The goal of SticsOnR is to perform simulations of the Stics model,
 downloadable with its graphical user interface from
 <https://www6.paca.inra.fr/stics_eng/Download>.
 
-<!--## Development 
-
-Follow up the development [here](sticsOnR.md).-->
-
 ## Prerequisites and technical tips
 
 ### JavaStics software
@@ -222,7 +218,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[29/01/20]-[15:08:23] INFO - Modulostics files generation..\n[29/01/20]-[15:08:23] INFO - Generating txt files ...\n[29/01/20]-[15:08:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
+#> [1] "[29/01/20]-[16:45:39] INFO - Modulostics files generation..\n[29/01/20]-[16:45:39] INFO - Generating txt files ...\n[29/01/20]-[16:45:40] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -233,7 +229,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[29/01/20]-[15:08:24] INFO - Modulostics files generation..\n[29/01/20]-[15:08:24] INFO - Generating txt files ...\n[29/01/20]-[15:08:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
+#> [1] "[29/01/20]-[16:45:41] INFO - Modulostics files generation..\n[29/01/20]-[16:45:41] INFO - Generating txt files ...\n[29/01/20]-[16:45:41] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -682,7 +678,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 16.85719 secs
+#> Time difference of 17.21713 secs
 ```
 
   - Activating parallel execution
@@ -694,7 +690,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 10.72179 secs
+#> Time difference of 11.02484 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -711,7 +707,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 10.45257 secs
+#> Time difference of 10.03703 secs
 ```
 
 ## Code of conduct

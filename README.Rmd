@@ -32,10 +32,6 @@ library(SticsRFiles)
 
 The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from https://www6.paca.inra.fr/stics_eng/Download.
 
-<!--## Development 
-
-Follow up the development [here](sticsOnR.md).-->
-
 
 ## Prerequisites and technical tips
 
