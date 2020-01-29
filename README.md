@@ -222,7 +222,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[26/01/20]-[12:46:55] INFO - Modulostics files generation..\n[26/01/20]-[12:46:55] INFO - Generating txt files ...\n[26/01/20]-[12:46:56] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[29/01/20]-[15:08:23] INFO - Modulostics files generation..\n[29/01/20]-[15:08:23] INFO - Generating txt files ...\n[29/01/20]-[15:08:23] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
 #> 
 #> 
 #> [[2]]
@@ -233,7 +233,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[26/01/20]-[12:46:57] INFO - Modulostics files generation..\n[26/01/20]-[12:46:57] INFO - Generating txt files ...\n[26/01/20]-[12:46:57] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"
+#> [1] "[29/01/20]-[15:08:24] INFO - Modulostics files generation..\n[29/01/20]-[15:08:24] INFO - Generating txt files ...\n[29/01/20]-[15:08:24] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -682,7 +682,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 20.7258 secs
+#> Time difference of 16.85719 secs
 ```
 
   - Activating parallel execution
@@ -694,7 +694,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE, cores = 2)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 12.83794 secs
+#> Time difference of 10.72179 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -711,7 +711,7 @@ sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_
                                      parallel =TRUE, time_display = TRUE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 11.70129 secs
+#> Time difference of 10.45257 secs
 ```
 
 ## Code of conduct

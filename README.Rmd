@@ -3,8 +3,8 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0
-  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example
+  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1
+  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example
   output_path: /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt
 ---
 
