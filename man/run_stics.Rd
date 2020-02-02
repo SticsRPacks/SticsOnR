@@ -10,7 +10,7 @@ run_stics(
   data_dir,
   usm_dir_names = NULL,
   check_exe = TRUE,
-  display = TRUE
+  display = FALSE
 )
 }
 \arguments{

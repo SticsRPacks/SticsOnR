@@ -34,7 +34,7 @@ run_javastics <- function(javastics_path,
                           usms_list=NULL,
                           keep_history=TRUE,
                           optim=FALSE,
-                          display=TRUE) {
+                          display=FALSE) {
 
 
   jexe="JavaSticsCmd.exe"

@@ -41,7 +41,7 @@ run_system <- function(model_path,
                        data_dir,
                        usm_dir_names=NULL,
                        check_exe = TRUE,
-                       display=TRUE) {
+                       display=FALSE) {
 
   # Default one usm directory
   run_dir <- normalizePath(data_dir)

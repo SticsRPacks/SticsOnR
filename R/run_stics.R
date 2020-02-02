@@ -38,7 +38,7 @@ run_stics <- function(model_path,
                       data_dir,
                       usm_dir_names=NULL,
                       check_exe = TRUE,
-                      display=TRUE) {
+                      display=FALSE) {
 
   # Calling the internal underlying function for running the model
   usms_out <- run_system(model_path, data_dir, usm_dir_names = usm_dir_names,
