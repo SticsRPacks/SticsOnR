@@ -9,6 +9,8 @@
 #' @param usm_dir_names Name(s) vector of sub-directory(ies) of data_dir
 #' or "all" for extracting all sub-directories path
 #' @param check_exe Logical, T for checking the model executable, F otherwise
+#' @param display Logical value (optional), TRUE to display usms names,
+#' FALSE otherwise (default)
 #'
 #' @return A list with usm names and execution error status
 #'
@@ -35,10 +37,11 @@
 run_stics <- function(model_path,
                       data_dir,
                       usm_dir_names=NULL,
-                      check_exe = TRUE) {
+                      check_exe = TRUE,
+                      display=TRUE) {
 
   # Calling the internal underlying function for running the model
   usms_out <- run_system(model_path, data_dir, usm_dir_names = usm_dir_names,
-                         check_exe = check_exe)
+                         check_exe = check_exe, display = display)
   return(invisible(usms_out))
 }

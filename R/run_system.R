@@ -9,6 +9,8 @@
 #' @param usm_dir_names Name(s) vector of sub-directory(ies) of data_dir
 #' or "all" for extracting all sub-directories path
 #' @param check_exe Logical, T for checking the model executable, F otherwise
+#' @param display Logical value (optional), TRUE to display usms names,
+#' FALSE otherwise (default)
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (model execution output)
@@ -38,7 +40,8 @@
 run_system <- function(model_path,
                        data_dir,
                        usm_dir_names=NULL,
-                       check_exe = TRUE) {
+                       check_exe = TRUE,
+                       display=TRUE) {
 
   # Default one usm directory
   run_dir <- normalizePath(data_dir)
@@ -71,6 +74,8 @@ run_system <- function(model_path,
     usm_out=list()
     usm_dir <- run_dir[d]
     usm_out$name=basename(usm_dir)
+
+    if (display) print(usm_out$name)
 
     setwd(usm_dir)
 
