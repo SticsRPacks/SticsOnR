@@ -79,7 +79,7 @@ or a/several subdirectory(ies) named with usm name — run_system" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -137,7 +137,13 @@ or a/several subdirectory(ies) named with usm name</h1>
     <p>This function uses Stics directly through a system call</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_system</span>(<span class='no'>model_path</span>, <span class='no'>data_dir</span>, <span class='kw'>usm_dir_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_exe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>run_system</span>(
+  <span class='no'>model_path</span>,
+  <span class='no'>data_dir</span>,
+  <span class='kw'>usm_dir_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>check_exe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +165,11 @@ or "all" for extracting all sub-directories path</p></td>
     <tr>
       <th>check_exe</th>
       <td><p>Logical, T for checking the model executable, F otherwise</p></td>
+    </tr>
+    <tr>
+      <th>display</th>
+      <td><p>Logical value (optional), TRUE to display usms names,
+FALSE otherwise (default)</p></td>
     </tr>
     </table>
 

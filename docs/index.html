@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -97,9 +97,6 @@
 </h1></div>
 
 <p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://www6.paca.inra.fr/stics_eng/Download" class="uri">https://www6.paca.inra.fr/stics_eng/Download</a>.</p>
-<!--## Development 
-
-Follow up the development [here](sticsOnR.md).-->
 <div id="prerequisites-and-technical-tips" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prerequisites-and-technical-tips" class="anchor"></a>Prerequisites and technical tips</h2>
@@ -254,7 +251,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <a class="sourceLine" id="cb7-55" title="55"><span class="co">#&gt; [1] FALSE</span></a>
 <a class="sourceLine" id="cb7-56" title="56"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-57" title="57"><span class="co">#&gt; [[1]]$message</span></a>
-<a class="sourceLine" id="cb7-58" title="58"><span class="co">#&gt; [1] "[26/01/20]-[12:46:55] INFO - Modulostics files generation..\n[26/01/20]-[12:46:55] INFO - Generating txt files ...\n[26/01/20]-[12:46:56] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"</span></a>
+<a class="sourceLine" id="cb7-58" title="58"><span class="co">#&gt; [1] "[29/01/20]-[16:45:39] INFO - Modulostics files generation..\n[29/01/20]-[16:45:39] INFO - Generating txt files ...\n[29/01/20]-[16:45:40] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"</span></a>
 <a class="sourceLine" id="cb7-59" title="59"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-60" title="60"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-61" title="61"><span class="co">#&gt; [[2]]</span></a>
@@ -265,7 +262,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <a class="sourceLine" id="cb7-66" title="66"><span class="co">#&gt; [1] FALSE</span></a>
 <a class="sourceLine" id="cb7-67" title="67"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-68" title="68"><span class="co">#&gt; [[2]]$message</span></a>
-<a class="sourceLine" id="cb7-69" title="69"><span class="co">#&gt; [1] "[26/01/20]-[12:46:57] INFO - Modulostics files generation..\n[26/01/20]-[12:46:57] INFO - Generating txt files ...\n[26/01/20]-[12:46:57] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example/modhistory.sti"</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-69" title="69"><span class="co">#&gt; [1] "[29/01/20]-[16:45:41] INFO - Modulostics files generation..\n[29/01/20]-[16:45:41] INFO - Generating txt files ...\n[29/01/20]-[16:45:41] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"</span></a></code></pre></div>
 <p>In the returned information, the error field name gives a list of messages got from JavaStics commandline interface. If any <code>Error</code> key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error’s origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).</p>
 <!-- SET eval to TRUE gen_usms_xml2txt has been moved to SticsRFiles -->
 </div>
@@ -630,7 +627,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <a class="sourceLine" id="cb18-2" title="2">                                     <span class="dt">time_display =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb18-3" title="3"></a>
 <a class="sourceLine" id="cb18-4" title="4">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
-<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt; Time difference of 20.7258 secs</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt; Time difference of 17.21713 secs</span></a></code></pre></div>
 <ul>
 <li>Activating parallel execution</li>
 </ul>
@@ -639,7 +636,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <a class="sourceLine" id="cb19-2" title="2">                                     <span class="dt">parallel =</span><span class="ot">TRUE</span>, <span class="dt">time_display =</span> <span class="ot">TRUE</span>, <span class="dt">cores =</span> <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb19-3" title="3"></a>
 <a class="sourceLine" id="cb19-4" title="4">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
-<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt; Time difference of 12.83794 secs</span></a></code></pre></div>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt; Time difference of 11.02484 secs</span></a></code></pre></div>
 <p>If cores is not given, parallel execution is performed over machine total cores number minus 1.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(parallel)</a>
 <a class="sourceLine" id="cb20-2" title="2"></a>
@@ -651,7 +648,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <a class="sourceLine" id="cb20-8" title="8">                                     <span class="dt">parallel =</span><span class="ot">TRUE</span>, <span class="dt">time_display =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb20-9" title="9"></a>
 <a class="sourceLine" id="cb20-10" title="10">results &lt;-<span class="st"> </span><span class="kw"><a href="reference/stics_wrapper.html">stics_wrapper</a></span>(<span class="dt">model_options =</span> sim_options)</a>
-<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&gt; Time difference of 11.70129 secs</span></a></code></pre></div>
+<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&gt; Time difference of 10.03703 secs</span></a></code></pre></div>
 </div>
 </div>
 </div>
