@@ -3,8 +3,8 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0
-  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example
+  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1
+  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example
   output_path: /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt
 ---
 
@@ -31,10 +31,6 @@ library(SticsRFiles)
 [![Codecov test coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
 
 The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from https://www6.paca.inra.fr/stics_eng/Download.
-
-<!--## Development 
-
-Follow up the development [here](sticsOnR.md).-->
 
 
 ## Prerequisites and technical tips
