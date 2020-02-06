@@ -254,6 +254,7 @@ stics_wrapper <- function(model_options,
                               } else {
                                 # TODO: handle the case NA for a sublist of parameters (in case one want to force some parameters for some USMs and others for other USMs)
                                 param_values_usm=param_values[ip,,situation_names[iusm]]
+                                names(param_values_usm)=colnames(param_values)
 
                                 ret <- SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
 
