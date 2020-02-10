@@ -44,14 +44,14 @@ run_system <- function(model_path,
                        display=FALSE) {
 
   # Default one usm directory
-  data_dir <- normalizePath(data_dir, winslash = "/")
+  run_dir <- normalizePath(data_dir, winslash = "/")
 
   if (! base::is.null(usm_dir_names) && !usm_dir_names == "all" ) {
-    run_dir=file.path(data_dir,usm_dir_names)
+    run_dir=file.path(run_dir,usm_dir_names)
   }
 
   if (! base::is.null(usm_dir_names) && usm_dir_names == "all" ) {
-    run_dir = setdiff(base::list.dirs(data_dir, full.names = TRUE), data_dir)
+    run_dir = setdiff(base::list.dirs(run_dir, full.names = TRUE), run_dir)
   }
 
   # testing id dirs exist

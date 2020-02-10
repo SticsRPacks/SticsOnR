@@ -178,7 +178,7 @@ stics_wrapper <- function(model_options,
     situation_names <- dimnames(param_values)[[3]]
     if ( !base::is.null(sit_var_dates_mask) &&
          length(setdiff(situation_names, sit_names_mask))>0) {
-      warning(paste("Situations in param_values and sit_var_dates_mask are different:",
+      base::warning(paste("Situations in param_values and sit_var_dates_mask are different:",
                     "\n \t Situations param_values:",paste(situation_names,collapse=" "),
                     "\n \t Situations sit_var_dates_mask:",paste(sit_names_mask,collapse=" "),
                     "\n Situations defined in param_values will be simulated."))
@@ -204,13 +204,13 @@ stics_wrapper <- function(model_options,
   # Not any existing dir
   # Exiting the function, returning a list with no data
   if (!any(dirs_exist)) {
-    warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
+    base::warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
     return(res)
   }
 
   # Some dirs do not exist
   if (!all(dirs_exist)) {
-    warning(paste("Folder(s) does(do) not exist",
+    base::warning(paste("Folder(s) does(do) not exist",
                   "in data_dir\n",data_dir,":\n => ",
                   paste(situation_names[!dirs_exist], collapse = "\n => ")))
   }
@@ -228,9 +228,8 @@ stics_wrapper <- function(model_options,
 
     # initialization not a global variable !
     i <- 1
-    out <- foreach::foreach(i = 1:length(dirs_idx),
-                            .export = c("run_system"),
-                            .packages = c("SticsRFiles","foreach")) %dopar% {
+    out <- foreach::foreach(i = seq_along(dirs_idx),
+                            .packages = c("SticsRFiles")) %dopar% {
 
                               # Simulation flag status or output data selection status
                               flag_error <- FALSE
@@ -245,7 +244,7 @@ stics_wrapper <- function(model_options,
                               ## Force param values
                               if (base::is.null(param_values)) {
                                 # remove param.sti in case of previous run using it ...
-                                if (suppressWarnings(file.remove(file.path(run_dir,
+                                if (base::suppressWarnings(file.remove(file.path(run_dir,
                                                                            "param.sti")))) {
                                   SticsRFiles:::set_codeoptim(run_dir,value=0)
                                 }
@@ -259,7 +258,7 @@ stics_wrapper <- function(model_options,
 
                                 # if writing the param.sti fails, treating next situation
                                 if ( ! ret ) {
-                                  mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
+                                  mess <- base::warning(paste("Error when generating the forcing parameters file for USM",situation,
                                                         ". \n "))
                                   return(list(NA,TRUE,FALSE,mess))
                                 }
@@ -273,12 +272,12 @@ stics_wrapper <- function(model_options,
                               ########################################################################
                               # TODO: and call it in/ or integrate parameters forcing in run_system function !
                               ## Run the model & forcing not to check the model executable
-                              usm_out <- run_stics(stics_path, run_dir, check_exe = FALSE)
+                              usm_out <- SticsOnR::run_stics(stics_path, run_dir, check_exe = FALSE)
 
                               # if the model returns an error, ... treating next situation
                               if ( usm_out[[1]]$error ) {
 
-                                mess <- warning(paste("Error running the Stics model for USM",situation,
+                                mess <- base::warning(paste("Error running the Stics model for USM",situation,
                                                       ". \n ",usm_out[[1]]$message))
                                 return(list(NA,TRUE,FALSE,mess))
                               }
@@ -288,7 +287,7 @@ stics_wrapper <- function(model_options,
                                                                      situation)
                               # Any error reading output file
                               if (base::is.null(sim_tmp)) {
-                                mess <- warning(paste("Error reading outputs for ",situation,
+                                mess <- base::warning(paste("Error reading outputs for ",situation,
                                                       ". \n "))
                                 return(list(NA, TRUE, FALSE, mess))
 
@@ -320,7 +319,7 @@ stics_wrapper <- function(model_options,
 
                                 # Indicating that variables are not simulated, adding them before simulating
                                 if (length(inter_vars) < length(var_list)) {
-                                  mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                  mess <- base::warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
                                                         "not simulated by the Stics model for USM",situation,
                                                         "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
                                   flag_error <- FALSE
@@ -330,7 +329,7 @@ stics_wrapper <- function(model_options,
                                 if (any(vars_idx)) {
                                   sim_tmp=sim_tmp[ , vars_idx]
                                 } else {
-                                  mess <- warning(paste("Not any variable simulated by the Stics model for USM", situation,
+                                  mess <- base::warning(paste("Not any variable simulated by the Stics model for USM", situation,
                                                         "=> they must be set in",file.path(data_dir,situation,"var.mod")))
                                   return(list(NA, TRUE, FALSE, mess))
                                 }
@@ -345,7 +344,7 @@ stics_wrapper <- function(model_options,
 
                                 if ( length(inter_dates) < length(date_list) ) {
                                   missing_dates <- date_list[!date_list %in% inter_dates]
-                                  mess <- warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
+                                  mess <- base::warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
                                                         "is(are) not simulated for USM",situation))
                                   flag_error <- FALSE
                                   flag_rqd_res <- FALSE
@@ -544,5 +543,5 @@ stics_wrapper_options <- function(stics_path = NULL,
 stics_display_warnings <- function(in_string) {
   # print(in_string)
   # print(length(in_string))
-  if (nchar(in_string) ) warning(in_string, call. = FALSE)
+  if (nchar(in_string) ) base::warning(in_string, call. = FALSE)
 }
