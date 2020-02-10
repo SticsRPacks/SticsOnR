@@ -38,56 +38,56 @@ library(SticsOnR)
 
 # predictor_assessment ----------------------------------------------------
 
-sim= c(4,-2,10)
-obs= c(4,3,10)
-
-test_that("Test R2", {
-  expect_equal(R2(sim, obs),0.7093023, tolerance = .0001)
-})
-
-test_that("Test RMSE", {
-  expect_equal(RMSE(sim, obs),2.886751, tolerance = .0001)
-})
-
-test_that("Test nRMSE", {
-  expect_equal(nRMSE(sim, obs),50.94267, tolerance = .0001)
-})
-
-test_that("Test MAE", {
-  expect_equal(MAE(sim, obs),1.666667, tolerance = .0001)
-})
-
-test_that("Test ABS", {
-  expect_equal(ABS(sim, obs),1.666667, tolerance = .0001)
-})
-
-test_that("Test MSE", {
-  expect_equal(MSE(sim, obs),8.333333, tolerance = .0001)
-})
-
-test_that("Test EF", {
-  expect_equal(EF(sim, obs),0.127907, tolerance = .0001)
-})
-
-test_that("Test NSE", {
-  expect_equal(NSE(sim, obs),0.127907, tolerance = .0001)
-})
-
-test_that("Test Bias", {
-  expect_equal(Bias(sim, obs),-1.666667, tolerance = .0001)
-})
-
-test_that("Test MAPE", {
-  expect_equal(MAPE(sim, obs),0.5555556, tolerance = .0001)
-})
-
-test_that("Test FVU", {
-  expect_equal(FVU(sim, obs),0.5813953, tolerance = .0001)
-})
-
-test_that("Test RME", {
-  expect_equal(RME(sim, obs),-0.5555556, tolerance = .0001)
-})
+# sim= c(4,-2,10)
+# obs= c(4,3,10)
+#
+# test_that("Test R2", {
+#   expect_equal(R2(sim, obs),0.7093023, tolerance = .0001)
+# })
+#
+# test_that("Test RMSE", {
+#   expect_equal(RMSE(sim, obs),2.886751, tolerance = .0001)
+# })
+#
+# test_that("Test nRMSE", {
+#   expect_equal(nRMSE(sim, obs),50.94267, tolerance = .0001)
+# })
+#
+# test_that("Test MAE", {
+#   expect_equal(MAE(sim, obs),1.666667, tolerance = .0001)
+# })
+#
+# test_that("Test ABS", {
+#   expect_equal(ABS(sim, obs),1.666667, tolerance = .0001)
+# })
+#
+# test_that("Test MSE", {
+#   expect_equal(MSE(sim, obs),8.333333, tolerance = .0001)
+# })
+#
+# test_that("Test EF", {
+#   expect_equal(EF(sim, obs),0.127907, tolerance = .0001)
+# })
+#
+# test_that("Test NSE", {
+#   expect_equal(NSE(sim, obs),0.127907, tolerance = .0001)
+# })
+#
+# test_that("Test Bias", {
+#   expect_equal(Bias(sim, obs),-1.666667, tolerance = .0001)
+# })
+#
+# test_that("Test MAPE", {
+#   expect_equal(MAPE(sim, obs),0.5555556, tolerance = .0001)
+# })
+#
+# test_that("Test FVU", {
+#   expect_equal(FVU(sim, obs),0.5813953, tolerance = .0001)
+# })
+#
+# test_that("Test RME", {
+#   expect_equal(RME(sim, obs),-0.5555556, tolerance = .0001)
+# })
 
 
 

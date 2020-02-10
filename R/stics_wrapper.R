@@ -132,14 +132,7 @@ stics_wrapper <- function(model_options,
 
   # Managing parallel model simulations
   # Managing cores number to use
-  cores_nb <- 1
-  if ( parallel ) {
-    if (is.na(cores)) {
-      cores_nb <- parallel :: detectCores() - 1
-    } else {
-      cores_nb <- cores
-    }
-  }
+  cores_nb <- get_cores_nb( parallel = parallel, required_nb = cores )
 
   # Launching the cluster
   cl <- parallel :: makeCluster(cores_nb)
@@ -163,9 +156,15 @@ stics_wrapper <- function(model_options,
   }
 
   # Default behavior if param_values or sit_var_dates_mask don't provide situation list
-  situation_names <- list.dirs(data_dir, full.names = FALSE)[-1]
-  situation_names <- situation_names[sapply(situation_names,
-                                            function(x) file.exists(file.path(data_dir,x,"new_travail.usm")))]
+  situation_names <- list.dirs(data_dir, full.names = TRUE)[-1]
+  if (length(situation_names) == 0) {
+    stop(paste("Not any Stics directories found in:",data_dir))
+  }
+
+  # Checking existing files
+  files_exist <- file.exists(file.path(situation_names, "new_travail.usm"))
+  situation_names <- base::basename(situation_names)[files_exist]
+
   # may be overwritten here ...
   if (is.null(param_values)) {
     if (!base::is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
