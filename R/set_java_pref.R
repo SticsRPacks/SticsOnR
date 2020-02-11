@@ -26,15 +26,17 @@ set_java_pref <- function(javastics_path){
   if (!file.exists(xml_path)){
     pref_path=file.path(javastics_path,"bin","resources","prefs")
 
-    if (is_os_name("linux")){
-      pref_name="preferences_lin.xml"
-    } else if (is_os_name(c("mac","darwin"))) {
-      pref_name="preferences_mac.xml"
-    } else if (is_os_name("windows")){
-      pref_name="preferences_win.xml"
-    } else {
-      stop("Unknown system, unable to configure default model selection !")
+    # Getting a copy the right preferences file to the config directory
+    os_unknown <- is_unknown_os()
+    if ( os_unknown ) {
+      stop(paste("Unknown system:",attr(os_unknown, "name"),"\n unable to configure default model selection !"))
     }
+
+    if ( is_unix() ) pref_name="preferences_lin.xml"
+
+    if ( is_mac() ) pref_name="preferences_mac.xml"
+
+    if ( is_windows() ) pref_name="preferences_win.xml"
 
     # Copying a default pref file specific to OS name
     file.copy(file.path(pref_path,pref_name),xml_path)

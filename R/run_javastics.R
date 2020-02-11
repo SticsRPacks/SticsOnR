@@ -40,7 +40,7 @@ run_javastics <- function(javastics_path,
   jexe="JavaSticsCmd.exe"
   stics_exe <- "stics_modulo"
   # Getting right executable name for the platform
-  if ( optim && is_os_name(c("mac","darwin")) ) stics_exe <- "stics_modulo_mac"
+  if ( optim && is_mac() ) stics_exe <- "stics_modulo_mac"
 
   # Checking javastics path
   check_java_path(javastics_path)

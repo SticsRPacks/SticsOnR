@@ -35,11 +35,11 @@ get_java_models <- function(javastics_path){
     models$tags <- "modulostics"
     models$exe <- "stics_modulo.exe"
 
-    if ( is_os_name("linux")) {
+    if ( is_unix() ) {
       models$tags <- "modulostics_linux"
       models$exe <- "stics_modulo"
     }
-    if ( any( c(is_os_name("mac"), is_os_name("darwin"))) ) {
+    if ( is_mac() ) {
       models$tags <- "modulostics_mac"
       models$exe <- "stics_modulo_mac"
     }

@@ -80,7 +80,7 @@ add_java_model <- function(javastics_path, java_model_tag, java_model_exe) {
   SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
 
   # if OS != windows, set chmod +x exe
-  if (!is_os_name("windows")) {
+  if (!is_windows()) {
     system(paste("chmod +x", java_exe_path))
   }
 }

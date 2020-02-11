@@ -47,7 +47,7 @@ set_java_model <- function(javastics_path,java_model_tag){
   SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',java_model_tag)
 
   # if OS != windows, set chmod +x exe
-  if (!is_os_name("windows")){
+  if ( !is_windows() ){
     exe_path=file.path(javastics_path,"bin",get_model_exe(javastics_path,java_model_tag))
     system(paste("chmod +x",exe_path))
   }
