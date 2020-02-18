@@ -267,96 +267,112 @@ stics_wrapper <- function(model_options,
                                 SticsRFiles:::set_codeoptim(run_dir, value=1)
                               }
 
-                              # TODO: check or set the flagecriture to 15 to get daily data results !!!
+                              varmod_modified=FALSE
+                              while(TRUE) {
 
-                              ########################################################################
-                              # TODO: and call it in/ or integrate parameters forcing in run_system function !
-                              ## Run the model & forcing not to check the model executable
-                              usm_out <- SticsOnR::run_stics(stics_path, run_dir, check_exe = FALSE)
+                                # TODO: check or set the flagecriture to 15 to get daily data results !!!
 
-                              # if the model returns an error, ... treating next situation
-                              if ( usm_out[[1]]$error ) {
+                                ########################################################################
+                                # TODO: and call it in/ or integrate parameters forcing in run_system function !
+                                ## Run the model & forcing not to check the model executable
+                                usm_out <- SticsOnR::run_stics(stics_path, run_dir, check_exe = FALSE)
 
-                                mess <- base::warning(paste("Error running the Stics model for USM",situation,
-                                                      ". \n ",usm_out[[1]]$message))
-                                return(list(NA,TRUE,FALSE,mess))
-                              }
+                                # if the model returns an error, ... treating next situation
+                                if ( usm_out[[1]]$error ) {
 
-                              ## Otherwise, getting results
-                              sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
-                                                                     situation)
-                              # Any error reading output file
-                              if (base::is.null(sim_tmp)) {
-                                mess <- base::warning(paste("Error reading outputs for ",situation,
-                                                      ". \n "))
-                                return(list(NA, TRUE, FALSE, mess))
-
-                              }
-
-
-                              # Keeping all outputs data
-                              # - If no sit_var_dates_mask given as input arg
-                              # - if only usm names given in sit_var_dates_mask (vector)
-                              # - If all output variables are in
-                              #   sit_var_dates_mask[[situation]]
-
-                              # Nothing to select, returning all data
-                              if ( keep_all_data ) {
-
-                                return(list( sim_tmp,FALSE, TRUE, mess))
-
-                              } else { # Selecting variables from sit_var_dates_mask
-
-                                var_list=colnames(sit_var_dates_mask[[situation]])
-                                out_var_list <- colnames(sim_tmp)
-
-                                # Keeping only the needed variables in the simulation results
-                                vars_idx= out_var_list %in% var_list
-
-                                # Checking variables
-                                # Common variables
-                                inter_vars <- out_var_list[vars_idx]
-
-                                # Indicating that variables are not simulated, adding them before simulating
-                                if (length(inter_vars) < length(var_list)) {
-                                  mess <- base::warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
-                                                        "not simulated by the Stics model for USM",situation,
-                                                        "=> try to add it(them) in",file.path(data_dir,situation,"var.mod")))
-                                  flag_error <- FALSE
-                                  flag_rqd_res <- FALSE
+                                  mess <- base::warning(paste("Error running the Stics model for USM",situation,
+                                                              ". \n ",usm_out[[1]]$message))
+                                  return(list(NA,TRUE,FALSE,mess))
                                 }
 
-                                if (any(vars_idx)) {
-                                  sim_tmp=sim_tmp[ , vars_idx]
-                                } else {
-                                  mess <- base::warning(paste("Not any variable simulated by the Stics model for USM", situation,
-                                                        "=> they must be set in",file.path(data_dir,situation,"var.mod")))
+                                ## Otherwise, getting results
+                                sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
+                                                                       situation)
+                                # Any error reading output file
+                                if (base::is.null(sim_tmp)) {
+                                  mess <- base::warning(paste("Error reading outputs for ",situation,
+                                                              ". \n "))
                                   return(list(NA, TRUE, FALSE, mess))
+
                                 }
 
-                                ## Keeping only the needed dates in the simulation results
-                                date_list=sit_var_dates_mask[[situation]]$Date
-                                dates_idx <- sim_tmp$Date %in% date_list
 
-                                # Checking dates
-                                # Common dates
-                                inter_dates <- sim_tmp$Date[dates_idx]
+                                # Keeping all outputs data
+                                # - If no sit_var_dates_mask given as input arg
+                                # - if only usm names given in sit_var_dates_mask (vector)
+                                # - If all output variables are in
+                                #   sit_var_dates_mask[[situation]]
 
-                                if ( length(inter_dates) < length(date_list) ) {
-                                  missing_dates <- date_list[!date_list %in% inter_dates]
-                                  mess <- base::warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
-                                                        "is(are) not simulated for USM",situation))
-                                  flag_error <- FALSE
-                                  flag_rqd_res <- FALSE
+                                # Nothing to select, returning all data
+                                if ( keep_all_data ) {
+
+                                  return(list( sim_tmp,FALSE, TRUE, mess))
+
+                                } else { # Selecting variables from sit_var_dates_mask
+
+                                  var_list=colnames(sit_var_dates_mask[[situation]])
+                                  out_var_list <- colnames(sim_tmp)
+
+                                  # Keeping only the needed variables in the simulation results
+                                  vars_idx= out_var_list %in% var_list
+
+                                  # Checking variables
+                                  # Common variables
+                                  inter_vars <- out_var_list[vars_idx]
+
+                                  # Indicating that variables are not simulated, adding them before simulating
+                                  if (length(inter_vars) < length(var_list)) {
+                                    if (varmod_modified) {
+                                      mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                                            "not simulated by the Stics model for USM",situation,
+                                                            "although added in",file.path(data_dir,situation,"var.mod"),
+                                                            "=> these variables may not be Stics variables, please check spelling."))
+                                      flag_error <- FALSE
+                                      flag_rqd_res <- FALSE
+                                    } else {
+                                      mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                                            "not simulated by the Stics model for USM",situation,
+                                                            "=>",file.path(data_dir,situation,"var.mod"),"is going to be modified and the model re-run."))
+                                      set_out_var_txt(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,
+                                                      add = T)
+                                      varmod_modified=TRUE
+                                      next
+                                    }
+                                  }
+
+                                  if (any(vars_idx)) {
+                                    sim_tmp=sim_tmp[ , vars_idx]
+                                  } else {
+                                    mess <- base::warning(paste("Not any variable simulated by the Stics model for USM", situation,
+                                                                "=> they must be set in",file.path(data_dir,situation,"var.mod")))
+                                    return(list(NA, TRUE, FALSE, mess))
+                                  }
+
+                                  ## Keeping only the needed dates in the simulation results
+                                  date_list=sit_var_dates_mask[[situation]]$Date
+                                  dates_idx <- sim_tmp$Date %in% date_list
+
+                                  # Checking dates
+                                  # Common dates
+                                  inter_dates <- sim_tmp$Date[dates_idx]
+
+                                  if ( length(inter_dates) < length(date_list) ) {
+                                    missing_dates <- date_list[!date_list %in% inter_dates]
+                                    mess <- base::warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
+                                                                "is(are) not simulated for USM",situation))
+                                    flag_error <- FALSE
+                                    flag_rqd_res <- FALSE
+                                  }
+
+                                  # Filtering needed dates lines
+                                  if ( any(dates_idx) ) {
+                                    sim_tmp <- sim_tmp[dates_idx, ]
+                                  } else {
+                                    return(list(NA,TRUE,FALSE, mess))
+                                  }
+                                  return(list(sim_tmp, flag_error, flag_rqd_res, mess))
+
                                 }
-
-                                # Filtering needed dates lines
-                                if ( any(dates_idx) ) {
-                                  sim_tmp <- sim_tmp[dates_idx, ]
-                                } else {
-                                  return(list(NA,TRUE,FALSE, mess))
-                                }
-                                return(list(sim_tmp, flag_error, flag_rqd_res, mess))
 
                               }
 
