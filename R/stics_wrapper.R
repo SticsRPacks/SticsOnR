@@ -138,6 +138,7 @@ stics_wrapper <- function(model_options,
   cl <- parallel :: makeCluster(cores_nb)
   doParallel::registerDoParallel(cl)
 
+  parallel::clusterCall(cl, function(x) .libPaths(x), .libPaths())
 
   # Run Stics and store results ------------------------------------------------
 
