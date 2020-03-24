@@ -14,7 +14,7 @@
 #' FALSE otherwise (default)
 #' @param stics The name of the stics executable to use, default to stics_modulo (see details)
 #'
-#' @details Use `list_stics_versions()` to know wich versions available for the `stics` argument.
+#' @details Use `list_stics_exe()` to list all executables available for the `stics` argument.
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (JavaStics commandline execution output)
@@ -54,7 +54,7 @@ run_javastics <- function(javastics_path,
   # Model path
   stics_path <- file.path(javastics_path,"bin",stics)
 
-  set_stics_version(javastics_path = javastics_path, stics = stics)
+  set_stics_exe(javastics_path = javastics_path, stics = stics)
 
   #  Workspace path (absolute path from user wd + platform's canonical form)
   workspace_path= normalizePath(workspace_path)
@@ -63,7 +63,6 @@ run_javastics <- function(javastics_path,
   setwd(javastics_path)
 
   user_preferences= "bin/resources/prefs"
-  current_stics_version
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,workspace_path)

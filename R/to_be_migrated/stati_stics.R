@@ -1,7 +1,7 @@
 #' Compute simulated/observed statistics
 #'
 #' @description Compute statistics for evaluation of the STICS outputs against observations. This function can
-#'              be used for one USM or to compare outputs from different model versions or parameter values.
+#'              be used for one USM or to compare outputs from different model executables or parameter values.
 #'
 #' @param ...      Either a folder path or the output from [eval_output()]. If several objects are
 #'                 detected, make a comparison between them.

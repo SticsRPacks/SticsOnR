@@ -14,15 +14,15 @@
 #' }
 #'
 #' @keywords internal
-#@export
-
 set_java_workspace <- function(javastics_path,java_wd){
 
   # checking javastics path
   check_java_path(javastics_path)
 
   # if no preference have been set yet
-  if (!exists_java_pref(javastics_path)) set_java_pref(javastics_path)
+  if(!exists_javastics_pref(javastics_path)){
+    set_javastics_pref(javastics_path)
+  }
 
   xml_path=file.path(javastics_path,"config","preferences.xml")
 

@@ -41,7 +41,7 @@ This function uses basically Stics through his
 JavaStics command line interface
 }
 \details{
-Use \code{list_stics_versions()} to know wich versions available for the \code{stics} argument.
+Use \code{list_stics_exe()} to list all executables available for the \code{stics} argument.
 }
 \examples{
 \dontrun{
