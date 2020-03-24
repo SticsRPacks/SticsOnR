@@ -12,6 +12,7 @@
 #' FALSE otherwise (default)
 #' @param display Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
+#' @param stics The name of the stics executable to use, default to stics_modulo
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (JavaStics commandline execution output)
@@ -34,19 +35,20 @@ run_javastics <- function(javastics_path,
                           usms_list=NULL,
                           keep_history=TRUE,
                           optim=FALSE,
-                          display=FALSE) {
+                          display=FALSE,
+                          stics= "stics_modulo") {
 
 
   jexe="JavaSticsCmd.exe"
-  stics_exe <- "stics_modulo"
+  stics <- "stics_modulo"
   # Getting right executable name for the platform
-  if ( optim && is_mac() ) stics_exe <- "stics_modulo_mac"
+  if ( optim && is_mac() ) stics <- "stics_modulo_mac"
 
   # Checking javastics path
   check_java_path(javastics_path)
 
   # Model path
-  stics_path <- file.path(javastics_path,"bin",stics_exe)
+  stics_path <- file.path(javastics_path,"bin",stics)
 
   # Fixing the JavaStics path
   setwd(javastics_path)

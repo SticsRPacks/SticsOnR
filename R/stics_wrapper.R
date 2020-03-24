@@ -334,8 +334,8 @@ stics_wrapper <- function(model_options,
                                       mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
                                                             "not simulated by the Stics model for USM",situation,
                                                             "=>",file.path(data_dir,situation,"var.mod"),"is going to be modified and the model re-run."))
-                                      set_out_var_txt(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,
-                                                      add = T)
+                                      SticsRFiles::set_out_var_txt(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,
+                                                                   add = T)
                                       varmod_modified=TRUE
                                       next
                                     }
@@ -561,4 +561,21 @@ stics_display_warnings <- function(in_string) {
   # print(in_string)
   # print(length(in_string))
   if (nchar(in_string) ) base::warning(in_string, call. = FALSE)
+}
+
+
+#' Set the output variables needed
+#'
+#' @param filepath The path to the "var.mod" file.
+#' @param vars     The variables needed
+#' @param add      Do we want to add or append the variables to existing variables ?
+#'
+#' @note This is exactly the same function as `[sticsRFiles::set_out_var_txt()]`, but we add it here
+#' to avoid a dependency just for a one-liner function.
+#'
+#' @return Nothing, write in the "var.mod" file
+#' @keywords internal
+#'
+set_out_var_internal= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
+  cat(vars,file=filepath, sep="\n",append = add)
 }

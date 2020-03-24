@@ -10,7 +10,8 @@ run_javastics(
   usms_list = NULL,
   keep_history = TRUE,
   optim = FALSE,
-  display = FALSE
+  display = FALSE,
+  stics = "stics_modulo"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ FALSE otherwise (default)}
 
 \item{display}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
+
+\item{stics}{The name of the stics executable to use, default to stics_modulo}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)
