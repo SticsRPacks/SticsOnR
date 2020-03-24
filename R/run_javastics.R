@@ -12,9 +12,9 @@
 #' FALSE otherwise (default)
 #' @param display Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
-#' @param stics The name of the stics executable to use, default to stics_modulo (see details)
+#' @param stics_exe The name of the stics executable to use, default to "stics_modulo" (see details)
 #'
-#' @details Use `list_stics_exe()` to list all executables available for the `stics` argument.
+#' @details Use `list_stics_exe()` to list all executables available for the `stics_exe` argument.
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (JavaStics commandline execution output)
@@ -38,7 +38,7 @@ run_javastics <- function(javastics_path,
                           keep_history=TRUE,
                           optim=FALSE,
                           display=FALSE,
-                          stics= "stics_modulo") {
+                          stics_exe= "stics_modulo") {
 
   # Ensure that the user working directory is unchanged after the function has run
   current_wd= getwd()
@@ -46,15 +46,15 @@ run_javastics <- function(javastics_path,
 
   jexe="JavaSticsCmd.exe"
   # Getting right executable name for the platform
-  if ( optim && is_mac() ) stics <- paste0(stics,"_mac")
+  if ( optim && is_mac() ) stics_exe <- paste0(stics_exe,"_mac")
 
   # Checking javastics path
   check_java_path(javastics_path)
 
   # Model path
-  stics_path <- file.path(javastics_path,"bin",stics)
+  stics_path <- file.path(javastics_path,"bin",stics_exe)
 
-  set_stics_exe(javastics_path = javastics_path, stics = stics)
+  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe)
 
   #  Workspace path (absolute path from user wd + platform's canonical form)
   workspace_path= normalizePath(workspace_path)

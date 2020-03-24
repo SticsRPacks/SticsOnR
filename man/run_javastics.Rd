@@ -11,7 +11,7 @@ run_javastics(
   keep_history = TRUE,
   optim = FALSE,
   display = FALSE,
-  stics = "stics_modulo"
+  stics_exe = "stics_modulo"
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ FALSE otherwise (default)}
 \item{display}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
 
-\item{stics}{The name of the stics executable to use, default to stics_modulo (see details)}
+\item{stics_exe}{The name of the stics executable to use, default to "stics_modulo" (see details)}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)
@@ -41,7 +41,7 @@ This function uses basically Stics through his
 JavaStics command line interface
 }
 \details{
-Use \code{list_stics_exe()} to list all executables available for the \code{stics} argument.
+Use \code{list_stics_exe()} to list all executables available for the \code{stics_exe} argument.
 }
 \examples{
 \dontrun{

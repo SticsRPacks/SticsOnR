@@ -71,7 +71,7 @@ remove_stics_exe <- function(javastics_path,stics_exe){
     SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',"")
   }
 
-  SticsRFiles ::: setValues(xml_pref,'//entry[@key="model.list"]',java_models_string)
+  SticsRFiles ::: setValues(xml_pref,'//entry[@key="model.list"]',stics_exe_string)
 
   # writing file
   SticsRFiles ::: saveXmlDoc(xml_pref,xml_path)
