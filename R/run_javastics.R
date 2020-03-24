@@ -38,11 +38,13 @@ run_javastics <- function(javastics_path,
                           display=FALSE,
                           stics= "stics_modulo") {
 
+  # Ensure that the user working directory is unchanged after the function has run
+  current_wd= getwd()
+  on.exit(setwd(current_wd))
 
   jexe="JavaSticsCmd.exe"
-  stics <- "stics_modulo"
   # Getting right executable name for the platform
-  if ( optim && is_mac() ) stics <- "stics_modulo_mac"
+  if ( optim && is_mac() ) stics <- paste0(stics,"_mac")
 
   # Checking javastics path
   check_java_path(javastics_path)
@@ -50,8 +52,16 @@ run_javastics <- function(javastics_path,
   # Model path
   stics_path <- file.path(javastics_path,"bin",stics)
 
+  set_stics_version(javastics_path = javastics_path, stics = stics)
+
+  #  Workspace path (absolute path from user wd + platform's canonical form)
+  workspace_path= normalizePath(workspace_path)
+
   # Fixing the JavaStics path
   setwd(javastics_path)
+
+  user_preferences= "bin/resources/prefs"
+  current_stics_version
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,workspace_path)
