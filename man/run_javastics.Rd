@@ -30,7 +30,7 @@ FALSE otherwise (default)}
 \item{display}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
 
-\item{stics}{The name of the stics executable to use, default to stics_modulo}
+\item{stics}{The name of the stics executable to use, default to stics_modulo (see details)}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)
@@ -39,6 +39,9 @@ and an output "message" (JavaStics commandline execution output)
 \description{
 This function uses basically Stics through his
 JavaStics command line interface
+}
+\details{
+Use \code{list_stics_versions()} to know wich versions available for the \code{stics} argument.
 }
 \examples{
 \dontrun{

@@ -23,8 +23,8 @@ set_stics_version= function(javastics_path,stics= "stics_modulo"){
   if(stics=="stics_modulo"){
     stics= "modulostics"
   }
-  if(stics!=list_stics_versions(javastics)$current){
-    stics_list_names= names(list_stics_versions(javastics)$stics_list)
+  if(stics!=list_stics_versions(javastics_path)$current){
+    stics_list_names= names(list_stics_versions(javastics_path)$stics_list)
     if(stics!="stics_modulo"){
       if(!stics%in%stics_list_names){
         stop("The required stics version is not available yet, please add it using JavaStics",

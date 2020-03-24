@@ -12,7 +12,9 @@
 #' FALSE otherwise (default)
 #' @param display Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
-#' @param stics The name of the stics executable to use, default to stics_modulo
+#' @param stics The name of the stics executable to use, default to stics_modulo (see details)
+#'
+#' @details Use `list_stics_versions()` to know wich versions available for the `stics` argument.
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (JavaStics commandline execution output)
