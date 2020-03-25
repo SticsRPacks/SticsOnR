@@ -57,7 +57,7 @@ run_javastics <- function(javastics_path,
   set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe)
 
   #  Workspace path (absolute path from user wd + platform's canonical form)
-  workspace_path= normalizePath(workspace_path)
+  workspace_path= normalizePath(workspace_path, winslash = "/")
 
   # Fixing the JavaStics path
   setwd(javastics_path)
@@ -66,12 +66,12 @@ run_javastics <- function(javastics_path,
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,workspace_path)
-  if (base::is.null(ws)) {
+  if(is.null(ws)){
     return()
   }
 
   # Retrieving usms names list from the usms.xml file
-  full_usms_list = SticsRFiles::get_usms_list(ws)[[1]]
+  full_usms_list = SticsRFiles::get_usms_list(file.path(ws,"usms.xml"))
 
   # Checking and selecting usms, if needed
   if (length(usms_list) == 0) {
