@@ -22,8 +22,8 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
   # checking javastics path
   check_java_path(javastics_path)
 
-  if(stics=="stics_modulo"){
-    stics= "modulostics"
+  if(stics_exe=="stics_modulo"){
+    stics_exe= "modulostics"
   }
 
   # if no preference have been set yet
