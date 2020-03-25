@@ -6,7 +6,7 @@
 #' valid JavaStics workspace
 #'
 #' @param javastics_path Path of JavaStics installation directory
-#' @param javastics_workspace_path An absolute or relative path (to JavsStics path)
+#' @param javastics_workspace_path An absolute or relative path (to JavaStics path)
 #' of a workspace (Optional)
 #'
 #' @return An absolute javastics workspace path

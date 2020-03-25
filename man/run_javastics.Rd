@@ -10,7 +10,7 @@ run_javastics(
   usms_list = NULL,
   keep_history = TRUE,
   optim = FALSE,
-  display = FALSE,
+  verbose = FALSE,
   stics_exe = "stics_modulo"
 )
 }
@@ -27,7 +27,7 @@ use TRUE (default), FALSE otherwise}
 \item{optim}{Logical value (optional), TRUE to force code_optim value to 1,
 FALSE otherwise (default)}
 
-\item{display}{Logical value (optional), TRUE to display usms names,
+\item{verbose}{Logical value (optional), TRUE to display usms names + JavaSTics output,
 FALSE otherwise (default)}
 
 \item{stics_exe}{The name of the stics executable to use, default to "stics_modulo" (see details)}
