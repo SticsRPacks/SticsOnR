@@ -38,7 +38,8 @@ Imports:
     XML,
     iterators,
     methods,
-    SticsRFiles
+    SticsRFiles,
+    cli
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
