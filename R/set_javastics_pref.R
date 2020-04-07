@@ -3,6 +3,7 @@
 #' @description Generates a default preference file ("preferences.xml") according to user's OS
 #'
 #' @param javastics_path Path to the JavaStics installation folder
+#' @param overwrite      Boolean. Overwrite the existing preference file ?
 #'
 #' @examples
 #'\dontrun{
@@ -12,7 +13,7 @@
 #' @return Nothing. Creates a default preference file in the config folder of JavaStics
 #'
 #' @keywords internal
-set_javastics_pref <- function(javastics_path){
+set_javastics_pref <- function(javastics_path, overwrite= FALSE){
 
   # checking javastics path
   check_java_path(javastics_path)
@@ -20,7 +21,7 @@ set_javastics_pref <- function(javastics_path){
   # Checking if file exists
   xml_path=file.path(javastics_path,"config","preferences.xml")
 
-  if(!file.exists(xml_path)){
+  if(!file.exists(xml_path)|overwrite){
     pref_path=file.path(javastics_path,"bin","resources","prefs")
 
     # Getting a copy the right preferences file to the config directory
@@ -43,5 +44,7 @@ set_javastics_pref <- function(javastics_path){
 
     # Copying a default pref file specific to OS name
     file.copy(file.path(pref_path,pref_name),xml_path)
+  }else{
+    warning("Preference file already exist. Try overwrite= FALSE to overwrite it.")
   }
 }

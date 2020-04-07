@@ -4,10 +4,12 @@
 \alias{set_javastics_pref}
 \title{Setting default preferences}
 \usage{
-set_javastics_pref(javastics_path)
+set_javastics_pref(javastics_path, overwrite = FALSE)
 }
 \arguments{
 \item{javastics_path}{Path to the JavaStics installation folder}
+
+\item{overwrite}{Boolean. Overwrite the existing preference file ?}
 }
 \value{
 Nothing. Creates a default preference file in the config folder of JavaStics
