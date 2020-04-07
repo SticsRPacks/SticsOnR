@@ -22,7 +22,7 @@ get_java_workspace <- function(javastics_path){
 
   # if no preference have been set yet
   if(!exists_javastics_pref(javastics_path)){
-    set_javastics_pref(javastics_path)
+    init_javastics_pref(javastics_path)
   }
 
   xml_path=file.path(javastics_path,"config","preferences.xml")

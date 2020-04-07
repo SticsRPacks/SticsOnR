@@ -28,7 +28,7 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
 
   # if no preference have been set yet
   if(!exists_javastics_pref(javastics_path)){
-    set_javastics_pref(javastics_path)
+    init_javastics_pref(javastics_path)
   }
 
   if(!exist_stics_exe(javastics_path,stics_exe)) {
