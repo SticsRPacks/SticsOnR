@@ -6,7 +6,7 @@
 #'
 #' @return A list of two:
 #' - stics_list: named list of the stics executable
-#' - current: the executable currently in use
+#' - current: a named list of the executable currently in use
 #'
 #' @details The information is read from the `preference.xml` file in JavaStics. The function first
 #' controls that it exists and is complete, and if not it creates it using an OS-specific version.
@@ -51,7 +51,7 @@ list_stics_exe <- function(javastics_path){
   stics_list_names= stics_list_parsed[(1:length(stics_list_parsed))%%2==1]
   stics_list= as.list(stics_list_parsed[(1:length(stics_list_parsed))%%2==0])
   names(stics_list)= stics_list_names
-  list(stics_list= stics_list, current= current_stics)
+  list(stics_list= stics_list, current= stics_list[current_stics])
 }
 
 

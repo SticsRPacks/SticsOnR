@@ -13,7 +13,7 @@ list_stics_exe(javastics_path)
 A list of two:
 \itemize{
 \item stics_list: named list of the stics executable
-\item current: the executable currently in use
+\item current: a named list of the executable currently in use
 }
 }
 \description{
