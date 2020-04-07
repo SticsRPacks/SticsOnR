@@ -16,7 +16,7 @@
 #'
 #' @details if `Vars` is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
-#' [set_out_var()].If `obs_name` is not provided, the function tries
+#' [gen_varmod()].If `obs_name` is not provided, the function tries
 #' to guess it using the built-in algorithm from [read_obs()]. See
 #' respective documentation for more details.
 #'

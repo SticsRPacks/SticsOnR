@@ -334,8 +334,7 @@ stics_wrapper <- function(model_options,
                                       mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
                                                             "not simulated by the Stics model for USM",situation,
                                                             "=>",file.path(data_dir,situation,"var.mod"),"is going to be modified and the model re-run."))
-                                      SticsRFiles::set_out_var_txt(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,
-                                                                   add = T)
+                                      set_out_var_internal(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,add = T)
                                       varmod_modified=TRUE
                                       next
                                     }

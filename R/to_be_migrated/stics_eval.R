@@ -47,7 +47,7 @@
 #'
 #' @seealso [sensitive_stics()] to evaluate STICS sensitivity to parameter(s), and other
 #' functions used under the hood: [eval_output()], [import_usm()],
-#' [run_stics()], [stati_stics()], and [set_out_var()].
+#' [run_stics()], [stati_stics()], and [gen_varmod()].
 #'
 #' @examples
 #' \dontrun{
@@ -120,7 +120,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
     parallel::clusterExport(cl=cl,
                             varlist=c("dir.orig","dir.targ","usm_name","stics",
                                       "obs_name","Out_var","import_usm",
-                                      "set_out_var","Plant","run_stics",
+                                      "gen_varmod","Plant","run_stics",
                                       "eval_output","Parameter","Erase","method",
                                       "set_param","Param_val"),
                             envir=environment())
@@ -138,8 +138,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                        usm_name = usm_name[x], overwrite = T,
                        stics = ifelse(method=="stics",stics[[x]],
                                       stics[[1]]))
-            set_out_var(filepath= file.path(USM_path,"var.mod"),
-                        vars=Out_var, add=F)
+            gen_varmod(workspace = USM_path, var_names = Out_var)
             if(method=="Parameter"){
               # set parameter values using mapply:
               Param_val_x= lapply(Param_val, function(y){y[x]})
@@ -187,8 +186,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                           usm_name = usm_name[x], overwrite = T,
                           stics = ifelse(method=="stics",
                                          stics[[x]],stics[[1]]))
-               set_out_var(filepath= file.path(USM_path,"var.mod"),
-                           vars=Out_var, add=F)
+               gen_varmod(workspace = USM_path, var_names = Out_var)
                if(method=="Parameter"){
                  # set parameter values using mapply:
                  Param_val_x= lapply(Param_val, function(y){y[x]})
