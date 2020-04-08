@@ -33,8 +33,17 @@ check_stics <- function(model_path, version = FALSE, stop = TRUE) {
     stop(paste("Executable file is not runnable: ", model_path))
   }
 
+  # making a copy for checking version
+  start_dir <- getwd()
+  tmp_model_dir <- tempdir()
+  exe <- basename(model_path)
+  file.copy(model_path,tmp_model_dir)
+
+  # changing to dir tmp_model_dir
+  setwd(tmp_model_dir)
+
   # catching returned error status
-  err_status <- suppressWarnings(run_system_cmd(model_path, com_args='--version', output = version))
+  err_status <- suppressWarnings(run_system_cmd(paste0("./",exe), com_args='--version', output = version))
 
   # exiting if any error
   if ( err_status && stop ) {
@@ -50,6 +59,8 @@ check_stics <- function(model_path, version = FALSE, stop = TRUE) {
                                        replacement = "")
     attr(err_status, "output") <- NULL
   }
+
+  setwd(start_dir)
 
   return(invisible(err_status))
 }
