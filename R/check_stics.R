@@ -34,7 +34,7 @@ check_stics <- function(model_path, version = FALSE, stop = TRUE) {
   }
 
   # catching returned error status
-  err_status <- run_system_cmd(model_path, com_args='--version', output = version)
+  err_status <- suppressWarnings(run_system_cmd(model_path, com_args='--version', output = version))
 
   # exiting if any error
   if ( err_status && stop ) {

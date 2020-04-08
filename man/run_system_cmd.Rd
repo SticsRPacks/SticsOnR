@@ -9,10 +9,10 @@ run_system_cmd(command, com_args = "", output = FALSE)
 \arguments{
 \item{command}{A system command}
 
+\item{com_args}{A list of arguments to pass to the command}
+
 \item{output}{A logical value to specify returning (T) or not (F, default)
 the command output in the function return "output" attribute}
-
-\item{args}{A list of arguments to pass to the command}
 }
 \value{
 A logical status T if it succeded or F if not

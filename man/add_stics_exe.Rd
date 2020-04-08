@@ -4,14 +4,14 @@
 \alias{add_stics_exe}
 \title{Adding a new Stics model executable in JavaStics}
 \usage{
-add_stics_exe(javastics_path, stics_exe, exe)
+add_stics_exe(javastics_path, stics_name, exe_path)
 }
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}
 
-\item{stics_exe}{Stics executable name/identifier (not executable file)}
+\item{exe_path}{Stics executable file path}
 
-\item{exe}{Stics executable name or path}
+\item{stics_exe}{Stics executable name/identifier (not executable file)}
 }
 \description{
 Add a new executable of the Stics model to use in JavaStics, and set it as
@@ -25,7 +25,7 @@ the bin directory.
 }
 \examples{
 \dontrun{
- add_stics_exe("/path/to/JavaSTICS/dir","model_name","model_exe_name")
+ add_stics_exe("/path/to/JavaSTICS/dir","model_name","model_exe_path")
 }
 
 }

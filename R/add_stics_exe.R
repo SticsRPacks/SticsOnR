@@ -10,35 +10,36 @@
 #'
 #' @param javastics_path JavaStics installation root folder
 #' @param stics_exe      Stics executable name/identifier (not executable file)
-#' @param exe            Stics executable name or path
+#' @param exe_path       Stics executable file path
 #'
 #' @examples
 #' \dontrun{
-#'  add_stics_exe("/path/to/JavaSTICS/dir","model_name","model_exe_name")
+#'  add_stics_exe("/path/to/JavaSTICS/dir","model_name","model_exe_path")
 #' }
 #'
 #' @export
-add_stics_exe <- function(javastics_path, stics_exe, exe) {
+add_stics_exe <- function(javastics_path, stics_name, exe_path) {
 
   # checking javastics path
   check_java_path(javastics_path)
 
-  if (exist_stics_exe(javastics_path, stics_exe)) {
+  if (exist_stics_exe(javastics_path, stics_name)) {
     warning("The model name already exists,
             selecting it in this configuration: ", javastics_path)
-    set_stics_exe(javastics_path, stics_exe)
+    set_stics_exe(javastics_path, stics_name)
     return()
   }
 
-  exe_name <- basename(exe)
-  java_exe_path <- file.path(javastics_path, "bin", exe_name)
+  exe_file_name <- basename(exe_path)
+  java_exe_path <- file.path(javastics_path, "bin", exe_file_name)
 
-  if (!file.exists(exe) & !file.exists(java_exe_path)) {
+  if (!file.exists(exe_path) & !file.exists(java_exe_path)) {
     stop("The model executable file doesn't exist : ", exe)
   }
 
+  # Importing the new exe in the bin directory
   if (!file.exists(java_exe_path)) {
-    file.copy(exe, java_exe_path)
+    file.copy(exe_path, java_exe_path)
   }
 
   xml_path <- file.path(javastics_path, "config", "preferences.xml")
@@ -53,29 +54,26 @@ add_stics_exe <- function(javastics_path, stics_exe, exe) {
   # saving a previous version
   file.copy(xml_path, xml_path_prev)
 
-  stics_exe <- list_stics_exe(javastics_path)
-  nb_models <- length(stics_exe$stics_list)
+  # Getting the existing list in pref file
+  stics_exe_list <- list_stics_exe(javastics_path)
+  nb_models <- length(stics_exe_list$stics_list)
 
-  stics_exe$stics_list[nb_models + 1]= exe_name
-  names(stics_exe$stics_list)[nb_models + 1]= stics_exe
+  # Adding the new exe in the list
+  stics_exe_list$stics_list[nb_models + 1]= exe_file_name
+  names(stics_exe_list$stics_list)[nb_models + 1]= stics_name
 
   # writing models list string
-  stics_exe_string= paste0(sprintf("{%s\t%s},", names(stics_exe$stics_list), stics_exe$stics_list), collapse = "")
-
+  # and setting the current used model withthe added one
+  stics_exe_string= paste0(sprintf("{%s\t%s},", names(stics_exe_list$stics_list), stics_exe_list$stics_list), collapse = "")
   xml_pref <- SticsRFiles:::xmldocument(xml_path)
-  SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', stics_exe)
+  SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', stics_name)
   SticsRFiles:::setValues(xml_pref, '//entry[@key="model.list"]', stics_exe_string)
 
   # writing file
   SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
 
-  # # if OS != windows, set chmod +x exe
-  # if (!is_windows()) {
-  #   system(paste("chmod +x", java_exe_path))
-  # }
-
   # Setting exe_path to executable (OS != windows)
   # and checking if it is a Stics exe file
-  check_stics(exe_path)
+  check_stics(java_exe_path)
 
 }
