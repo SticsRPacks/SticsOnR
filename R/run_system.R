@@ -80,7 +80,7 @@ run_system <- function(model_path,
     setwd(usm_dir)
 
     # new function call, keeping error message as attribute
-    ret <- run_system_cmd(model_path, output = TRUE)
+    ret <- run_system_cmd( command = model_path, output = TRUE)
     usm_out$error <- as.logical(ret)
     usm_out$message <- attr(ret, "output")
 

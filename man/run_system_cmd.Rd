@@ -4,15 +4,15 @@
 \alias{run_system_cmd}
 \title{Run a system command}
 \usage{
-run_system_cmd(command, args = "", output = FALSE)
+run_system_cmd(command, com_args = "", output = FALSE)
 }
 \arguments{
 \item{command}{A system command}
 
-\item{args}{A list of arguments to pass to the command}
-
 \item{output}{A logical value to specify returning (T) or not (F, default)
 the command output in the function return "output" attribute}
+
+\item{args}{A list of arguments to pass to the command}
 }
 \value{
 A logical status T if it succeded or F if not

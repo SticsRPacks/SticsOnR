@@ -69,8 +69,13 @@ add_stics_exe <- function(javastics_path, stics_exe, exe) {
   # writing file
   SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
 
-  # if OS != windows, set chmod +x exe
-  if (!is_windows()) {
-    system(paste("chmod +x", java_exe_path))
-  }
+  # # if OS != windows, set chmod +x exe
+  # if (!is_windows()) {
+  #   system(paste("chmod +x", java_exe_path))
+  # }
+
+  # Setting exe_path to executable (OS != windows)
+  # and checking if it is a Stics exe file
+  check_stics(exe_path)
+
 }
