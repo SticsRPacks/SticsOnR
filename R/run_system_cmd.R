@@ -1,7 +1,7 @@
 #' Run a system command
 #'
 #' @param command A system command
-#' @param args A list of arguments to pass to the command
+#' @param com_args A list of arguments to pass to the command
 #' @param output A logical value to specify returning (T) or not (F, default)
 #' the command output in the function return "output" attribute
 #'
@@ -11,13 +11,12 @@
 #'
 #' @keywords internal
 #'
-#@export
 #'
 # @examples
-run_system_cmd <- function(command, args = "", output = FALSE) {
+run_system_cmd <- function(command, com_args = "", output = FALSE) {
 
   err_status = FALSE
-  ret <- try(system2( command = command, args = args,
+  ret <- try(system2( command = command, args = com_args,
                       stderr = TRUE,
                       stdout = TRUE),
              silent = TRUE)

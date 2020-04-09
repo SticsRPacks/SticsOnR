@@ -57,12 +57,20 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
   # setting model exe
   SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',stics_exe)
 
+
+  exe_path=file.path(javastics_path,"bin",
+                     list_stics_exe(javastics_path)$stics_list[[stics_exe]])
+
   # if OS != windows, set chmod +x exe
-  if ( !is_windows() ){
-    exe_path=file.path(javastics_path,"bin",
-                       list_stics_exe(javastics_path)$stics_list[[stics_exe]])
-    system(paste("chmod +x",exe_path))
-  }
+  # if ( !is_windows() ){
+  #   exe_path=file.path(javastics_path,"bin",
+  #                      list_stics_exe(javastics_path)$stics_list[[stics_exe]])
+  #   system(paste("chmod +x",exe_path))
+  # }
+
+  # Setting exe_path to executable (OS != windows)
+  # and checking if it is a Stics exe file
+  check_stics(exe_path)
 
   # saving modified file
   SticsRFiles:::saveXmlDoc(xml_pref,xml_path)
