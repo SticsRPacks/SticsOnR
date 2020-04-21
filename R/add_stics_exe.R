@@ -23,7 +23,7 @@ add_stics_exe <- function(javastics_path, stics_name, exe_path) {
   # checking javastics path
   check_java_path(javastics_path)
 
-  if (exist_stics_exe(javastics_path, stics_name)) {
+  if(exist_stics_exe(javastics_path, stics_name)){
     warning("The model name already exists,
             selecting it in this configuration: ", javastics_path)
     set_stics_exe(javastics_path, stics_name)
