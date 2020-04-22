@@ -2,7 +2,7 @@
 #'
 #' @description Initialize the JavaStics `preferences.xml` file.
 #'
-#' @param javastics_path
+#' @param javastics_path JavaStics installation folder
 #' @param overwrite      Boolean. Overwrite the existing preference file ?
 #'
 #' @return `TRUE` if the file was created, `FALSE` otherwise.

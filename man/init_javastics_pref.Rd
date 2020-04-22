@@ -7,6 +7,8 @@
 init_javastics_pref(javastics_path, overwrite = FALSE)
 }
 \arguments{
+\item{javastics_path}{JavaStics installation folder}
+
 \item{overwrite}{Boolean. Overwrite the existing preference file ?}
 }
 \value{
