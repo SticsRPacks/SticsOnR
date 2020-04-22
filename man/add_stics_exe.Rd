@@ -9,9 +9,9 @@ add_stics_exe(javastics_path, stics_name, exe_path)
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}
 
-\item{exe_path}{Stics executable file path}
+\item{stics_name}{Stics executable name/identifier (not executable file)}
 
-\item{stics_exe}{Stics executable name/identifier (not executable file)}
+\item{exe_path}{Stics executable file path}
 }
 \description{
 Add a new executable of the Stics model to use in JavaStics, and set it as
