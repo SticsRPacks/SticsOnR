@@ -9,7 +9,7 @@
 #' the bin directory.
 #'
 #' @param javastics_path JavaStics installation root folder
-#' @param stics_exe      Stics executable name/identifier (not executable file)
+#' @param stics_name      Stics executable name/identifier (not executable file)
 #' @param exe_path       Stics executable file path
 #'
 #' @examples
