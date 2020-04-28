@@ -11,10 +11,12 @@
 #'
 set_file_executable <- function(file_path) {
 
-  if ( SticsOnR:::is_windows() ) return(invisible(TRUE))
+  if(is_windows()){
+    return(invisible(TRUE))
+  }
 
   # The file does not exist
-  if (! file.exists(file_path)) {
+  if(!file.exists(file_path)){
     warning(paste("File does no exist:", file_path))
     return(invisible(FALSE))
   }
@@ -27,7 +29,7 @@ set_file_executable <- function(file_path) {
 
   # Checking if any errors
   status <- attr(ret,"status")
-  if ( !base::is.null(status) && status) {
+  if(!base::is.null(status) && status){
     warning(paste("A problem occurs when setting executable status on:", file_path))
     return(invisible(FALSE))
   }

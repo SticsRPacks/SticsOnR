@@ -70,7 +70,7 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
 
   # Setting exe_path to executable (OS != windows)
   # and checking if it is a Stics exe file
-  check_stics(exe_path)
+  check_stics_exe(exe_path)
 
   # saving modified file
   SticsRFiles:::saveXmlDoc(xml_pref,xml_path)

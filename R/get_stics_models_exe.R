@@ -30,7 +30,7 @@ get_stics_models_exe <- function(javastics_path, stics_exe = NULL) {
   # Getting versions from the model executables
   models_exe <-
     lapply(models_exe, function(x){
-      attr(check_stics(x, version = TRUE, stop = FALSE),"version")
+      attr(check_stics_exe(x, version = TRUE, stop = FALSE),"version")
     })
   names(models_exe)= names(models)
 

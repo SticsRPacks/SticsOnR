@@ -74,6 +74,6 @@ add_stics_exe <- function(javastics_path, stics_name, exe_path) {
 
   # Setting exe_path to executable (OS != windows)
   # and checking if it is a Stics exe file
-  check_stics(java_exe_path)
+  check_stics_exe(java_exe_path)
 
 }

@@ -65,7 +65,7 @@ run_system <- function(model_path,
 
 
   # optional model executable checking
-  if ( check_exe )  check_stics(model_path)
+  if ( check_exe )  check_stics_exe(model_path)
 
   nb_usms <- length(run_dir)
   usms_out <- vector("list", nb_usms)

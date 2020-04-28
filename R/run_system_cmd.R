@@ -23,8 +23,8 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
   #print(ret)
 
   # if any error, storing message as an attribute
-  if ( "class" %in% names(attributes(ret)) &&
-       attr(ret,"class") == "try-error") {
+  if("class" %in% names(attributes(ret)) &&
+       attr(ret,"class") == "try-error"){
     err_status = TRUE
     attr(err_status, "message") <- ret[1]
     return(err_status)

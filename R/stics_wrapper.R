@@ -126,7 +126,7 @@ stics_wrapper <- function(model_options,
   warning_display <- model_options$warning_display
 
   # Checking Stics executable
-  check_stics(stics_path)
+  check_stics_exe(stics_path)
 
   if (time_display)   start_time <- Sys.time()
 
