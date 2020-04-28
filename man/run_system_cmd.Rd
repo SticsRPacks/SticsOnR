@@ -15,7 +15,7 @@ run_system_cmd(command, com_args = "", output = FALSE)
 the command output in the function return "output" attribute}
 }
 \value{
-A logical status T if it succeded or F if not
+A logical status TRUE if it succeded or FALSE if not
 a "message" attribute is set with an error message, and optionaly
 an "output" attribute is set with the command output
 }

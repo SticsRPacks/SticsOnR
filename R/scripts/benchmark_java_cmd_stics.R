@@ -15,7 +15,7 @@ model="Stics1_tagv841"
 model_dest=file.path(javas,'bin',model)
 file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep1="example_tagv841"
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 ws1=file.path(wd,data_rep1)
 microbench1 <- microbenchmark(run_usm(javas,ws1,"ble"),times=times)
 
@@ -26,8 +26,8 @@ model="Stics2_snow"
 model_dest=file.path(javas,'bin',model)
 file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep2="example_snow_station_ini"
-# add_stics_exe(javas,java_model_tag = model,java_model_exe = model)
-set_stics_exe(javas,model)
+# set_stics_exe(javas,java_model_tag = model,java_model_exe = model)
+select_stics_exe(javas,model)
 ws2=file.path(wd,data_rep2)
 microbench2 <- microbenchmark(run_usm(javas,ws2,c("ble")),times=times)
 

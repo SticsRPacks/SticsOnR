@@ -7,7 +7,7 @@
 #'
 #' @details The `stics_exe` is **not** the name of the executable file, but the
 #' identification name. Please use `list_stics_exe()` to list all available executables,
-#' and `add_stics_exe()` to add a new one. The identification names can be retreived using
+#' and `set_stics_exe()` to add a new one. The identification names can be retreived using
 #' `names(list_stics_exe(javastics_path)$stics_list)`
 #'
 #' @return A named list with stics executables from the model executable

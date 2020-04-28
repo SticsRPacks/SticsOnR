@@ -46,7 +46,7 @@ run_javastics <- function(javastics_path,
 
   jexe="JavaSticsCmd.exe"
   # Getting right executable name for the platform
-  if ( optim && is_mac() ) stics_exe <- paste0(stics_exe,"_mac")
+
 
   # Checking javastics path
   check_java_path(javastics_path)
@@ -54,7 +54,7 @@ run_javastics <- function(javastics_path,
   # Model path
   stics_path <- file.path(javastics_path,"bin",stics_exe)
 
-  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe)
+  select_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe)
 
   #  Workspace path (absolute path from user wd + platform's canonical form)
   workspace_path= normalizePath(workspace_path)

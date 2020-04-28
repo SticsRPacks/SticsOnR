@@ -37,7 +37,7 @@ detect_stics_exe <- function(dir_path) {
   bin_info <- lapply(X = bin_list, function(x) check_stics_exe(x, version = TRUE, stop = FALSE))
 
   # Selecting successfull exec
-  sel <- !unlist(bin_info)
+  sel <- unlist(bin_info)
   if (!any(sel)) return(NULL)
 
   bin_info <- bin_info[sel]

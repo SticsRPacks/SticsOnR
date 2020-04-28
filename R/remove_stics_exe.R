@@ -11,7 +11,7 @@
 #' please do it by hand instead (in "JavaStics.../bin").
 #' The `stics_exe` is **not** the name of the executable file, but the
 #' identification name. Please use `list_stics_exe()` to list all available executables,
-#' and `add_stics_exe()` to add a new one. The identification names can be retreived using
+#' and `set_stics_exe()` to add a new one. The identification names can be retreived using
 #' `names(list_stics_exe(javastics_path)$stics_list)`
 #'
 #' @return Nothing. Update the "preference.xml" file in the config of JavaStics.
@@ -21,13 +21,13 @@
 #' remove_stics_exe("path/to/JavaSTICS-v131-stics-v841","model_name")
 #'}
 #'
-#' @export
+#' @keywords internal
 remove_stics_exe <- function(javastics_path,stics_exe){
 
   # checking javastics path
   check_java_path(javastics_path)
 
-  if (!exist_stics_exe(javastics_path,stics_exe)) {
+  if(!exist_stics_exe(javastics_path,stics_exe)) {
     warning("The model doesn't exists or his name is miss spelled : ",stics_exe,
             ".\n Call names(list_stics_exe(javastics_path)$stics_list) to list existing executables")
     return()
@@ -53,21 +53,20 @@ remove_stics_exe <- function(javastics_path,stics_exe){
   # saving a previous version
   file.copy(xml_path,xml_path_prev)
 
-  stics_exe <- list_stics_exe(javastics_path)
-  nb_models <- length(stics_exe$stics_list)
+  stics_exe_list <- list_stics_exe(javastics_path)
 
   # Remove the model version:
-  stics_exe$stics_list= stics_exe$stics_list[-grep(stics_exe,names(stics_exe$stics_list))]
+  stics_exe_list$stics_list= stics_exe_list$stics_list[-grep(stics_exe,names(stics_exe_list$stics_list))]
 
   # writing models list string
-  stics_exe_string= paste0(sprintf("{%s\t%s},", names(stics_exe$stics_list), stics_exe$stics_list), collapse = "")
+  stics_exe_string= paste0(sprintf("{%s\t%s},", names(stics_exe_list$stics_list), stics_exe_list$stics_list), collapse = "")
 
   xml_pref= SticsRFiles ::: xmldocument(xml_path)
 
   # removing model from last if needed
-  if(stics_exe$current == stics_exe){
+  if(stics_exe_list$current == stics_exe){
     warning("JavaStics was using this Stics executable currently",
-            " Please set a new model executable to use using `set_stics_exe()`")
+            " Please set a new model executable to use using `select_stics_exe()`")
     SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',"")
   }
 

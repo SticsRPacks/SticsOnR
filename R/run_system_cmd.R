@@ -5,7 +5,7 @@
 #' @param output A logical value to specify returning (T) or not (F, default)
 #' the command output in the function return "output" attribute
 #'
-#' @return A logical status T if it succeded or F if not
+#' @return A logical status TRUE if it succeded or FALSE if not
 #' a "message" attribute is set with an error message, and optionaly
 #' an "output" attribute is set with the command output
 #'
@@ -15,7 +15,7 @@
 # @examples
 run_system_cmd <- function(command, com_args = "", output = FALSE) {
 
-  err_status = FALSE
+  err_status = TRUE
   ret <- try(system2( command = command, args = com_args,
                       stderr = TRUE,
                       stdout = TRUE),
@@ -25,7 +25,7 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
   # if any error, storing message as an attribute
   if("class" %in% names(attributes(ret)) &&
        attr(ret,"class") == "try-error"){
-    err_status = TRUE
+    err_status = FALSE
     attr(err_status, "message") <- ret[1]
     return(err_status)
   }
@@ -34,7 +34,7 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
   # TODO: to be merged with preceeding conditionnal block !!!!!
   if ( "status" %in% names(attributes(ret)) &&
        attr(ret,"status") > 0) {
-    err_status = TRUE
+    err_status = FALSE
     attr(err_status, "message") <- ret[1]
     return(err_status)
   }

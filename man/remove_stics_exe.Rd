@@ -23,7 +23,7 @@ The executable file in the current JavaStics bin folder will not be deleted,
 please do it by hand instead (in "JavaStics.../bin").
 The \code{stics_exe} is \strong{not} the name of the executable file, but the
 identification name. Please use \code{list_stics_exe()} to list all available executables,
-and \code{add_stics_exe()} to add a new one. The identification names can be retreived using
+and \code{set_stics_exe()} to add a new one. The identification names can be retreived using
 \code{names(list_stics_exe(javastics_path)$stics_list)}
 }
 \examples{
@@ -32,3 +32,4 @@ remove_stics_exe("path/to/JavaSTICS-v131-stics-v841","model_name")
 }
 
 }
+\keyword{internal}

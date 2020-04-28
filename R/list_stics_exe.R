@@ -18,7 +18,7 @@
 #'
 #' @importFrom magrittr "%>%"
 #'
-#' @export
+#' @keywords internal
 list_stics_exe <- function(javastics_path){
 
   # checking javastics path

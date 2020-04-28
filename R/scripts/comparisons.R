@@ -18,7 +18,7 @@ model="Stics_trunk"
 #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep1="example_trunk"
 ws1=file.path(wd,data_rep1)
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 usms_out1 <- run_java(javas,ws1)
 
 ##############################################
@@ -28,7 +28,7 @@ model="Stics_Lego"
 #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep2="example_Lego"
 ws2=file.path(wd,data_rep2)
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 usms_out2 <- run_java(javas,ws2)
 
 #################################################
@@ -37,7 +37,7 @@ model="Stics_tagv841"
 #model_dest=file.path(javas,'bin',model)
 #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep3="example_tagv841"
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 ws3=file.path(wd,data_rep3)
 usms_out3 <- run_java(javas,ws3)
 
@@ -47,7 +47,7 @@ model="Stics_microc"
 #model_dest=file.path(javas,'bin',model)
 #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep4="example_microc"
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 ws4=file.path(wd,data_rep4)
 usms_out4 <- run_java(javas,ws4)
 
@@ -57,7 +57,7 @@ model="Stics_rad_trans"
 #model_dest=file.path(javas,'bin',model)
 #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep5="example_radiative_transfert"
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 ws5=file.path(wd,data_rep5)
 usms_out5 <- run_java(javas,ws5)
 
@@ -68,7 +68,7 @@ model="Stics_interc"
 # #model_dest=file.path(javas,'bin',model)
 # #file.copy(model_src,model_dest,overwrite = TRUE)
 data_rep6="example_interc"
-set_stics_exe(javas,model)
+select_stics_exe(javas,model)
 ws6=file.path(wd,data_rep6)
 usms_out6 <- run_java(javas,ws6)
 
@@ -76,16 +76,16 @@ usms_out6 <- run_java(javas,ws6)
 ######################################################
 model="Stics_v90_bis"
 data_rep7="example_v90_bis"
-add_stics_exe(javas,model,model)
-set_stics_exe(javas,model)
+set_stics_exe(javas,model,model)
+select_stics_exe(javas,model)
 ws7=file.path(wd,data_rep7)
 usms_out7 <- run_java(javas,ws7)
 
 ######################################################
 model="Stics_snow"
 data_rep8="example_snow"
-add_stics_exe(javas,model,model)
-set_stics_exe(javas,model)
+set_stics_exe(javas,model,model)
+select_stics_exe(javas,model)
 ws8=file.path(wd,data_rep8)
 usms_out8 <- run_java(javas,ws8)
 
@@ -93,16 +93,16 @@ usms_out8 <- run_java(javas,ws8)
 ######################################################
 model="Stics_v90"
 data_rep9="example_v90"
-add_stics_exe(javas,"Stics_v90","Stics_v90")
-set_stics_exe(javas,model)
+set_stics_exe(javas,"Stics_v90","Stics_v90")
+select_stics_exe(javas,model)
 ws9=file.path(wd,data_rep9)
 usms_out9 <- run_java(javas,ws9)
 
 ######################################################
 model="Stics_trunk"
 data_rep10="example_trunk"
-add_stics_exe(javas,model,model)
-set_stics_exe(javas,model)
+set_stics_exe(javas,model,model)
+select_stics_exe(javas,model)
 ws10=file.path(wd,data_rep10)
 usms_out10 <- run_java(javas,ws10)
 

@@ -4,6 +4,7 @@
 #' @param version Logical, or getting system command return i.e.
 #' model version or not (default)
 #' @param stop Logical for stopping or not execution
+#' @param verbose provide hints to the user if `TRUE` (only if `stop= FALSE`)
 #'
 #' @return System output (error,...)
 #'
@@ -12,7 +13,7 @@
 # @examples
 #' @keywords internal
 #'
-check_stics_exe <- function(model_path, version = FALSE, stop = TRUE) {
+check_stics_exe <- function(model_path, version = FALSE, stop = TRUE, verbose= FALSE) {
 
   # Need to set the directory to the one of the exe for system calls
   start_dir <- getwd()
@@ -23,7 +24,8 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE) {
     if(stop){
       stop(paste("Executable file doesn't exist: ",model_path))
     }else{
-      cli::cli_alert_danger("Executable file does not exist: {.val {model_path}}")
+      if(verbose) cli::cli_alert_danger("Executable file does not exist: {.val {model_path}}")
+      return(invisible(FALSE))
     }
   }
 
@@ -33,13 +35,19 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE) {
     if(stop){
       stop(paste("File",model_path,"is either not executable, or an exe for another OS."))
     }else{
-      cli::cli_alert_danger("File {.val {model_path}} is either not executable, or an exe for another OS.")
+      if(verbose) cli::cli_alert_danger("File {.val {model_path}} is either not executable, or an exe for another OS.")
+      return(invisible(FALSE))
     }
   }
 
   # Make the file executable if needed for linux or Mac
   if(!set_file_executable(model_path)){
-    stop(paste("Executable file is not runnable: ", model_path))
+    if(stop){
+      stop(paste("Cannot give execute permissions for model: ", model_path))
+    }else{
+      if(verbose) cli::cli_alert_danger("Cannot give execute permissions for model: {.val {model_path}}.")
+      return(invisible(FALSE))
+    }
   }
 
   # changing to dir tmp_model_dir
@@ -49,9 +57,13 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE) {
   err_status <- suppressWarnings(run_system_cmd(basename(model_path), com_args='--version', output = version))
 
   # exiting if any error
-  if(err_status && stop){
-    stop(paste("The file is not executable or is not a Stics executable: \n",
-               model_path))
+  if(!err_status){
+    if(stop){
+      stop("Cannot guess model version running the model with --version for: ",model_path)
+    }else{
+      if(verbose) cli::cli_alert_danger("Cannot guess model version running the model with --version for: {.val {model_path}}.")
+      return(invisible(FALSE))
+    }
   }
 
   # If version is required

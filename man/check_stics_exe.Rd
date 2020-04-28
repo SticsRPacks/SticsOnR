@@ -4,7 +4,7 @@
 \alias{check_stics_exe}
 \title{Checking if given path is a Stics executable path}
 \usage{
-check_stics_exe(model_path, version = FALSE, stop = TRUE)
+check_stics_exe(model_path, version = FALSE, stop = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{model_path}{Model executable path}
@@ -13,6 +13,8 @@ check_stics_exe(model_path, version = FALSE, stop = TRUE)
 model version or not (default)}
 
 \item{stop}{Logical for stopping or not execution}
+
+\item{verbose}{provide hints to the user if \code{TRUE} (only if \code{stop= FALSE})}
 }
 \value{
 System output (error,...)

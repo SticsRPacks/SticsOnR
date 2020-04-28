@@ -46,3 +46,27 @@ is_unknown_os <- function() {
   !is_os_name( os_tag_name = is_os_name() )
 }
 
+user_os <- function(){
+  if(is_unix()){
+    "lin"
+  }else if(is_windows()){
+    "win"
+  }else if(is_mac()){
+    "mac"
+  }else{
+    "unknown"
+  }
+}
+
+os_suffix <- function(){
+  if(is_unix()){
+    ""
+  }else if(is_windows()){
+    ".exe"
+  }else if(is_mac()){
+    "_mac"
+  }else{
+    "unknown"
+  }
+}
+
