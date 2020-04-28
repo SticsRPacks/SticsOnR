@@ -10,6 +10,8 @@
 #' and `add_stics_exe()` to add a new one. The identification names can be retreived using
 #' `names(list_stics_exe(javastics_path)$stics_list)`
 #'
+#' @note "stics_modulo", "sticsmodulo" and "modulostics" are synonyms for the standard STICS executable.
+#'
 #' @return Nothing. Update the "preference.xml" file in the config of JavaStics.
 #'
 #' @examples
@@ -18,11 +20,11 @@
 #'}
 #'
 #' @export
-set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
+set_stics_exe <- function(javastics_path, stics_exe= "stics_modulo"){
   # checking javastics path
   check_java_path(javastics_path)
 
-  if(stics_exe=="modulostics"){
+  if(stics_exe=="modulostics"|stics_exe=="sticsmodulo"){
     stics_exe= "stics_modulo"
   }
 
@@ -31,7 +33,8 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
     init_javastics_pref(javastics_path)
   }
 
-  if(!exist_stics_exe(javastics_path,stics_exe)) {
+
+  if(!exist_stics_exe(javastics_path,stics_exe)){
     stop("The provided model name doesn't exist in this configuration : ",
          javastics_path,
          ".\n Add it before with `add_stics_exe()` function!")
@@ -75,4 +78,29 @@ set_stics_exe <- function(javastics_path,stics_exe= "stics_modulo"){
   # saving modified file
   SticsRFiles:::saveXmlDoc(xml_pref,xml_path)
 
+}
+
+
+
+#' @title Check if a stics executable is available
+#'
+#' @description Checks if a stics model executable is available in JavaStics (in the
+#' "preference.xml" file).
+#'
+#' @param javastics_path JavaStics installation root folder
+#' @param stics_exe  Stics executable name (see details)
+#'
+#' @details The current model executable available in JavaStics can be listed using
+#' `list_stics_exe()`.
+#'
+#' @examples
+#' \dontrun{
+#' exist_stics_exe("path/to/JavaSTICS-v131-stics-v841","stics_name")
+#'}
+#'
+#' @return Existing status, logical
+#'
+#' @keywords internal
+exist_stics_exe <- function(javastics_path,stics_exe){
+  is.element(stics_exe,names(list_stics_exe(javastics_path)$stics_list))
 }
