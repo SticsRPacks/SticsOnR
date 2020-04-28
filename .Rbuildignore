@@ -16,3 +16,4 @@ vignettes/archives
 old_files
 NEWS.md
 new_versions\*.R$
+^bin$

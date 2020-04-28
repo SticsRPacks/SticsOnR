@@ -68,6 +68,11 @@ run_javastics <- function(javastics_path,
   # Model path
   stics_path <- file.path(javastics_path,"bin",stics_exe)
 
+  # On exit, return to the version used before:
+  on.exit(set_stics_exe(javastics_path = javastics_path,
+                        stics_exe = list_stics_exe(javastics_path)$current[[1]]),
+          add = TRUE)
+
   set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe, overwrite = TRUE)
 
   # Workspace path (absolute path from user wd + platform's canonical form)
@@ -75,8 +80,6 @@ run_javastics <- function(javastics_path,
 
   # Fixing the JavaStics path
   setwd(javastics_path)
-
-  user_preferences= "bin/resources/prefs"
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path,workspace_path)
