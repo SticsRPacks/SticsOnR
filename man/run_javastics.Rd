@@ -11,7 +11,7 @@ run_javastics(
   keep_history = TRUE,
   optim = FALSE,
   verbose = FALSE,
-  stics_exe = "stics_modulo"
+  stics_exe = "modulostics"
 )
 }
 \arguments{
@@ -30,7 +30,16 @@ FALSE otherwise (default)}
 \item{verbose}{Logical value (optional), TRUE to display usms names + JavaSTics output,
 FALSE otherwise (default)}
 
-\item{stics_exe}{The name of the stics executable to use, default to "stics_modulo" (see details)}
+\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
+
+#' @details \code{stics_exe} may be :
+\enumerate{
+\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
+shipping with JavaStics;
+\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
+\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+\code{stics_modulo.exe} because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
+}}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)
@@ -39,9 +48,6 @@ and an output "message" (JavaStics commandline execution output)
 \description{
 This function uses basically Stics through his
 JavaStics command line interface
-}
-\details{
-Use \code{list_stics_exe()} to list all executables available for the \code{stics_exe} argument.
 }
 \examples{
 \dontrun{
