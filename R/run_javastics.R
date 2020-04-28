@@ -12,9 +12,14 @@
 #' FALSE otherwise (default)
 #' @param verbose Logical value (optional), TRUE to display usms names + JavaSTics output,
 #' FALSE otherwise (default)
-#' @param stics_exe The name of the stics executable to use, default to "stics_modulo" (see details)
+#' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
 #'
-#' @details Use `list_stics_exe()` to list all executables available for the `stics_exe` argument.
+#'#' @details `stics_exe` may be :
+#' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
+#' shipping with JavaStics;
+#' 2. a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
+#' 3. a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+#' `stics_modulo.exe` because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
 #'
 #' @return A list in which each element contains: usm "name", "error" status (logical)
 #' and an output "message" (JavaStics commandline execution output)
@@ -38,25 +43,34 @@ run_javastics <- function(javastics_path,
                           keep_history=TRUE,
                           optim=FALSE,
                           verbose=FALSE,
-                          stics_exe= "stics_modulo") {
+                          stics_exe= "modulostics") {
 
   # Ensure that the user working directory is unchanged after the function has run
   current_wd= getwd()
   on.exit(setwd(current_wd))
 
-  jexe="JavaSticsCmd.exe"
-  # Getting right executable name for the platform
+  # Help people that don't remember well the standard name:
+  if(stics_exe=="stics_modulo"|stics_exe=="sticsmodulo"){
+    stics_exe= "modulostics"
+  }
 
+  jexe="JavaSticsCmd.exe"
 
   # Checking javastics path
   check_java_path(javastics_path)
 
+  # Getting right executable name for the platform
+  if(stics_exe=="modulostics"){
+    # using the exe name instead of the identifier to select the right one for the user's OS
+    stics_exe= paste0("stics_modulo",os_suffix())
+  }
+
   # Model path
   stics_path <- file.path(javastics_path,"bin",stics_exe)
 
-  select_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe)
+  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe, overwrite = TRUE)
 
-  #  Workspace path (absolute path from user wd + platform's canonical form)
+  # Workspace path (absolute path from user wd + platform's canonical form)
   workspace_path= normalizePath(workspace_path)
 
   # Fixing the JavaStics path
