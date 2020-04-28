@@ -10,7 +10,7 @@ run_javastics(
   usms_list = NULL,
   keep_history = TRUE,
   optim = FALSE,
-  verbose = FALSE,
+  verbose = TRUE,
   stics_exe = "modulostics"
 )
 }

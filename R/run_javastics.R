@@ -42,7 +42,7 @@ run_javastics <- function(javastics_path,
                           usms_list=NULL,
                           keep_history=TRUE,
                           optim=FALSE,
-                          verbose=FALSE,
+                          verbose=TRUE,
                           stics_exe= "modulostics") {
 
   # Ensure that the user working directory is unchanged after the function has run
@@ -70,10 +70,12 @@ run_javastics <- function(javastics_path,
 
   # On exit, return to the version used before:
   on.exit(set_stics_exe(javastics_path = javastics_path,
-                        stics_exe = list_stics_exe(javastics_path)$current[[1]]),
+                        stics_exe = list_stics_exe(javastics_path)$current[[1]],
+                        verbose= FALSE),
           add = TRUE)
 
-  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe, overwrite = TRUE)
+  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe,
+                overwrite = TRUE,verbose= verbose)
 
   # Workspace path (absolute path from user wd + platform's canonical form)
   workspace_path= normalizePath(workspace_path)

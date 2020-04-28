@@ -8,6 +8,7 @@
 #' @param stics_exe      Stics executable name (identifier) or executable path
 #' @param overwrite      Boolean. If `stics_exe` is an executable path and an executable with the same name already exist in the bin,
 #'  overwrite it if `TRUE`, or return an error if `FALSE` default.
+#' @param verbose Logical value (optional), `TRUE` to display messages, `FALSE` otherwise.
 #'
 #' @details `stics_exe` may be :
 #' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_module.exe`;
@@ -36,7 +37,7 @@
 #' }
 #'
 #' @keywords internal
-set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE) {
+set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE,verbose=TRUE) {
 
   # checking javastics path
   check_java_path(javastics_path)
@@ -48,7 +49,7 @@ set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE) {
   # Case 1: stics_exe is a model name
   if(exist_stics_exe(javastics_path, stics_exe)){
     exe_name= list_stics_exe(javastics_path)$stics_list[stics_exe][[1]]
-    cli::cli_alert_success("Using stics {.val {stics_exe}} (exe: {.val {exe_name}})")
+    if(verbose) cli::cli_alert_success("Using stics {.val {stics_exe}} (exe: {.val {exe_name}})")
     select_stics_exe(javastics_path, stics_exe)
     return(invisible())
   }
@@ -71,12 +72,12 @@ set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE) {
       }
       stics_exe= stics_list[exe_to_use]
       select_stics_exe(javastics_path, names(stics_exe))
-      cli::cli_alert_success("Using stics {.val {names(stics_exe)}} (exe: {.val {stics_exe[[1]]}})")
+      if(verbose)cli::cli_alert_success("Using stics {.val {names(stics_exe)}} (exe: {.val {stics_exe[[1]]}})")
       return(invisible())
     }
 
     # If not, continue.
-    cli::cli_alert_success("Using stics executable from: {.val {java_stics_exe}}")
+    if(verbose) cli::cli_alert_success("Using stics executable from: {.val {java_stics_exe}}")
 
   }else if(check_stics_exe(model_path = stics_exe, stop = FALSE)){
     # Case 3: stics_exe is a path to the executable
@@ -94,7 +95,7 @@ set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE) {
       stop("Impossible to copy stics_exe file into the bin directory of JavaStics. Check if the file exists already and ",
            "delete it manually if needed (overwrite is always FALSE). Use only the file executable name as stics_exe if you need to execute the one from JavaStics/bin")
     }
-    cli::cli_alert_success("Using stics executable from: {.val {stics_exe}}")
+    if(verbose) cli::cli_alert_success("Using stics executable from: {.val {stics_exe}}")
   }else{
     # Case were stics_exe was not found anywhere
     stop("stics_exe was not found as a stics name, executable in the bin path of JavaStics nor executable path: ",stics_exe)

@@ -4,7 +4,7 @@
 \alias{set_stics_exe}
 \title{Adding a new Stics model executable in JavaStics}
 \usage{
-set_stics_exe(javastics_path, stics_exe, overwrite = FALSE)
+set_stics_exe(javastics_path, stics_exe, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}
@@ -13,6 +13,8 @@ set_stics_exe(javastics_path, stics_exe, overwrite = FALSE)
 
 \item{overwrite}{Boolean. If \code{stics_exe} is an executable path and an executable with the same name already exist in the bin,
 overwrite it if \code{TRUE}, or return an error if \code{FALSE} default.}
+
+\item{verbose}{Logical value (optional), \code{TRUE} to display messages, \code{FALSE} otherwise.}
 }
 \value{
 Nothing. Update the "preference.xml" file in the config of JavaStics.
