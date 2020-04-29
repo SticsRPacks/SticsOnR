@@ -147,11 +147,11 @@ stics_wrapper <- function(model_options,
   # and by the user so different options have been implemented (param_values can be
   # a vector or an array, sit_var_dates_mask can be a list or an array).
   keep_all_data <- FALSE # to specify if all simulated variables and dates must be returned
-  if (base::is.null(sit_var_dates_mask)) {
+  if (is.null(sit_var_dates_mask)) {
     keep_all_data <- TRUE
-  } else if (base::is.list(sit_var_dates_mask)) {
+  } else if (is.list(sit_var_dates_mask)) {
     sit_names_mask <- names(sit_var_dates_mask)
-  } else if (base::is.character(sit_var_dates_mask)) {
+  } else if (is.character(sit_var_dates_mask)) {
     sit_names_mask <- sit_var_dates_mask
     keep_all_data <- TRUE
   }
@@ -164,22 +164,22 @@ stics_wrapper <- function(model_options,
 
   # Checking existing files
   files_exist <- file.exists(file.path(situation_names, "new_travail.usm"))
-  situation_names <- base::basename(situation_names)[files_exist]
+  situation_names <- basename(situation_names)[files_exist]
 
   # may be overwritten here ...
   if (is.null(param_values)) {
-    if (!base::is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
+    if (!is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
   } else if (is.vector(param_values)) {
-    if (!base::is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
+    if (!is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
     # transform param_values into an 3D-array
     param_values=array(param_values,
                        dim=c(1,length(param_values),length(situation_names)),
                        dimnames=list("NULL",names(param_values),situation_names))
   } else if (is.array(param_values)) {
     situation_names <- dimnames(param_values)[[3]]
-    if ( !base::is.null(sit_var_dates_mask) &&
+    if ( !is.null(sit_var_dates_mask) &&
          length(setdiff(situation_names, sit_names_mask))>0) {
-      base::warning(paste("Situations in param_values and sit_var_dates_mask are different:",
+      warning(paste("Situations in param_values and sit_var_dates_mask are different:",
                     "\n \t Situations param_values:",paste(situation_names,collapse=" "),
                     "\n \t Situations sit_var_dates_mask:",paste(sit_names_mask,collapse=" "),
                     "\n Situations defined in param_values will be simulated."))
@@ -188,7 +188,7 @@ stics_wrapper <- function(model_options,
 
   # Default output data list
   nb_paramValues=1
-  if (!base::is.null(param_values)) {
+  if (!is.null(param_values)) {
     nb_paramValues=dim(param_values)[1]
   }
   res <- list()
@@ -205,13 +205,13 @@ stics_wrapper <- function(model_options,
   # Not any existing dir
   # Exiting the function, returning a list with no data
   if (!any(dirs_exist)) {
-    base::warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
+    warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
     return(res)
   }
 
   # Some dirs do not exist
   if (!all(dirs_exist)) {
-    base::warning(paste("Folder(s) does(do) not exist",
+    warning(paste("Folder(s) does(do) not exist",
                   "in data_dir\n",data_dir,":\n => ",
                   paste(situation_names[!dirs_exist], collapse = "\n => ")))
   }
@@ -243,9 +243,9 @@ stics_wrapper <- function(model_options,
                               # TODO: make a function dedicated to forcing parameters of the model ?
                               # In that case by using the param.sti mechanism
                               ## Force param values
-                              if (base::is.null(param_values)) {
+                              if (is.null(param_values)) {
                                 # remove param.sti in case of previous run using it ...
-                                if (base::suppressWarnings(file.remove(file.path(run_dir,
+                                if (suppressWarnings(file.remove(file.path(run_dir,
                                                                            "param.sti")))) {
                                   SticsRFiles:::set_codeoptim(run_dir,value=0)
                                 }
@@ -259,7 +259,7 @@ stics_wrapper <- function(model_options,
 
                                 # if writing the param.sti fails, treating next situation
                                 if ( ! ret ) {
-                                  mess <- base::warning(paste("Error when generating the forcing parameters file for USM",situation,
+                                  mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
                                                         ". \n "))
                                   return(list(NA,TRUE,FALSE,mess))
                                 }
@@ -281,7 +281,7 @@ stics_wrapper <- function(model_options,
                                 # if the model returns an error, ... treating next situation
                                 if ( usm_out[[1]]$error ) {
 
-                                  mess <- base::warning(paste("Error running the Stics model for USM",situation,
+                                  mess <- warning(paste("Error running the Stics model for USM",situation,
                                                               ". \n ",usm_out[[1]]$message))
                                   return(list(NA,TRUE,FALSE,mess))
                                 }
@@ -290,8 +290,8 @@ stics_wrapper <- function(model_options,
                                 sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
                                                                        situation)
                                 # Any error reading output file
-                                if (base::is.null(sim_tmp)) {
-                                  mess <- base::warning(paste("Error reading outputs for ",situation,
+                                if (is.null(sim_tmp)) {
+                                  mess <- warning(paste("Error reading outputs for ",situation,
                                                               ". \n "))
                                   return(list(NA, TRUE, FALSE, mess))
 
@@ -343,7 +343,7 @@ stics_wrapper <- function(model_options,
                                   if (any(vars_idx)) {
                                     sim_tmp=sim_tmp[ , vars_idx]
                                   } else {
-                                    mess <- base::warning(paste("Not any variable simulated by the Stics model for USM", situation,
+                                    mess <- warning(paste("Not any variable simulated by the Stics model for USM", situation,
                                                                 "=> they must be set in",file.path(data_dir,situation,"var.mod")))
                                     return(list(NA, TRUE, FALSE, mess))
                                   }
@@ -358,7 +358,7 @@ stics_wrapper <- function(model_options,
 
                                   if ( length(inter_dates) < length(date_list) ) {
                                     missing_dates <- date_list[!date_list %in% inter_dates]
-                                    mess <- base::warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
+                                    mess <- warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
                                                                 "is(are) not simulated for USM",situation))
                                     flag_error <- FALSE
                                     flag_rqd_res <- FALSE
@@ -399,7 +399,7 @@ stics_wrapper <- function(model_options,
   }
 
   # Stopping the cluster
-  parallel :: stopCluster(cl)
+  parallel::stopCluster(cl)
 
   # Calculating an printing duration
   if (time_display) {
@@ -497,7 +497,7 @@ stics_wrapper_options <- function(stics_path = NULL,
   options <- in_options
 
   # Template list
-  if (base::is.null(options)) {
+  if (is.null(options)) {
     options <- list()
     options$stics_path <- "unknown"
     options$data_dir <- "unknown"
@@ -513,8 +513,8 @@ stics_wrapper_options <- function(stics_path = NULL,
 
 
   # For fixing mandatory fields values
-  if (!base::is.null(stics_path)) options$stics_path <- stics_path
-  if (!base::is.null(data_dir)) options$data_dir <- data_dir
+  if (!is.null(stics_path)) options$stics_path <- stics_path
+  if (!is.null(data_dir)) options$data_dir <- data_dir
 
   # Fixing optional fields,
   # if corresponding to exact field names
@@ -530,7 +530,7 @@ stics_wrapper_options <- function(stics_path = NULL,
 
   # Checking mandatory fields
   missing_opts <- c(options$stics_path, options$data_dir ) == "unknown"
-  if (base::any(missing_opts)) {
+  if (any(missing_opts)) {
     stop("Mandatory option(s) is/are missing: ",
          paste(c("stics_path", "data_dir")[missing_opts],
                collapse = ", "))
@@ -540,7 +540,7 @@ stics_wrapper_options <- function(stics_path = NULL,
   dirs <- c(options$stics_path, options$data_dir)
 
   # Checking if dirs is a character vector
-  if (!all(base::is.character(dirs))) {
+  if (!all(is.character(dirs))) {
     stop("stics_path and/or data_dir are/is not path(s) !")
   }
 
@@ -559,7 +559,7 @@ stics_wrapper_options <- function(stics_path = NULL,
 stics_display_warnings <- function(in_string) {
   # print(in_string)
   # print(length(in_string))
-  if (nchar(in_string) ) base::warning(in_string, call. = FALSE)
+  if (nchar(in_string) ) warning(in_string, call. = FALSE)
 }
 
 
