@@ -43,29 +43,31 @@ run_system <- function(model_path,
                        check_exe = TRUE,
                        display=FALSE) {
 
+  first_wd= getwd()
+  on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(data_dir, winslash = "/")
 
-  if (! base::is.null(usm_dir_names) && !usm_dir_names == "all" ) {
+  if(!is.null(usm_dir_names) && !usm_dir_names == "all" ){
     run_dir=file.path(run_dir,usm_dir_names)
   }
 
-  if (! base::is.null(usm_dir_names) && usm_dir_names == "all" ) {
-    run_dir = setdiff(base::list.dirs(run_dir, full.names = TRUE), run_dir)
+  if(!is.null(usm_dir_names) && usm_dir_names == "all" ){
+    run_dir = setdiff(list.dirs(run_dir, full.names = TRUE), run_dir)
   }
 
   # testing id dirs exist
   # print(run_dir)
   dirs_exist <- file.exists(run_dir)
 
-  if ( !all(dirs_exist) ) {
+  if(!all(dirs_exist)){
     print(paste0(run_dir[!dirs_exist],collapse = ", "))
     stop("One or more directories does/do not exist !")
   }
 
 
   # optional model executable checking
-  if ( check_exe )  check_stics_exe(model_path)
+  if(check_exe) check_stics_exe(model_path)
 
   nb_usms <- length(run_dir)
   usms_out <- vector("list", nb_usms)
@@ -75,13 +77,13 @@ run_system <- function(model_path,
     usm_dir <- run_dir[d]
     usm_out$name=basename(usm_dir)
 
-    if (display) print(usm_out$name)
+    if(display) print(usm_out$name)
 
     setwd(usm_dir)
 
     # new function call, keeping error message as attribute
-    ret <- run_system_cmd( command = model_path, output = TRUE)
-    usm_out$error <- as.logical(ret)
+    ret <- run_system_cmd(command= model_path, output= TRUE)
+    usm_out$error <- !as.logical(ret)
     usm_out$message <- attr(ret, "output")
 
     if ( usm_out$error ) {

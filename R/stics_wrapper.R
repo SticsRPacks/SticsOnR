@@ -128,14 +128,14 @@ stics_wrapper <- function(model_options,
   # Checking Stics executable
   check_stics_exe(stics_path)
 
-  if (time_display)   start_time <- Sys.time()
+  if(time_display) start_time <- Sys.time()
 
   # Managing parallel model simulations
   # Managing cores number to use
   cores_nb <- get_cores_nb( parallel = parallel, required_nb = cores )
 
   # Launching the cluster
-  cl <- parallel :: makeCluster(cores_nb)
+  cl <- parallel::makeCluster(cores_nb)
   doParallel::registerDoParallel(cl)
 
   parallel::clusterCall(cl, function(x) .libPaths(x), .libPaths())
@@ -147,7 +147,7 @@ stics_wrapper <- function(model_options,
   # and by the user so different options have been implemented (param_values can be
   # a vector or an array, sit_var_dates_mask can be a list or an array).
   keep_all_data <- FALSE # to specify if all simulated variables and dates must be returned
-  if (is.null(sit_var_dates_mask)) {
+  if(is.null(sit_var_dates_mask)){
     keep_all_data <- TRUE
   } else if (is.list(sit_var_dates_mask)) {
     sit_names_mask <- names(sit_var_dates_mask)
@@ -158,7 +158,7 @@ stics_wrapper <- function(model_options,
 
   # Default behavior if param_values or sit_var_dates_mask don't provide situation list
   situation_names <- list.dirs(data_dir, full.names = TRUE)[-1]
-  if (length(situation_names) == 0) {
+  if(length(situation_names) == 0){
     stop(paste("Not any Stics directories found in:",data_dir))
   }
 
@@ -229,7 +229,7 @@ stics_wrapper <- function(model_options,
 
     # initialization not a global variable !
     i <- 1
-    out <- foreach::foreach(i = seq_along(dirs_idx),
+    out <- foreach::foreach(i = seq_along(dirs_idx),.export = "run_stics",
                             .packages = c("SticsRFiles")) %dopar% {
 
                               # Simulation flag status or output data selection status
@@ -276,21 +276,20 @@ stics_wrapper <- function(model_options,
                                 ########################################################################
                                 # TODO: and call it in/ or integrate parameters forcing in run_system function !
                                 ## Run the model & forcing not to check the model executable
-                                usm_out <- SticsOnR::run_stics(stics_path, run_dir, check_exe = FALSE)
+                                usm_out <- run_stics(stics_path, run_dir, check_exe = FALSE)
 
                                 # if the model returns an error, ... treating next situation
-                                if ( usm_out[[1]]$error ) {
-
+                                if(usm_out[[1]]$error){
                                   mess <- warning(paste("Error running the Stics model for USM",situation,
                                                               ". \n ",usm_out[[1]]$message))
                                   return(list(NA,TRUE,FALSE,mess))
                                 }
 
                                 ## Otherwise, getting results
-                                sim_tmp=SticsRFiles::get_daily_results(file.path(data_dir, situation),
+                                sim_tmp= SticsRFiles::get_daily_results(file.path(data_dir, situation),
                                                                        situation)
                                 # Any error reading output file
-                                if (is.null(sim_tmp)) {
+                                if(is.null(sim_tmp)){
                                   mess <- warning(paste("Error reading outputs for ",situation,
                                                               ". \n "))
                                   return(list(NA, TRUE, FALSE, mess))
@@ -305,10 +304,8 @@ stics_wrapper <- function(model_options,
                                 #   sit_var_dates_mask[[situation]]
 
                                 # Nothing to select, returning all data
-                                if ( keep_all_data ) {
-
-                                  return(list( sim_tmp,FALSE, TRUE, mess))
-
+                                if(keep_all_data){
+                                  return(list(sim_tmp,FALSE, TRUE, mess))
                                 } else { # Selecting variables from sit_var_dates_mask
 
                                   var_list=colnames(sit_var_dates_mask[[situation]])

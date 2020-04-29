@@ -36,7 +36,6 @@
 #'
 #' @export
 #'
-
 run_javastics <- function(javastics_path,
                           workspace_path=NULL,
                           usms_list=NULL,
