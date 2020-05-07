@@ -26,7 +26,7 @@
 #' may be either a character vector of situation names or a named list
 #' containing information about variables and dates for which simulated values
 #' should be returned. Typically a list containing the observations to which
-#' simulations should be compared as provided by SticsRFiles::read_obs
+#' simulations should be compared as provided by SticsRFiles::get_obs
 #'
 #' @return A list containing simulated values (`sim_list`: a vector of list (one
 #' element per values of parameters) containing usms outputs data.frames) and an

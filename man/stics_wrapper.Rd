@@ -30,7 +30,7 @@ See examples for more details.}
 may be either a character vector of situation names or a named list
 containing information about variables and dates for which simulated values
 should be returned. Typically a list containing the observations to which
-simulations should be compared as provided by SticsRFiles::read_obs}
+simulations should be compared as provided by SticsRFiles::get_obs}
 }
 \value{
 A list containing simulated values (\code{sim_list}: a vector of list (one
