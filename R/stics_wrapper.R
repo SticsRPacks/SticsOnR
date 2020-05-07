@@ -285,9 +285,13 @@ stics_wrapper <- function(model_options,
                                   return(list(NA,TRUE,FALSE,mess))
                                 }
 
+                                # Get the number of plants to know whether it is a sole crop or an intercrop:
+                                nbplants= as.numeric(SticsRFiles::get_usm_txt(filepath = file.path(data_dir,situation,"new_travail.usm"))$nbplantes)
+                                if(nbplants>1){mixed= T}else{mixed= F}
+
                                 ## Otherwise, getting results
                                 sim_tmp= SticsRFiles::get_daily_results(file.path(data_dir, situation),
-                                                                       situation)
+                                                                       situation, mixed= mixed)
                                 # Any error reading output file
                                 if(is.null(sim_tmp)){
                                   mess <- warning(paste("Error reading outputs for ",situation,
