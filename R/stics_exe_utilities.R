@@ -271,17 +271,6 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE, verbose= F
     }
   }
 
-  # Check that file is an executable for the user's OS:
-  file_infos= file.info(model_path)$exe
-  if(file_infos=="no"){
-    if(stop){
-      stop(paste("File",model_path,"is either not executable, or an exe for another OS."))
-    }else{
-      if(verbose) cli::cli_alert_danger("File {.val {model_path}} is either not executable, or an exe for another OS.")
-      return(invisible(FALSE))
-    }
-  }
-
   # Make the file executable if needed for linux or Mac
   if(!set_file_executable(model_path)){
     if(stop){
@@ -301,9 +290,9 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE, verbose= F
   # exiting if any error
   if(!err_status){
     if(stop){
-      stop("Cannot guess model version running the model with --version for: ",model_path)
+      stop(paste("File",model_path,"is either not executable, or an exe for another OS."))
     }else{
-      if(verbose) cli::cli_alert_danger("Cannot guess model version running the model with --version for: {.val {model_path}}.")
+      if(verbose) cli::cli_alert_danger("File {.val {model_path}} is either not executable, or an exe for another OS.")
       return(invisible(FALSE))
     }
   }
