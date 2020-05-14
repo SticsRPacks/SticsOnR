@@ -67,39 +67,60 @@ So, it is safer for the moment to use absolute paths. This will be fixed in the 
 
 For installing packages from the Github site an additional package must be installed. One can use either `devtools` or [`remotes`](https://github.com/r-lib/remotes#readme)
 
-For `devtools`, installation requires systeme dependent tools. They must be installed first.  
+For `devtools`, installation requires system dependent tools. They must be installed first.
 
 * For Windows     
 RTools must be installed using the last installer from  [here](https://cran.r-project.org/bin/windows/Rtools)
 * For linux    
 Development tools must be installed first, like the `build-essentials` package for a Debian like distribution for example.
 
-Then the `devtools` package can be installed using 
-```
+Then the `devtools` package can be installed using:
+
+```{r eval=FALSE}
 install:::packages("devtools")
 ```
 
-For `remotes`, it can be directly installed using
-```
+For `remotes`, it can be directly installed using:
+
+```{r eval=FALSE}
 install:::packages("remotes")
 ```
 
 
 ## Installation
 
-### SticsOnR
+### Recommended installation: `SticsRPacks`
+
+The best way to install the packages from `SticsRPacks`, from which `SticsOnR` is part of, is by installing the `[SticsRPacks]` package: 
+
+```{r eval=FALSE}
+devtools::install_github("SticsRPacks/SticsRPacks")
+```
+* With `remotes`
+
+```{r eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("SticsRPacks/SticsRPacks")
+```
+
+The package will install the packages for you at the last release version. 
+
+### Other way: install each package independently
+
+#### SticsOnR
+
 The package installation can be remotely done directly from [GitHub](https://github.com/) using either `devtools` or the lightweight `remote` one package
 
 The last release version can be installed using:
 
 * With `devtools`
 
-``` r
+```{r eval=FALSE}
 devtools::install_github("SticsRPacks/SticsOnR@*release")
 ```
 * With `remotes`
 
-``` r
+```{r eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
@@ -107,30 +128,29 @@ remotes::install_github("SticsRPacks/SticsOnR@*release")
 Normaly, all the package dependencies will be installed for CRAN packages.
 
 
-### SticsRFiles
-`SticsRFiles` must be installed manually, remotely using the above syntax, just replacing  **SticsOnR** with **SticsRFiles**. 
+#### SticsRFiles
+
+`SticsRFiles` must be installed manually using the above syntax, just replacing  **SticsOnR** with **SticsRFiles**. 
 
 ## Examples
 
 Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.
 
-### Running the JavaStics command line interface
+### Running the model using JavaStics command line interface (recommended)
 
 The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contains an `example` workspace folder with a set of runnable usms.
 
 
-For running simulations from it, we can use the `run_javastics` function.
-
-In this SticsOnR package, for the moment, only one Stics version can be used with it (i.e. the one delivered with the JavaStics installation archive). JavaStics GUI, allows to manage several Stics executables, but in that case one must take care of consistency between executables version and input files format (advanced use case). 
-
-So, at this point, it is at your own risk if you try to use another version than the JavaStics distribution one.
-
-
+For running simulations from it, we can use the `run_javastics()` function.
 
 ```{r echo = FALSE}
 javastics_path <- params$javastics_path
 workspace_path <- params$workspace_path
 output_path <- params$output_path
+
+javastics_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85"
+workspace_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85/example"
+output_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85/output"
 ```
 
 
@@ -146,48 +166,40 @@ workspace_path <- "example"
 # workspace_path <- "/path/to/javastics/workspace"
 
 ```
-```{r}
 
+
+```{r}
 # Running specific usms from the workspace
 run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 
 # Running all usms contained in the workspace 
 run_javastics(javastics_path, workspace_path)
 
-# Getting returned information about execution 
-runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"), display = FALSE)
+# Getting information about execution:
+runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 
 runs_info
-
 ```
 
-In the returned information, the error field name gives a list of messages got from JavaStics commandline interface. If any `Error` key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error's origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).
+In the returned information, the error field name gives a list of messages from the JavaStics commandline interface. If any `Error` key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error's origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).
 
+### Running the model using the stics executable directly
 
-<!-- SET eval to TRUE gen_usms_xml2txt has been moved to SticsRFiles -->
-```{r, echo=F, results='hide', eval = TRUE}
-# Preparing simulation folders for running the model with run_stics
-# Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path,workspace_path =  workspace_path, target_path = output_path )
-unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
+We need for that a JavaStics folder and a directory with text input files for Stics, or a folder containing individual sub-directories for usms.
 
-```
-
-### Running the model
-
-We need for that a JavaStics folder and a directory with text input files for Stics, or a folder containing usms individual sub-directories .
-
-These directories can be generated using the `gen_usms_xml2txt` function from the **SticsRFiles** package, by converting automatically XML files to Stics input text files. See the documentation [here](https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html).
+These directories can be generated using the `[SticsRFiles::gen_usms_xml2txt()]` function from the **SticsRFiles** package, by converting automatically XML files to Stics input text files. See the documentation [here](https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html).
 
 Example of use:
-```{r eval = FALSE}
+```{r}
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path,javastics_workspace_path =  workspace_path, target_path = output_path)
+SticsRFiles::gen_usms_xml2txt(javastics_path, workspace_path = workspace_path, target_path = output_path, verbose = FALSE)
 ```
 
+```{r, echo=F, results='hide', eval = TRUE}
+unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
+```
 
-
-The `run_stics` function can be used as follows with one folder or multiple sub-folders.
+The `run_stics()` function can be used as follows with one folder or multiple sub-folders.
 
 ```{r run_stics_int, echo = FALSE, results='hide'}
 # Specifying the Stics executable file path
@@ -200,7 +212,6 @@ stics_path <- file.path(javastics_path,"bin","stics_modulo")
 # stics_path <- file.path(javastics_path,"bin","stics_modulo")
 
 ```
-
 
 
 ```{r run_stics}
@@ -239,47 +250,60 @@ runs_info
 
 ### Advanced simulations parameterization 
 
-A specific function `stics_wrapper` is dedicated to manage simulations with a higher level
-of parameterization than what `run_stics` offers.
+A specific function `stics_wrapper()` is dedicated to manage simulations with a higher level
+of parameterization than what `run_stics()` offers.
 
-This `stics_wrapper` function allows:
+This `stics_wrapper()` function allows:
 
 * Forcing the values of a set of parameters (common or specific values per USM)
 * Returning simulated daily outputs for each usm with possible dates and variables filtering
 * Parallelizing simulations, and displaying execution time
 
-Be aware that for the moment, it **is not possible** to get daily outputs for an `inter-cropping` use case. This will be implemented in future developments.
-
-As the `run_stics` function, the `stics_wrapper` operates on directories 
+As the `run_stics()` function, the `stics_wrapper()` operates on directories 
 containing text stics input files.
 
 #### Defining simulations options
 
-Simulation options can be fixed using the `stics_wrapper_options` function. 
+Simulation options can be fixed using the `stics_wrapper_options()` function. 
 Both of them are mandatory: the model executable path and the directory path containing usms sub-directories with text input files.
 
-Here we reuse the model executable path defined prevously with respect to the operating system (Windows, Linux or Mac) and the directory where individual Usms input directories have been generated.
+A template is returned by the function when called with no arguments:
 
-```{r}
-
-sim_options <- stics_wrapper_options(stics_path = stics_path, 
-                                     data_dir = output_path)
-```
-Optional fields in the `sim_options` list will be detailed later in this document. 
-
-Default values for these optional fields are set by `stics_wrapper_options`. 
-They can be displayed by calling the `stics_wrapper_options` function without any argument as follows:
 ```{r}
 stics_wrapper_options()
 ```
 
-An existing options list may be updated with new values using named arguments as follows:
+For the example, we will use the default stics model version shipping with JavaStics and the directory where individual usms input directories have been generated:
 
-```{r, eval = FALSE}
-sim_options <- stics_wrapper_options(in_options = sim_options, parallel = TRUE)
+```{r}
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path, verbose = FALSE)
 ```
 
+By default, `stics_wrapper_options()` checks that `javastics_path`, `stics_exe` and `data_dir` exists.
 
+There are different solutions if you need to use a custom version of stics:
+
+1. if its already listed in the preference (e.g. added in JavaStics), simply provide its name (ID): 
+
+```{r, eval=FALSE}
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom",
+                                     data_dir = output_path, verbose = FALSE)
+```
+
+1. if its located in the bin directory of the JavaStics installation directory, provide the executable name: 
+
+```{r, eval=FALSE}
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom.exe",
+                                     data_dir = output_path, verbose = FALSE)
+```
+
+1. if its located in any other folder, provide the full path to the executable name, and no need to use `javastics_path`: 
+
+```{r, eval=FALSE}
+sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
+                                     data_dir = output_path, verbose = FALSE)
+```
 
 #### Simple simulations cases
 
@@ -287,20 +311,16 @@ sim_options <- stics_wrapper_options(in_options = sim_options, parallel = TRUE)
 * Without filtering usms or outputs
 
 ```{r}
-
 results <- stics_wrapper(model_options = sim_options)
-
 ```
 
 
 * Filtering on usms list
 
 ```{r}
-
 usms_list <- c("wheat", "pea", "maize")
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
-
 ```
 
 
@@ -310,15 +330,14 @@ The argument `sit_var_dates_mask` must contain a named list (with usms names) co
 data.frames organized as observations data or corresponding to observations data.
 
 ```{r}
-obs_filenames <- paste0(usms_list,".obs")
-obs_list <- get_obs(dirpath = workspace_path, obs_filenames = obs_filenames)
+obs_list <- get_obs(workspace = workspace_path, usm_name = usms_list, verbose = FALSE)
 
 # Observations table for wheat
 obs_list$wheat
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
-
 ```
+
 Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. 
 Concerning the dates, this may be due to the USMs simulation period that may not include observed dates.
 For the variables, this may be due to an incorrect spelling of the variables in obs_list or to the list of simulated variables defined in the var.mod file.
@@ -332,12 +351,10 @@ Parameters values are prescribed using the `param_values` argument. It can be a 
 In this case, the same values will be applied for all the simulated usms.
 
 ```{r}
-
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
-
 ```
 
 * Defining different parameters values depending on the usms or defining several parameters values per usms
@@ -366,7 +383,6 @@ results <- stics_wrapper(model_options = sim_options, param_values = param_value
 
 # Let's display the results
 head(results)
-
 ```
 
 #### Optional arguments
@@ -374,11 +390,10 @@ head(results)
 * Displaying execution time
 
 ```{r}
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     time_display = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-
 ```
 
 * Activating parallel execution
@@ -386,11 +401,10 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ```{r}
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, cores = 2)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-
 ```
 
 If cores is not given, parallel execution is performed over machine total cores number minus 1.
@@ -401,11 +415,10 @@ library(parallel)
 # Used cores number
 detectCores() - 1
 
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-
 ```
 
 

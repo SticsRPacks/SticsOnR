@@ -5,10 +5,10 @@
 #' force Stics input parameters with values given in arguments.
 #'
 #' @param model_options List containing any information needed by the model.
-#' In the case of Stics: `stics_path` the path of Stics executable file and
+#' In the case of Stics: `javastics_path` (or/and `stics_exe`) and
 #' `data_dir` the path of the directory containing the Stics input data
 #' for each USM (one folder per USM where Stics input files are stored in txt
-#' format)
+#' format). See `stics_wrapper_options()` for more informations.
 #'
 #' @param param_values (optional) either a named vector or a named 3D array.
 #' Use a named vector that contains the values and names of the parameters
@@ -34,6 +34,7 @@
 #' error. Inter-crops are not yet taken into account for extracting output
 #' data from files.
 #'
+#' @seealso `stics_wrapper_options()` for more informations on how to provide `model_options`.
 #'
 #' @examples
 #'
@@ -42,15 +43,11 @@
 #' # Specifying the JavaStics folder
 #' javastics_path <- "/path/to/javastics"
 #'
-#' # Setting the model executable path (windows, linux)
-#' stics_path <- file.path(javastics_path, "bin","stics_modulo")
-#'
 #' # Setting the input data folder path, root directory of the usms directories
 #' data_path <- "/path/to/usms/subdirs/root"
 #'
 #' # Setting the mandatory simulations options
-#' sim_options <- stics_wrapper_options(stics_path = stics_path,
-#' data_dir = data_path)
+#' sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
 #'
 #' # Running all the usms that have a corresponding input folder in data_path
 #' results <- stics_wrapper(sim_options)
@@ -92,7 +89,7 @@
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,
-                          sit_var_dates_mask = NULL) {
+                          sit_var_dates_mask = NULL){
 
   # TODO LIST
   #    - maybe the variables asked will not be simulated (depends on the
@@ -111,22 +108,27 @@ stics_wrapper <- function(model_options,
   #    - handle the case of intercrop
   #
 
+  # Stopping the cluster when exiting
+  on.exit(parallel::stopCluster(cl))
+
   # Preliminary model checks ---------------------------------------------------
 
   # Checking model_options content, stopping when mandatory
   # values are not set or not valid
-  stics_wrapper_options(in_options = model_options)
+  model_options= do.call(stics_wrapper_options,model_options)
+  # NB: splating the arguments given in input so the function checks by itself, no need to
+  # explicitely add an argument for checking
 
   # Getting list values into separated variables
-  stics_path <- model_options$stics_path
+  stics_exe <- model_options$stics_exe
   data_dir <- model_options$data_dir
   parallel <- model_options$parallel
   cores <- model_options$cores
+  verbose <- model_options$verbose
   time_display <- model_options$time_display
-  warning_display <- model_options$warning_display
 
   # Checking Stics executable
-  check_stics_exe(stics_path)
+  check_stics_exe(stics_exe)
 
   if(time_display) start_time <- Sys.time()
 
@@ -149,9 +151,9 @@ stics_wrapper <- function(model_options,
   keep_all_data <- FALSE # to specify if all simulated variables and dates must be returned
   if(is.null(sit_var_dates_mask)){
     keep_all_data <- TRUE
-  } else if (is.list(sit_var_dates_mask)) {
+  }else if(is.list(sit_var_dates_mask)){
     sit_names_mask <- names(sit_var_dates_mask)
-  } else if (is.character(sit_var_dates_mask)) {
+  }else if(is.character(sit_var_dates_mask)){
     sit_names_mask <- sit_var_dates_mask
     keep_all_data <- TRUE
   }
@@ -167,18 +169,21 @@ stics_wrapper <- function(model_options,
   situation_names <- basename(situation_names)[files_exist]
 
   # may be overwritten here ...
-  if (is.null(param_values)) {
-    if (!is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
-  } else if (is.vector(param_values)) {
-    if (!is.null(sit_var_dates_mask)) { situation_names <- sit_names_mask }
+  if(is.null(param_values)){
+    if(!is.null(sit_var_dates_mask)){
+      situation_names <- sit_names_mask
+    }
+  }else if(is.vector(param_values)){
+    if(!is.null(sit_var_dates_mask)){
+      situation_names <- sit_names_mask
+    }
     # transform param_values into an 3D-array
     param_values=array(param_values,
                        dim=c(1,length(param_values),length(situation_names)),
                        dimnames=list("NULL",names(param_values),situation_names))
-  } else if (is.array(param_values)) {
+  }else if(is.array(param_values)){
     situation_names <- dimnames(param_values)[[3]]
-    if ( !is.null(sit_var_dates_mask) &&
-         length(setdiff(situation_names, sit_names_mask))>0) {
+    if(!is.null(sit_var_dates_mask) && length(setdiff(situation_names, sit_names_mask))>0) {
       warning(paste("Situations in param_values and sit_var_dates_mask are different:",
                     "\n \t Situations param_values:",paste(situation_names,collapse=" "),
                     "\n \t Situations sit_var_dates_mask:",paste(sit_names_mask,collapse=" "),
@@ -204,7 +209,7 @@ stics_wrapper <- function(model_options,
 
   # Not any existing dir
   # Exiting the function, returning a list with no data
-  if (!any(dirs_exist)) {
+  if(!any(dirs_exist)){
     warning(paste("Not any existing folders in\n",data_dir,", aborting !"))
     return(res)
   }
@@ -259,9 +264,8 @@ stics_wrapper <- function(model_options,
 
                                 # if writing the param.sti fails, treating next situation
                                 if ( ! ret ) {
-                                  mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
-                                                        ". \n "))
-                                  return(list(NA,TRUE,FALSE,mess))
+                                  if(verbose) cli::cli_alert_warning("Error when generating the forcing parameters file for USM {.va {situation}}")
+                                  return(list(NA,TRUE))
                                 }
 
 
@@ -276,13 +280,13 @@ stics_wrapper <- function(model_options,
                                 ########################################################################
                                 # TODO: and call it in/ or integrate parameters forcing in run_system function !
                                 ## Run the model & forcing not to check the model executable
-                                usm_out <- run_stics(stics_path, run_dir, check_exe = FALSE)
+                                usm_out <- run_stics(stics_exe, run_dir, check_exe = FALSE)
 
                                 # if the model returns an error, ... treating next situation
                                 if(usm_out[[1]]$error){
                                   mess <- warning(paste("Error running the Stics model for USM",situation,
-                                                              ". \n ",usm_out[[1]]$message))
-                                  return(list(NA,TRUE,FALSE,mess))
+                                                        ". \n ",usm_out[[1]]$message))
+                                  return(list(NA,TRUE))
                                 }
 
                                 # Get the number of plants to know whether it is a sole crop or an intercrop:
@@ -291,12 +295,12 @@ stics_wrapper <- function(model_options,
 
                                 ## Otherwise, getting results
                                 sim_tmp= SticsRFiles::get_daily_results(file.path(data_dir, situation),
-                                                                       situation, mixed= mixed)
+                                                                        situation, mixed= mixed)
                                 # Any error reading output file
                                 if(is.null(sim_tmp)){
-                                  mess <- warning(paste("Error reading outputs for ",situation,
-                                                              ". \n "))
-                                  return(list(NA, TRUE, FALSE, mess))
+                                  mess <- paste0("Error reading outputs for usm: ",situation)
+                                  if(verbose) cli::cli_alert_warning("Error reading outputs for usm: {.val {situation}}")
+                                  return(list(NA, TRUE))
 
                                 }
 
@@ -312,7 +316,10 @@ stics_wrapper <- function(model_options,
                                   return(list(sim_tmp,FALSE, TRUE, mess))
                                 } else { # Selecting variables from sit_var_dates_mask
 
-                                  var_list=colnames(sit_var_dates_mask[[situation]])
+                                  var_list= colnames(sit_var_dates_mask[[situation]])
+                                  # Remove the optional "Plant" variable from observations
+                                  var_list= var_list[!grepl("Plant",var_list)]
+
                                   out_var_list <- colnames(sim_tmp)
 
                                   # Keeping only the needed variables in the simulation results
@@ -323,34 +330,44 @@ stics_wrapper <- function(model_options,
                                   inter_vars <- out_var_list[vars_idx]
 
                                   # Indicating that variables are not simulated, adding them before simulating
-                                  if (length(inter_vars) < length(var_list)) {
-                                    if (varmod_modified) {
-                                      mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
-                                                            "not simulated by the Stics model for USM",situation,
-                                                            "although added in",file.path(data_dir,situation,"var.mod"),
-                                                            "=> these variables may not be Stics variables, please check spelling."))
+                                  if(length(inter_vars) < length(var_list)){
+                                    diff_vars= setdiff(var_list,inter_vars)
+
+                                    if(varmod_modified){
+                                      if(verbose) cli::cli_alert_warning(paste("{cli::qty(diff_vars)} Variable{?s} {.val {diff_vars}} found in {.code sit_var_dates_mask}",
+                                                                               "not simulated by the Stics model for USM {situation}"))
                                       flag_error <- FALSE
                                       flag_rqd_res <- FALSE
-                                    } else {
-                                      mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
-                                                            "not simulated by the Stics model for USM",situation,
-                                                            "=>",file.path(data_dir,situation,"var.mod"),"is going to be modified and the model re-run."))
-                                      set_out_var_internal(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list,add = T)
+                                    }else{
+                                      if(verbose){
+                                        varmod_file= file.path(data_dir,situation,"var.mod")
+                                        cli::cli_alert_warning(paste("{cli::qty(diff_vars)} Variable{?s} {.val {diff_vars}} found in {.code sit_var_dates_mask}",
+                                                                     "not simulated by the Stics model for USM {situation}, ",
+                                                                     "=> {.val {varmod_file}} is going to be modified to include it and the model re-run."))
+                                      }
+
+                                      # Remove the dummy variables output from STICS but not input:
+                                      var_list= var_list[!var_list %in% c("Date","ian","mo","jo","jul")]
+                                      set_out_var_internal(filepath = file.path(data_dir,situation,"var.mod"), vars = var_list)
                                       varmod_modified=TRUE
-                                      next
+                                      next()
                                     }
                                   }
 
                                   if (any(vars_idx)) {
-                                    sim_tmp=sim_tmp[ , vars_idx]
+                                    sim_tmp= sim_tmp[ , vars_idx]
                                   } else {
-                                    mess <- warning(paste("Not any variable simulated by the Stics model for USM", situation,
-                                                                "=> they must be set in",file.path(data_dir,situation,"var.mod")))
-                                    return(list(NA, TRUE, FALSE, mess))
+
+                                    if(verbose){
+                                      cli::cli_alert_warning(paste("{cli::qty(var_list)} Variable{?s} {.val {var_list}} found in {.code sit_var_dates_mask}",
+                                                                   "for USM {situation}, are not valid STICS variables."))
+                                    }
+
+                                    return(list(NA, TRUE))
                                   }
 
                                   ## Keeping only the needed dates in the simulation results
-                                  date_list=sit_var_dates_mask[[situation]]$Date
+                                  date_list= sit_var_dates_mask[[situation]]$Date
                                   dates_idx <- sim_tmp$Date %in% date_list
 
                                   # Checking dates
@@ -359,20 +376,21 @@ stics_wrapper <- function(model_options,
 
                                   if ( length(inter_dates) < length(date_list) ) {
                                     missing_dates <- date_list[!date_list %in% inter_dates]
-                                    mess <- warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
-                                                                "is(are) not simulated for USM",situation))
+                                    if(verbose){
+                                      cli::cli_alert_warning(paste("{cli::qty(missing_dates)} Requested date{?s} {.val {missing_dates}} found in {.code sit_var_dates_mask}",
+                                                                   "for USM {situation} {?is/are} not simulated by STICS in the current configuration."))
+                                    }
                                     flag_error <- FALSE
                                     flag_rqd_res <- FALSE
                                   }
 
                                   # Filtering needed dates lines
-                                  if ( any(dates_idx) ) {
+                                  if(any(dates_idx)){
                                     sim_tmp <- sim_tmp[dates_idx, ]
-                                  } else {
+                                  }else{
                                     return(list(NA,TRUE,FALSE, mess))
                                   }
                                   return(list(sim_tmp, flag_error, flag_rqd_res, mess))
-
                                 }
 
                               }
@@ -399,9 +417,6 @@ stics_wrapper <- function(model_options,
 
   }
 
-  # Stopping the cluster
-  parallel::stopCluster(cl)
-
   # Calculating an printing duration
   if (time_display) {
     duration <- Sys.time() - start_time
@@ -415,22 +430,34 @@ stics_wrapper <- function(model_options,
 
 
 
-#' @title Getting/setting a stics_wrapper options list with initialized fields,
-#' or validating an existing list
+#' @title Getting/setting a stics_wrapper options list with initialized fields
 #'
-#' @description This function returns a default options list, or allow to set
-#' list elements values or validate the input options list elements values
-#' (only the mandatories ones)
+#' @description This function returns a default options list if called with no arguments, or a pre-formated
+#' model option list with checks on the inputs.
 #'
-#' @param stics_path Path of the Stics binary executable file (delivered with
-#' JavaStics interface)
-#'
+#' @param javastics_path Path of JavaStics installation directory, needed if `stics_exe` is not provided, or relates to an exe in the `javastics_path` (see details)
+#' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
 #' @param data_dir Path(s) of the situation(s) input files directorie(s)
 #' or the root path of the situation(s) input files directorie(s)
-#'
-#' @param in_options An existing options list, for updating elements
-#'
+#' @param parallel Boolean. Is the computation to be done in parallel ?
+#' @param cores    Number of cores to use for parallel computation.
+#' @param time_display Display time
+#' @param force    Boolean. Don't check `javastics_path`, `stics_exe` and `data_dir` (default to `FALSE`, see details)
+#' @param verbose Logical value (optional), `TRUE` to display informations during execution,
+#' `FALSE` otherwise (default)
 #' @param ... Add further arguments set the options list values
+#'
+#' @details `stics_exe` may be :
+#' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
+#' shipping with JavaStics;
+#' 2. a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
+#' 3. a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe".
+#'
+#' `javastics_path` must be provided for case (1) and (2).
+#'
+#' If `force=TRUE`, checks are not done for `javastics_path`, `stics_exe` and `data_dir`. In this case, they are returned as is,
+#' and will be checked (and potentially updated to match the right stics executable) only at execution of `stics_wrapper()`. This option
+#' is used for portability, when e.g. `stics_wrapper_options` outputs are sent to a remote.
 #'
 #' @return A list containing Stics model stics_wrapper options
 #'
@@ -441,117 +468,192 @@ stics_wrapper <- function(model_options,
 #'
 #' stics_wrapper_options()
 #'
-#' #> $stics_path
-#' #> "/path/to/javastics/bin/stics_modulo"
-#' #>
-#' #> $data_dir
-#' #> "/path/to/usms/subdirs/root"
-#' #>
-#' #> $parallel
-#' #> [1] FALSE
-#' #>
-#' #> $cores
-#' #> [1] NA
-#' #>
-#' #> $time_display
-#' #> [1] FALSE
-#' #>
-#' #> $warning_display
-#' #> [1] TRUE
+#' > $javastics_path
+#' > [1] "unknown"
+#' >
+#' > $stics_exe
+#' > [1] "modulostics"
+#' >
+#' > $data_dir
+#' > [1] "unknown"
+#' >
+#' > $parallel
+#' > [1] FALSE
+#' >
+#' > $cores
+#' > [1] NA
+#' >
+#' > $time_display
+#' > [1] FALSE
+#' >
+#' > $verbose
+#' > [1] TRUE
 #'
 #' # Setting mandatory simulations options
-#' sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
+#' javastics_path= "path/to/javastics"
+#' data_path= "path/to/data_directory"
+#' sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
 #'
-#' # Setting other options using option name as a function argument
-#' # Example for activating parallel simulations
-#' sim_options <- stics_wrapper_options(stics_path = stics_path,
-#' data_dir = data_path, parallel = TRUE)
+#' # Changing default values (e.g. parallel):
+#' sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, parallel = TRUE)
 #'
-#' #> $stics_path
-#' #> "/path/to/javastics/bin/stics_modulo"
-#' #>
-#' #> $data_dir
-#' #> "/path/to/usms/subdirs/root"
-#' #>
-#' #> $parallel
-#' #> [1] TRUE
-#' #>
-#' #> $cores
-#' #> [1] NA
-#' #>
-#' #> $time_display
-#' #> [1] FALSE
-#' #>
-#' #> $warning_display
-#' #> [1] TRUE
+#' > $javastics_path
+#' > [1] "path/to/JavaSTICS-v85"
+#' >
+#' > $stics_exe
+#' > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+#' >
+#' > $data_dir
+#' > [1] "path/to/data"
+#' >
+#' > $parallel
+#' > [1] TRUE
+#' >
+#' > $cores
+#' > [1] NA
+#' >
+#' > $time_display
+#' > [1] FALSE
+#' >
+#' > $verbose
+#' > [1] TRUE
 #'
+#'  # Using the `force` argument to keep the inputs as is:
+#'  sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, force= TRUE)
+#'
+#' > $javastics_path
+#' > [1] "path/to/JavaSTICS-v85"
+#' >
+#' > $stics_exe
+#' > [1] "modulostics"
+#' >
+#' > $data_dir
+#' > [1] "path/to/data"
+#' >
+#' > $parallel
+#' > [1] FALSE
+#' >
+#' > $cores
+#' > [1] NA
+#' >
+#' > $time_display
+#' > [1] FALSE
+#' >
+#' > $verbose
+#' > [1] TRUE
+#'
+#' # This will be checked and modified by a `do.call()` in `stics_wrapper()`:
+#' do.call(stics_wrapper_options,model_options)
+#'
+#' > $javastics_path
+#' > [1] "path/to/JavaSTICS-v85"
+#' >
+#' > $stics_exe
+#' > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+#' >
+#' > $data_dir
+#' > [1] "path/to/data"
+#' >
+#' > $parallel
+#' > [1] FALSE
+#' >
+#' > $cores
+#' > [1] NA
+#' >
+#' > $time_display
+#' > [1] FALSE
+#' >
+#' > $verbose
+#' > [1] TRUE
+#'
+#' # Note the `stics_exe` path that was modified and checked to the path were it was found.
 #' }
 #'
 #' @export
-#'
-stics_wrapper_options <- function(stics_path = NULL,
+stics_wrapper_options <- function(javastics_path = NULL,
+                                  stics_exe= "modulostics",
                                   data_dir = NULL,
-                                  in_options = NULL,
+                                  parallel= FALSE,
+                                  cores= NA,
+                                  time_display= FALSE,
+                                  verbose= TRUE,
+                                  force= FALSE,
                                   ... ) {
 
-  # Getting the input options list
-  options <- in_options
-
-  # Template list
-  if (is.null(options)) {
-    options <- list()
-    options$stics_path <- "unknown"
+  options <- list()
+  # To get a template, run the function without arguments:
+  if(!nargs()){
+    # Template list
+    options$javastics_path <- "unknown"
+    options$stics_exe <- "unknown"
     options$data_dir <- "unknown"
     options$parallel <- FALSE
     options$cores <- NA
     options$time_display <- FALSE
-    options$warning_display <- TRUE
+    options$verbose <- TRUE
+    return(options)
   }
 
-  # For getting the template
-  # running stics_wrapper_options
-  if (! nargs()) return(options)
-
-
-  # For fixing mandatory fields values
-  if (!is.null(stics_path)) options$stics_path <- stics_path
-  if (!is.null(data_dir)) options$data_dir <- data_dir
-
-  # Fixing optional fields,
-  # if corresponding to exact field names
-  # in options list
-  list_names <- names (options)
-  add_args <- list(...)
-
-  for (n in names(add_args)) {
-    if ( n %in% list_names) {
-      options[[n]] <- add_args[[n]]
-    }
+  if(force){
+    # Forced, no checks on the arguments.
+    options$javastics_path <- javastics_path
+    options$stics_exe <- stics_exe
+    options$data_dir <- data_dir
+    options$parallel <- parallel
+    options$cores <- cores
+    options$time_display <- time_display
+    options$verbose <- verbose
+    return(options)
   }
 
-  # Checking mandatory fields
-  missing_opts <- c(options$stics_path, options$data_dir ) == "unknown"
-  if (any(missing_opts)) {
-    stop("Mandatory option(s) is/are missing: ",
-         paste(c("stics_path", "data_dir")[missing_opts],
-               collapse = ", "))
+  if(is.null(data_dir)){
+    stop("The data_dir argument is mandatory")
   }
 
-  # Checking paths
-  dirs <- c(options$stics_path, options$data_dir)
-
-  # Checking if dirs is a character vector
-  if (!all(is.character(dirs))) {
-    stop("stics_path and/or data_dir are/is not path(s) !")
+  # Help people that don't remember well the standard name:
+  if(stics_exe=="stics_modulo"|stics_exe=="sticsmodulo"){
+    stics_exe= "modulostics"
   }
 
-  # Checking if paths exist
-  exist_dirs <- file.exists(dirs)
-  if (!all(exist_dirs)) {
-    stop(paste("Mandatory path(s)",c("stics_path", "data_dir")[!exist_dirs],
-               collapse = "\n  ")," does(do) not exist: \n",
-         paste(dirs[!exist_dirs], collapse = "\n"))
+  # Getting right executable name for the platform
+  if(stics_exe=="modulostics"){
+    # using the exe name instead of the identifier to select the right one for the user's OS
+    stics_exe= paste0("stics_modulo",os_suffix())
   }
+
+  if(!is.null(javastics_path)){
+    # Checking javastics path if present
+    check_java_path(javastics_path)
+  }
+
+  # Case 1: stics_exe is a model name present in the preference file:
+  if(!is.null(javastics_path) && exist_stics_exe(javastics_path, stics_exe)){
+    stics_exe= file.path(javastics_path,list_stics_exe(javastics_path)$stics_list[stics_exe][[1]])
+  }else if(!is.null(javastics_path) &&
+           check_stics_exe(model_path = file.path(javastics_path, "bin", basename(stics_exe)), stop = FALSE)){
+    # Case 2: stics_exe is an executable from the bin directory in JavaStics:
+    stics_exe= file.path(javastics_path, "bin", basename(stics_exe))
+  }else if(!check_stics_exe(model_path = stics_exe, stop = FALSE)){
+    # Case were stics_exe was not found in case 1 and 2, and is not a valid path to an executable either:
+    stop("stics_exe was not found as a stics name, executable in the bin path of JavaStics nor executable path: ",
+         stics_exe)
+    # NB: case 3 (i.e. stics_exe is a full path to an executable) is implicit here: it is the case where
+    # check_stics_exe(model_path = stics_exe, stop = FALSE) == TRUE
+  }
+
+  if(verbose) cli::cli_alert_success("Using stics: {.val {stics_exe}}")
+
+  # Adding arguments values to the option list:
+  if(!is.null(javastics_path)) options$javastics_path <- javastics_path
+  if(!is.null(stics_exe)) options$stics_exe <- stics_exe
+  if(!is.null(data_dir)) options$data_dir <- data_dir
+  if(!is.null(parallel)) options$parallel <- parallel
+  if(!is.null(cores)) options$cores <- cores
+  if(!is.null(time_display)) options$time_display <- time_display
+  if(!is.null(verbose)) options$verbose <- verbose
+  # Adding future-proof optional fields:
+  dot_args <- list(...)
+  options= c(options,dot_args)
 
   return(options)
 }

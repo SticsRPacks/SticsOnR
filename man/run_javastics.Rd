@@ -22,24 +22,15 @@ run_javastics(
 \item{usms_list}{Vector of usms to run (optional)}
 
 \item{keep_history}{Logical value (optional) to keep a copy of history file
-use TRUE (default), FALSE otherwise}
+use \code{TRUE} (default), \code{FALSE} otherwise}
 
-\item{optim}{Logical value (optional), TRUE to force code_optim value to 1,
-FALSE otherwise (default)}
+\item{optim}{Logical value (optional), \code{TRUE} to force code_optim value to 1,
+\code{FALSE} otherwise (default)}
 
-\item{verbose}{Logical value (optional), TRUE to display usms names + JavaSTics output,
-FALSE otherwise (default)}
+\item{verbose}{Logical value (optional), \code{TRUE} to display usms names + JavaSTics output,
+\code{FALSE} otherwise (default)}
 
-\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
-
-#' @details \code{stics_exe} may be :
-\enumerate{
-\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
-shipping with JavaStics;
-\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
-\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
-\code{stics_modulo.exe} because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
-}}
+\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)
@@ -48,6 +39,16 @@ and an output "message" (JavaStics commandline execution output)
 \description{
 This function uses basically Stics through his
 JavaStics command line interface
+}
+\details{
+\code{stics_exe} may be :
+\enumerate{
+\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
+shipping with JavaStics;
+\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
+\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+\code{stics_modulo.exe} because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
+}
 }
 \examples{
 \dontrun{

@@ -64,7 +64,7 @@ set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE,verbose=TR
     stics_list= list_stics_exe(javastics_path)$stics_list
     exe_in_list= grepl(stics_exe,unlist(stics_list))
 
-    # If several are listed with the same exe (but different name), take the first one (we don't care which name here:
+    # If several are listed with the same exe (but different name), take the first one (we don't care which name here):
     if(any(exe_in_list)){
       exe_to_use= which(exe_in_list==TRUE)
       if(length(exe_to_use)>1){

@@ -2,24 +2,38 @@
 % Please edit documentation in R/stics_wrapper.R
 \name{stics_wrapper_options}
 \alias{stics_wrapper_options}
-\title{Getting/setting a stics_wrapper options list with initialized fields,
-or validating an existing list}
+\title{Getting/setting a stics_wrapper options list with initialized fields}
 \usage{
 stics_wrapper_options(
-  stics_path = NULL,
+  javastics_path = NULL,
+  stics_exe = "modulostics",
   data_dir = NULL,
-  in_options = NULL,
+  parallel = FALSE,
+  cores = NA,
+  time_display = FALSE,
+  verbose = TRUE,
+  force = FALSE,
   ...
 )
 }
 \arguments{
-\item{stics_path}{Path of the Stics binary executable file (delivered with
-JavaStics interface)}
+\item{javastics_path}{Path of JavaStics installation directory, needed if \code{stics_exe} is not provided, or relates to an exe in the \code{javastics_path} (see details)}
+
+\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
 
 \item{data_dir}{Path(s) of the situation(s) input files directorie(s)
 or the root path of the situation(s) input files directorie(s)}
 
-\item{in_options}{An existing options list, for updating elements}
+\item{parallel}{Boolean. Is the computation to be done in parallel ?}
+
+\item{cores}{Number of cores to use for parallel computation.}
+
+\item{time_display}{Display time}
+
+\item{verbose}{Logical value (optional), \code{TRUE} to display informations during execution,
+\code{FALSE} otherwise (default)}
+
+\item{force}{Boolean. Don't check \code{javastics_path}, \code{stics_exe} and \code{data_dir} (default to \code{FALSE}, see details)}
 
 \item{...}{Add further arguments set the options list values}
 }
@@ -27,9 +41,23 @@ or the root path of the situation(s) input files directorie(s)}
 A list containing Stics model stics_wrapper options
 }
 \description{
-This function returns a default options list, or allow to set
-list elements values or validate the input options list elements values
-(only the mandatories ones)
+This function returns a default options list if called with no arguments, or a pre-formated
+model option list with checks on the inputs.
+}
+\details{
+\code{stics_exe} may be :
+\enumerate{
+\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
+shipping with JavaStics;
+\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
+\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe".
+}
+
+\code{javastics_path} must be provided for case (1) and (2).
+
+If \code{force=TRUE}, checks are not done for \code{javastics_path}, \code{stics_exe} and \code{data_dir}. In this case, they are returned as is,
+and will be checked (and potentially updated to match the right stics executable) only at execution of \code{stics_wrapper()}. This option
+is used for portability, when e.g. \code{stics_wrapper_options} outputs are sent to a remote.
 }
 \examples{
 
@@ -38,50 +66,105 @@ list elements values or validate the input options list elements values
 
 stics_wrapper_options()
 
-#> $stics_path
-#> "/path/to/javastics/bin/stics_modulo"
-#>
-#> $data_dir
-#> "/path/to/usms/subdirs/root"
-#>
-#> $parallel
-#> [1] FALSE
-#>
-#> $cores
-#> [1] NA
-#>
-#> $time_display
-#> [1] FALSE
-#>
-#> $warning_display
-#> [1] TRUE
+> $javastics_path
+> [1] "unknown"
+>
+> $stics_exe
+> [1] "modulostics"
+>
+> $data_dir
+> [1] "unknown"
+>
+> $parallel
+> [1] FALSE
+>
+> $cores
+> [1] NA
+>
+> $time_display
+> [1] FALSE
+>
+> $verbose
+> [1] TRUE
 
 # Setting mandatory simulations options
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = data_path)
+javastics_path= "path/to/javastics"
+data_path= "path/to/data_directory"
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
 
-# Setting other options using option name as a function argument
-# Example for activating parallel simulations
-sim_options <- stics_wrapper_options(stics_path = stics_path,
-data_dir = data_path, parallel = TRUE)
+# Changing default values (e.g. parallel):
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, parallel = TRUE)
 
-#> $stics_path
-#> "/path/to/javastics/bin/stics_modulo"
-#>
-#> $data_dir
-#> "/path/to/usms/subdirs/root"
-#>
-#> $parallel
-#> [1] TRUE
-#>
-#> $cores
-#> [1] NA
-#>
-#> $time_display
-#> [1] FALSE
-#>
-#> $warning_display
-#> [1] TRUE
+> $javastics_path
+> [1] "path/to/JavaSTICS-v85"
+>
+> $stics_exe
+> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+>
+> $data_dir
+> [1] "path/to/data"
+>
+> $parallel
+> [1] TRUE
+>
+> $cores
+> [1] NA
+>
+> $time_display
+> [1] FALSE
+>
+> $verbose
+> [1] TRUE
 
+ # Using the `force` argument to keep the inputs as is:
+ sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, force= TRUE)
+
+> $javastics_path
+> [1] "path/to/JavaSTICS-v85"
+>
+> $stics_exe
+> [1] "modulostics"
+>
+> $data_dir
+> [1] "path/to/data"
+>
+> $parallel
+> [1] FALSE
+>
+> $cores
+> [1] NA
+>
+> $time_display
+> [1] FALSE
+>
+> $verbose
+> [1] TRUE
+
+# This will be checked and modified by a `do.call()` in `stics_wrapper()`:
+do.call(stics_wrapper_options,model_options)
+
+> $javastics_path
+> [1] "path/to/JavaSTICS-v85"
+>
+> $stics_exe
+> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+>
+> $data_dir
+> [1] "path/to/data"
+>
+> $parallel
+> [1] FALSE
+>
+> $cores
+> [1] NA
+>
+> $time_display
+> [1] FALSE
+>
+> $verbose
+> [1] TRUE
+
+# Note the `stics_exe` path that was modified and checked to the path were it was found.
 }
 
 }

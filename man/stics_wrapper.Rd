@@ -9,10 +9,10 @@ stics_wrapper(model_options, param_values = NULL, sit_var_dates_mask = NULL)
 }
 \arguments{
 \item{model_options}{List containing any information needed by the model.
-In the case of Stics: \code{stics_path} the path of Stics executable file and
+In the case of Stics: \code{javastics_path} (or/and \code{stics_exe}) and
 \code{data_dir} the path of the directory containing the Stics input data
 for each USM (one folder per USM where Stics input files are stored in txt
-format)}
+format). See \code{stics_wrapper_options()} for more informations.}
 
 \item{param_values}{(optional) either a named vector or a named 3D array.
 Use a named vector that contains the values and names of the parameters
@@ -50,15 +50,11 @@ force Stics input parameters with values given in arguments.
 # Specifying the JavaStics folder
 javastics_path <- "/path/to/javastics"
 
-# Setting the model executable path (windows, linux)
-stics_path <- file.path(javastics_path, "bin","stics_modulo")
-
 # Setting the input data folder path, root directory of the usms directories
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-sim_options <- stics_wrapper_options(stics_path = stics_path,
-data_dir = data_path)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
 
 # Running all the usms that have a corresponding input folder in data_path
 results <- stics_wrapper(sim_options)
@@ -92,4 +88,7 @@ param_values = param_values)
 
 }
 
+}
+\seealso{
+\code{stics_wrapper_options()} for more informations on how to provide \code{model_options}.
 }

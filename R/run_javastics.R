@@ -7,14 +7,14 @@
 #' @param workspace_path Path of a JavaStics workspace (Optional)
 #' @param usms_list Vector of usms to run (optional)
 #' @param keep_history Logical value (optional) to keep a copy of history file
-#' use TRUE (default), FALSE otherwise
-#' @param optim Logical value (optional), TRUE to force code_optim value to 1,
-#' FALSE otherwise (default)
-#' @param verbose Logical value (optional), TRUE to display usms names + JavaSTics output,
-#' FALSE otherwise (default)
+#' use `TRUE` (default), `FALSE` otherwise
+#' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
+#' `FALSE` otherwise (default)
+#' @param verbose Logical value (optional), `TRUE` to display usms names + JavaSTics output,
+#' `FALSE` otherwise (default)
 #' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
 #'
-#'#' @details `stics_exe` may be :
+#' @details `stics_exe` may be :
 #' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
 #' shipping with JavaStics;
 #' 2. a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";

@@ -70,7 +70,7 @@ For installing packages from the Github site an additional package must
 be installed. One can use either `devtools` or
 [`remotes`](https://github.com/r-lib/remotes#readme)
 
-For `devtools`, installation requires systeme dependent tools. They must
+For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
   - For Windows  
@@ -81,17 +81,44 @@ be installed first.
     `build-essentials` package for a Debian like distribution for
     example.
 
-Then the `devtools` package can be installed using
+Then the `devtools` package can be installed using:
 
-    install:::packages("devtools")
+``` r
+install:::packages("devtools")
+```
 
-For `remotes`, it can be directly installed using
+For `remotes`, it can be directly installed using:
 
-    install:::packages("remotes")
+``` r
+install:::packages("remotes")
+```
 
 ## Installation
 
-### SticsOnR
+### Recommended installation: `SticsRPacks`
+
+The best way to install the packages from `SticsRPacks`, from which
+`SticsOnR` is part of, is by installing the `[SticsRPacks]` package:
+
+``` r
+devtools::install_github("SticsRPacks/SticsRPacks")
+```
+
+  - With `remotes`
+
+<!-- end list -->
+
+``` r
+# install.packages("remotes")
+remotes::install_github("SticsRPacks/SticsRPacks")
+```
+
+The package will install the packages for you at the last release
+version.
+
+### Other way: install each package independently
+
+#### SticsOnR
 
 The package installation can be remotely done directly from
 [GitHub](https://github.com/) using either `devtools` or the lightweight
@@ -119,10 +146,10 @@ remotes::install_github("SticsRPacks/SticsOnR@*release")
 Normaly, all the package dependencies will be installed for CRAN
 packages.
 
-### SticsRFiles
+#### SticsRFiles
 
-`SticsRFiles` must be installed manually, remotely using the above
-syntax, just replacing **SticsOnR** with **SticsRFiles**.
+`SticsRFiles` must be installed manually using the above syntax, just
+replacing **SticsOnR** with **SticsRFiles**.
 
 ## Examples
 
@@ -130,23 +157,14 @@ Here are basic examples which show you how to run the model either from
 a R model interface or a JavaStics (command line) one. More complete
 examples will be detailed in a specific documentation later.
 
-### Running the JavaStics command line interface
+### Running the model using JavaStics command line interface (recommended)
 
 The JavaStics installation folder (for example,
 JavaSTICS-1.41-stics-9.1) contains an `example` workspace folder with a
 set of runnable usms.
 
-For running simulations from it, we can use the `run_javastics`
+For running simulations from it, we can use the `run_javastics()`
 function.
-
-In this SticsOnR package, for the moment, only one Stics version can be
-used with it (i.e. the one delivered with the JavaStics installation
-archive). JavaStics GUI, allows to manage several Stics executables, but
-in that case one must take care of consistency between executables
-version and input files format (advanced use case).
-
-So, at this point, it is at your own risk if you try to use another
-version than the JavaStics distribution one.
 
 ``` r
 
@@ -161,19 +179,22 @@ workspace_path <- "example"
 ```
 
 ``` r
-
 # Running specific usms from the workspace
 run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
+#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "banana"
 #> [1] "wheat"
 
 # Running all usms contained in the workspace 
 run_javastics(javastics_path, workspace_path)
+#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "SugarCane"
 #> [1] "potato"
 #> [1] "banana"
 #> [1] "sorghum"
 #> [1] "barley"
+#> [1] "ccMustard"
+#> [1] "ccRyeGrass"
 #> [1] "sugarbeet"
 #> [1] "wheat"
 #> [1] "maize"
@@ -196,18 +217,12 @@ run_javastics(javastics_path, workspace_path)
 #> [1] "fescue"
 #> [1] "flax"
 #> [1] "intercrop_pea_barley"
-#> [1] "timothy"
-#> [1] "DurumWheat_snow"
-#> [1] "Turmeric"
-#> [1] "cc_BristleOat"
-#> [1] "cc_mustard"
-#> [1] "cc_ItalianRyegrass"
-#> [1] "cc_vetch"
-#> [1] "cc_CrimsonClover"
-#> [1] "proto_rice"
 
-# Getting returned information about execution 
-runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"), display = FALSE)
+# Getting information about execution:
+runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
+#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
+#> [1] "banana"
+#> [1] "wheat"
 
 runs_info
 #> [[1]]
@@ -218,7 +233,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[29/01/20]-[16:45:39] INFO - Modulostics files generation..\n[29/01/20]-[16:45:39] INFO - Generating txt files ...\n[29/01/20]-[16:45:40] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bbanana.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
+#> [1] "0"
 #> 
 #> 
 #> [[2]]
@@ -229,38 +244,37 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[29/01/20]-[16:45:41] INFO - Modulostics files generation..\n[29/01/20]-[16:45:41] INFO - Generating txt files ...\n[29/01/20]-[16:45:41] INFO - Files generated under /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example\nFiles generated :\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/mod_bwheat.sti\n\t/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example/modhistory.sti"
+#> [1] "0"
 ```
 
 In the returned information, the error field name gives a list of
-messages got from JavaStics commandline interface. If any `Error` key
+messages from the JavaStics commandline interface. If any `Error` key
 word appears in a message, the corresponding simulation failed. But, at
 the moment it is impossible to identify what is the error’s origin.
 Things must be checked manually in the workspace, after running again
 the faulty usm (because the model input files are overwritten at each
 usms simulation).
 
-<!-- SET eval to TRUE gen_usms_xml2txt has been moved to SticsRFiles -->
-
-### Running the model
+### Running the model using the stics executable directly
 
 We need for that a JavaStics folder and a directory with text input
-files for Stics, or a folder containing usms individual sub-directories
-.
+files for Stics, or a folder containing individual sub-directories for
+usms.
 
-These directories can be generated using the `gen_usms_xml2txt` function
-from the **SticsRFiles** package, by converting automatically XML files
-to Stics input text files. See the documentation
+These directories can be generated using the
+`[SticsRFiles::gen_usms_xml2txt()]` function from the **SticsRFiles**
+package, by converting automatically XML files to Stics input text
+files. See the documentation
 [here](https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html).
 
 Example of use:
 
 ``` r
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path,javastics_workspace_path =  workspace_path, target_path = output_path)
+SticsRFiles::gen_usms_xml2txt(javastics_path, workspace_path = workspace_path, target_path = output_path, verbose = FALSE)
 ```
 
-The `run_stics` function can be used as follows with one folder or
+The `run_stics()` function can be used as follows with one folder or
 multiple sub-folders.
 
 ``` r
@@ -301,8 +315,8 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] " numcult =            1"                           
-#> [2] " The execution has been successfully accomplished."
+#> [1] " numcult =            1"                          
+#> [2] " The execution has been successfully accomplished"
 #> 
 #> 
 #> [[2]]
@@ -313,16 +327,16 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] " numcult =            1"                           
-#> [2] " The execution has been successfully accomplished."
+#> [1] " numcult =            1"                          
+#> [2] " The execution has been successfully accomplished"
 ```
 
 ### Advanced simulations parameterization
 
-A specific function `stics_wrapper` is dedicated to manage simulations
-with a higher level of parameterization than what `run_stics` offers.
+A specific function `stics_wrapper()` is dedicated to manage simulations
+with a higher level of parameterization than what `run_stics()` offers.
 
-This `stics_wrapper` function allows:
+This `stics_wrapper()` function allows:
 
   - Forcing the values of a set of parameters (common or specific values
     per USM)
@@ -330,39 +344,23 @@ This `stics_wrapper` function allows:
     and variables filtering
   - Parallelizing simulations, and displaying execution time
 
-Be aware that for the moment, it **is not possible** to get daily
-outputs for an `inter-cropping` use case. This will be implemented in
-future developments.
-
-As the `run_stics` function, the `stics_wrapper` operates on directories
-containing text stics input files.
+As the `run_stics()` function, the `stics_wrapper()` operates on
+directories containing text stics input files.
 
 #### Defining simulations options
 
-Simulation options can be fixed using the `stics_wrapper_options`
+Simulation options can be fixed using the `stics_wrapper_options()`
 function. Both of them are mandatory: the model executable path and the
 directory path containing usms sub-directories with text input files.
 
-Here we reuse the model executable path defined prevously with respect
-to the operating system (Windows, Linux or Mac) and the directory where
-individual Usms input directories have been generated.
-
-``` r
-
-sim_options <- stics_wrapper_options(stics_path = stics_path, 
-                                     data_dir = output_path)
-```
-
-Optional fields in the `sim_options` list will be detailed later in this
-document.
-
-Default values for these optional fields are set by
-`stics_wrapper_options`. They can be displayed by calling the
-`stics_wrapper_options` function without any argument as follows:
+A template is returned by the function when called with no arguments:
 
 ``` r
 stics_wrapper_options()
-#> $stics_path
+#> $javastics_path
+#> [1] "unknown"
+#> 
+#> $stics_exe
 #> [1] "unknown"
 #> 
 #> $data_dir
@@ -377,15 +375,53 @@ stics_wrapper_options()
 #> $time_display
 #> [1] FALSE
 #> 
-#> $warning_display
+#> $verbose
 #> [1] TRUE
 ```
 
-An existing options list may be updated with new values using named
-arguments as follows:
+For the example, we will use the default stics model version shipping
+with JavaStics and the directory where individual usms input directories
+have been generated:
 
 ``` r
-sim_options <- stics_wrapper_options(in_options = sim_options, parallel = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path, verbose = FALSE)
+```
+
+By default, `stics_wrapper_options()` checks that `javastics_path`,
+`stics_exe` and `data_dir` exists.
+
+There are different solutions if you need to use a custom version of
+stics:
+
+1.  if its already listed in the preference (e.g. added in JavaStics),
+    simply provide its name (ID):
+
+<!-- end list -->
+
+``` r
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom",
+                                     data_dir = output_path, verbose = FALSE)
+```
+
+1.  if its located in the bin directory of the JavaStics installation
+    directory, provide the executable name:
+
+<!-- end list -->
+
+``` r
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom.exe",
+                                     data_dir = output_path, verbose = FALSE)
+```
+
+1.  if its located in any other folder, provide the full path to the
+    executable name, and no need to use `javastics_path`:
+
+<!-- end list -->
+
+``` r
+sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
+                                     data_dir = output_path, verbose = FALSE)
 ```
 
 #### Simple simulations cases
@@ -395,7 +431,6 @@ sim_options <- stics_wrapper_options(in_options = sim_options, parallel = TRUE)
 <!-- end list -->
 
 ``` r
-
 results <- stics_wrapper(model_options = sim_options)
 ```
 
@@ -404,7 +439,6 @@ results <- stics_wrapper(model_options = sim_options)
 <!-- end list -->
 
 ``` r
-
 usms_list <- c("wheat", "pea", "maize")
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
@@ -418,59 +452,55 @@ names) containing data.frames organized as observations data or
 corresponding to observations data.
 
 ``` r
-obs_filenames <- paste0(usms_list,".obs")
-obs_list <- get_obs(dirpath = workspace_path, obs_filenames = obs_filenames)
+obs_list <- get_obs(workspace = workspace_path, usm_name = usms_list, verbose = FALSE)
+#> ! plant folder not found in the workspace, please add `javastics_path` to use real plant names from javaStics.
 
 # Observations table for wheat
 obs_list$wheat
-#>          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3
-#> 1  1995-01-30  0.29    0.25   NA   NA   NA     NA      NA      NA      NA
-#> 2  1995-02-03    NA      NA 21.1 18.8 12.4 133.26     3.1     2.9       4
-#> 3  1995-02-07  0.37    0.31   NA   NA   NA     NA      NA      NA      NA
-#> 4  1995-02-16  0.40    0.32   NA   NA   NA     NA      NA      NA      NA
-#> 5  1995-02-24  0.45    0.40   NA   NA   NA     NA      NA      NA      NA
-#> 6  1995-03-06  0.44    0.38   NA   NA   NA     NA      NA      NA      NA
-#> 7  1995-03-16  0.60    0.59   NA   NA   NA     NA      NA      NA      NA
-#> 8  1995-03-23  0.85    0.87   NA   NA   NA     NA      NA      NA      NA
-#> 9  1995-04-03  1.47    1.28   NA   NA   NA     NA      NA      NA      NA
-#> 10 1995-04-11  2.37    2.68   NA   NA   NA     NA      NA      NA      NA
-#> 11 1995-04-18  2.65    3.70   NA   NA   NA     NA      NA      NA      NA
-#> 12 1995-04-26  4.55    4.67   NA   NA   NA     NA      NA      NA      NA
-#> 13 1995-05-02  4.41    5.77   NA   NA   NA     NA      NA      NA      NA
-#> 14 1995-05-05    NA    6.01   NA   NA   NA     NA      NA      NA      NA
-#> 15 1995-05-09  5.20    7.51   NA   NA   NA     NA      NA      NA      NA
-#> 16 1995-05-12    NA    9.73   NA   NA   NA     NA      NA      NA      NA
-#> 17 1995-05-15  5.98    9.87   NA   NA   NA     NA      NA      NA      NA
-#> 18 1995-05-19    NA   11.08   NA   NA   NA     NA      NA      NA      NA
-#> 19 1995-05-29    NA   14.08   NA   NA   NA     NA      NA      NA      NA
-#> 20 1995-07-17    NA   21.91   NA   NA   NA     NA      NA      NA      NA
-#>    QNplante
-#> 1      9.24
-#> 2        NA
-#> 3     10.85
-#> 4     12.61
-#> 5     13.32
-#> 6     16.65
-#> 7     24.59
-#> 8     38.86
-#> 9     60.99
-#> 10    98.98
-#> 11   103.36
-#> 12   141.99
-#> 13   170.03
-#> 14       NA
-#> 15   188.57
-#> 16       NA
-#> 17   216.06
-#> 18       NA
-#> 19   258.38
-#> 20   258.45
+#>          Date  ian mo jo jul lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1
+#> 1  1995-01-30 1995  1 30  30  0.29    0.25   NA   NA   NA     NA      NA
+#> 2  1995-02-03 1995  2  3  34    NA      NA 21.1 18.8 12.4 133.26     3.1
+#> 3  1995-02-07 1995  2  7  38  0.37    0.31   NA   NA   NA     NA      NA
+#> 4  1995-02-16 1995  2 16  47  0.40    0.32   NA   NA   NA     NA      NA
+#> 5  1995-02-24 1995  2 24  55  0.45    0.40   NA   NA   NA     NA      NA
+#> 6  1995-03-06 1995  3  6  65  0.44    0.38   NA   NA   NA     NA      NA
+#> 7  1995-03-16 1995  3 16  75  0.60    0.59   NA   NA   NA     NA      NA
+#> 8  1995-03-23 1995  3 23  82  0.85    0.87   NA   NA   NA     NA      NA
+#> 9  1995-04-03 1995  4  3  93  1.47    1.28   NA   NA   NA     NA      NA
+#> 10 1995-04-11 1995  4 11 101  2.37    2.68   NA   NA   NA     NA      NA
+#> 11 1995-04-18 1995  4 18 108  2.65    3.70   NA   NA   NA     NA      NA
+#> 12 1995-04-26 1995  4 26 116  4.55    4.67   NA   NA   NA     NA      NA
+#> 13 1995-05-02 1995  5  2 122  4.41    5.77   NA   NA   NA     NA      NA
+#> 14 1995-05-05 1995  5  5 125    NA    6.01   NA   NA   NA     NA      NA
+#> 15 1995-05-09 1995  5  9 129  5.20    7.51   NA   NA   NA     NA      NA
+#> 16 1995-05-12 1995  5 12 132    NA    9.73   NA   NA   NA     NA      NA
+#> 17 1995-05-15 1995  5 15 135  5.98    9.87   NA   NA   NA     NA      NA
+#> 18 1995-05-19 1995  5 19 139    NA   11.08   NA   NA   NA     NA      NA
+#> 19 1995-05-29 1995  5 29 149    NA   14.08   NA   NA   NA     NA      NA
+#> 20 1995-07-17 1995  7 17 198    NA   21.91   NA   NA   NA     NA      NA
+#>    AZnit_2 AZnit_3 QNplante         Plant
+#> 1       NA      NA     9.24 wheat_plt.xml
+#> 2      2.9       4       NA wheat_plt.xml
+#> 3       NA      NA    10.85 wheat_plt.xml
+#> 4       NA      NA    12.61 wheat_plt.xml
+#> 5       NA      NA    13.32 wheat_plt.xml
+#> 6       NA      NA    16.65 wheat_plt.xml
+#> 7       NA      NA    24.59 wheat_plt.xml
+#> 8       NA      NA    38.86 wheat_plt.xml
+#> 9       NA      NA    60.99 wheat_plt.xml
+#> 10      NA      NA    98.98 wheat_plt.xml
+#> 11      NA      NA   103.36 wheat_plt.xml
+#> 12      NA      NA   141.99 wheat_plt.xml
+#> 13      NA      NA   170.03 wheat_plt.xml
+#> 14      NA      NA       NA wheat_plt.xml
+#> 15      NA      NA   188.57 wheat_plt.xml
+#> 16      NA      NA       NA wheat_plt.xml
+#> 17      NA      NA   216.06 wheat_plt.xml
+#> 18      NA      NA       NA wheat_plt.xml
+#> 19      NA      NA   258.38 wheat_plt.xml
+#> 20      NA      NA   258.45 wheat_plt.xml
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
-#> Warning: Variable(s) INN, hmax not simulated by the Stics model for USM pea =>
-#> try to add it(them) in /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt/
-#> pea/var.mod
-#> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
 ```
 
 Some warnings may occur, indicating that observed variables and/or
@@ -490,7 +520,6 @@ to force. In this case, the same values will be applied for all the
 simulated usms.
 
 ``` r
-
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
@@ -559,7 +588,7 @@ head(results)
 #> 3 1994-10-19 00:00:00  1994    10    19   292     0       0       0  4.55  4.44
 #> 4 1994-10-20 00:00:00  1994    10    20   293     0       0       0  4.49  4.41
 #> 5 1994-10-21 00:00:00  1994    10    21   294     0       0       0  5.36  4.35
-#> # … with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> # ... with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
 #> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
 #> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
 #> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
@@ -570,23 +599,18 @@ head(results)
 #> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <dbl>
 #> 
 #> $sim_list[[1]]$pea
-#> # A tibble: 129 x 51
+#> # A tibble: 129 x 25
 #>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
 #>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
-#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0  20.8  25.7
-#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0  20.3  25.7
-#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0  19.7  25.6
-#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0  18.9  25.5
-#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0  18.1  25.4
-#> # … with 124 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
-#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
-#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
-#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
-#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
-#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
-#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
-#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
-#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
+#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0     0     0
+#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0     0     0
+#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0     0     0
+#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0     0     0
+#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0     0     0
+#> # ... with 124 more rows, and 15 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   resmes <dbl>, zrac <dbl>, QNplante <dbl>, azomes <dbl>, INN <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, hmax <dbl>, LRACH_1 <dbl>, LRACH_2 <dbl>,
+#> #   LRACH_3 <dbl>, LRACH_4 <dbl>, cum_jul <int>
 #> 
 #> $sim_list[[1]]$maize
 #> # A tibble: 249 x 51
@@ -597,7 +621,7 @@ head(results)
 #> 3 1996-04-23 00:00:00  1996     4    23   114     0       0       0  22.5  24.7
 #> 4 1996-04-24 00:00:00  1996     4    24   115     0       0       0  22.2  24.7
 #> 5 1996-04-25 00:00:00  1996     4    25   116     0       0       0  22.0  24.7
-#> # … with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> # ... with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
 #> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
 #> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
 #> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
@@ -618,7 +642,7 @@ head(results)
 #> 3 1994-10-19 00:00:00  1994    10    19   292     0       0       0  4.55  4.44
 #> 4 1994-10-20 00:00:00  1994    10    20   293     0       0       0  4.49  4.41
 #> 5 1994-10-21 00:00:00  1994    10    21   294     0       0       0  5.36  4.35
-#> # … with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> # ... with 406 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
 #> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
 #> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
 #> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
@@ -629,23 +653,18 @@ head(results)
 #> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <dbl>
 #> 
 #> $sim_list[[2]]$pea
-#> # A tibble: 129 x 51
+#> # A tibble: 129 x 25
 #>   Date                  ian    mo    jo   jul lai_n masec_n mafruit  HR_1  HR_2
 #>   <dttm>              <int> <int> <int> <int> <dbl>   <dbl>   <dbl> <dbl> <dbl>
-#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0  20.8  25.7
-#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0  20.3  25.7
-#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0  19.7  25.6
-#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0  18.9  25.5
-#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0  18.1  25.4
-#> # … with 124 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
-#> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
-#> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
-#> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
-#> #   chargefruit <dbl>, AZamm_1 <dbl>, AZamm_2 <dbl>, AZamm_3 <dbl>,
-#> #   AZamm_4 <dbl>, AZamm_5 <dbl>, CNgrain <dbl>, concNO3les <dbl>, drat <dbl>,
-#> #   fapar <dbl>, hauteur <dbl>, Hmax <dbl>, humidite <dbl>, LRACH_1 <dbl>,
-#> #   LRACH_2 <dbl>, LRACH_3 <dbl>, LRACH_4 <dbl>, LRACH_5 <dbl>, mafrais <dbl>,
-#> #   pdsfruitfrais <dbl>, Qdrain <dbl>, rnet <dbl>, cum_jul <int>
+#> 1 2003-03-11 00:00:00  2003     3    11    70     0       0       0     0     0
+#> 2 2003-03-12 00:00:00  2003     3    12    71     0       0       0     0     0
+#> 3 2003-03-13 00:00:00  2003     3    13    72     0       0       0     0     0
+#> 4 2003-03-14 00:00:00  2003     3    14    73     0       0       0     0     0
+#> 5 2003-03-15 00:00:00  2003     3    15    74     0       0       0     0     0
+#> # ... with 124 more rows, and 15 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> #   resmes <dbl>, zrac <dbl>, QNplante <dbl>, azomes <dbl>, INN <dbl>,
+#> #   fapar <dbl>, hauteur <dbl>, hmax <dbl>, LRACH_1 <dbl>, LRACH_2 <dbl>,
+#> #   LRACH_3 <dbl>, LRACH_4 <dbl>, cum_jul <int>
 #> 
 #> $sim_list[[2]]$maize
 #> # A tibble: 249 x 51
@@ -656,7 +675,7 @@ head(results)
 #> 3 1996-04-23 00:00:00  1996     4    23   114     0       0       0  22.5  24.7
 #> 4 1996-04-24 00:00:00  1996     4    24   115     0       0       0  22.2  24.7
 #> 5 1996-04-25 00:00:00  1996     4    25   116     0       0       0  22.0  24.7
-#> # … with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
+#> # ... with 244 more rows, and 41 more variables: HR_3 <dbl>, HR_4 <dbl>,
 #> #   HR_5 <dbl>, resmes <dbl>, drain <dbl>, esol <dbl>, et <dbl>, zrac <dbl>,
 #> #   tcult <dbl>, AZnit_1 <dbl>, AZnit_2 <dbl>, AZnit_3 <dbl>, AZnit_4 <dbl>,
 #> #   AZnit_5 <dbl>, Qles <dbl>, QNplante <dbl>, azomes <dbl>, inn <dbl>,
@@ -674,11 +693,11 @@ head(results)
 <!-- end list -->
 
 ``` r
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     time_display = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 17.21713 secs
+#> Time difference of 18.92622 secs
 ```
 
   - Activating parallel execution
@@ -686,11 +705,11 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ``` r
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, cores = 2)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, cores = 2, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 11.02484 secs
+#> Time difference of 10.21463 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -701,13 +720,13 @@ library(parallel)
 
 # Used cores number
 detectCores() - 1
-#> [1] 3
+#> [1] 11
 
-sim_options <- stics_wrapper_options(stics_path = stics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Time difference of 10.03703 secs
+#> Time difference of 7.400581 secs
 ```
 
 ## Code of conduct

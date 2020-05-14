@@ -10,22 +10,22 @@ library(SticsOptimizR)
 data_dir <- "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/example_test"
 # path to the Stics executable (according to the OS)
 # here for linux, and the official standard version
-stics_path <- "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0/bin/stics_modulo"
+javastics_path <- "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v141-stics-v9.0"
 
 # getting obs data
 obs <- read_obs_to_list(data_dir)
 
 # generating stics_options list with time display and no parallel calculation
-stics_options_no_par <- stics_wrapper_options(stics_path = stics_path,
+stics_options_no_par <- stics_wrapper_options(javastics_path = javastics_path,
                                               data_dir = data_dir,
                                               time_display = TRUE)
 
 # generating stics_options list with time display and parallel calculation
 # (without specifying cores number)
-stics_options_par <- stics_wrapper_options(stics_path = stics_path,
-                                              data_dir = data_dir,
-                                              time_display = TRUE,
-                                              parallel = TRUE)
+stics_options_par <- stics_wrapper_options(javastics_path = javastics_path,
+                                           data_dir = data_dir,
+                                           time_display = TRUE,
+                                           parallel = TRUE)
 
 
 # running stics_wrapper
