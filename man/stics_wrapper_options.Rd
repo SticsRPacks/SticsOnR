@@ -93,7 +93,8 @@ data_path= "path/to/data_directory"
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
 
 # Changing default values (e.g. parallel):
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, parallel = TRUE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
+ parallel = TRUE)
 
 > $javastics_path
 > [1] "path/to/JavaSTICS-v85"
@@ -117,7 +118,8 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir =
 > [1] TRUE
 
  # Using the `force` argument to keep the inputs as is:
- sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path, force= TRUE)
+ sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
+  force= TRUE)
 
 > $javastics_path
 > [1] "path/to/JavaSTICS-v85"
