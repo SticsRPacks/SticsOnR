@@ -295,7 +295,7 @@ stics_wrapper <- function(model_options,
 
                                 ## Otherwise, getting results
                                 sim_tmp= SticsRFiles::get_daily_results(file.path(data_dir, situation),
-                                                                        situation, mixed= mixed)
+                                                                        situation, mixed= mixed)[[1]]
                                 # Any error reading output file
                                 if(is.null(sim_tmp)){
                                   if(verbose) cli::cli_alert_warning("Error reading outputs for usm: {.val {situation}}")
