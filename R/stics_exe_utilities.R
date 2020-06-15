@@ -280,12 +280,8 @@ check_stics_exe <- function(model_path, version = FALSE, stop = TRUE, verbose= F
       return(invisible(FALSE))
     }
   }
-
-  # changing to dir tmp_model_dir
-  setwd(dirname(model_path))
-
   # catching returned error status
-  err_status <- suppressWarnings(run_system_cmd(basename(model_path), com_args='--version', output = version))
+  err_status <- suppressWarnings(run_system_cmd(model_path, com_args='--version', output = version))
 
   # exiting if any error
   if(!err_status){
