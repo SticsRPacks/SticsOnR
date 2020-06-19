@@ -4,17 +4,10 @@
 \alias{stics_wrapper_options}
 \title{Getting/setting a stics_wrapper options list with initialized fields}
 \usage{
-stics_wrapper_options(
-  javastics_path = NULL,
-  stics_exe = "modulostics",
-  data_dir = NULL,
-  parallel = FALSE,
-  cores = NA,
-  time_display = FALSE,
-  verbose = TRUE,
-  force = FALSE,
-  ...
-)
+stics_wrapper_options(javastics_path = NULL, stics_exe = "modulostics",
+  data_dir = NULL, parallel = FALSE, cores = NA,
+  time_display = FALSE, verbose = TRUE, force = FALSE,
+  successive_usms = NULL, ...)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory, needed if \code{stics_exe} is not provided, or relates to an exe in the \code{javastics_path} (see details)}
@@ -34,6 +27,9 @@ or the root path of the situation(s) input files directorie(s)}
 \code{FALSE} otherwise (default)}
 
 \item{force}{Boolean. Don't check \code{javastics_path}, \code{stics_exe} and \code{data_dir} (default to \code{FALSE}, see details)}
+
+\item{successive_usms}{List of vectors containing the names of the UMSs to consider as successive
+(e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)}
 
 \item{...}{Add further arguments set the options list values}
 }

@@ -92,17 +92,6 @@ stics_wrapper <- function(model_options,
                           sit_var_dates_mask = NULL){
 
   # TODO LIST
-  #    - maybe the variables asked will not be simulated (depends on the
-  #      var.mod file ...)
-  #         => try to simulate, if some variables are not simulated : modify the
-  #            var.mod and re-simulate (should be more efficient than checking
-  #            everytime the var.mod)
-  #           maybe test the size of nb UMS / DOE size to possibly adapt the
-  #           strategy (e.g. in case of multisimulation case with millions of
-  #           USMs the strategy describe here-before is not very good ...)
-  #           Another alternative: build a function that generates the var.mod,
-  #           the user can call before main_optim
-  #         For the moment, just warn and ask to change var.mod
   #    - handle the case of stages (stages should be specified in the var.mod ...
   #      + handle the case when simulations does not reach the asked stages ...)
   #    - handle the case of intercrop
@@ -126,6 +115,10 @@ stics_wrapper <- function(model_options,
   cores <- model_options$cores
   verbose <- model_options$verbose
   time_display <- model_options$time_display
+  successive_usms <- model_options$successive_usms
+
+  # In case of successive USMs, disable parallel run
+  if (!is.null(successive_usms)) parallel <- FALSE
 
   # Checking Stics executable
   check_stics_exe(stics_exe)
@@ -190,6 +183,10 @@ stics_wrapper <- function(model_options,
                     "\n Situations defined in param_values will be simulated."))
     }
   }
+
+  # If successive_usms, check that all usms are in the list, otherwise, add the missing ones
+  # and order them
+  situation_names <- c(unlist(successive_usms), setdiff(situation_names,unlist(successive_usms)))
 
   # Default output data list
   nb_paramValues=1
@@ -270,6 +267,20 @@ stics_wrapper <- function(model_options,
 
 
                                 SticsRFiles:::set_codeoptim(run_dir, value=1)
+                              }
+
+                              # Handling successive USMs (if the usm is part of the list and not in first position ...)
+                              if (any(sapply(successive_usms,function(x) match(situation_names[iusm],x))>=2)) {
+                                if (file.exists(file.path(run_dirs[iusm-1],"recup.tmp"))) {
+                                  file.copy(from=file.path(run_dirs[iusm-1],"recup.tmp"),
+                                            to=file.path(run_dir,"recup.tmp"),overwrite = TRUE)
+                                } else {
+                                  mess <- warning(paste("Error running the Stics model for USM",situation,
+                                                        ". \n This USMs is part of a succession but recup.tmp file was not created by the previous USM."))
+                                  return(list(NA,TRUE))
+                                }
+                                # The following could be done only once in case of repeated call to the wrapper (e.g. parameters estimation ...)
+                                SticsRFiles::set_param_txt(dirpath = run_dir, param="codesuite", value=1)
                               }
 
                               varmod_modified=FALSE
@@ -455,6 +466,8 @@ stics_wrapper <- function(model_options,
 #' @param force    Boolean. Don't check `javastics_path`, `stics_exe` and `data_dir` (default to `FALSE`, see details)
 #' @param verbose Logical value (optional), `TRUE` to display informations during execution,
 #' `FALSE` otherwise (default)
+#' @param successive_usms List of vectors containing the names of the UMSs to consider as successive
+#' (e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)
 #' @param ... Add further arguments set the options list values
 #'
 #' @details `stics_exe` may be :
@@ -590,6 +603,7 @@ stics_wrapper_options <- function(javastics_path = NULL,
                                   time_display= FALSE,
                                   verbose= TRUE,
                                   force= FALSE,
+                                  successive_usms=NULL,
                                   ... ) {
 
   options <- list()
@@ -603,6 +617,7 @@ stics_wrapper_options <- function(javastics_path = NULL,
     options$cores <- NA
     options$time_display <- FALSE
     options$verbose <- TRUE
+    options$successive_usms <- NULL
     return(options)
   }
 
@@ -615,6 +630,7 @@ stics_wrapper_options <- function(javastics_path = NULL,
     options$cores <- cores
     options$time_display <- time_display
     options$verbose <- verbose
+    options$successive_usms <- successive_usms
     return(options)
   }
 
@@ -663,6 +679,8 @@ stics_wrapper_options <- function(javastics_path = NULL,
   if(!is.null(cores)) options$cores <- cores
   if(!is.null(time_display)) options$time_display <- time_display
   if(!is.null(verbose)) options$verbose <- verbose
+  if(!is.null(successive_usms)) options$successive_usms <- successive_usms
+
   # Adding future-proof optional fields:
   dot_args <- list(...)
   options= c(options,dot_args)
