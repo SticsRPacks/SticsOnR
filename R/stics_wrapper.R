@@ -294,6 +294,11 @@ stics_wrapper <- function(model_options,
                                 ## Run the model & forcing not to check the model executable
                                 usm_out <- run_stics(stics_exe, run_dir, check_exe = FALSE)
 
+                                # In case of successive USMs, re-initialize codesuite (to allow next run to be in non-successive mode)
+                                if (!is.na(is_succ) && is_succ) {
+                                  SticsRFiles::set_param_txt(dirpath = run_dir, param="codesuite", value=0)
+                                }
+
                                 # if the model returns an error, ... treating next situation
                                 if(usm_out[[1]]$error){
                                   mess <- warning(paste("Error running the Stics model for USM",situation,
