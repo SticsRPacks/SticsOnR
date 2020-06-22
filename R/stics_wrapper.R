@@ -262,7 +262,7 @@ stics_wrapper <- function(model_options,
                                 # if writing the param.sti fails, treating next situation
                                 if ( ! ret ) {
                                   if(verbose) cli::cli_alert_warning("Error when generating the forcing parameters file for USM {.val {situation}}")
-                                  return(list(NA,TRUE))
+                                  return(list(NA,TRUE,FALSE, mess))
                                 }
 
 
@@ -270,14 +270,15 @@ stics_wrapper <- function(model_options,
                               }
 
                               # Handling successive USMs (if the usm is part of the list and not in first position ...)
-                              if (any(sapply(successive_usms,function(x) match(situation_names[iusm],x))>=2)) {
+                              is_succ <- any(sapply(successive_usms,function(x) match(situation_names[iusm],x))>=2)
+                              if (!is.na(is_succ) && is_succ) {
                                 if (file.exists(file.path(run_dirs[iusm-1],"recup.tmp"))) {
                                   file.copy(from=file.path(run_dirs[iusm-1],"recup.tmp"),
                                             to=file.path(run_dir,"recup.tmp"),overwrite = TRUE)
                                 } else {
                                   mess <- warning(paste("Error running the Stics model for USM",situation,
                                                         ". \n This USMs is part of a succession but recup.tmp file was not created by the previous USM."))
-                                  return(list(NA,TRUE))
+                                  return(list(NA,TRUE,FALSE, mess))
                                 }
                                 # The following could be done only once in case of repeated call to the wrapper (e.g. parameters estimation ...)
                                 SticsRFiles::set_param_txt(dirpath = run_dir, param="codesuite", value=1)
@@ -297,7 +298,7 @@ stics_wrapper <- function(model_options,
                                 if(usm_out[[1]]$error){
                                   mess <- warning(paste("Error running the Stics model for USM",situation,
                                                         ". \n ",usm_out[[1]]$message))
-                                  return(list(NA,TRUE))
+                                  return(list(NA,TRUE,FALSE, mess))
                                 }
 
                                 # Get the number of plants to know whether it is a sole crop or an intercrop:
@@ -310,7 +311,7 @@ stics_wrapper <- function(model_options,
                                 # Any error reading output file
                                 if(is.null(sim_tmp)){
                                   if(verbose) cli::cli_alert_warning("Error reading outputs for usm: {.val {situation}}")
-                                  return(list(NA, TRUE))
+                                  return(list(NA,TRUE,FALSE, mess))
                                 }
 
 
@@ -384,7 +385,7 @@ stics_wrapper <- function(model_options,
                                                                    "for USM {.val {situation}}, are not valid STICS variables."))
                                     }
 
-                                    return(list(NA, TRUE))
+                                    return(list(NA,TRUE,FALSE, mess))
                                   }
 
                                   ## Keeping only the needed dates in the simulation results
