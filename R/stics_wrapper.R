@@ -281,7 +281,7 @@ stics_wrapper <- function(model_options,
                                   return(list(NA,TRUE,FALSE, mess))
                                 }
                                 # The following could be done only once in case of repeated call to the wrapper (e.g. parameters estimation ...)
-                                SticsRFiles::set_param_txt(dirpath = run_dir, param="codesuite", value=1)
+                                set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=1)
                               }
 
                               varmod_modified=FALSE
@@ -296,7 +296,7 @@ stics_wrapper <- function(model_options,
 
                                 # In case of successive USMs, re-initialize codesuite (to allow next run to be in non-successive mode)
                                 if (!is.na(is_succ) && is_succ) {
-                                  SticsRFiles::set_param_txt(dirpath = run_dir, param="codesuite", value=0)
+                                  set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=0)
                                 }
 
                                 # if the model returns an error, ... treating next situation
