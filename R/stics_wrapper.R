@@ -261,7 +261,8 @@ stics_wrapper <- function(model_options,
 
                                 # if writing the param.sti fails, treating next situation
                                 if ( ! ret ) {
-                                  if(verbose) cli::cli_alert_warning("Error when generating the forcing parameters file for USM {.val {situation}}")
+                                  mess <- warning(paste("Error when generating the forcing parameters file for USM",situation,
+                                                        ". \n "))
                                   return(list(NA,TRUE,FALSE, mess))
                                 }
 
@@ -317,7 +318,8 @@ stics_wrapper <- function(model_options,
                                                                         situation, mixed= mixed)[[1]]
                                 # Any error reading output file
                                 if(is.null(sim_tmp)){
-                                  if(verbose) cli::cli_alert_warning("Error reading outputs for usm: {.val {situation}}")
+                                  mess <- warning(paste("Error reading outputs for ",situation,
+                                                        ". \n "))
                                   return(list(NA,TRUE,FALSE, mess))
                                 }
 
@@ -351,33 +353,38 @@ stics_wrapper <- function(model_options,
                                     diff_vars= setdiff(var_list,inter_vars)
 
                                     if(varmod_modified){
-                                      if(verbose) cli::cli_alert_warning(paste("{cli::qty(diff_vars)} Variable{?s} {.val {diff_vars}} found in {.code sit_var_dates_mask}",
-                                                                               "not simulated by the Stics model for USM {.val {situation}}"))
+                                      mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                                            "not simulated by the Stics model for USM",situation,
+                                                            "although added in",file.path(data_dir,situation,"var.mod"),
+                                                            "=> these variables may not be Stics variables, please check spelling."))
                                       flag_error <- FALSE
                                       flag_rqd_res <- FALSE
                                     }else{
                                       # Remove the dummy variables output from STICS but not input:
-                                      out_var_list= out_var_list[!out_var_list %in% c("Date","ian","mo","jo","jul","cum_jul")]
+                                      var_list= var_list[!var_list %in% c("Date","ian","mo","jo","jul","cum_jul")]
 
                                       # valid STICS vars not simulated yet:
-                                      is_diff_vars_valid= SticsRFiles::is_stics_var(diff_vars)
+                                      # is_diff_vars_valid= SticsRFiles::is_stics_var(diff_vars)
 
                                       # Using only valid STICS variables:
-                                      out_var_list= c(out_var_list,diff_vars[is_diff_vars_valid])
+                                      # out_var_list= c(out_var_list,diff_vars[is_diff_vars_valid])
 
-                                      if(!any(is_diff_vars_valid) && verbose){
-                                        cli::cli_alert_warning(paste("{cli::qty(diff_vars[!is_diff_vars_valid])} Found variable{?s} not valid for STICS: {.val {diff_vars[!is_diff_vars_valid]}} in {.code sit_var_dates_mask}",
-                                                                     "for USM {.val {situation}}. Will not simulate {?it/them}."))
-                                      }
+                                      # if(!any(is_diff_vars_valid) && verbose){
+                                      #   cli::cli_alert_warning(paste("{cli::qty(diff_vars[!is_diff_vars_valid])} Found variable{?s} not valid for STICS: {.val {diff_vars[!is_diff_vars_valid]}} in {.code sit_var_dates_mask}",
+                                      #                                "for USM {.val {situation}}. Will not simulate {?it/them}."))
+                                      # }
+
 
                                       if(verbose){
-                                        varmod_file= file.path(data_dir,situation,"var.mod")
-                                        cli::cli_alert_warning(paste("{cli::qty(diff_vars[is_diff_vars_valid])} Variable{?s} {.val {diff_vars[is_diff_vars_valid]}} found in {.code sit_var_dates_mask}",
-                                                                     "but not simulated by STICS in the current config for USM {.val {situation}}"))
-                                        cli::cli_alert_success("Updating {.val {varmod_file}} to include the variable as model output, and re-running STICS.")
+                                        mess <- warning(paste("Variable(s)",paste(setdiff(var_list,inter_vars), collapse=", "),
+                                                              "not simulated by the Stics model for USM",situation,
+                                                              "=>",file.path(data_dir,situation,"var.mod"),"has been modified and the model re-run."))
                                       }
 
-                                      SticsRFiles::gen_varmod(workspace = file.path(data_dir,situation),var_names = out_var_list)
+                                      # For the moment, as we do not provide functions for adding new stics versions,
+                                      # we don't check the existence of Stics variables (so that is they are defined in the var.mod
+                                      # they can be simulated even if not defined in outputs.csv)
+                                      SticsRFiles::gen_varmod(workspace = file.path(data_dir,situation),var_names = var_list, force=TRUE)
                                       varmod_modified=TRUE
                                       next()
                                     }
@@ -387,10 +394,8 @@ stics_wrapper <- function(model_options,
                                     sim_tmp= sim_tmp[ , vars_idx]
                                   }else{
 
-                                    if(verbose){
-                                      cli::cli_alert_warning(paste("{cli::qty(var_list)} Variable{?s} {.val {var_list}} found in {.code sit_var_dates_mask}",
-                                                                   "for USM {.val {situation}}, are not valid STICS variables."))
-                                    }
+                                    mess <- warning(paste("Variables",paste(var_list, collapse=", "),"found in sit_var_dates_mask ",
+                                                          "for USM",situation," are not valid STICS variables."))
 
                                     return(list(NA,TRUE,FALSE, mess))
                                   }
@@ -406,8 +411,8 @@ stics_wrapper <- function(model_options,
                                   if ( length(inter_dates) < length(date_list) ) {
                                     missing_dates <- date_list[!date_list %in% inter_dates]
                                     if(verbose){
-                                      cli::cli_alert_warning(paste("{cli::qty(missing_dates)} Requested date{?s} {.val {missing_dates}} found in {.code sit_var_dates_mask}",
-                                                                   "for USM {.val {situation}} {?is/are} not simulated by STICS in the current configuration."))
+                                      mess <- warning(paste("Requested date(s)",paste(missing_dates, collapse=", "),
+                                                            "found in sit_var_dates_mask is(are) not simulated for USM",situation))
                                     }
                                     flag_error <- FALSE
                                     flag_rqd_res <- FALSE
