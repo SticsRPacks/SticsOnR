@@ -188,6 +188,31 @@ stics_wrapper <- function(model_options,
   # and order them
   situation_names <- c(unlist(successive_usms), setdiff(situation_names,unlist(successive_usms)))
 
+  # If successive_usms and param_values specified, check that all usms are in param_values, otherwise
+  # set values for the parameters for the missing usms
+  if (!is.null(successive_usms) && !is.null(param_values)) {
+
+    miss_usms <- setdiff(unlist(successive_usms),dimnames(param_values)[[3]])
+
+    if (length(miss_usms)>0) {
+
+      if (any(as.vector(sapply(1:dim(param_values)[[1]],
+                               function(y) sapply(1:dim(param_values)[[2]],
+                                                  function(x) length(unique(param_values[y,x,]))!=1))))) {
+        stop(paste("stics_wrapper can not handle sucessive usms if both parameter values are not provided",
+                   "for all the usms and the provided values are different for the usms.",
+                   "Please provide parameter values for all the usms to simulate, using the param_values argument."))
+      }
+
+      tmp <- array(data=param_values[,,1],dim=c(dim(param_values)[1],
+                                                dim(param_values)[2],length(miss_usms)),
+                   dimnames = list(NULL,dimnames(param_values)[[2]],miss_usms))
+      param_values<-abind::abind(param_values,tmp,along=3)
+
+    }
+  }
+
+
   # Default output data list
   nb_paramValues=1
   if (!is.null(param_values)) {
