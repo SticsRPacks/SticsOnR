@@ -307,7 +307,7 @@ stics_wrapper <- function(model_options,
                                   return(list(NA,TRUE,FALSE, mess))
                                 }
                                 # The following could be done only once in case of repeated call to the wrapper (e.g. parameters estimation ...)
-                                set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=1)
+                                SticsRFiles::set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=1)
                               }
 
                               varmod_modified=FALSE
@@ -322,7 +322,7 @@ stics_wrapper <- function(model_options,
 
                                 # In case of successive USMs, re-initialize codesuite (to allow next run to be in non-successive mode)
                                 if (!is.na(is_succ) && is_succ) {
-                                  set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=0)
+                                  SticsRFiles::set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=0)
                                 }
 
                                 # if the model returns an error, ... treating next situation
@@ -357,7 +357,13 @@ stics_wrapper <- function(model_options,
 
                                 # Nothing to select, returning all data
                                 if(keep_all_data){
+
                                   return(list(sim_tmp,FALSE, TRUE, mess))
+
+                                } else if(is.null(sit_var_dates_mask[[situation]])) {
+
+                                  return(list(NULL,FALSE, TRUE, mess))
+
                                 } else { # Selecting variables from sit_var_dates_mask
 
                                   var_list= colnames(sit_var_dates_mask[[situation]])
@@ -407,7 +413,7 @@ stics_wrapper <- function(model_options,
                                       }
 
                                       # For the moment, as we do not provide functions for adding new stics versions,
-                                      # we don't check the existence of Stics variables (so that is they are defined in the var.mod
+                                      # we don't check the existence of Stics variables (so that if they are defined in the var.mod
                                       # they can be simulated even if not defined in outputs.csv)
                                       SticsRFiles::gen_varmod(workspace = file.path(data_dir,situation),var_names = var_list, force=TRUE)
                                       varmod_modified=TRUE
@@ -468,6 +474,10 @@ stics_wrapper <- function(model_options,
     sel_idx <- unlist(lapply(out, function(x) return(!x[[2]])))
 
     res$sim_list[[ip]] <- lapply(out[sel_idx], function(x) return(x[[1]]))
+
+    # usms for which no results are provided are removed
+    res$sim_list[[ip]][sapply(res$sim_list[[ip]],is.null)]<-NULL
+
     res$error <- any(unlist(lapply(out, function(x) return(x[[2]] || !x[[3]]))))
 
     # displaying warnings

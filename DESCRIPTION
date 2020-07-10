@@ -39,7 +39,8 @@ Imports:
     iterators,
     methods,
     SticsRFiles,
-    cli
+    cli,
+    abind
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
