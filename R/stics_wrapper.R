@@ -188,31 +188,6 @@ stics_wrapper <- function(model_options,
   # and order them
   situation_names <- c(unlist(successive_usms), setdiff(situation_names,unlist(successive_usms)))
 
-  # If successive_usms and param_values specified, check that all usms are in param_values, otherwise
-  # set values for the parameters for the missing usms
-  if (!is.null(successive_usms) && !is.null(param_values)) {
-
-    miss_usms <- setdiff(unlist(successive_usms),dimnames(param_values)[[3]])
-
-    if (length(miss_usms)>0) {
-
-      if (any(as.vector(sapply(1:dim(param_values)[[1]],
-                               function(y) sapply(1:dim(param_values)[[2]],
-                                                  function(x) length(unique(param_values[y,x,]))!=1))))) {
-        stop(paste("stics_wrapper can not handle sucessive usms if both parameter values are not provided",
-                   "for all the usms and the provided values are different for the usms.",
-                   "Please provide parameter values for all the usms to simulate, using the param_values argument."))
-      }
-
-      tmp <- array(data=param_values[,,1],dim=c(dim(param_values)[1],
-                                                dim(param_values)[2],length(miss_usms)),
-                   dimnames = list(NULL,dimnames(param_values)[[2]],miss_usms))
-      param_values<-abind::abind(param_values,tmp,along=3)
-
-    }
-  }
-
-
   # Default output data list
   nb_paramValues=1
   if (!is.null(param_values)) {
@@ -270,7 +245,7 @@ stics_wrapper <- function(model_options,
                               # TODO: make a function dedicated to forcing parameters of the model ?
                               # In that case by using the param.sti mechanism
                               ## Force param values
-                              if (is.null(param_values)) {
+                              if (is.null(param_values) || ! situation_names[iusm] %in% dimnames(param_values)[[3]]) {
                                 # remove param.sti in case of previous run using it ...
                                 if (suppressWarnings(file.remove(file.path(run_dir,
                                                                            "param.sti")))) {
@@ -278,9 +253,9 @@ stics_wrapper <- function(model_options,
                                 }
 
                               } else {
-                                # TODO: handle the case NA for a sublist of parameters (in case one want to force some parameters for some USMs and others for other USMs)
-                                param_values_usm=param_values[ip,,situation_names[iusm]]
-                                names(param_values_usm)=colnames(param_values)
+                                ind_non_na<-!is.na(param_values[ip,,situation_names[iusm]])
+                                param_values_usm=param_values[ip,ind_non_na,situation_names[iusm]]
+                                names(param_values_usm)=colnames(param_values)[ind_non_na]
 
                                 ret <- SticsRFiles::gen_paramsti(run_dir, names(param_values_usm), param_values_usm)
 
