@@ -451,7 +451,11 @@ stics_wrapper <- function(model_options,
     res$sim_list[[ip]] <- lapply(out[sel_idx], function(x) return(x[[1]]))
 
     # usms for which no results are provided are removed
-    res$sim_list[[ip]][sapply(res$sim_list[[ip]],is.null)]<-NULL
+    if (length(res$sim_list[[ip]])==0) {
+      warning("Stics simulations failed for all USMs!!!")
+    } else {
+      res$sim_list[[ip]][sapply(res$sim_list[[ip]],is.null)]<-NULL
+    }
 
     res$error <- any(unlist(lapply(out, function(x) return(x[[2]] || !x[[3]]))))
 
