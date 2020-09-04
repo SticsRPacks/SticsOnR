@@ -273,14 +273,35 @@ stics_wrapper <- function(model_options,
                               # Handling successive USMs (if the usm is part of the list and not in first position ...)
                               is_succ <- any(sapply(successive_usms,function(x) match(situation_names[iusm],x))>=2)
                               if (!is.na(is_succ) && is_succ) {
-                                if (file.exists(file.path(run_dirs[iusm-1],"recup.tmp"))) {
-                                  file.copy(from=file.path(run_dirs[iusm-1],"recup.tmp"),
-                                            to=file.path(run_dir,"recup.tmp"),overwrite = TRUE)
-                                } else {
-                                  mess <- warning(paste("Error running the Stics model for USM",situation,
-                                                        ". \n This USMs is part of a succession but recup.tmp file was not created by the previous USM."))
+                                # if (file.exists(file.path(run_dirs[iusm-1],"recup.tmp"))) {
+                                #   file.copy(from=file.path(run_dirs[iusm-1],"recup.tmp"),
+                                #             to=file.path(run_dir,"recup.tmp"),overwrite = TRUE)
+                                #
+                                # } else {
+                                #   mess <- warning(paste("Error running the Stics model for USM",situation,
+                                #                         ". \n This USMs is part of a succession but recup.tmp file was not created by the previous USM."))
+                                #   return(list(NA,TRUE,FALSE, mess))
+                                # }
+
+                                # Checking recup.tmp and snow_variables.txt files
+
+                                f_recup <- c(file.path(run_dirs[iusm-1],"recup.tmp"), file.path(run_dirs[iusm-1],"snow_variables.txt"))
+                                f_exist <- file.exists(f_recup)
+
+                                if (! all(f_exist) ) {
+                                  mess <- warning(paste("Error running the Stics model for USM", situation,
+                                                        ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
+                                                        "file(s) was/were not created by the previous USM."))
                                   return(list(NA,TRUE,FALSE, mess))
                                 }
+
+                                # Copying files and checking return
+                                if (!file.copy(from = f_recup, to = run_dir, overwrite = TRUE)) {
+                                  mess <- warning(paste("Error copying recup.tmp and/or snow_variables.txt file(s) for ", situation,
+                                                        "file(s) was/were not created by the previous USM."))
+                                  return(list(NA,TRUE,FALSE, mess))
+                                }
+
                                 # The following could be done only once in case of repeated call to the wrapper (e.g. parameters estimation ...)
                                 SticsRFiles::set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=1)
                               }
@@ -308,10 +329,8 @@ stics_wrapper <- function(model_options,
                                 }
 
                                 # Get the number of plants to know whether it is a sole crop or an intercrop:
-                                nbplants= as.numeric(SticsRFiles::get_usm_txt(filepath = file.path(data_dir,situation,"new_travail.usm"))$nbplantes)
-                                mixed <- nbplants > 1
-                                # New for replacing the previous 2 lines, getting plants nb with the get_plants_nb function
-                                # mixed <- get_plants_nb( usm_file_path = file.path(data_dir,situation,"new_travail.usm")) > 1
+                                #nbplants= as.numeric(SticsRFiles::get_usm_txt(filepath = file.path(data_dir,situation,"new_travail.usm"))$nbplantes)
+                                mixed <- SticsRFiles::get_plants_nb(usm_file_path = file.path(data_dir, situation, "new_travail.usm")) > 1
 
                                 ## Otherwise, getting results
                                 sim_tmp= SticsRFiles::get_daily_results(file.path(data_dir, situation),
