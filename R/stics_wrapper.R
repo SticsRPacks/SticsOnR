@@ -10,21 +10,28 @@
 #' for each USM (one folder per USM where Stics input files are stored in txt
 #' format). See `stics_wrapper_options()` for more informations.
 #'
-#' @param param_values (optional) either a named vector or a named 3D array.
-#' Use a named vector that contains the values and names of the parameters
-#' to force the same values of the parameters whatever the simulated
-#' situations (usms). If one wants to force the model with different values
-#' of parameters for the simulated situations or to simulate the situations
-#' several times but with different values of the parameters, use a 3D array
-#' containing the value(s) and names of the parameters to force for each
-#' situation to simulate. This array contains the different parameters
-#' values (first dimension) for the different parameters (second dimension)
-#' and for the different situations (third dimension).
-#' See examples for more details.
+#' @param param_values (optional) a tibble that contains values of Stics input
+#' parameters to use in the simulations. Should have one named column per
+#' parameter. An optional column named Situation containing the name of the
+#' situations (USMs for Stics) allows to define different values of the parameters
+#' for different situations. If param_values is not provided, the simulations will
+#' be performed using the parameters values defined in the Stics input files referenced
+#' in model_options argument.
 #'
-#' @param sit_var_dates_mask (optional) List of situations:
-#' may be either a character vector of situation names or a named list
-#' containing information about variables and dates for which simulated values
+#' @param sit_names (optional) vector of situations (USMs) names for which results
+#' must be returned. Results for all simulated situations are returned if not provided.
+#'
+#' @param var_names (optional) vector of variables names for which results
+#' must be returned. Results for all simulated variables are returned if not provided.
+#'
+#' @param dates (optional) vector of dates (POSIXct) for which results
+#' must be returned. Results for all dates simulated are returned if not provided.
+#' If required dates varies between situations, either use stages or sit_var_dates_mask argument
+#'
+#' @param stages (optional) vector of stages for which results must be returned.
+#'
+#' @param sit_var_dates_mask (optional) List of situations: a named list
+#' containing a mask for variables and dates for which simulated values
 #' should be returned. Typically a list containing the observations to which
 #' simulations should be compared as provided by SticsRFiles::get_obs
 #'
@@ -89,6 +96,10 @@
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,
+                          sit_names = NULL,
+                          var_names = NULL,
+                          dates = NULL,
+                          stages = NULL,
                           sit_var_dates_mask = NULL){
 
   # TODO LIST
@@ -137,7 +148,13 @@ stics_wrapper <- function(model_options,
 
   # Run Stics and store results ------------------------------------------------
 
-  ## Define the list of usm to simulate
+  ## Define the list of USMs to simulate
+
+
+
+######################################################
+  ### A REVOIR : doit-on garder keep_all_data ?
+
   # This part is a bit complex since stics_wrapper has been designed to be used both by CroptimizR
   # and by the user so different options have been implemented (param_values can be
   # a vector or an array, sit_var_dates_mask can be a list or an array).
@@ -150,43 +167,53 @@ stics_wrapper <- function(model_options,
     sit_names_mask <- sit_var_dates_mask
     keep_all_data <- TRUE
   }
+########################################################
 
-  # Default behavior if param_values or sit_var_dates_mask don't provide situation list
-  situation_names <- list.dirs(data_dir, full.names = TRUE)[-1]
-  if(length(situation_names) == 0){
+
+
+
+  # Check the available USMs
+  avail_sit <- list.dirs(data_dir, full.names = TRUE)[-1]
+  if(length(avail_sit) == 0){
     stop(paste("Not any Stics directories found in:",data_dir))
   }
-
   # Checking existing files
-  files_exist <- file.exists(file.path(situation_names, "new_travail.usm"))
-  situation_names <- basename(situation_names)[files_exist]
+  files_exist <- file.exists(file.path(avail_sit, "new_travail.usm"))
+  avail_sit <- basename(avail_sit)[files_exist]
 
-  # may be overwritten here ...
-  if(is.null(param_values)){
-    if(!is.null(sit_var_dates_mask)){
-      situation_names <- sit_names_mask
+  # Define the USMs to simulate from available USMs and user requirements concerning
+  # the results to return (sit_names and sit_var_dates_mask arguments)
+  required_situations <- union(sit_names, names(sit_var_dates_mask))
+  if (!is.null(required_situations)) {
+    # If some required situations can not be simulated, warns the user
+    if (length(setdiff(required_situations,avail_sit))>0) {
+      warning(paste0("No folder(s) found in ",data_dir," for USMs ",
+                     paste(setdiff(required_situations,avail_sit),collapse = " "),
+                     "\n These USMs will not be simulated."))
     }
-  }else if(is.vector(param_values)){
-    if(!is.null(sit_var_dates_mask)){
-      situation_names <- sit_names_mask
-    }
-    # transform param_values into an 3D-array
-    param_values=array(param_values,
-                       dim=c(1,length(param_values),length(situation_names)),
-                       dimnames=list("NULL",names(param_values),situation_names))
-  }else if(is.array(param_values)){
-    situation_names <- dimnames(param_values)[[3]]
-    if(!is.null(sit_var_dates_mask) && length(setdiff(situation_names, sit_names_mask))>0) {
-      warning(paste("Situations in param_values and sit_var_dates_mask are different:",
-                    "\n \t Situations param_values:",paste(situation_names,collapse=" "),
-                    "\n \t Situations sit_var_dates_mask:",paste(sit_names_mask,collapse=" "),
-                    "\n Situations defined in param_values will be simulated."))
-    }
+    sit2simulate <- intersect(avail_sit,required_situations)
+  } else {
+    # If neither sit_names nor sit_var_dates_mask are provided, all USMs defined in
+    # subfolders of data_dir must be simulated
+    sit2simulate <- avail_sit
   }
 
-  # If successive_usms, check that all usms are in the list, otherwise, add the missing ones
-  # and order them
-  situation_names <- c(unlist(successive_usms), setdiff(situation_names,unlist(successive_usms)))
+  # Case of successive USMs (argument successive_usms)
+  ## Check that all successive usms are available
+  if (length(setdiff(unlist(successive_usms),avail_sit))>0) {
+    warning(paste0("No folder(s) found in ",data_dir," for USMs ",
+                   paste(setdiff(unlist(successive_usms),avail_sit),,collapse = " "),
+                   "\n The corresponding successions of USMs will not be simulated."))
+    # Remove successions for which at least one USMs is not available
+    idx<-unique(sapply(setdiff(unlist(successive),avail), function(x) which(sapply(successive, function(y) x %in% y))))
+    successive_usms[[idx]] <- NULL
+  }
+  ## Add the successive USMs in the list of USMs to simulate if there are some missing ones and order them
+  sit2simulate <- c(unlist(successive_usms), setdiff(sit2simulate,unlist(successive_usms)))
+
+
+
+
 
   # Default output data list
   nb_paramValues=1
@@ -220,6 +247,15 @@ stics_wrapper <- function(model_options,
 
   # Getting existing dir index list
   dirs_idx <- which(dirs_exist)
+
+
+
+
+  #################
+  #### ATTENTION, si on change l'ordre des boulce doe/situations, cela va poser pb pour les successive USMs ...
+  #################
+
+
 
   for(ip in 1:nb_paramValues) {
 
