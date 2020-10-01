@@ -285,9 +285,12 @@ stics_wrapper <- function(model_options,
         usm_out <- run_stics(stics_exe, run_dir, check_exe = FALSE)
 
         ### In case of successive USMs, re-initialize codesuite (to allow next run to be in non-successive mode)
-        ### and rename recup.tmp and snow_variables.txt
+        ### and rename recup.tmp and snow_variables.txt (for usms that have a successor)
         if (!is.na(is_succ) && is_succ) {
           SticsRFiles::set_usm_txt(filepath = file.path(run_dir,"new_travail.usm"), param="codesuite", value=0)
+        }
+        is_prev <- any(sapply(successive_usms,function(x) match(sit2simulate[i],x)<length(x)))
+        if (!is.na(is_prev) && is_prev) {
           file.rename(from=file.path(run_dir,"recup.tmp"), to=file.path(run_dir,paste0("recup",ip,".tmp")))
           file.rename(from=file.path(run_dir,"snow_variables.txt"), to=file.path(run_dir,paste0("snow_variables",ip,".txt")))
         }
