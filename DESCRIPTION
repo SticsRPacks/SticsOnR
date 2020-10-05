@@ -16,7 +16,7 @@ Description: SticsOnR allow users to set simulations (USM) as javaSTICS or Stics
   and to import the outputs from R.
 URL: https://github.com/SticsRPacks/SticsOnR
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
-License: file LICENSE
+License: CeCILL-C
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
