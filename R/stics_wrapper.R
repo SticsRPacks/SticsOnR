@@ -26,9 +26,7 @@
 #'
 #' @param dates (optional) vector of dates (POSIXct) for which results
 #' must be returned. Results for all dates simulated are returned if not provided.
-#' If required dates varies between situations, either use stages or sit_var_dates_mask argument
-#'
-#' @param stages (optional) vector of stages for which results must be returned.
+#' If required dates varies between situations, use sit_var_dates_mask argument
 #'
 #' @param sit_var_dates_mask (optional) List of situations: a named list
 #' containing a mask for variables and dates for which simulated values
@@ -97,13 +95,11 @@ stics_wrapper <- function(model_options,
                           sit_names = NULL,
                           var_names = NULL,
                           dates = NULL,
-                          stages = NULL,
                           sit_var_dates_mask = NULL){
 
   # TODO LIST
   #    - handle the case of stages (stages should be specified in the var.mod ...
   #      + handle the case when simulations does not reach the asked stages ...)
-  #    - handle the case of intercrop
   #
 
   # Stopping the cluster when exiting
