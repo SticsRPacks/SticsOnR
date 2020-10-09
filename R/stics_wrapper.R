@@ -10,8 +10,8 @@
 #' for each USM (one folder per USM where Stics input files are stored in txt
 #' format). See `stics_wrapper_options()` for more informations.
 #'
-#' @param param_values (optional) a tibble that contains values of Stics input
-#' parameters to use in the simulations. Should have one named column per
+#' @param param_values (optional) a named vector or a tibble that contains values
+#' of Stics input parameters to use in the simulations. Should have one named column per
 #' parameter. An optional column named Situation containing the name of the
 #' situations (USMs for Stics) allows to define different values of the parameters
 #' for different situations. If param_values is not provided, the simulations will
@@ -194,7 +194,7 @@ stics_wrapper <- function(model_options,
 
   res <- list()
   res$error <- FALSE
-  res$sim_list <- setNames(vector("list",length(required_situations)), required_situations)
+  res$sim_list <- stats::setNames(vector("list",length(required_situations)), required_situations)
 
   # Should all data be returned for each required situation ?
   keep_all_data <- is.null(sit_var_dates_mask) && is.null(var_names) && is.null(dates)
@@ -376,7 +376,7 @@ stics_wrapper <- function(model_options,
 #' as required by the user through the stics_wrapper arguments. Has been created to
 #' lighten the stics_wrapper code.
 #'
-#' @inheritParams estim_param
+#' @inheritParams stics_wrapper
 #'
 #' @param keep_all_data Logical indicating if all simulated data must be selected
 #' @param situation Name of the simulated situation
@@ -384,7 +384,7 @@ stics_wrapper <- function(model_options,
 #' @param varmod_modified Logical indicating if the var.mod file has already been
 #' modified in a previous simulation.
 #' @param verbose Logical value indicating if information messages must be displayed or not.
-#' @param rundir path of the Stics workspace
+#' @param run_dir path of the Stics workspace
 #'
 #' @return A list containing:
 #'    o sim_list: the results of the simulated situation for the required variables and/or dates
@@ -396,7 +396,7 @@ stics_wrapper <- function(model_options,
 #'    o message: a string containing a message if a warning occurs
 #'    o varmod_modified: a logical indicating if the var.mod file has been modified
 #'
-#' @NoRd
+#' @noRd
 
 select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
                            situation, sim_tmp, varmod_modified, verbose, run_dir) {
