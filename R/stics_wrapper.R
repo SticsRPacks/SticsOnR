@@ -182,7 +182,7 @@ stics_wrapper <- function(model_options,
                    paste(setdiff(unlist(successive_usms),avail_sit),collapse = " "),
                    "\n The corresponding successions of USMs will not be simulated."))
     # Remove successions for which at least one USMs is not available
-    idx<-unique(sapply(setdiff(unlist(successive),avail), function(x) which(sapply(successive, function(y) x %in% y))))
+    idx<-unique(sapply(setdiff(unlist(successive_usms),avail_sit), function(x) which(sapply(successive_usms, function(y) x %in% y))))
     successive_usms[[idx]] <- NULL
   }
   ## Add the successive USMs in the list of USMs to simulate if there are some missing ones and order them
@@ -201,6 +201,8 @@ stics_wrapper <- function(model_options,
 
 
   # Run Stics and store results ------------------------------------------------
+
+  i <- 1 # initialization to avoid Note in check ...
   out <- foreach::foreach(i = seq_along(sit2simulate),.export = "run_stics",  # c("run_stics","select_results"),
                           .packages = c("SticsRFiles")) %dopar% {
     ## Loops on the USMs that can be simulated
