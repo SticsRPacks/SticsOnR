@@ -4,18 +4,10 @@
 \alias{stics_wrapper_options}
 \title{Getting/setting a stics_wrapper options list with initialized fields}
 \usage{
-stics_wrapper_options(
-  javastics_path = NULL,
-  stics_exe = "modulostics",
-  data_dir = NULL,
-  parallel = FALSE,
-  cores = NA,
-  time_display = FALSE,
-  verbose = TRUE,
-  force = FALSE,
-  successive_usms = NULL,
-  ...
-)
+stics_wrapper_options(javastics_path = NULL, stics_exe = "modulostics",
+  data_dir = NULL, parallel = FALSE, cores = NA,
+  time_display = FALSE, verbose = TRUE, force = FALSE,
+  successive_usms = NULL, ...)
 }
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory, needed if \code{stics_exe} is not provided, or relates to an exe in the \code{javastics_path} (see details)}

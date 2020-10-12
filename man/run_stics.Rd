@@ -5,13 +5,8 @@
 \title{Running usm(s) from a/several directory(ies)
 or a/several subdirectory(ies) named with usm name}
 \usage{
-run_stics(
-  model_path,
-  data_dir,
-  usm_dir_names = NULL,
-  check_exe = TRUE,
-  display = FALSE
-)
+run_stics(model_path, data_dir, usm_dir_names = NULL, check_exe = TRUE,
+  display = FALSE)
 }
 \arguments{
 \item{model_path}{Path of Stics executable file}

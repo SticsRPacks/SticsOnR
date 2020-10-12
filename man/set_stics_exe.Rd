@@ -4,7 +4,8 @@
 \alias{set_stics_exe}
 \title{Adding a new Stics model executable in JavaStics}
 \usage{
-set_stics_exe(javastics_path, stics_exe, overwrite = FALSE, verbose = TRUE)
+set_stics_exe(javastics_path, stics_exe, overwrite = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}

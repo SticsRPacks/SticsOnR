@@ -5,7 +5,8 @@
 \title{Running usm(s) from txt input files stored in one directory
 per \code{situation}, simulated results are returned in a list}
 \usage{
-stics_wrapper(model_options, param_values = NULL, sit_var_dates_mask = NULL)
+stics_wrapper(model_options, param_values = NULL, sit_names = NULL,
+  var_names = NULL, dates = NULL, sit_var_dates_mask = NULL)
 }
 \arguments{
 \item{model_options}{List containing any information needed by the model.
@@ -14,30 +15,33 @@ In the case of Stics: \code{javastics_path} (or/and \code{stics_exe}) and
 for each USM (one folder per USM where Stics input files are stored in txt
 format). See \code{stics_wrapper_options()} for more informations.}
 
-\item{param_values}{(optional) either a named vector or a named 3D array.
-Use a named vector that contains the values and names of the parameters
-to force the same values of the parameters whatever the simulated
-situations (usms). If one wants to force the model with different values
-of parameters for the simulated situations or to simulate the situations
-several times but with different values of the parameters, use a 3D array
-containing the value(s) and names of the parameters to force for each
-situation to simulate. This array contains the different parameters
-values (first dimension) for the different parameters (second dimension)
-and for the different situations (third dimension).
-See examples for more details.}
+\item{param_values}{(optional) a named vector or a tibble that contains values
+of Stics input parameters to use in the simulations. Should have one named column per
+parameter. An optional column named Situation containing the name of the
+situations (USMs for Stics) allows to define different values of the parameters
+for different situations. If param_values is not provided, the simulations will
+be performed using the parameters values defined in the Stics input files referenced
+in model_options argument.}
 
-\item{sit_var_dates_mask}{(optional) List of situations:
-may be either a character vector of situation names or a named list
-containing information about variables and dates for which simulated values
+\item{sit_names}{(optional) vector of situations (USMs) names for which results
+must be returned. Results for all simulated situations are returned if not provided.}
+
+\item{var_names}{(optional) vector of variables names for which results
+must be returned. Results for all simulated variables are returned if not provided.}
+
+\item{dates}{(optional) vector of dates (POSIXct) for which results
+must be returned. Results for all dates simulated are returned if not provided.
+If required dates varies between situations, use sit_var_dates_mask argument}
+
+\item{sit_var_dates_mask}{(optional) List of situations: a named list
+containing a mask for variables and dates for which simulated values
 should be returned. Typically a list containing the observations to which
 simulations should be compared as provided by SticsRFiles::get_obs}
 }
 \value{
-A list containing simulated values (\code{sim_list}: a vector of list (one
-element per values of parameters) containing usms outputs data.frames) and an
-error code (\code{error}) indicating if at least one simulation ended with an
-error. Inter-crops are not yet taken into account for extracting output
-data from files.
+A list containing simulated values (\code{sim_list}: a list of tibbles (one
+element per situation) and an error code (\code{error}) indicating if at least one
+simulation ended with an error.
 }
 \description{
 This function uses Stics directly through a system call, can

@@ -4,7 +4,8 @@
 \alias{check_stics_exe}
 \title{Checking if given path is a Stics executable path}
 \usage{
-check_stics_exe(model_path, version = FALSE, stop = TRUE, verbose = FALSE)
+check_stics_exe(model_path, version = FALSE, stop = TRUE,
+  verbose = FALSE)
 }
 \arguments{
 \item{model_path}{Model executable path}
