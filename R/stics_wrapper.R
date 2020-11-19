@@ -355,6 +355,8 @@ stics_wrapper <- function(model_options,
     res$sim_list <- NULL
   }
 
+  # Add the attribute cropr_simulation for using CroPlotR package
+  attr(res$sim_list, "class")= "cropr_simulation"
 
   # Handling errors
   res$error <- any(unlist(lapply(out, function(x) return(any(x[[2]]) || !all(x[[3]])))))
