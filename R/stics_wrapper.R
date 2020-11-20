@@ -303,9 +303,8 @@ stics_wrapper <- function(model_options,
         }
 
         ## Get results
-        mixed <- SticsRFiles::get_plants_nb(usm_file_path = file.path(run_dir, "new_travail.usm")) > 1
         sim_tmp= SticsRFiles::get_daily_results(run_dir,
-                                                situation, mixed= mixed)[[1]]
+                                                situation)[[1]]
 
         ## Any error reading output file ... go to next simulation
         if(is.null(sim_tmp)){
