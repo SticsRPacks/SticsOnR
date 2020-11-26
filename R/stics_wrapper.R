@@ -203,7 +203,7 @@ stics_wrapper <- function(model_options,
   # Run Stics and store results ------------------------------------------------
 
   i <- 1 # initialization to avoid Note in check ...
-  out <- foreach::foreach(i = seq_along(sit2simulate),.export = "run_stics",  # c("run_stics","select_results"),
+  out <- foreach::foreach(i = seq_along(sit2simulate),.export = c("run_stics","force_param_values","select_results"),
                           .packages = c("SticsRFiles")) %dopar% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
