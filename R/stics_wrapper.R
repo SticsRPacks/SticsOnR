@@ -352,10 +352,11 @@ stics_wrapper <- function(model_options,
   if (length(res$sim_list)==0) {
     warning("Stics simulations failed for all USMs!!!")
     res$sim_list <- NULL
+  } else {
+    # Add the attribute cropr_simulation for using CroPlotR package
+    attr(res$sim_list, "class")= "cropr_simulation"
   }
 
-  # Add the attribute cropr_simulation for using CroPlotR package
-  attr(res$sim_list, "class")= "cropr_simulation"
 
   # Handling errors
   res$error <- any(unlist(lapply(out, function(x) return(any(x[[2]]) || !all(x[[3]])))))
