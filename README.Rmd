@@ -3,9 +3,9 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1
-  workspace_path: /home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-1.41-stics-9.1/example
-  output_path: /home/plecharpent/tmp/tests_SticsOnR/gen_usms_xml2txt
+  javastics_path: ../JavaSTICS-1.41-stics-9.1
+  workspace_path: ../JavaSTICS-1.41-stics-9.1/example
+  output_path: ../tmp/gen_usms_xml2txt
 ---
 
 
@@ -26,9 +26,14 @@ library(SticsRFiles)
 
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
+<!-- badges: start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
+[![R build status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
+  
 [![Travis build status](https://travis-ci.org/SticsRPacks/SticsOnR.svg?branch=master)](https://travis-ci.org/SticsRPacks/SticsOnR)
 [![Codecov test coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
+<!-- badges: end -->
 
 The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from https://www6.paca.inra.fr/stics_eng/Download.
 
@@ -144,13 +149,9 @@ The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contai
 For running simulations from it, we can use the `run_javastics()` function.
 
 ```{r echo = FALSE}
-javastics_path <- params$javastics_path
-workspace_path <- params$workspace_path
-output_path <- params$output_path
-
-javastics_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85"
-workspace_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85/example"
-output_path <- "D:/OneDrive - cirad.fr/Travail_Postdoc/STICS/JavaSTICS-v85/output"
+javastics_path <- normalizePath(params$javastics_path, winslash = "/")
+workspace_path <- normalizePath(params$workspace_path, winslash = "/")
+output_path <- normalizePath(params$output_path, winslash = "/")
 ```
 
 
@@ -320,7 +321,7 @@ results <- stics_wrapper(model_options = sim_options)
 ```{r}
 usms_list <- c("wheat", "pea", "maize")
 
-results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list)
+results <- stics_wrapper(model_options = sim_options, sit_names = usms_list)
 ```
 
 
@@ -354,7 +355,7 @@ In this case, the same values will be applied for all the simulated usms.
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
-results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = usms_list, param_values = param_values)
+results <- stics_wrapper(model_options = sim_options, sit_names = usms_list, param_values = param_values)
 ```
 
 * Defining different parameters values depending on the usms or defining several parameters values per usms
@@ -390,8 +391,9 @@ head(results)
 * Displaying execution time
 
 ```{r}
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
-                                     time_display = TRUE, verbose = FALSE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path, time_display = TRUE,
+                                     verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
@@ -401,8 +403,10 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ```{r}
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, cores = 2, verbose = FALSE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path,
+                                     parallel =TRUE, time_display = TRUE,
+                                     cores = 2, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
@@ -415,8 +419,9 @@ library(parallel)
 # Used cores number
 detectCores() - 1
 
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = output_path,
-                                     parallel =TRUE, time_display = TRUE, verbose = FALSE)
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path, parallel =TRUE,
+                                     time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
