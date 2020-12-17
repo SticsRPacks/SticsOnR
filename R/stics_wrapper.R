@@ -440,10 +440,9 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
     } else {
       req_var_names <- c(var_names)
     }
-    ## Remove reserved keyword "Plant" from the list and add Date, ian, mo, jo, jul
-    ## (possibly already there in case sit_var_dates_mask is used)
-    req_var_names <- req_var_names[!grepl("Plant",req_var_names)]
-    req_var_names <- unique(c(c("Date","ian","mo","jo","jul"), req_var_names))
+    ## Add reserved keywords "Plant" and "Date" from the list
+    #req_var_names <- req_var_names[!grepl("Plant",req_var_names)]
+    req_var_names <- unique(c(c("Date", "Plant"), req_var_names))
 
     ## Identify indexes of required variables among simulated ones
     sim_var_names <- colnames(sim_tmp)
@@ -476,7 +475,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 
         ## Remove the reserved keywords from required variables names so that they do not appear in warning message
         ## nor in var.mod
-        req_var_names <- req_var_names[!req_var_names %in% c("Date","ian","mo","jo","jul","cum_jul")]
+        req_var_names <- req_var_names[!req_var_names %in% c("Date","Plant")]
 
         if(verbose){
           res$message <- warning(paste("Variable(s)",paste(setdiff(req_var_names,inter_var_names), collapse=", "),
@@ -497,7 +496,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
     }
 
     ## Select the results wrt to the required and simulated variables if required
-    if (length(req_var_names)>5) {
+    if (length(req_var_names)>2) {
       if(any(req_vars_idx)){
 
         sim_tmp <- sim_tmp[ , req_vars_idx]
