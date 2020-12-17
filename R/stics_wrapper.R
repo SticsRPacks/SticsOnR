@@ -202,8 +202,13 @@ stics_wrapper <- function(model_options,
 
   # Run Stics and store results ------------------------------------------------
 
+  # Hack to make force_param_values available on the shared environment. This is done
+  # to make it compatible with clusters (Meso@LR didn't work without).
+  force_param_values = SticsRFiles::force_param_values
+
   i <- 1 # initialization to avoid Note in check ...
-  out <- foreach::foreach(i = seq_along(sit2simulate),.export = c("run_stics","force_param_values","select_results"),
+  out <- foreach::foreach(i = seq_along(sit2simulate),
+                          .export = c("run_stics","force_param_values","select_results"),
                           .packages = c("SticsRFiles")) %dopar% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
