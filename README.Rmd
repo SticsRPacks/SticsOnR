@@ -54,7 +54,7 @@ The installation process only constists of unzipping the JavaStics archive.
 
 For using the JavaStics software (GUI and command line interface) under a `linux` operating system, the java version must be at most the Java 8 version.
 
-So for recent distributions on which a higher version is installed some manipulations can be done. 
+For recent distributions on which a higher version is installed some manipulations have to be done. 
 
 A description is given [here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html) on how to fix it for using the R package (i.e. underlying JavaStics command line interface).
 
@@ -228,7 +228,7 @@ stics_path <- file.path(javastics_path,"bin","stics_modulo")
 # Specifying a directory containing Stics input files
 # For example reusing a generated sub-directory in the previous section
 # of the document
-# Running on usm
+# Running one usm
 files_dir_path <- file.path(output_path,"banana")
 run_stics(stics_path, files_dir_path)
 
@@ -238,7 +238,7 @@ run_stics(stics_path, files_dir_path)
 # Running two usms
 run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
 
-# Running all usms sub-directories
+# Running all the usms defined in the sub-directories of output_path
 run_stics(stics_path, output_path, usm_dir_names = "all")
 
 # Getting returned information about stics runs
@@ -259,6 +259,7 @@ This `stics_wrapper()` function allows:
 * Forcing the values of a set of parameters (common or specific values per USM)
 * Returning simulated daily outputs for each usm with possible dates and variables filtering
 * Parallelizing simulations, and displaying execution time
+* Run Usms in successive mode
 
 As the `run_stics()` function, the `stics_wrapper()` operates on directories 
 containing text stics input files.
@@ -285,21 +286,21 @@ By default, `stics_wrapper_options()` checks that `javastics_path`, `stics_exe` 
 
 There are different solutions if you need to use a custom version of stics:
 
-1. if its already listed in the preference (e.g. added in JavaStics), simply provide its name (ID): 
+1. if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID): 
 
 ```{r, eval=FALSE}
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom",
                                      data_dir = output_path, verbose = FALSE)
 ```
 
-1. if its located in the bin directory of the JavaStics installation directory, provide the executable name: 
+1. if it is located in the bin directory of the JavaStics installation directory, provide the executable name: 
 
 ```{r, eval=FALSE}
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom.exe",
                                      data_dir = output_path, verbose = FALSE)
 ```
 
-1. if its located in any other folder, provide the full path to the executable name, and no need to use `javastics_path`: 
+1. if it is located in any other folder, provide the full path to the executable name, and no need to use `javastics_path`: 
 
 ```{r, eval=FALSE}
 sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
@@ -311,37 +312,56 @@ sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
 
 * Without filtering usms or outputs
 
-```{r}
+```{r, eval=FALSE}
 results <- stics_wrapper(model_options = sim_options)
 ```
 
 
 * Filtering on usms list
 
-```{r}
+```{r, eval=FALSE}
 usms_list <- c("wheat", "pea", "maize")
 
 results <- stics_wrapper(model_options = sim_options, sit_names = usms_list)
 ```
 
+* Filtering outputs on variables
 
-* Filtering outputs on usms variables and dates using observations data
+```{r, eval=FALSE}
+usms_list <- c("wheat", "pea", "maize")
 
-The argument `sit_var_dates_mask` must contain a named list (with usms names) containing
-data.frames organized as observations data or corresponding to observations data.
+stics_wrapper(model_options = sim_options, sit_names = usms_list, var_names = c("masec_n","mafruit"))
+```
+
+
+* Filtering outputs on variables and dates for several USMs
+
+The argument `sit_var_dates_mask` must contain a named list (named by usms names) containing
+data.frames, as the sim_list element of the list returned by stics_wrapper (see here-after) or as observations data. 
+
+It defines a mask: stics_wrapper will return a result for each USM, variable and date that contains at least a value (i.e. different from NA) in the mask.
+
+The stics_wrapper function returns a list that contains two elements:
+* error, a boolean indicating if an error occurs during the simulations,
+* sim_list, a named list of data.frames containing the simulated values for the requested USMS, variables and dates.
+
 
 ```{r}
-obs_list <- get_obs(workspace = workspace_path, usm_name = usms_list, verbose = FALSE)
+obs_list <- get_obs(workspace = workspace_path, usm_name = c("wheat", "maize"), verbose = FALSE)
 
 # Observations table for wheat
 obs_list$wheat
 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+                                     data_dir = output_path, verbose = TRUE)
+
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
+head(results)
 ```
 
-Some warnings may occur, indicating that observed variables and/or observations dates are missing in simulated data. 
+Some warnings may occur, as in this case (that is why `results$error` is TRUE), indicating that observed variables and/or observations dates are missing in simulated data. 
 Concerning the dates, this may be due to the USMs simulation period that may not include observed dates.
-For the variables, this may be due to an incorrect spelling of the variables in obs_list or to the list of simulated variables defined in the var.mod file.
+For the variables, this may be due to an incorrect spelling of the variables in obs_list.
 
 
 #### Simulations with forcing parameters
@@ -351,42 +371,42 @@ For the variables, this may be due to an incorrect spelling of the variables in 
 Parameters values are prescribed using the `param_values` argument. It can be a named vector containing the values and names of the parameters to force.
 In this case, the same values will be applied for all the simulated usms.
 
-```{r}
+```{r, eval=FALSE}
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
 results <- stics_wrapper(model_options = sim_options, sit_names = usms_list, param_values = param_values)
 ```
 
-* Defining different parameters values depending on the usms or defining several parameters values per usms
+* Defining different parameters values depending on the usms
 
-`param_values` can also be a named 3D array containing the value(s) and names of the parameters to force for each situation to simulate. 
-This array contains the different parameters values (first dimension) for the different parameters (second dimension) and for the different usms (third dimension). 
-By this way, the parameters can take different values depending on the usms. Also, usms can be simulated several times each with different values of the parameters.
+`param_values` can also be a data.frame or a tibble having one named column per parameter and an optional column named Situation containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.
 
-```{r}
+```{r, warning=FALSE}
 
-# Let's run usm wheat with c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
-# usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
-# and usm maize with c(dlaimax=0.001, durvieF=70) and c(dlaimax=0.002, durvieF=70)
-param_values <- array( c(0.001, 0.002, 50, 50, 
-                         0.001, 0.002, 60, 60, 
-                         0.001, 0.002, 70, 70),
-                      dim=c(2,2,3),
-                      dimnames=list(NULL,c("dlaimax", "durvieF"),c("wheat", "pea", "maize")))
-                      
+# Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
+# usm pea with c(dlaimax=0.001, durvieF=60),
+# and usm maize with c(dlaimax=0.001, durvieF=70)
+param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
+                           dlaimax=c(0.001,0.001,0.001),
+                           durvieF=c(50,60,70))
+
 # Let's display it
 param_values
 
-# In this case, no need to redefine the usms list in sit_var_dates_mask argument, it is already
-# given in param_values
-results <- stics_wrapper(model_options = sim_options, param_values = param_values)
+results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
 
-# Let's display the results
-head(results)
 ```
 
-#### Optional arguments
+#### Simulations in successive mode
+
+USMs can be run in successive mode, if they are adequately defined (i.e. if the beginning and end of simulations are consistent), using the option `successive_usms`.
+
+
+`successive_usms` is a list of vectors containing the names of the UMSs to consider as successive (e.g. `list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))` defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2).
+
+
+#### Other Optional arguments
 
 * Displaying execution time
 
@@ -425,6 +445,11 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
 
 results <- stics_wrapper(model_options = sim_options)
 ```
+
+
+## Citation
+
+If you have used this package for a study that led to a publication or report, please cite us. To get the suggested citation, run `citation("SticsOnR")`.
 
 
 ## Code of conduct
