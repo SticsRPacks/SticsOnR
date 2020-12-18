@@ -57,30 +57,22 @@
 #'
 #' # Running a sublist of usm
 #' usms_list <- c("wheat", "pea", "maize")
-#' results <- stics_wrapper(sim_options, sit_var_dates_mask = usms_list)
+#' results <- stics_wrapper(sim_options, sit_names = usms_list)
 #'
 #' # Applying a single parameter values vector for the sublist of usms
 #' param_values <- c(0.002,50)
 #' names(param_values) <- c("dlaimax", "durvieF")
 #' results <- stics_wrapper(model_options = sim_options,
-#' sit_var_dates_mask = usms_list, param_values = param_values)
+#' sit_names = usms_list, param_values = param_values)
 #'
 #' # Applying different values of the parameters for the usms
-#' # Let's run usm wheat with
-#' # c(dlaimax=0.001, durvieF=50) and c(dlaimax=0.002, durvieF=50),
-#' # usm pea with c(dlaimax=0.001, durvieF=60) and c(dlaimax=0.002, durvieF=60),
+#' # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
+#' # usm pea with c(dlaimax=0.001, durvieF=60),
 #' # and usm maize with c(dlaimax=0.001, durvieF=70)
-#' # and c(dlaimax=0.002, durvieF=70)
-#' param_values <- array( c(0.001, 0.002, 50, 50,
-#'                          0.001, 0.002, 60, 60,
-#'                          0.001, 0.002, 70, 70),
-#'                        dim=c(2,2,3),
-#'                        dimnames=list(NULL,c("dlaimax", "durvieF"),
-#'                        c("wheat", "pea", "maize")))
-#' # In this case, no need to redefine the usms list in sit_var_dates_mask
-#' # argument, it is already given in param_values
-#' results <- stics_wrapper(model_options = sim_options,
-#' param_values = param_values)
+#' param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
+#'                            dlaimax=c(0.001,0.001,0.001),
+#'                            durvieF=c(50,60,70))
+#' results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
 #'
 #' }
 #'
