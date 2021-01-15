@@ -21,6 +21,9 @@ status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)
 coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
 <!-- badges: end -->
 
+[![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
+<!-- badges: end -->
+
 The goal of SticsOnR is to perform simulations of the Stics model,
 downloadable with its graphical user interface from
 <https://www6.paca.inra.fr/stics_eng/Download>.
@@ -83,10 +86,10 @@ be installed. One can use either `devtools` or
 For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
-  - For Windows  
+  - For Windows
     RTools must be installed using the last installer from
     [here](https://cran.r-project.org/bin/windows/Rtools)
-  - For linux  
+  - For linux
     Development tools must be installed first, like the
     `build-essentials` package for a Debian like distribution for
     example.
@@ -181,7 +184,7 @@ function.
 # Specifying the JavaStics folder
 javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
 
-# Specifying a workspace as a subfolder of JavaStics 
+# Specifying a workspace as a subfolder of JavaStics
 workspace_path <- "example"
 
 # or an absolute path to an external folder
@@ -194,8 +197,9 @@ run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 #> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "banana"
 #> [1] "wheat"
+#> v All usms ran successfully!
 
-# Running all usms contained in the workspace 
+# Running all usms contained in the workspace
 run_javastics(javastics_path, workspace_path)
 #> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "SugarCane"
@@ -234,32 +238,34 @@ run_javastics(javastics_path, workspace_path)
 #> [1] "cc_vetch"
 #> [1] "cc_CrimsonClover"
 #> [1] "proto_rice"
+#> v All usms ran successfully!
 
 # Getting information about execution:
 runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 #> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "banana"
 #> [1] "wheat"
+#> v All usms ran successfully!
 
 runs_info
 #> [[1]]
 #> [[1]]$name
 #> [1] "banana"
-#> 
+#>
 #> [[1]]$error
 #> [1] FALSE
-#> 
+#>
 #> [[1]]$message
 #> [1] "0"
-#> 
-#> 
+#>
+#>
 #> [[2]]
 #> [[2]]$name
 #> [1] "wheat"
-#> 
+#>
 #> [[2]]$error
 #> [1] FALSE
-#> 
+#>
 #> [[2]]$message
 #> [1] "0"
 ```
@@ -374,24 +380,24 @@ runs_info
 #> [[1]]
 #> [[1]]$name
 #> [1] "banana"
-#> 
+#>
 #> [[1]]$error
 #> [1] FALSE
-#> 
+#>
 #> [[1]]$message
-#> [1] " numcult =            1"                           
+#> [1] " numcult =            1"
 #> [2] " The execution has been successfully accomplished."
-#> 
-#> 
+#>
+#>
 #> [[2]]
 #> [[2]]$name
 #> [1] "wheat"
-#> 
+#>
 #> [[2]]$error
 #> [1] FALSE
-#> 
+#>
 #> [[2]]$message
-#> [1] " numcult =            1"                           
+#> [1] " numcult =            1"
 #> [2] " The execution has been successfully accomplished."
 ```
 
@@ -424,22 +430,22 @@ A template is returned by the function when called with no arguments:
 stics_wrapper_options()
 #> $javastics_path
 #> [1] "unknown"
-#> 
+#>
 #> $stics_exe
 #> [1] "unknown"
-#> 
+#>
 #> $data_dir
 #> [1] "unknown"
-#> 
+#>
 #> $parallel
 #> [1] FALSE
-#> 
+#>
 #> $cores
 #> [1] NA
-#> 
+#>
 #> $time_display
 #> [1] FALSE
-#> 
+#>
 #> $verbose
 #> [1] TRUE
 ```
@@ -449,7 +455,7 @@ with JavaStics and the directory where individual usms input directories
 have been generated:
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      data_dir = output_path, verbose = FALSE)
 ```
 
@@ -582,39 +588,39 @@ obs_list$wheat
 #> 19   258.38 plant_1
 #> 20   258.45 plant_1
 
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      data_dir = output_path, verbose = TRUE)
-#> v Using stics: 'D:/Home/sbuis/Documents/WORK/STICS/JavaSTICS-1.41-stics-9.0/bin/stics_modulo.exe'
+#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
-#> v Using stics: 'D:/Home/sbuis/Documents/WORK/STICS/JavaSTICS-1.41-stics-9.0/bin/stics_modulo.exe'
+#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
 #> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
 head(results)
 #> $error
 #> [1] TRUE
-#> 
+#>
 #> $sim_list
 #> $maize
-#>          Date    lai_n  masec_n mafruit AZnit_1 AZnit_2 AZnit_3 QNplante
-#> 1  1996-05-14 0.000484 6.92e-05   0.000   69.20  90.300  18.700     0.06
-#> 2  1996-06-11 0.528000 3.46e-01   0.000   39.70 102.000  37.500    11.40
-#> 3  1996-06-19 1.200000 1.46e+00   0.000   31.20  93.100  37.300    34.80
-#> 4  1996-06-26 1.770000 2.30e+00   0.000   27.10  81.700  36.200    57.50
-#> 5  1996-07-02 2.450000 3.56e+00   0.000   22.50  68.000  33.700    81.80
-#> 6  1996-07-05 2.780000 3.94e+00   0.000   16.30  72.900  32.400    89.10
-#> 7  1996-07-15 4.040000 6.17e+00   0.000    8.38  52.800  33.400   125.00
-#> 8  1996-07-24 5.800000 9.18e+00   0.000    7.94  35.400  30.000   163.00
-#> 9  1996-07-25 5.800000 9.47e+00   0.000    8.21  34.400  30.100   167.00
-#> 10 1996-08-02 5.800000 1.16e+01   0.000    8.44  26.300  23.100   196.00
-#> 11 1996-08-09 5.800000 1.32e+01   0.000    7.55  19.300  23.200   215.00
-#> 12 1996-08-14 5.800000 1.42e+01   0.000    5.92  14.900  20.500   226.00
-#> 13 1996-08-20 5.800000 1.58e+01   0.808    6.69   9.750  14.100   244.00
-#> 14 1996-09-03 5.780000 1.84e+01   4.010    4.80   4.510   5.820   273.00
-#> 15 1996-09-12 5.460000 2.03e+01   6.550    4.05   2.440   3.540   288.00
-#> 16 1996-10-15 4.260000 2.34e+01  13.800    1.98   0.661   0.963   316.00
-#> 17 1996-10-23 3.550000 2.40e+01  14.900    1.95   0.581   0.719   320.00
+#>          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante
+#> 1  1996-05-14 0.00048  0.00007  0.00000 69.16374  90.25692 18.71289   0.06000
+#> 2  1996-06-11 0.52827  0.34602  0.00000 39.69806 101.53232 37.54969  11.39259
+#> 3  1996-06-19 1.20459  1.46155  0.00000 31.19296  93.05993 37.34723  34.81186
+#> 4  1996-06-26 1.76653  2.30258  0.00000 27.14680  81.66067 36.21786  57.46828
+#> 5  1996-07-02 2.45174  3.55522  0.00000 22.45446  67.96534 33.68311  81.82993
+#> 6  1996-07-05 2.77730  3.93519  0.00000 16.32175  72.93639 32.37175  89.12132
+#> 7  1996-07-15 4.03727  6.17194  0.00000  8.38111  52.82459 33.41626 124.54063
+#> 8  1996-07-24 5.79979  9.17521  0.00000  7.94482  35.38852 29.95074 163.16862
+#> 9  1996-07-25 5.79979  9.46826  0.00000  8.20963  34.35831 30.10686 167.18677
+#> 10 1996-08-02 5.79979 11.64728  0.00000  8.44133  26.28358 23.05334 195.64365
+#> 11 1996-08-09 5.79979 13.21217  0.00000  7.55000  19.25364 23.24305 214.74731
+#> 12 1996-08-14 5.79979 14.18743  0.00000  5.91982  14.87446 20.48055 226.37970
+#> 13 1996-08-20 5.79940 15.76523  0.80813  6.69296   9.75431 14.13963 244.41234
+#> 14 1996-09-03 5.77766 18.39315  4.01311  4.79599   4.50623  5.81929 273.33353
+#> 15 1996-09-12 5.46220 20.29901  6.55019  4.05262   2.43576  3.54460 287.78687
+#> 16 1996-10-15 4.25747 23.41053 13.76937  1.97948   0.66061  0.96324 316.49945
+#> 17 1996-10-23 3.54677 23.97131 14.85000  1.94655   0.58142  0.71932 320.17722
 #>      Plant
 #> 1  plant_1
 #> 2  plant_1
@@ -633,7 +639,7 @@ head(results)
 #> 15 plant_1
 #> 16 plant_1
 #> 17 plant_1
-#> 
+#>
 #> $wheat
 #>          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3
 #> 1  1995-01-30 0.705   0.158 24.5 24.5 21.5    192   0.391   0.444   3.250
@@ -677,7 +683,7 @@ head(results)
 #> 18   162.00 plant_1
 #> 19   180.00 plant_1
 #> 20   182.00 plant_1
-#> 
+#>
 #> attr(,"class")
 #> [1] "cropr_simulation"
 ```
@@ -729,7 +735,7 @@ param_values
 #> 3     maize   0.001      70
 
 results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
-#> v Using stics: 'D:/Home/sbuis/Documents/WORK/STICS/JavaSTICS-1.41-stics-9.0/bin/stics_modulo.exe'
+#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 ```
 
 #### Simulations in successive mode
@@ -750,14 +756,14 @@ successions usm1.1-\>usm1.2 and usm2.1-\>usm2.2).
 <!-- end list -->
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      data_dir = output_path, time_display = TRUE,
                                      verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 1.85208 mins
+#> Time difference of 26.52565 secs
 ```
 
   - Activating parallel execution
@@ -765,7 +771,7 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      data_dir = output_path,
                                      parallel =TRUE, time_display = TRUE,
                                      cores = 2, verbose = FALSE)
@@ -773,7 +779,7 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 54.72628 secs
+#> Time difference of 15.16197 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -786,14 +792,14 @@ library(parallel)
 detectCores() - 1
 #> [1] 3
 
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
+sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      data_dir = output_path, parallel =TRUE,
                                      time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 53.54526 secs
+#> Time difference of 9.150996 secs
 ```
 
 ## Citation
