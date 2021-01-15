@@ -72,7 +72,8 @@
 #' param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
 #'                            dlaimax=c(0.001,0.001,0.001),
 #'                            durvieF=c(50,60,70))
-#' results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
+#' results <- stics_wrapper(model_options = sim_options,
+#' param_values = param_values, sit_names=c("wheat", "pea", "maize"))
 #'
 #' }
 #'
