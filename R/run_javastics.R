@@ -154,7 +154,7 @@ run_javastics <- function(javastics_path,
 
     }else{
       status <- system2(command = command, args = paste(cmd_run,usm_name),
-                        stdout= if(verbose){""}else{NULL})
+                        stdout= if(verbose){""}else{NULL}, stderr = FALSE)
 
       err <- grep(pattern = "[eE]rror", tolower(status))
       if(length(err)>0|status!=0){
@@ -180,6 +180,16 @@ run_javastics <- function(javastics_path,
   # Naming the list elements
   # names(usms_out) <- usms_list
 
+  # Final message:
+  worked = !unlist(lapply(usms_out, function(x) x$error))
+
+  if(verbose){
+    if(all(worked)){
+      cli::cli_alert_success("\nAll usms ran successfully!")
+    }else{
+      cli::cli_alert_danger("Error during simulation of usm{?s} {.val {usms_list[!worked]}}")
+    }
+  }
   # Returning usms list with execution return
   return(invisible(usms_out))
 }
