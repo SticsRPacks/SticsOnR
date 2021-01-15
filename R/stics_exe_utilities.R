@@ -43,7 +43,17 @@ set_stics_exe <- function(javastics_path, stics_exe, overwrite= FALSE,verbose=TR
   check_java_path(javastics_path)
 
   if(stics_exe=="stics_modulo"|stics_exe=="sticsmodulo"){
-    stics_exe= "modulostics"
+    #stics_exe= "modulostics"
+    switch(user_os(),
+           lin={
+             "modulostics_linux"
+           },
+           mac={
+             "modulostics_mac"
+           },
+           {
+             "modulostics"
+           })
   }
 
   # Case 1: stics_exe is a model name

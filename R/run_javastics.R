@@ -114,8 +114,14 @@ run_javastics <- function(javastics_path,
   usms_out <- vector("list", nb_usms)
 
   # cmd string without usm name
+  command = "java"
   cmd_generate= paste0('-jar ',jexe,' --generate-txt "',ws,'"')
   cmd_run= paste0('-jar ',jexe,' --run "',ws,'"')
+  if (user_os() == "win") {
+    command = jexe
+    cmd_generate= paste0(' --generate-txt "',ws,'"')
+    cmd_run= paste0(' --run "',ws,'"')
+  }
 
   histo_file <- file.path(workspace_path,"modhistory.sti")
 
@@ -139,7 +145,7 @@ run_javastics <- function(javastics_path,
     }
 
     if(optim){
-      system2(command = "java", args = paste(cmd_generate,usm_name),
+      system2(command = command, args = paste(cmd_generate,usm_name),
               stdout= if(verbose){""}else{NULL})
       tmp=run_system(stics_path, workspace_path) #, optim=optim)
 
@@ -147,7 +153,7 @@ run_javastics <- function(javastics_path,
       usm_out$message <- tmp[[1]]$message
 
     }else{
-      status <- system2(command = "java", args = paste(cmd_run,usm_name),
+      status <- system2(command = command, args = paste(cmd_run,usm_name),
                         stdout= if(verbose){""}else{NULL})
 
       err <- grep(pattern = "[eE]rror", tolower(status))
