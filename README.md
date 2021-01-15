@@ -13,14 +13,10 @@ library(SticsRFiles)
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-
 [![R build
 status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
-
 [![Codecov test
 coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
-<!-- badges: end -->
-
 [![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
 <!-- badges: end -->
 
@@ -86,10 +82,10 @@ be installed. One can use either `devtools` or
 For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
-  - For Windows
+  - For Windows  
     RTools must be installed using the last installer from
     [here](https://cran.r-project.org/bin/windows/Rtools)
-  - For linux
+  - For linux  
     Development tools must be installed first, like the
     `build-essentials` package for a Debian like distribution for
     example.
@@ -184,7 +180,7 @@ function.
 # Specifying the JavaStics folder
 javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
 
-# Specifying a workspace as a subfolder of JavaStics
+# Specifying a workspace as a subfolder of JavaStics 
 workspace_path <- "example"
 
 # or an absolute path to an external folder
@@ -199,7 +195,7 @@ run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
 #> [1] "wheat"
 #> v All usms ran successfully!
 
-# Running all usms contained in the workspace
+# Running all usms contained in the workspace 
 run_javastics(javastics_path, workspace_path)
 #> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
 #> [1] "SugarCane"
@@ -251,21 +247,21 @@ runs_info
 #> [[1]]
 #> [[1]]$name
 #> [1] "banana"
-#>
+#> 
 #> [[1]]$error
 #> [1] FALSE
-#>
+#> 
 #> [[1]]$message
 #> [1] "0"
-#>
-#>
+#> 
+#> 
 #> [[2]]
 #> [[2]]$name
 #> [1] "wheat"
-#>
+#> 
 #> [[2]]$error
 #> [1] FALSE
-#>
+#> 
 #> [[2]]$message
 #> [1] "0"
 ```
@@ -325,53 +321,6 @@ run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
 
 # Running all the usms defined in the sub-directories of output_path
 run_stics(stics_path, output_path, usm_dir_names = "all")
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
-
-#> Warning in system2(command = command, args = com_args, stderr = TRUE, stdout
-#> = TRUE): l'exécution de la commande '"D:/Home/sbuis/Documents/WORK/STICS/
-#> JavaSTICS-1.41-stics-9.0/bin/stics_modulo" ' renvoie un statut 9
 
 # Getting returned information about stics runs
 runs_info <- run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
@@ -380,24 +329,24 @@ runs_info
 #> [[1]]
 #> [[1]]$name
 #> [1] "banana"
-#>
+#> 
 #> [[1]]$error
 #> [1] FALSE
-#>
+#> 
 #> [[1]]$message
-#> [1] " numcult =            1"
+#> [1] " numcult =            1"                           
 #> [2] " The execution has been successfully accomplished."
-#>
-#>
+#> 
+#> 
 #> [[2]]
 #> [[2]]$name
 #> [1] "wheat"
-#>
+#> 
 #> [[2]]$error
 #> [1] FALSE
-#>
+#> 
 #> [[2]]$message
-#> [1] " numcult =            1"
+#> [1] " numcult =            1"                           
 #> [2] " The execution has been successfully accomplished."
 ```
 
@@ -430,22 +379,22 @@ A template is returned by the function when called with no arguments:
 stics_wrapper_options()
 #> $javastics_path
 #> [1] "unknown"
-#>
+#> 
 #> $stics_exe
 #> [1] "unknown"
-#>
+#> 
 #> $data_dir
 #> [1] "unknown"
-#>
+#> 
 #> $parallel
 #> [1] FALSE
-#>
+#> 
 #> $cores
 #> [1] NA
-#>
+#> 
 #> $time_display
 #> [1] FALSE
-#>
+#> 
 #> $verbose
 #> [1] TRUE
 ```
@@ -455,7 +404,7 @@ with JavaStics and the directory where individual usms input directories
 have been generated:
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path,
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, verbose = FALSE)
 ```
 
@@ -588,7 +537,7 @@ obs_list$wheat
 #> 19   258.38 plant_1
 #> 20   258.45 plant_1
 
-sim_options <- stics_wrapper_options(javastics_path = javastics_path,
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, verbose = TRUE)
 #> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 
@@ -600,7 +549,7 @@ results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_l
 head(results)
 #> $error
 #> [1] TRUE
-#>
+#> 
 #> $sim_list
 #> $maize
 #>          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante
@@ -639,51 +588,51 @@ head(results)
 #> 15 plant_1
 #> 16 plant_1
 #> 17 plant_1
-#>
+#> 
 #> $wheat
-#>          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3
-#> 1  1995-01-30 0.705   0.158 24.5 24.5 21.5    192   0.391   0.444   3.250
-#> 2  1995-02-03 0.777   0.227 24.5 24.5 21.5    192   0.408   0.378   2.670
-#> 3  1995-02-07 0.849   0.270 23.9 24.4 21.5    191   0.389   0.319   2.400
-#> 4  1995-02-16 1.080   0.496 24.5 24.5 21.5    192   0.521   0.297   1.540
-#> 5  1995-02-24 1.320   0.739 24.5 24.5 21.5    192  23.700   6.400   2.080
-#> 6  1995-03-06 1.880   1.340 24.3 24.4 21.5    192   8.800   4.830   1.640
-#> 7  1995-03-16 2.370   2.120 23.4 23.2 21.3    187   2.020   3.940   1.580
-#> 8  1995-03-23 2.570   2.640 22.1 23.8 21.4    186  75.900   2.940   1.900
-#> 9  1995-04-03 2.990   3.750 19.7 21.8 21.0    176  62.300   2.640   1.400
-#> 10 1995-04-11 3.250   5.120 14.7 20.2 20.4    161  47.100   2.500   1.100
-#> 11 1995-04-18 3.000   5.830 19.7 18.9 19.6    163  42.500   2.440   0.901
-#> 12 1995-04-26 2.470   6.660 24.5 24.5 21.3    191  18.800  11.500   2.790
-#> 13 1995-05-02 2.060   7.430 21.7 23.8 21.4    185  84.400  14.900   3.320
-#> 14 1995-05-05 1.920   8.260 18.3 23.0 21.2    177  75.600  13.000   3.110
-#> 15 1995-05-09 1.680   9.240 14.9 21.9 20.8    166  67.300  11.100   2.840
-#> 16 1995-05-12 1.450   9.630 24.5 24.5 21.5    192  38.500  25.700  11.300
-#> 17 1995-05-15 1.360   9.970 22.4 24.1 21.4    187  29.100  26.500  14.700
-#> 18 1995-05-19 1.130  10.500 22.9 23.9 21.4    188  18.700  25.800  18.900
-#> 19 1995-05-29 0.512  11.700 18.5 22.7 21.1    176   9.880  21.500  17.700
-#> 20 1995-07-17 0.000  11.700 21.8 24.3 21.5    187  11.700  19.500  30.200
-#>    QNplante   Plant
-#> 1      5.61 plant_1
-#> 2      6.26 plant_1
-#> 3      6.91 plant_1
-#> 4      8.65 plant_1
-#> 5     15.20 plant_1
-#> 6     33.60 plant_1
-#> 7     43.10 plant_1
-#> 8     46.70 plant_1
-#> 9     63.50 plant_1
-#> 10    80.80 plant_1
-#> 11    87.10 plant_1
-#> 12   102.00 plant_1
-#> 13   117.00 plant_1
-#> 14   129.00 plant_1
-#> 15   141.00 plant_1
-#> 16   148.00 plant_1
-#> 17   154.00 plant_1
-#> 18   162.00 plant_1
-#> 19   180.00 plant_1
-#> 20   182.00 plant_1
-#>
+#>          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1
+#> 1  1995-01-30 0.31003  0.09153 24.50000 24.50000 21.49999 192.3000  0.41713
+#> 2  1995-02-03 0.31242  0.11221 24.50000 24.50000 21.49999 192.3000  0.42380
+#> 3  1995-02-07 0.31354  0.12467 23.84483 24.37532 21.49294 190.8271  0.41926
+#> 4  1995-02-16 0.32451  0.18564 24.50000 24.50000 21.49999 192.3000  0.56208
+#> 5  1995-02-24 0.35891  0.24260 24.50000 24.50000 21.49999 192.3000 26.41268
+#> 6  1995-03-06 0.44264  0.34755 24.14648 24.38064 21.49236 191.3786 20.30915
+#> 7  1995-03-16 0.65818  0.52581 22.89588 23.60845 21.41254 187.1468 10.44319
+#> 8  1995-03-23 0.92638  0.71555 21.59650 24.01906 21.45064 185.8416 83.97830
+#> 9  1995-04-03 1.52201  1.52236 19.84414 22.49030 21.22817 178.4759 67.59111
+#> 10 1995-04-11 2.07250  2.53152 15.95694 21.11659 20.85113 166.8974 55.87930
+#> 11 1995-04-18 2.29059  3.10799 20.66066 19.72960 20.35101 170.2009 51.30755
+#> 12 1995-04-26 3.07941  3.93828 24.50000 24.50000 21.49999 192.3000 21.52207
+#> 13 1995-05-02 3.94086  4.88480 22.22058 23.73749 21.37783 186.0460 84.98852
+#> 14 1995-05-05 4.52523  5.91712 18.70683 22.44921 21.10305 175.7793 75.39217
+#> 15 1995-05-09 4.72279  7.23955 14.63764 20.44039 20.41699 161.1490 64.17078
+#> 16 1995-05-12 4.67417  7.84193 24.50000 24.50000 21.49999 192.3000 33.96954
+#> 17 1995-05-15 4.62342  8.42934 22.93225 23.99567 21.40491 187.9911 23.10137
+#> 18 1995-05-19 4.46845  9.30616 23.36981 23.80873 21.37116 188.2342 12.41579
+#> 19 1995-05-29 3.88449 11.50751 19.07685 20.87937 20.71562 171.4053  5.17826
+#> 20 1995-07-17 0.00000 16.69752 21.79237 24.26819 21.48919 186.8908  8.98478
+#>     AZnit_2  AZnit_3  QNplante   Plant
+#> 1   0.41585  3.28942   5.03274 plant_1
+#> 2   0.33597  2.67066   5.75932 plant_1
+#> 3   0.26660  2.37828   6.46400 plant_1
+#> 4   0.25005  1.48598   8.32339 plant_1
+#> 5   6.94052  2.16342  11.53375 plant_1
+#> 6   7.23958  2.09553  18.91107 plant_1
+#> 7   6.40922  2.43523  31.03929 plant_1
+#> 8   5.19814  3.35878  39.28777 plant_1
+#> 9   3.25693  2.44714  60.99855 plant_1
+#> 10  2.77037  1.89108  75.65481 plant_1
+#> 11  2.51856  1.50726  82.47911 plant_1
+#> 12 13.37259  4.31289 101.03638 plant_1
+#> 13 16.14248  4.74810 120.17694 plant_1
+#> 14 13.88273  4.42838 133.52654 plant_1
+#> 15 11.35942  4.01791 149.24533 plant_1
+#> 16 24.80969 11.06544 160.28954 plant_1
+#> 17 24.04470 14.10819 169.77567 plant_1
+#> 18 21.51919 18.25439 179.93832 plant_1
+#> 19 16.92093 17.07984 196.65919 plant_1
+#> 20 14.76355 20.99991 212.83035 plant_1
+#> 
 #> attr(,"class")
 #> [1] "cropr_simulation"
 ```
@@ -756,14 +705,14 @@ successions usm1.1-\>usm1.2 and usm2.1-\>usm2.2).
 <!-- end list -->
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path,
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, time_display = TRUE,
                                      verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 26.52565 secs
+#> Time difference of 25.78408 secs
 ```
 
   - Activating parallel execution
@@ -771,7 +720,7 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ``` r
-sim_options <- stics_wrapper_options(javastics_path = javastics_path,
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path,
                                      parallel =TRUE, time_display = TRUE,
                                      cores = 2, verbose = FALSE)
@@ -779,7 +728,7 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 15.16197 secs
+#> Time difference of 16.0054 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -790,16 +739,16 @@ library(parallel)
 
 # Used cores number
 detectCores() - 1
-#> [1] 3
+#> [1] 11
 
-sim_options <- stics_wrapper_options(javastics_path = javastics_path,
+sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, parallel =TRUE,
                                      time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
 #> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
 #> variable(s): force_param_values
-#> Time difference of 9.150996 secs
+#> Time difference of 7.891811 secs
 ```
 
 ## Citation
