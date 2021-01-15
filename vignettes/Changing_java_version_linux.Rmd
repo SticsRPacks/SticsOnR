@@ -2,7 +2,7 @@
 title: "Changing Java version procedure under linux"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Changing_Java_version}
+  %\VignetteIndexEntry{Changing Java version procedure under linux}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
