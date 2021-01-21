@@ -16,6 +16,10 @@
 
 check_java_workspace <- function(javastics_path,javastics_workspace_path=NULL) {
 
+  # Ensure that the user working directory is unchanged after the function has run
+  current_wd= getwd()
+  on.exit(setwd(current_wd))
+
   setwd(javastics_path)
 
   ws <- NULL

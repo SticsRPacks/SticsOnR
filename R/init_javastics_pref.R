@@ -36,7 +36,8 @@ init_javastics_pref= function(javastics_path,overwrite= FALSE){
 
 
   pref_copy= file.copy(from = system.file(pref_file, package = "SticsOnR", mustWork = TRUE),
-                       to = normalizePath(config_pref, mustWork = FALSE), overwrite = overwrite)
+                       to = normalizePath(config_pref, mustWork = FALSE, winslash = "/"),
+                       overwrite = overwrite)
 
   if(pref_copy){
     cli::cli_alert_success("Preference file added in: {.val {config_pref}}")
