@@ -138,9 +138,9 @@ stics_wrapper <- function(model_options,
 
 
   # Define the list of USMs to simulate and initialize results -----------------
-
   # Check the available USMs
-  avail_sit <- list.dirs(data_dir, full.names = TRUE)[-1]
+  avail_sit <- list.dirs(data_dir, full.names = TRUE, recursive = FALSE)
+
   ## Checking existing files
   files_exist <- file.exists(file.path(avail_sit, "new_travail.usm"))
   avail_sit <- basename(avail_sit)[files_exist]
@@ -201,7 +201,7 @@ stics_wrapper <- function(model_options,
 
   i <- 1 # initialization to avoid Note in check ...
   out <- foreach::foreach(i = seq_along(sit2simulate),
-                          .export = c("run_stics","force_param_values","select_results"),
+                          .export = c("run_stics","select_results"),
                           .packages = c("SticsRFiles")) %dopar% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
