@@ -12,7 +12,7 @@
 #'
 #' @param param_values (optional) a named vector or a tibble that contains values
 #' of Stics input parameters to use in the simulations. Should have one named column per
-#' parameter. An optional column named Situation containing the name of the
+#' parameter. An optional column named situation containing the name of the
 #' situations (USMs for Stics) allows to define different values of the parameters
 #' for different situations. If param_values is not provided, the simulations will
 #' be performed using the parameters values defined in the Stics input files referenced
@@ -221,7 +221,8 @@ stics_wrapper <- function(model_options,
       if ("situation" %in% names(param_values_sit)) {
         param_values_sit <- param_values_sit %>% dplyr::filter(situation==sit2simulate[i]) %>% dplyr::select(-situation)
       }
-    } else {
+    }
+    if (is.null((param_values_sit)) | nrow(param_values_sit)==0) {
       param_values_sit <- tibble::tibble(NA)
     }
 
