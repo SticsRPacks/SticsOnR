@@ -1,3 +1,5 @@
+# SticsOnR 0.2.1
+
 # SticsOnR 0.2.1 (2021-03-12)
 
 ## General changes
