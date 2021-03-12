@@ -65,9 +65,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -138,59 +144,32 @@
 <h3 class="hasAnchor">
 <a href="#1-using-javastics-through-r" class="anchor"></a>1. Using JavaStics through R</h3>
 <p>It is possible to use JavaStics through command line using specific R functions. It is the most advanced use yet waiting for the development of the second way (using XML files). It allows the user to be sure to work with the same version (and capabilities) as he/she is used to.</p>
-<p>Advantage:</p>
-<ul>
-<li>Same workflow than JavaStics (for users that are used to it)</li>
-<li>State of the art for STICS/R communication (yet)</li>
-</ul>
-<p>Drawbacks:</p>
-<ul>
-<li>Have to install JavaStics + JAVA</li>
-<li>Less explicit concerning errors</li>
-<li>No parameter value change (have to open JavaStics, or in file modification)</li>
-</ul>
+<p>Advantage: - Same workflow than JavaStics (for users that are used to it) - State of the art for STICS/R communication (yet)</p>
+<p>Drawbacks: - Have to install JavaStics + JAVA - Less explicit concerning errors - No parameter value change (have to open JavaStics, or in file modification)</p>
 </div>
 <div id="2-working-using-xml-files-from-r" class="section level3">
 <h3 class="hasAnchor">
 <a href="#2-working-using-xml-files-from-r" class="anchor"></a>2. Working using XML files from R</h3>
 <p>Read the parameters directly in the XML files, change their values, and create the text files input for STICS.</p>
-<p>Advantage:</p>
-<ul>
-<li>No installation of JavaStics + JAVA needed.</li>
-<li>More explicit concerning errors</li>
-<li>Prescribe parameter values from R</li>
-<li>STICS files management according to the proper version (compared to direct text files management)</li>
-</ul>
-<p>Drawbacks:</p>
-<ul>
-<li>Need more development</li>
-<li>Slower for intensive file usage compared to text files</li>
-</ul>
+<p>Advantage: - No installation of JavaStics + JAVA needed. - More explicit concerning errors - Prescribe parameter values from R - STICS files management according to the proper version (compared to direct text files management)</p>
+<p>Drawbacks: - Need more development - Slower for intensive file usage compared to text files</p>
 </div>
 <div id="3-working-using-stics-inputs-directly-text-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#3-working-using-stics-inputs-directly-text-files" class="anchor"></a>3. Working using STICS inputs directly (text files)</h3>
 <p>Read the parameters directly from the text files input of STICS, and change their values.</p>
-<p>Advantage:</p>
-<ul>
-<li>Fast</li>
-<li>Work directly on the inputs of STICS (STICS uses those text files, not the XMLs)</li>
-</ul>
-<p>Drawbacks:</p>
-<ul>
-<li>Need to handle the requirement of the model version (particularly for tec file, <em>e.g.</em> irrigation).</li>
-<li>Need to generate the files beforehand (using XML way, or JavaStics way)</li>
-</ul>
+<p>Advantage: - Fast - Work directly on the inputs of STICS (STICS uses those text files, not the XMLs)</p>
+<p>Drawbacks: - Need to handle the requirement of the model version (particularly for tec file, <em>e.g.</em> irrigation). - Need to generate the files beforehand (using XML way, or JavaStics way)</p>
 </div>
 </div>
 <div id="to-do" class="section level2">
 <h2 class="hasAnchor">
 <a href="#to-do" class="anchor"></a>To do</h2>
-<ol>
+<ol style="list-style-type: decimal">
 <li>JavaStics way</li>
 </ol>
 <p>Nothing. Everything is working.</p>
-<ol>
+<ol start="2" style="list-style-type: decimal">
 <li>XML and text ways</li>
 </ol>
 <ul>
@@ -222,11 +201,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Patrice Lecharpentier, Remi Vezy, SticsRPacks.</p>
+  <p><p>Developed by Patrice Lecharpentier, Remi Vezy, SticsRPacks.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -234,6 +213,8 @@
 
   
 
+
+  
 
   </body>
 </html>

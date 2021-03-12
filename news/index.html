@@ -65,9 +65,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -130,12 +136,34 @@
       <small>Source: <a href='https://github.com/SticsRPacks/SticsOnR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="sticsonr-020-2020-01-15" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0">
-<a href="#sticsonr-020-2020-01-15" class="anchor"></a>SticsOnR 0.2.0 (2020-01-15)</h1>
+    <div id="sticsonr-021" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#sticsonr-021" class="anchor"></a>SticsOnR 0.2.1</h1>
+</div>
+    <div id="sticsonr-021-2021-03-12" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#sticsonr-021-2021-03-12" class="anchor"></a>SticsOnR 0.2.1 (2021-03-12)</h1>
 <div id="general-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general-changes" class="anchor"></a>General changes</h2>
+<ul>
+<li>A few bugs fixed</li>
+</ul>
+</div>
+<div id="specific-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#specific-changes" class="anchor"></a>Specific changes</h2>
+<p>R/run_system_cmd.R * FIX: relative path for stics executable were not well handled</p>
+<p>R/stics_wrapper.R * FIX: situation was not correctly spelled in doc … (2021-02-24) * FIX: incorrect test on param_values in case parameters take different values for different USMs (2021-02-24) * FIX: searching if the OS specific stics fortran exe name exists in the preference.xml file (whole word search) (2021-02-12) * FIX: force_param_values removed from .export (already exported in the foreach loop, this generated a warning) (2021-02-02) * FIX: Fail proofing check_java_workspace + add winslash = “/” to all normalizePath for consistency (2021-01-21) * FIX: exe check crashed when only Stics exe was given =&gt; test is deactivated</p>
+<p>R/stics_exe_utilities.R * FIX: better handling of workspace sub-folders list for identifying available situations to simulate</p>
+</div>
+</div>
+    <div id="sticsonr-020-2021-01-15" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#sticsonr-020-2021-01-15" class="anchor"></a>SticsOnR 0.2.0 (2021-01-15)</h1>
+<div id="general-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general-changes-1" class="anchor"></a>General changes</h2>
 <ul>
 <li>
 <p>DESCRIPTION</p>
@@ -162,9 +190,9 @@
 <li><p>fix: CRAN issues for checks</p></li>
 </ul>
 </div>
-<div id="specific-changes" class="section level2">
+<div id="specific-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#specific-changes" class="anchor"></a>Specific changes</h2>
+<a href="#specific-changes-1" class="anchor"></a>Specific changes</h2>
 <ul>
 <li><p>stics_wrapper: using force_param_values, keeping Plant column if exists, added some functions export in foreach loop, get_daily_results call updated according to SticsRFiles changes, added cropr_simulation class attribute, taking into account successives simulations, interface changes, changes about output structure format and way of handling dates and variables changed, added selection of results using sit_names and sit_var_dates_mask, fix error treatment for all simulations failing case, output content fixed in case of errors, added case when using only javastics_path for fixing Stics executable file (whithout knowing its version), passing libpath to workers (run on clusters), re-run when missing output variables (after adding them to the var.mod)</p></li>
 <li><p>stics_exe_utilities: fix of Stics executable to use based on only JavaStics content and OS type, fix format of available executables list, refactoring and merging of pre-existing functions,</p></li>
@@ -195,11 +223,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Patrice Lecharpentier, Remi Vezy, SticsRPacks.</p>
+  <p><p>Developed by Patrice Lecharpentier, Remi Vezy, SticsRPacks.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -207,6 +235,8 @@
 
   
 
+
+  
 
   </body>
 </html>
