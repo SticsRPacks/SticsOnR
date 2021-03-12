@@ -15,6 +15,9 @@
 # @examples
 run_system_cmd <- function(command, com_args = "", output = FALSE) {
 
+  # To fix command as an absolute path to the executable
+  command <- normalizePath(command)
+
   err_status = TRUE
   ret <- try(system2( command = command, args = com_args,
                       stderr = TRUE,
@@ -24,7 +27,7 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
 
   # if any error, storing message as an attribute
   if("class" %in% names(attributes(ret)) &&
-       attr(ret,"class") == "try-error"){
+     attr(ret,"class") == "try-error"){
     err_status = FALSE
     attr(err_status, "message") <- ret[1]
     return(err_status)
@@ -33,7 +36,7 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
   # Not a try-error ??? Why ?
   # TODO: to be merged with preceeding conditionnal block !!!!!
   if("status" %in% names(attributes(ret)) &&
-       attr(ret,"status") > 0){
+     attr(ret,"status") > 0){
     err_status = FALSE
     attr(err_status, "message") <- ret[1]
     return(err_status)

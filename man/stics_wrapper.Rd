@@ -23,7 +23,7 @@ format). See \code{stics_wrapper_options()} for more informations.}
 
 \item{param_values}{(optional) a named vector or a tibble that contains values
 of Stics input parameters to use in the simulations. Should have one named column per
-parameter. An optional column named Situation containing the name of the
+parameter. An optional column named situation containing the name of the
 situations (USMs for Stics) allows to define different values of the parameters
 for different situations. If param_values is not provided, the simulations will
 be performed using the parameters values defined in the Stics input files referenced

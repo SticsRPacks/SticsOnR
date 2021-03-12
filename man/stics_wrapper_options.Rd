@@ -90,6 +90,9 @@ stics_wrapper_options()
 >
 > $verbose
 > [1] TRUE
+>
+> $force
+> [1] FALSE
 
 # Setting mandatory simulations options
 javastics_path= "path/to/javastics"
@@ -120,6 +123,9 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir =
 >
 > $verbose
 > [1] TRUE
+>
+> $force
+> [1] FALSE
 
  # Using the `force` argument to keep the inputs as is:
  sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
@@ -145,6 +151,9 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir =
 >
 > $verbose
 > [1] TRUE
+>
+> $force
+> [1] TRUE
 
 # This will be checked and modified by a `do.call()` in `stics_wrapper()`:
 do.call(stics_wrapper_options,model_options)
@@ -169,6 +178,9 @@ do.call(stics_wrapper_options,model_options)
 >
 > $verbose
 > [1] TRUE
+>
+> $force
+> [1] FALSE
 
 # Note the `stics_exe` path that was modified and checked to the path were it was found.
 }
