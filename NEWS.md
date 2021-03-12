@@ -1,4 +1,26 @@
-# SticsOnR 0.2.0 (2020-01-15)
+# SticsOnR 0.2.1 (2021-03-12)
+
+## General changes
+
+* A few bugs fixed 
+
+## Specific changes
+
+R/run_system_cmd.R
+ * FIX: relative path for stics executable were not well handled
+ 
+R/stics_wrapper.R
+ * FIX: situation was not correctly spelled in doc ... (2021-02-24)
+ * FIX: incorrect test on param_values in case parameters take different values for different USMs (2021-02-24)
+ * FIX: searching if the OS specific stics fortran exe name exists in the preference.xml file (whole word search) (2021-02-12)
+ * FIX: force_param_values removed from .export (already exported in the foreach loop, this generated a warning) (2021-02-02)
+ * FIX: Fail proofing check_java_workspace + add winslash = "/" to all normalizePath for consistency (2021-01-21)
+ * FIX: exe check crashed when only Stics exe was given => test is deactivated
+ 
+R/stics_exe_utilities.R
+ * FIX: better handling of workspace sub-folders list for identifying available situations to simulate
+
+# SticsOnR 0.2.0 (2021-01-15)
 
 ## General changes
 
