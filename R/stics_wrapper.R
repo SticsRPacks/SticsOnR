@@ -95,8 +95,6 @@ stics_wrapper <- function(model_options,
   #      + handle the case when simulations does not reach the asked stages ...)
   #
 
-  # Stopping the cluster when exiting
-  on.exit(parallel::stopCluster(cl))
 
 
   # Preliminary model checks and initializations -------------------------------
@@ -132,10 +130,13 @@ stics_wrapper <- function(model_options,
 
   # Launching the cluster
   cl <- parallel::makeCluster(cores_nb)
+
+  # Stopping the cluster when exiting
+  on.exit(parallel::stopCluster(cl))
+
+  # Registering cluster
   doParallel::registerDoParallel(cl)
-
   parallel::clusterCall(cl, function(x) .libPaths(x), .libPaths())
-
 
 
   # Define the list of USMs to simulate and initialize results -----------------
@@ -220,7 +221,9 @@ stics_wrapper <- function(model_options,
     param_values_sit <- tibble::tibble(!!!param_values)  # convert param_values in a tibble if needed
     if (!is.null(param_values)) {
       if ("situation" %in% names(param_values_sit)) {
-        param_values_sit <- param_values_sit %>% dplyr::filter(situation==sit2simulate[i]) %>% dplyr::select(-situation)
+        param_values_sit <- param_values_sit %>%
+          dplyr::filter(situation==sit2simulate[i]) %>%
+          dplyr::select(-situation)
       }
     }
     if (is.null((param_values_sit)) | nrow(param_values_sit)==0) {
@@ -303,8 +306,7 @@ stics_wrapper <- function(model_options,
         }
 
         ## Get results
-        sim_tmp= SticsRFiles::get_daily_results(run_dir,
-                                                situation)[[1]]
+        sim_tmp= SticsRFiles::get_daily_results(run_dir)[[1]]
 
         ## Any error reading output file ... go to next simulation
         if(is.null(sim_tmp)){
@@ -349,6 +351,7 @@ stics_wrapper <- function(model_options,
     res$sim_list[[isit]] <- dplyr::bind_rows(res$sim_list[[isit]])
     if (length(res$sim_list[[isit]])==0) res$sim_list[[isit]] <- NULL
   }
+
   if (length(res$sim_list)==0) {
     warning("Stics simulations failed for all USMs!!!")
     res$sim_list <- NULL
