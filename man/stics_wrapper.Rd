@@ -33,7 +33,8 @@ in model_options argument.}
 must be returned. Results for all simulated situations are returned if not provided.}
 
 \item{var_names}{(optional) vector of variables names for which results
-must be returned. Results for all simulated variables are returned if not provided.}
+must be returned. If not provided, it returns the results for all simulated variables
+that were already listed in the var.mod (i.e. from the last simulation).}
 
 \item{dates}{(optional) vector of dates (POSIXct) for which results
 must be returned. Results for all dates simulated are returned if not provided.

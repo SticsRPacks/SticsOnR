@@ -4,8 +4,8 @@
 #' JavaStics command line interface
 #'
 #' @param javastics_path Path of JavaStics installation directory
-#' @param workspace_path Path of a JavaStics workspace (Optional)
-#' @param usms_list Vector of usms to run (optional)
+#' @param workspace_path Path of a JavaStics workspace
+#' @param usms_list Vector of usms to run (optional, default to all usms defined in `usms.xml`)
 #' @param keep_history Logical value (optional) to keep a copy of history file
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
