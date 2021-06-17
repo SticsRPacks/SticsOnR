@@ -2,7 +2,7 @@ Package: SticsOnR
 Type: Package
 Title: A Package to manage STICS simulations https://github.com/SticsRPacks/SticsOnR
 Date: 2020-01-15
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c( person(given = "Patrice",family = "Lecharpentier",role = c("aut", "cre"),email = "patrice.lecharpentier@inra.fr"),
            person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = c("aut")),
            person("SticsRPacks", role= c("aut", "cph")),
