@@ -89,7 +89,7 @@ JavaStics (modifies the &quot;preferences.xml&quot; file)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -144,7 +144,7 @@ JavaStics (modifies the &quot;preferences.xml&quot; file)." />
 JavaStics (modifies the "preferences.xml" file).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_stics_exe</span><span class='op'>(</span><span class='va'>javastics_path</span>, <span class='va'>stics_exe</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>remove_stics_exe</span><span class='op'>(</span><span class='va'>javastics_path</span>, <span class='va'>stics_exe</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,14 +169,14 @@ please do it by hand instead (in "JavaStics.../bin").
 The <code>stics_exe</code> is <strong>not</strong> the name of the executable file, but the
 identification name. Please use <code><a href='list_stics_exe.html'>list_stics_exe()</a></code> to list all available executables,
 and <code><a href='set_stics_exe.html'>set_stics_exe()</a></code> to add a new one. The identification names can be retreived using
-<code><a href='https://rdrr.io/r/base/names.html'>names(list_stics_exe(javastics_path)$stics_list)</a></code></p>
+<code>names(list_stics_exe(javastics_path)$stics_list)</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>remove_stics_exe</span><span class='op'>(</span><span class='st'>"path/to/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"model_name"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>remove_stics_exe</span><span class='op'>(</span><span class='st'>"path/to/JavaSTICS-v131-stics-v841"</span>,<span class='st'>"model_name"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -192,7 +192,7 @@ and <code><a href='set_stics_exe.html'>set_stics_exe()</a></code> to add a new o
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

@@ -90,7 +90,7 @@ executable used by JavaStics, and list_stics_exe() to list all available executa
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ the one to use by default. Please refer to <code><a href='select_stics_exe.html'
 executable used by JavaStics, and <code><a href='list_stics_exe.html'>list_stics_exe()</a></code> to list all available executables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='va'>javastics_path</span>, <span class='va'>stics_exe</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='va'>javastics_path</span>, <span class='va'>stics_exe</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,16 +193,16 @@ In any case, the function will inform the user of which stics is being used to a
     <p>"stics_modulo", "sticsmodulo" and "modulostics" are synonyms for the standard STICS executable.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
- <span class='co'># Using model name:</span>
- <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"modulostics"</span><span class='op'>)</span>
- <span class='co'># Using model executable:</span>
- <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"stics_modulo.exe"</span><span class='op'>)</span>
- <span class='co'># Using path to add a new executable:</span>
- <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"path/to/stics.exe"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'> <span class='co'># Using model name:</span></span>
+<span class='r-in'> <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"modulostics"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='co'># Using model executable:</span></span>
+<span class='r-in'> <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"stics_modulo.exe"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='co'># Using path to add a new executable:</span></span>
+<span class='r-in'> <span class='fu'>set_stics_exe</span><span class='op'>(</span><span class='st'>"/path/to/JavaSTICS/dir"</span>,<span class='st'>"path/to/stics.exe"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -218,7 +218,7 @@ In any case, the function will inform the user of which stics is being used to a
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

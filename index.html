@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
 <span class="co">#&gt; Learn SticsRFiles at: https://SticsRPacks.github.io/SticsRFiles</span></code></pre></div>
 <div id="sticsonr-the-r-package-for-the-stics-model-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor"></a>SticsOnR: The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
+<a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor" aria-hidden="true"></a>SticsOnR: The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
 </h1></div>
 <!-- badges: start -->
 
@@ -101,38 +101,38 @@
 <p>If you want to be notified when a new release of this package is made, you can tick the Releases box in the “Watch / Unwatch =&gt; Custom” menu at the top right of <a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">this page</a>.</p>
 <div id="prerequisites-and-technical-tips" class="section level2">
 <h2 class="hasAnchor">
-<a href="#prerequisites-and-technical-tips" class="anchor"></a>Prerequisites and technical tips</h2>
+<a href="#prerequisites-and-technical-tips" class="anchor" aria-hidden="true"></a>Prerequisites and technical tips</h2>
 <div id="javastics-software" class="section level3">
 <h3 class="hasAnchor">
-<a href="#javastics-software" class="anchor"></a>JavaStics software</h3>
+<a href="#javastics-software" class="anchor" aria-hidden="true"></a>JavaStics software</h3>
 <p>JavaStics must be installed and the minimal version is version 1.41.</p>
 <p>The last distribution version for Stics is downloadable <a href="https://www6.paca.inrae.fr/stics_eng/Download" class="external-link">here</a>.</p>
 <p>The installation process only constists of unzipping the JavaStics archive.</p>
 </div>
 <div id="under-linux-operating-systems" class="section level3">
 <h3 class="hasAnchor">
-<a href="#under-linux-operating-systems" class="anchor"></a>Under linux operating systems</h3>
+<a href="#under-linux-operating-systems" class="anchor" aria-hidden="true"></a>Under linux operating systems</h3>
 <div id="java-version" class="section level4">
 <h4 class="hasAnchor">
-<a href="#java-version" class="anchor"></a>Java version</h4>
+<a href="#java-version" class="anchor" aria-hidden="true"></a>Java version</h4>
 <p>For using the JavaStics software (GUI and command line interface) under a <code>linux</code> operating system, the java version must be at most the Java 8 version.</p>
 <p>For recent distributions on which a higher version is installed some manipulations have to be done.</p>
 <p>A description is given <a href="https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html" class="external-link">here</a> on how to fix it for using the R package (i.e. underlying JavaStics command line interface).</p>
 </div>
 <div id="system-libraries" class="section level4">
 <h4 class="hasAnchor">
-<a href="#system-libraries" class="anchor"></a>System libraries</h4>
+<a href="#system-libraries" class="anchor" aria-hidden="true"></a>System libraries</h4>
 <p>For the linux operating system, the SticsOnR package may require to install an <code>xslt</code> library.</p>
 <p>If the SticsOnR installation fails, and the <code>xslt</code> library is missing, the error message indicates what is the name of the xslt library to be installed (according to the common linux distributions). For example, for the Ubuntu or Debian OS <code>libxslt1-dev</code> must be installed.</p>
 </div>
 <div id="filesdirectories-paths-syntax" class="section level4">
 <h4 class="hasAnchor">
-<a href="#filesdirectories-paths-syntax" class="anchor"></a>Files/directories paths syntax</h4>
-<p>Using the <code><a href="https://rdrr.io/r/base/tilde.html" class="external-link">~</a></code> in files or directories paths may cause errors in SticsOnR functions. So, it is safer for the moment to use absolute paths. This will be fixed in the future versions.</p>
+<a href="#filesdirectories-paths-syntax" class="anchor" aria-hidden="true"></a>Files/directories paths syntax</h4>
+<p>Using the <code>~</code> in files or directories paths may cause errors in SticsOnR functions. So, it is safer for the moment to use absolute paths. This will be fixed in the future versions.</p>
 </div>
 <div id="remote-installation-tools" class="section level4">
 <h4 class="hasAnchor">
-<a href="#remote-installation-tools" class="anchor"></a>Remote installation tools</h4>
+<a href="#remote-installation-tools" class="anchor" aria-hidden="true"></a>Remote installation tools</h4>
 <p>For installing packages from the Github site an additional package must be installed. One can use either <code>devtools</code> or <a href="https://github.com/r-lib/remotes#readme" class="external-link"><code>remotes</code></a></p>
 <p>For <code>devtools</code>, installation requires system dependent tools. They must be installed first.</p>
 <ul>
@@ -153,10 +153,10 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
 <div id="recommended-installation-sticsrpacks" class="section level3">
 <h3 class="hasAnchor">
-<a href="#recommended-installation-sticsrpacks" class="anchor"></a>Recommended installation: <code>SticsRPacks</code>
+<a href="#recommended-installation-sticsrpacks" class="anchor" aria-hidden="true"></a>Recommended installation: <code>SticsRPacks</code>
 </h3>
 <p>The best way to install the packages from <code>SticsRPacks</code>, from which <code>SticsOnR</code> is part of, is by installing the <code>[SticsRPacks]</code> package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -172,10 +172,10 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="other-way-install-each-package-independently" class="section level3">
 <h3 class="hasAnchor">
-<a href="#other-way-install-each-package-independently" class="anchor"></a>Other way: install each package independently</h3>
+<a href="#other-way-install-each-package-independently" class="anchor" aria-hidden="true"></a>Other way: install each package independently</h3>
 <div id="sticsonr" class="section level4">
 <h4 class="hasAnchor">
-<a href="#sticsonr" class="anchor"></a>SticsOnR</h4>
+<a href="#sticsonr" class="anchor" aria-hidden="true"></a>SticsOnR</h4>
 <p>The package installation can be remotely done directly from <a href="https://github.com/" class="external-link">GitHub</a> using either <code>devtools</code> or the lightweight <code>remote</code> one package</p>
 <p>The last release version can be installed using:</p>
 <ul>
@@ -195,18 +195,18 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="sticsrfiles" class="section level4">
 <h4 class="hasAnchor">
-<a href="#sticsrfiles" class="anchor"></a>SticsRFiles</h4>
+<a href="#sticsrfiles" class="anchor" aria-hidden="true"></a>SticsRFiles</h4>
 <p><code>SticsRFiles</code> must be installed manually using the above syntax, just replacing <strong>SticsOnR</strong> with <strong>SticsRFiles</strong>.</p>
 </div>
 </div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
+<a href="#examples" class="anchor" aria-hidden="true"></a>Examples</h2>
 <p>Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.</p>
 <div id="running-the-model-using-javastics-command-line-interface-recommended" class="section level3">
 <h3 class="hasAnchor">
-<a href="#running-the-model-using-javastics-command-line-interface-recommended" class="anchor"></a>Running the model using JavaStics command line interface (recommended)</h3>
+<a href="#running-the-model-using-javastics-command-line-interface-recommended" class="anchor" aria-hidden="true"></a>Running the model using JavaStics command line interface (recommended)</h3>
 <p>The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contains an <code>example</code> workspace folder with a set of runnable usms.</p>
 <p>For running simulations from it, we can use the <code><a href="reference/run_javastics.html">run_javastics()</a></code> function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -300,7 +300,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="running-the-model-using-the-stics-executable-directly" class="section level3">
 <h3 class="hasAnchor">
-<a href="#running-the-model-using-the-stics-executable-directly" class="anchor"></a>Running the model using the stics executable directly</h3>
+<a href="#running-the-model-using-the-stics-executable-directly" class="anchor" aria-hidden="true"></a>Running the model using the stics executable directly</h3>
 <p>We need for that a JavaStics folder and a directory with text input files for Stics, or a folder containing individual sub-directories for usms.</p>
 <p>These directories can be generated using the <code>[SticsRFiles::gen_usms_xml2txt()]</code> function from the <strong>SticsRFiles</strong> package, by converting automatically XML files to Stics input text files. See the documentation <a href="https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html" class="external-link">here</a>.</p>
 <p>Example of use:</p>
@@ -363,7 +363,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="advanced-simulations-parameterization" class="section level3">
 <h3 class="hasAnchor">
-<a href="#advanced-simulations-parameterization" class="anchor"></a>Advanced simulations parameterization</h3>
+<a href="#advanced-simulations-parameterization" class="anchor" aria-hidden="true"></a>Advanced simulations parameterization</h3>
 <p>A specific function <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> is dedicated to manage simulations with a higher level of parameterization than what <code><a href="reference/run_stics.html">run_stics()</a></code> offers.</p>
 <p>This <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> function allows:</p>
 <ul>
@@ -375,7 +375,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 <p>As the <code><a href="reference/run_stics.html">run_stics()</a></code> function, the <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> operates on directories containing text stics input files.</p>
 <div id="defining-simulations-options" class="section level4">
 <h4 class="hasAnchor">
-<a href="#defining-simulations-options" class="anchor"></a>Defining simulations options</h4>
+<a href="#defining-simulations-options" class="anchor" aria-hidden="true"></a>Defining simulations options</h4>
 <p>Simulation options can be fixed using the <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> function. Both of them are mandatory: the model executable path and the directory path containing usms sub-directories with text input files.</p>
 <p>A template is returned by the function when called with no arguments:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -427,7 +427,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="simple-simulations-cases" class="section level4">
 <h4 class="hasAnchor">
-<a href="#simple-simulations-cases" class="anchor"></a>Simple simulations cases</h4>
+<a href="#simple-simulations-cases" class="anchor" aria-hidden="true"></a>Simple simulations cases</h4>
 <ul>
 <li>Without filtering usms or outputs</li>
 </ul>
@@ -603,7 +603,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="simulations-with-forcing-parameters" class="section level4">
 <h4 class="hasAnchor">
-<a href="#simulations-with-forcing-parameters" class="anchor"></a>Simulations with forcing parameters</h4>
+<a href="#simulations-with-forcing-parameters" class="anchor" aria-hidden="true"></a>Simulations with forcing parameters</h4>
 <ul>
 <li>Applying a single parameter values vector for all the selected usms</li>
 </ul>
@@ -638,13 +638,13 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="simulations-in-successive-mode" class="section level4">
 <h4 class="hasAnchor">
-<a href="#simulations-in-successive-mode" class="anchor"></a>Simulations in successive mode</h4>
+<a href="#simulations-in-successive-mode" class="anchor" aria-hidden="true"></a>Simulations in successive mode</h4>
 <p>USMs can be run in successive mode, if they are adequately defined (i.e. if the beginning and end of simulations are consistent), using the option <code>successive_usms</code>.</p>
-<p><code>successive_usms</code> is a list of vectors containing the names of the UMSs to consider as successive (e.g. <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))</a></code> defines 2 successions usm1.1-&gt;usm1.2 and usm2.1-&gt;usm2.2).</p>
+<p><code>successive_usms</code> is a list of vectors containing the names of the UMSs to consider as successive (e.g. <code>list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))</code> defines 2 successions usm1.1-&gt;usm1.2 and usm2.1-&gt;usm2.2).</p>
 </div>
 <div id="other-optional-arguments" class="section level4">
 <h4 class="hasAnchor">
-<a href="#other-optional-arguments" class="anchor"></a>Other Optional arguments</h4>
+<a href="#other-optional-arguments" class="anchor" aria-hidden="true"></a>Other Optional arguments</h4>
 <ul>
 <li>Displaying execution time</li>
 </ul>
@@ -692,18 +692,18 @@ Development tools must be installed first, like the <code>build-essentials</code
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>If you have used this package for a study that led to a publication or report, please cite us. To get the suggested citation, run <code><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation("SticsOnR")</a></code>.</p>
+<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h2>
+<p>If you have used this package for a study that led to a publication or report, please cite us. To get the suggested citation, run <code>citation("SticsOnR")</code>.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
+<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of conduct</h2>
 <p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 <p>The package is under intensive development, so you can fill an issue or request us a feature <a href="https://github.com/SticsRPacks/SticsOnR/issues" class="external-link">here</a> at any time.</p>
 </div>
 <div id="authors-and-acknowledgments" class="section level2">
 <h2 class="hasAnchor">
-<a href="#authors-and-acknowledgments" class="anchor"></a>Authors and acknowledgments</h2>
+<a href="#authors-and-acknowledgments" class="anchor" aria-hidden="true"></a>Authors and acknowledgments</h2>
 <p>The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy and the <a href="https://github.com/orgs/SticsRPacks/teams/sticsonr" class="external-link">SticsOnR Team</a>.</p>
 </div>
 </div>
@@ -767,7 +767,7 @@ Development tools must be installed first, like the <code>build-essentials</code
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

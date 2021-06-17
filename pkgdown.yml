@@ -1,7 +1,7 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: 3e607f03a54c0edc40e33c299c4dc621e6548f63
+pkgdown: 1.6.1.9001
+pkgdown_sha: 9ce6af43b55cd21e9563526e12a12d1243657bf6
 articles:
   Changing_java_version_linux: Changing_java_version_linux.html
-last_built: 2021-03-12T17:32Z
+last_built: 2021-06-17T14:44Z
 
