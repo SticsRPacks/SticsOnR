@@ -1,4 +1,10 @@
-# SticsOnR 0.2.1
+# SticsOnR 0.2.2  (2021-06-17)
+
+## Changes
+
+* Improved the way stics output files are read in stics_wrapper
+* Minor change in run_javastics and stics_wrapper doc
+* FIX: on.exit was badly placed in stics_wrapper, sometimes lead to ugly error messages.
 
 # SticsOnR 0.2.1 (2021-03-12)
 

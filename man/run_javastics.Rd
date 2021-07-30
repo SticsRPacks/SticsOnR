@@ -17,9 +17,9 @@ run_javastics(
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
 
-\item{workspace_path}{Path of a JavaStics workspace (Optional)}
+\item{workspace_path}{Path of a JavaStics workspace}
 
-\item{usms_list}{Vector of usms to run (optional)}
+\item{usms_list}{Vector of usms to run (optional, default to all usms defined in \code{usms.xml})}
 
 \item{keep_history}{Logical value (optional) to keep a copy of history file
 use \code{TRUE} (default), \code{FALSE} otherwise}
