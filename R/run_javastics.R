@@ -76,14 +76,14 @@ run_javastics <- function(javastics_path,
   set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe,
                 overwrite = TRUE,verbose= verbose)
 
-  # Workspace path (absolute path from user wd + platform's canonical form)
-  workspace_path= normalizePath(workspace_path, winslash = "/")
-
   # Fixing the JavaStics path
   setwd(javastics_path)
 
+  # Workspace path (absolute path from user wd + platform's canonical form)
+  workspace_path= normalizePath(workspace_path, winslash = "/", mustWork = FALSE )
+
   # Checking and getting JavaStics workspace path
-  ws <- check_java_workspace(javastics_path,workspace_path)
+  ws <- check_java_workspace(javastics_path, workspace_path)
   if(is.null(ws)){
     return()
   }
