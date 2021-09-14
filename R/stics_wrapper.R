@@ -577,8 +577,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #'
 #' @param javastics_path Path of JavaStics installation directory, needed if `stics_exe` is not provided, or relates to an exe in the `javastics_path` (see details)
 #' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
-#' @param data_dir Path(s) of the situation(s) input files directorie(s)
-#' or the root path of the situation(s) input files directorie(s)
+#' @param data_dir Path(s) of the folders containing the STICS input files (text format), or path of the folder that contains these folders
 #' @param parallel Boolean. Is the computation to be done in parallel ?
 #' @param cores    Number of cores to use for parallel computation.
 #' @param time_display Display time
