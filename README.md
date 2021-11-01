@@ -35,7 +35,7 @@ page](https://github.com/SticsRPacks/SticsOnR).
 
 JavaStics must be installed and the minimal version is version 1.41.
 
-The last distribution version for Stics is downloadable
+The latest distribution version for Stics is downloadable
 [here](https://www6.paca.inrae.fr/stics_eng/Download).
 
 The installation process only constists of unzipping the JavaStics
@@ -83,7 +83,7 @@ For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
   - For Windows  
-    RTools must be installed using the last installer from
+    RTools must be installed using the latest installer from
     [here](https://cran.r-project.org/bin/windows/Rtools)
   - For linux  
     Development tools must be installed first, like the
@@ -122,7 +122,7 @@ devtools::install_github("SticsRPacks/SticsRPacks")
 remotes::install_github("SticsRPacks/SticsRPacks")
 ```
 
-The package will install the packages for you at the last release
+The package will install the packages for you at the latest release
 version.
 
 ### Other way: install each package independently
@@ -133,7 +133,7 @@ The package installation can be remotely done directly from
 [GitHub](https://github.com/) using either `devtools` or the lightweight
 `remote` one package
 
-The last release version can be installed using:
+The latest release version can be installed using:
 
   - With `devtools`
 
