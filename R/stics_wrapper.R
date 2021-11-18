@@ -307,7 +307,7 @@ stics_wrapper <- function(model_options,
         }
 
         ## Get results
-        sim_tmp= SticsRFiles::get_daily_results(run_dir)[[1]]
+        sim_tmp= SticsRFiles::get_sim(run_dir, usm_name = situation)[[1]]
 
         ## Any error reading output file ... go to next simulation
         if(is.null(sim_tmp)){
@@ -388,7 +388,7 @@ stics_wrapper <- function(model_options,
 #'
 #' @param keep_all_data Logical indicating if all simulated data must be selected
 #' @param situation Name of the simulated situation
-#' @param sim_tmp Results of the simulated situation, as given by get_daily_results
+#' @param sim_tmp Results of the simulated situation, as given by get_sim
 #' @param varmod_modified Logical indicating if the var.mod file has already been
 #' modified in a previous simulation.
 #' @param verbose Logical value indicating if information messages must be displayed or not.
