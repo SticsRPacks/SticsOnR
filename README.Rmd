@@ -3,8 +3,8 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_path: ../JavaSTICS-1.41-stics-9.1
-  workspace_path: ../JavaSTICS-1.41-stics-9.1/example
+  javastics_path: ../JavaSTICS-1.41-stics-9.2
+  workspace_path: ../JavaSTICS-1.41-stics-9.2/example
   output_path: ../tmp/gen_usms_xml2txt
 ---
 
@@ -277,7 +277,7 @@ stics_wrapper_options()
 
 For the example, we will use the default stics model version shipping with JavaStics and the directory where individual usms input directories have been generated:
 
-```{r}
+```{r eval=FALSE}
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, verbose = FALSE)
 ```
@@ -382,7 +382,7 @@ results <- stics_wrapper(model_options = sim_options, sit_names = usms_list, par
 
 `param_values` can also be a data.frame or a tibble having one named column per parameter and an optional column named Situation containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.
 
-```{r, warning=FALSE}
+```{r}
 
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
@@ -410,7 +410,7 @@ USMs can be run in successive mode, if they are adequately defined (i.e. if the 
 
 * Displaying execution time
 
-```{r}
+```{r eval=FALSE}
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, time_display = TRUE,
                                      verbose = FALSE)
@@ -422,7 +422,7 @@ results <- stics_wrapper(model_options = sim_options)
 
 On may specify the number of cores to use with the cores argument.
 
-```{r}
+```{r eval=FALSE}
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path,
                                      parallel =TRUE, time_display = TRUE,
@@ -433,7 +433,7 @@ results <- stics_wrapper(model_options = sim_options)
 
 If cores is not given, parallel execution is performed over machine total cores number minus 1.
 
-```{r}
+```{r eval=FALSE}
 library(parallel)
 
 # Used cores number
@@ -446,18 +446,19 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
 results <- stics_wrapper(model_options = sim_options)
 ```
 
+## Getting help
+
+If you have any question or suggestion or if you want to report a bug, please do it via the GitHub [issues](https://github.com/SticsRPacks/SticsOnR/issues).
+
+Thanks for that, this would greatly help us to improve this package.
 
 ## Citation
 
-If you have used this package for a study that led to a publication or report, please cite us. To get the suggested citation, run `citation("SticsOnR")`.
-
+If you have used this package for a study that led to a publication or
+report, please cite us. You can either use the citation tool from Github if you used the last version, or use `citation("SticsOnR")` from R otherwise.
 
 ## Code of conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 The package is under intensive development, so you can fill an issue or request us a feature [here](https://github.com/SticsRPacks/SticsOnR/issues) at any time. 
-
-## Authors and acknowledgments
-
-The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy and the [SticsOnR Team](https://github.com/orgs/SticsRPacks/teams/sticsonr).

@@ -25,7 +25,7 @@ downloadable with its graphical user interface from
 <https://www6.paca.inra.fr/stics_eng/Download>.
 
 If you want to be notified when a new release of this package is made,
-you can tick the Releases box in the “Watch / Unwatch =\> Custom” menu
+you can tick the Releases box in the “Watch / Unwatch =&gt; Custom” menu
 at the top right of [this
 page](https://github.com/SticsRPacks/SticsOnR).
 
@@ -82,10 +82,10 @@ be installed. One can use either `devtools` or
 For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
-  - For Windows  
+-   For Windows  
     RTools must be installed using the latest installer from
     [here](https://cran.r-project.org/bin/windows/Rtools)
-  - For linux  
+-   For linux  
     Development tools must be installed first, like the
     `build-essentials` package for a Debian like distribution for
     example.
@@ -113,9 +113,7 @@ The best way to install the packages from `SticsRPacks`, from which
 devtools::install_github("SticsRPacks/SticsRPacks")
 ```
 
-  - With `remotes`
-
-<!-- end list -->
+-   With `remotes`
 
 ``` r
 # install.packages("remotes")
@@ -135,17 +133,13 @@ The package installation can be remotely done directly from
 
 The latest release version can be installed using:
 
-  - With `devtools`
-
-<!-- end list -->
+-   With `devtools`
 
 ``` r
 devtools::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
-  - With `remotes`
-
-<!-- end list -->
+-   With `remotes`
 
 ``` r
 # install.packages("remotes")
@@ -176,7 +170,6 @@ For running simulations from it, we can use the `run_javastics()`
 function.
 
 ``` r
-
 # Specifying the JavaStics folder
 javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
 
@@ -190,19 +183,18 @@ workspace_path <- "example"
 ``` r
 # Running specific usms from the workspace
 run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
-#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
+#> v Using stics "modulostics" (exe: "stics_modulo.exe")
 #> [1] "banana"
 #> [1] "wheat"
 #> v All usms ran successfully!
 
 # Running all usms contained in the workspace 
 run_javastics(javastics_path, workspace_path)
-#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
+#> v Using stics "modulostics" (exe: "stics_modulo.exe")
 #> [1] "SugarCane"
 #> [1] "potato"
 #> [1] "banana"
 #> [1] "sorghum"
-#> [1] "barley"
 #> [1] "sugarbeet"
 #> [1] "wheat"
 #> [1] "maize"
@@ -220,7 +212,6 @@ run_javastics(javastics_path, workspace_path)
 #> [1] "DurumWheat_4years"
 #> [1] "maize_4years"
 #> [1] "strawberry"
-#> [1] "pea"
 #> [1] "vine"
 #> [1] "fescue"
 #> [1] "flax"
@@ -238,7 +229,7 @@ run_javastics(javastics_path, workspace_path)
 
 # Getting information about execution:
 runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
-#> v Using stics 'modulostics' (exe: 'stics_modulo.exe')
+#> v Using stics "modulostics" (exe: "stics_modulo.exe")
 #> [1] "banana"
 #> [1] "wheat"
 #> v All usms ran successfully!
@@ -357,12 +348,12 @@ with a higher level of parameterization than what `run_stics()` offers.
 
 This `stics_wrapper()` function allows:
 
-  - Forcing the values of a set of parameters (common or specific values
+-   Forcing the values of a set of parameters (common or specific values
     per USM)
-  - Returning simulated daily outputs for each usm with possible dates
+-   Returning simulated daily outputs for each usm with possible dates
     and variables filtering
-  - Parallelizing simulations, and displaying execution time
-  - Run Usms in successive mode
+-   Parallelizing simulations, and displaying execution time
+-   Run Usms in successive mode
 
 As the `run_stics()` function, the `stics_wrapper()` operates on
 directories containing text stics input files.
@@ -397,6 +388,9 @@ stics_wrapper_options()
 #> 
 #> $verbose
 #> [1] TRUE
+#> 
+#> $force
+#> [1] FALSE
 ```
 
 For the example, we will use the default stics model version shipping
@@ -417,8 +411,6 @@ stics:
 1.  if it is already listed in the preference (e.g. added in JavaStics),
     simply provide its name (ID):
 
-<!-- end list -->
-
 ``` r
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom",
                                      data_dir = output_path, verbose = FALSE)
@@ -426,8 +418,6 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe 
 
 1.  if it is located in the bin directory of the JavaStics installation
     directory, provide the executable name:
-
-<!-- end list -->
 
 ``` r
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe = "stics_custom.exe",
@@ -437,8 +427,6 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path, stics_exe 
 1.  if it is located in any other folder, provide the full path to the
     executable name, and no need to use `javastics_path`:
 
-<!-- end list -->
-
 ``` r
 sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
                                      data_dir = output_path, verbose = FALSE)
@@ -446,17 +434,13 @@ sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
 
 #### Simple simulations cases
 
-  - Without filtering usms or outputs
-
-<!-- end list -->
+-   Without filtering usms or outputs
 
 ``` r
 results <- stics_wrapper(model_options = sim_options)
 ```
 
-  - Filtering on usms list
-
-<!-- end list -->
+-   Filtering on usms list
 
 ``` r
 usms_list <- c("wheat", "pea", "maize")
@@ -464,9 +448,7 @@ usms_list <- c("wheat", "pea", "maize")
 results <- stics_wrapper(model_options = sim_options, sit_names = usms_list)
 ```
 
-  - Filtering outputs on variables
-
-<!-- end list -->
+-   Filtering outputs on variables
 
 ``` r
 usms_list <- c("wheat", "pea", "maize")
@@ -474,7 +456,7 @@ usms_list <- c("wheat", "pea", "maize")
 stics_wrapper(model_options = sim_options, sit_names = usms_list, var_names = c("masec_n","mafruit"))
 ```
 
-  - Filtering outputs on variables and dates for several USMs
+-   Filtering outputs on variables and dates for several USMs
 
 The argument `sit_var_dates_mask` must contain a named list (named by
 usms names) containing data.frames, as the sim\_list element of the list
@@ -539,12 +521,9 @@ obs_list$wheat
 
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, verbose = TRUE)
-#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 
 results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
-#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
-#> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
-#> variable(s): force_param_values
+
 #> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
 head(results)
 #> $error
@@ -646,7 +625,7 @@ obs\_list.
 
 #### Simulations with forcing parameters
 
-  - Applying a single parameter values vector for all the selected usms
+-   Applying a single parameter values vector for all the selected usms
 
 Parameters values are prescribed using the `param_values` argument. It
 can be a named vector containing the values and names of the parameters
@@ -660,7 +639,7 @@ names(param_values) <- c("dlaimax", "durvieF")
 results <- stics_wrapper(model_options = sim_options, sit_names = usms_list, param_values = param_values)
 ```
 
-  - Defining different parameters values depending on the usms
+-   Defining different parameters values depending on the usms
 
 `param_values` can also be a data.frame or a tibble having one named
 column per parameter and an optional column named Situation containing
@@ -668,7 +647,6 @@ the name of the situations (USMs for Stics) that allows to define
 different values of the parameters for different situations.
 
 ``` r
-
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
 # and usm maize with c(dlaimax=0.001, durvieF=70)
@@ -684,25 +662,22 @@ param_values
 #> 3     maize   0.001      70
 
 results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
-#> v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'
 ```
 
 #### Simulations in successive mode
 
 USMs can be run in successive mode, if they are adequately defined
-(i.e. if the beginning and end of simulations are consistent), using
-the option `successive_usms`.
+(i.e. if the beginning and end of simulations are consistent), using the
+option `successive_usms`.
 
 `successive_usms` is a list of vectors containing the names of the UMSs
 to consider as successive
 (e.g. `list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))` defines 2
-successions usm1.1-\>usm1.2 and usm2.1-\>usm2.2).
+successions usm1.1-&gt;usm1.2 and usm2.1-&gt;usm2.2).
 
 #### Other Optional arguments
 
-  - Displaying execution time
-
-<!-- end list -->
+-   Displaying execution time
 
 ``` r
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
@@ -710,12 +685,9 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
-#> variable(s): force_param_values
-#> Time difference of 25.78408 secs
 ```
 
-  - Activating parallel execution
+-   Activating parallel execution
 
 On may specify the number of cores to use with the cores argument.
 
@@ -726,9 +698,6 @@ sim_options <- stics_wrapper_options(javastics_path = javastics_path,
                                      cores = 2, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
-#> variable(s): force_param_values
-#> Time difference of 16.0054 secs
 ```
 
 If cores is not given, parallel execution is performed over machine
@@ -739,23 +708,28 @@ library(parallel)
 
 # Used cores number
 detectCores() - 1
-#> [1] 11
 
 sim_options <- stics_wrapper_options(javastics_path = javastics_path, 
                                      data_dir = output_path, parallel =TRUE,
                                      time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
-#> Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
-#> variable(s): force_param_values
-#> Time difference of 7.891811 secs
 ```
+
+## Getting help
+
+If you have any question or suggestion or if you want to report a bug,
+please do it via the GitHub
+[issues](https://github.com/SticsRPacks/SticsOnR/issues).
+
+Thanks for that, this would greatly help us to improve this package.
 
 ## Citation
 
 If you have used this package for a study that led to a publication or
-report, please cite us. To get the suggested citation, run
-`citation("SticsOnR")`.
+report, please cite us. You can either use the citation tool from Github
+if you used the last version, or use `citation("SticsOnR")` from R
+otherwise.
 
 ## Code of conduct
 
@@ -766,9 +740,3 @@ to abide by its terms.
 The package is under intensive development, so you can fill an issue or
 request us a feature
 [here](https://github.com/SticsRPacks/SticsOnR/issues) at any time.
-
-## Authors and acknowledgments
-
-The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy
-and the [SticsOnR
-Team](https://github.com/orgs/SticsRPacks/teams/sticsonr).
