@@ -347,7 +347,7 @@ The stics_wrapper function returns a list that contains two elements:
 
 
 ```{r}
-obs_list <- get_obs(workspace = workspace_path, usm_name = c("wheat", "maize"), verbose = FALSE)
+obs_list <- get_obs(workspace = workspace_path, usm = c("wheat", "maize"), verbose = FALSE)
 
 # Observations table for wheat
 obs_list$wheat
