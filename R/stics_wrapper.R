@@ -490,7 +490,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
         ## For the moment, as we do not provide functions for adding new stics versions,
         ## we don't check the existence of Stics variables (so that if they are defined in the var.mod
         ## they can be simulated even if not defined in outputs.csv)
-        SticsRFiles::gen_varmod(workspace = run_dir,var_names = req_var_names, force=TRUE)
+        SticsRFiles::gen_varmod(workspace = run_dir, var = req_var_names, force=TRUE)
         res$varmod_modified <- TRUE
         res$simulate <- TRUE
         return(res)
