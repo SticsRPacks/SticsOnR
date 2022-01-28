@@ -193,7 +193,7 @@ These directories can be generated using the `[SticsRFiles::gen_usms_xml2txt()]`
 Example of use:
 ```{r}
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path, workspace_path = workspace_path, target_path = output_path, verbose = FALSE)
+SticsRFiles::gen_usms_xml2txt(javastics, workspace = workspace_path, out_dir = output_path, verbose = FALSE)
 ```
 
 ```{r, echo=F, results='hide', eval = TRUE}
