@@ -284,7 +284,7 @@ stics_wrapper <- function(model_options,
       while(simulate) {
 
         ## Run the model, forcing not to check the model executable (saves time ...)
-        usm_out <- run_stics(stics_exe, run_dir, check_exe = FALSE)
+        usm_out <- run_stics(stics_exe, run_dir, check = FALSE)
 
         ### In case of successive USMs, re-initialize codesuite (to allow next run to be in non-successive mode)
         ### and rename recup.tmp and snow_variables.txt (for usms that have a successor)

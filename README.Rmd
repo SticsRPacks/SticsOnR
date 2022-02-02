@@ -236,13 +236,13 @@ run_stics(stics_path, files_dir_path)
 # For example reusing a generated directory in the previous section
 # of the document
 # Running two usms
-run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
+run_stics(stics_path, output_path, usm = c("banana","wheat"))
 
 # Running all the usms defined in the sub-directories of output_path
-run_stics(stics_path, output_path, usm_dir_names = "all")
+run_stics(stics_path, output_path, usm = "all")
 
 # Getting returned information about stics runs
-runs_info <- run_stics(stics_path, output_path, usm_dir_names = c("banana","wheat"))
+runs_info <- run_stics(stics_path, output_path, usm = c("banana","wheat"))
 
 runs_info
 

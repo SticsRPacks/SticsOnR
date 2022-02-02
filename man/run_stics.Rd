@@ -6,26 +6,44 @@
 or a/several subdirectory(ies) named with usm name}
 \usage{
 run_stics(
-  model_path,
-  data_dir,
-  usm_dir_names = NULL,
-  check_exe = TRUE,
-  display = FALSE
+  stics_exe,
+  workspace,
+  usm = NULL,
+  check = TRUE,
+  verbose = FALSE,
+  model_path = lifecycle::deprecated(),
+  data_dir = lifecycle::deprecated(),
+  usm_dir_names = lifecycle::deprecated(),
+  check_exe = lifecycle::deprecated(),
+  display = lifecycle::deprecated()
 )
 }
 \arguments{
-\item{model_path}{Path of Stics executable file}
+\item{stics_exe}{Path of Stics the executable file}
 
-\item{data_dir}{Path of a Stics input directory or a vector of,
-or root directory of Stics directories (if usm_dir_names is given)}
+\item{workspace}{Path of the workspace containing the Stics (txt) input files.}
 
-\item{usm_dir_names}{Name(s) vector of sub-directory(ies) of data_dir
-or "all" for extracting all sub-directories path}
+\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs. If not provided, the function runs all the USMs included in workspace.}
 
-\item{check_exe}{Logical, T for checking the model executable, F otherwise}
+\item{check}{Logical, T for checking the model executable, F otherwise}
 
-\item{display}{Logical value (optional), TRUE to display usms names,
+\item{verbose}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
+
+\item{model_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{model_path} is no
+longer supported, use \code{stics_exe} instead.}
+
+\item{data_dir}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{data_dir} is no
+longer supported, use \code{workspace} instead.}
+
+\item{usm_dir_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{usm_dir_names} is no
+longer supported, use \code{usm} instead.}
+
+\item{check_exe}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{check_exe} is no
+longer supported, use \code{check} instead.}
+
+\item{display}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{display} is no
+longer supported, use \code{verbose} instead.}
 }
 \value{
 A list with usm names and execution error status
