@@ -5,19 +5,21 @@
 \title{Running one or several usms from a javastics workspace}
 \usage{
 run_javastics(
-  javastics_path,
-  workspace_path = NULL,
+  javastics,
+  workspace = NULL,
   usms_list = NULL,
   keep_history = TRUE,
   optim = FALSE,
   verbose = TRUE,
-  stics_exe = "modulostics"
+  stics_exe = "modulostics",
+  javastics_path = lifecycle::deprecated(),
+  workspace_path = lifecycle::deprecated()
 )
 }
 \arguments{
-\item{javastics_path}{Path of JavaStics installation directory}
+\item{javastics}{Path of JavaStics}
 
-\item{workspace_path}{Path of a JavaStics workspace}
+\item{workspace}{Path of a JavaStics workspace}
 
 \item{usms_list}{Vector of usms to run (optional, default to all usms defined in \code{usms.xml})}
 
@@ -27,10 +29,15 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 \item{optim}{Logical value (optional), \code{TRUE} to force code_optim value to 1,
 \code{FALSE} otherwise (default)}
 
-\item{verbose}{Logical value (optional), \code{TRUE} to display usms names + JavaSTics output,
-\code{FALSE} otherwise (default)}
+\item{verbose}{Logical value for displaying information while running}
 
 \item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
+
+\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path} is no
+longer supported, use \code{javastics} instead.}
+
+\item{workspace_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{workspace_path} is no
+longer supported, use \code{workspace} instead.}
 }
 \value{
 A list in which each element contains: usm "name", "error" status (logical)

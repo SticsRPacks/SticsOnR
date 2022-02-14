@@ -3,16 +3,19 @@
 #' @description This function uses basically Stics through his
 #' JavaStics command line interface
 #'
-#' @param javastics_path Path of JavaStics installation directory
-#' @param workspace_path Path of a JavaStics workspace
+#' @param javastics Path of JavaStics
+#' @param workspace Path of a JavaStics workspace
 #' @param usms_list Vector of usms to run (optional, default to all usms defined in `usms.xml`)
 #' @param keep_history Logical value (optional) to keep a copy of history file
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
 #' `FALSE` otherwise (default)
-#' @param verbose Logical value (optional), `TRUE` to display usms names + JavaSTics output,
-#' `FALSE` otherwise (default)
+#' @param verbose Logical value for displaying information while running
 #' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
+#' @param workspace_path `r lifecycle::badge("deprecated")` `workspace_path` is no
+#'   longer supported, use `workspace` instead.
+#' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path` is no
+#'   longer supported, use `javastics` instead.
 #'
 #' @details `stics_exe` may be :
 #' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
@@ -36,13 +39,26 @@
 #'
 #' @export
 #'
-run_javastics <- function(javastics_path,
-                          workspace_path=NULL,
+run_javastics <- function(javastics,
+                          workspace=NULL,
                           usms_list=NULL,
                           keep_history=TRUE,
                           optim=FALSE,
                           verbose=TRUE,
-                          stics_exe= "modulostics") {
+                          stics_exe= "modulostics",
+                          javastics_path = lifecycle::deprecated(),
+                          workspace_path = lifecycle::deprecated()) {
+
+  if (lifecycle::is_present(javastics_path)) {
+    lifecycle::deprecate_warn("0.5.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
+  } else {
+    javastics_path <- javastics # to remove when we update inside the function
+  }
+  if (lifecycle::is_present(workspace_path)) {
+    lifecycle::deprecate_warn("0.5.0", "run_javastics(workspace_path)", "run_javastics(workspace)")
+  } else {
+    workspace_path <- workspace # to remove when we update inside the function
+  }
 
   # Ensure that the user working directory is unchanged after the function has run
   current_wd= getwd()

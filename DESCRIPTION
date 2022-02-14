@@ -41,7 +41,8 @@ Imports:
     SticsRFiles,
     cli,
     abind,
-	tibble
+    tibble,
+    lifecycle
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
