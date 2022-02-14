@@ -11,8 +11,15 @@
 #'
 #' @keywords internal
 #@export
+
 check_java_path <- function(javastics_path){
 
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    SticsRFiles:::check_java_path(javastics_path = javastics_path)
+  } else {
+    check_java_path(javastics_path = javastics_path)
+  }
 
 
   if (!file.exists(javastics_path)) {
