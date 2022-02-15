@@ -17,6 +17,11 @@
 get_java_workspace <- function(javastics_path){
 
 
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    return(SticsRFiles:::get_java_workspace(javastics_path = javastics_path))
+  }
+
   # checking javastics path
   check_java_path(javastics_path)
 

@@ -243,6 +243,13 @@ list_stics_exe <- function(javastics_path){
 #'
 #' @keywords internal
 exists_javastics_pref <- function(javastics_path){
+
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    return(SticsRFiles:::exists_javastics_pref(javastics_path = javastics_path))
+  }
+
+
   # checking javastics path
   check_java_path(javastics_path)
 
@@ -483,8 +490,8 @@ remove_stics_exe <- function(javastics_path,stics_exe){
     SticsRFiles:::setValues(xml_pref,'//entry[@key="model.last"]',"")
   }
 
-  SticsRFiles ::: setValues(xml_pref,'//entry[@key="model.list"]',stics_exe_string)
+  SticsRFiles:::setValues(xml_pref,'//entry[@key="model.list"]',stics_exe_string)
 
   # writing file
-  SticsRFiles ::: saveXmlDoc(xml_pref,xml_path)
+  SticsRFiles:::saveXmlDoc(xml_pref,xml_path)
 }

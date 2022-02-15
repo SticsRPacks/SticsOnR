@@ -11,6 +11,11 @@
 #'
 set_file_executable <- function(file_path) {
 
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    return(SticsRFiles:::set_file_executable(file_path = file_path))
+  }
+
   if(is_windows()){
     return(invisible(TRUE))
   }

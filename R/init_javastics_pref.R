@@ -13,7 +13,14 @@
 #' }
 #'
 #' @export
-init_javastics_pref= function(javastics_path,overwrite= FALSE){
+init_javastics_pref <- function(javastics_path, overwrite = FALSE){
+
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    return(SticsRFiles:::init_javastics_pref(javastics_path = javastics_path,
+                                      overwrite = overwrite))
+  }
+
 
   check_java_path(javastics_path)
 

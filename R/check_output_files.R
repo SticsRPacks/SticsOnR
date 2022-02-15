@@ -16,7 +16,13 @@
 #'
 #' @keywords internal
 #@export
-check_output_files <- function(run_dir,usm_name=NULL) {
+check_output_files <- function(run_dir, usm_name = NULL) {
+
+  # For keeping backward compatibility
+  if (utils::packageVersion("SticsOnR") > "0.2.2") {
+    return(SticsRFiles:::check_output_files(run_dir = run_dir,
+                                            usm_name = usm_name))
+  }
 
   if (base::is.null(usm_name)) {
     usm=basename(run_dir)
