@@ -65,7 +65,7 @@ javastics_path <- "/path/to/javastics"
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
+sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
 
 # Running all the usms that have a corresponding input folder in data_path
 results <- stics_wrapper(sim_options)

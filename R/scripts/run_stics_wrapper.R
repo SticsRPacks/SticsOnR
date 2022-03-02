@@ -16,14 +16,14 @@ javastics_path <- "/home/plecharpent/Work/projet_tests_modulostics/JavaSTICS-v14
 obs <- read_obs_to_list(data_dir)
 
 # generating stics_options list with time display and no parallel calculation
-stics_options_no_par <- stics_wrapper_options(javastics_path = javastics_path,
-                                              data_dir = data_dir,
+stics_options_no_par <- stics_wrapper_options(javastics = javastics_path,
+                                              workspace = data_dir,
                                               time_display = TRUE)
 
 # generating stics_options list with time display and parallel calculation
 # (without specifying cores number)
-stics_options_par <- stics_wrapper_options(javastics_path = javastics_path,
-                                           data_dir = data_dir,
+stics_options_par <- stics_wrapper_options(javastics = javastics_path,
+                                           workspace = data_dir,
                                            time_display = TRUE,
                                            parallel = TRUE)
 
