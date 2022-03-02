@@ -9,8 +9,8 @@
 #'
 #' @examples
 #' \dontrun{
-#'  set_java_wd("path/to/JavaSTICS","my_wd")
-#'  set_java_wd("path/to/JavaSTICS","/path/to/my_wd")
+#'  set_java_workspace("path/to/JavaSTICS","my_wd")
+#'  set_java_workspace("path/to/JavaSTICS","/path/to/my_wd")
 #' }
 #'
 #' @keywords internal
@@ -18,8 +18,8 @@ set_java_workspace <- function(javastics_path,java_wd){
 
   # For keeping backward compatibility
   if (utils::packageVersion("SticsOnR") > "0.2.2") {
-    return(SticsRFiles:::set_java_workspace(javastics_path = javastics_path,
-                                            java_wd = java_wd))
+    return(SticsRFiles:::set_java_workspace(javastics = javastics_path,
+                                            workspace = java_wd))
   }
 
 

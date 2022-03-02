@@ -15,7 +15,7 @@ if not any setting to \code{example} directory
 }
 \examples{
 \dontrun{
-get_java_wd("/path/to/JavaStics/directory")
+get_java_workspace("/path/to/JavaStics/directory")
 }
 
 }

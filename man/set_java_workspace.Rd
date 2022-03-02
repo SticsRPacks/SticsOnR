@@ -21,8 +21,8 @@ before setting new one
 }
 \examples{
 \dontrun{
- set_java_wd("path/to/JavaSTICS","my_wd")
- set_java_wd("path/to/JavaSTICS","/path/to/my_wd")
+ set_java_workspace("path/to/JavaSTICS","my_wd")
+ set_java_workspace("path/to/JavaSTICS","/path/to/my_wd")
 }
 
 }

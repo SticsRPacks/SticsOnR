@@ -246,7 +246,7 @@ exists_javastics_pref <- function(javastics_path){
 
   # For keeping backward compatibility
   if (utils::packageVersion("SticsOnR") > "0.2.2") {
-    return(SticsRFiles:::exists_javastics_pref(javastics_path = javastics_path))
+    return(SticsRFiles:::exists_javastics_pref(javastics = javastics_path))
   }
 
 
