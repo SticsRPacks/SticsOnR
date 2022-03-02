@@ -322,7 +322,7 @@ results <- stics_wrapper(model_options = sim_options)
 ```{r, eval=FALSE}
 usms_list <- c("wheat", "pea", "maize")
 
-results <- stics_wrapper(model_options = sim_options, sit_names = usms_list)
+results <- stics_wrapper(model_options = sim_options, situation = usms_list)
 ```
 
 * Filtering outputs on variables
@@ -330,7 +330,7 @@ results <- stics_wrapper(model_options = sim_options, sit_names = usms_list)
 ```{r, eval=FALSE}
 usms_list <- c("wheat", "pea", "maize")
 
-stics_wrapper(model_options = sim_options, sit_names = usms_list, var_names = c("masec_n","mafruit"))
+stics_wrapper(model_options = sim_options, situation = usms_list, var = c("masec_n","mafruit"))
 ```
 
 
@@ -375,7 +375,7 @@ In this case, the same values will be applied for all the simulated usms.
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
-results <- stics_wrapper(model_options = sim_options, sit_names = usms_list, param_values = param_values)
+results <- stics_wrapper(model_options = sim_options, situation = usms_list, param_values = param_values)
 ```
 
 * Defining different parameters values depending on the usms
@@ -394,7 +394,7 @@ param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
 # Let's display it
 param_values
 
-results <- stics_wrapper(model_options = sim_options, param_values = param_values, sit_names=c("wheat", "pea", "maize"))
+results <- stics_wrapper(model_options = sim_options, param_values = param_values, situation=c("wheat", "pea", "maize"))
 
 ```
 

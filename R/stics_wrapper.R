@@ -18,10 +18,10 @@
 #' be performed using the parameters values defined in the Stics input files referenced
 #' in model_options argument.
 #'
-#' @param sit_names (optional) vector of situations (USMs) names for which results
+#' @param situation (optional) vector of situations (USMs) names for which results
 #' must be returned. Results for all simulated situations are returned if not provided.
 #'
-#' @param var_names (optional) vector of variables names for which results
+#' @param var (optional) vector of variables names for which results
 #' must be returned. If not provided, it returns the results for all simulated variables
 #' that were already listed in the var.mod (i.e. from the last simulation).
 #'
@@ -33,6 +33,12 @@
 #' containing a mask for variables and dates for which simulated values
 #' should be returned. Typically a list containing the observations to which
 #' simulations should be compared as provided by SticsRFiles::get_obs
+#'
+#' @param sit_names `r lifecycle::badge("deprecated")` `sit_names` is no
+#'   longer supported, use `situation` instead.
+#'
+#' @param var_names `r lifecycle::badge("deprecated")` `var_names` is no
+#'   longer supported, use `var` instead.
 #'
 #' @return A list containing simulated values (`sim_list`: a list of tibbles (one
 #' element per situation) and an error code (`error`) indicating if at least one
@@ -58,13 +64,13 @@
 #'
 #' # Running a sublist of usm
 #' usms_list <- c("wheat", "pea", "maize")
-#' results <- stics_wrapper(sim_options, sit_names = usms_list)
+#' results <- stics_wrapper(sim_options, situation = usms_list)
 #'
 #' # Applying a single parameter values vector for the sublist of usms
 #' param_values <- c(0.002,50)
 #' names(param_values) <- c("dlaimax", "durvieF")
 #' results <- stics_wrapper(model_options = sim_options,
-#' sit_names = usms_list, param_values = param_values)
+#' situation = usms_list, param_values = param_values)
 #'
 #' # Applying different values of the parameters for the usms
 #' # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
@@ -74,7 +80,7 @@
 #'                            dlaimax=c(0.001,0.001,0.001),
 #'                            durvieF=c(50,60,70))
 #' results <- stics_wrapper(model_options = sim_options,
-#' param_values = param_values, sit_names=c("wheat", "pea", "maize"))
+#' param_values = param_values, situation=c("wheat", "pea", "maize"))
 #'
 #' }
 #'
@@ -86,16 +92,28 @@
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,
-                          sit_names = NULL,
-                          var_names = NULL,
+                          situation = NULL,
+                          var = NULL,
                           dates = NULL,
-                          sit_var_dates_mask = NULL){
+                          sit_var_dates_mask = NULL,
+                          sit_names = lifecycle::deprecated(),
+                          var_names = lifecycle::deprecated()){
 
   # TODO LIST
   #    - handle the case of stages (stages should be specified in the var.mod ...
   #      + handle the case when simulations does not reach the asked stages ...)
   #
 
+  if (lifecycle::is_present(sit_names)) {
+    lifecycle::deprecate_warn("0.5.0", "stics_wrapper(sit_names)", "stics_wrapper(situation)")
+  } else {
+    sit_names <- situation # to remove when we update inside the function
+  }
+  if (lifecycle::is_present(var_names)) {
+    lifecycle::deprecate_warn("0.5.0", "stics_wrapper(var_names)", "stics_wrapper(var)")
+  } else {
+    var_names <- var # to remove when we update inside the function
+  }
 
 
   # Preliminary model checks and initializations -------------------------------
