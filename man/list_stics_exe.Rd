@@ -4,10 +4,10 @@
 \alias{list_stics_exe}
 \title{List stics executables available in JavaStics}
 \usage{
-list_stics_exe(javastics_path)
+list_stics_exe(javastics)
 }
 \arguments{
-\item{javastics_path}{Path to the JavaStics installation directory}
+\item{javastics}{Path to the JavaStics installation directory}
 }
 \value{
 A list of two:

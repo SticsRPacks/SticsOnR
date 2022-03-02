@@ -4,10 +4,10 @@
 \alias{exist_stics_exe}
 \title{Check if a stics executable is available}
 \usage{
-exist_stics_exe(javastics_path, stics_exe)
+exist_stics_exe(javastics, stics_exe)
 }
 \arguments{
-\item{javastics_path}{JavaStics installation root folder}
+\item{javastics}{JavaStics installation root folder}
 
 \item{stics_exe}{Stics executable name (see details)}
 }

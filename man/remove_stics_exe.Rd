@@ -4,10 +4,10 @@
 \alias{remove_stics_exe}
 \title{Remove a Stics model executable from JavaStics}
 \usage{
-remove_stics_exe(javastics_path, stics_exe)
+remove_stics_exe(javastics, stics_exe)
 }
 \arguments{
-\item{javastics_path}{Path to the JavaStics installation directory}
+\item{javastics}{Path to the JavaStics installation directory}
 
 \item{stics_exe}{Stics executable identifier name (see details)}
 }
@@ -24,7 +24,7 @@ please do it by hand instead (in "JavaStics.../bin").
 The \code{stics_exe} is \strong{not} the name of the executable file, but the
 identification name. Please use \code{list_stics_exe()} to list all available executables,
 and \code{set_stics_exe()} to add a new one. The identification names can be retreived using
-\code{names(list_stics_exe(javastics_path)$stics_list)}
+\code{names(list_stics_exe(javastics)$stics_list)}
 }
 \examples{
 \dontrun{

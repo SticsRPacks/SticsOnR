@@ -4,10 +4,10 @@
 \alias{select_stics_exe}
 \title{Select the Stics executable}
 \usage{
-select_stics_exe(javastics_path, stics_exe = "stics_modulo")
+select_stics_exe(javastics, stics_exe = "stics_modulo")
 }
 \arguments{
-\item{javastics_path}{Path to the JavaStics installation directory}
+\item{javastics}{Path to the JavaStics installation directory}
 
 \item{stics_exe}{Stics executable name (see details)}
 }
@@ -21,7 +21,7 @@ Select the Stics model executable to use from the preference file in JavaStics.
 The \code{stics_exe} is \strong{not} the name of the executable file, but the
 identification name. Please use \code{list_stics_exe()} to list all available executables,
 and \code{set_stics_exe()} to add and select a new one. The identification names can be retreived using
-\code{names(list_stics_exe(javastics_path)$stics_list)}
+\code{names(list_stics_exe(javastics)$stics_list)}
 }
 \note{
 "stics_modulo", "sticsmodulo" and "modulostics" are synonyms for the standard STICS executable.
