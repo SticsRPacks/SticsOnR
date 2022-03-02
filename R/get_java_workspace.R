@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_java_wd("/path/to/JavaStics/directory")
+#' get_java_workspace("/path/to/JavaStics/directory")
 #'}
 #'
 #' @keywords internal
@@ -19,7 +19,7 @@ get_java_workspace <- function(javastics_path){
 
   # For keeping backward compatibility
   if (utils::packageVersion("SticsOnR") > "0.2.2") {
-    return(SticsRFiles:::get_java_workspace(javastics_path = javastics_path))
+    return(SticsRFiles:::get_java_workspace(javastics = javastics_path))
   }
 
   # checking javastics path

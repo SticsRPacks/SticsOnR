@@ -23,3 +23,4 @@ init_javastics_pref("path/to/javastics")
 }
 
 }
+\keyword{internal}
