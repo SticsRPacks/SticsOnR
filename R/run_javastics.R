@@ -12,6 +12,7 @@
 #' `FALSE` otherwise (default)
 #' @param verbose Logical value for displaying information while running
 #' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
+#' @param java_cmd The java virtual machine command name or executable path
 #' @param workspace_path `r lifecycle::badge("deprecated")` `workspace_path` is no
 #'   longer supported, use `workspace` instead.
 #' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path` is no
@@ -40,12 +41,13 @@
 #' @export
 #'
 run_javastics <- function(javastics,
-                          workspace=NULL,
-                          usms_list=NULL,
-                          keep_history=TRUE,
-                          optim=FALSE,
-                          verbose=TRUE,
-                          stics_exe= "modulostics",
+                          workspace = NULL,
+                          usms_list = NULL,
+                          keep_history = TRUE,
+                          optim = FALSE,
+                          verbose = TRUE,
+                          stics_exe = "modulostics",
+                          java_cmd = "java",
                           javastics_path = lifecycle::deprecated(),
                           workspace_path = lifecycle::deprecated()) {
 
@@ -69,7 +71,8 @@ run_javastics <- function(javastics,
     stics_exe= "modulostics"
   }
 
-  jexe="JavaSticsCmd.exe"
+  # Getting command line executable name
+  # jexe=get_javastics_exe(javastics)
 
   # Checking javastics path
   check_java_path(javastics_path)
@@ -84,19 +87,19 @@ run_javastics <- function(javastics,
   stics_path <- file.path(javastics_path,"bin",stics_exe)
 
   # On exit, return to the version used before:
-  on.exit(set_stics_exe(javastics_path = javastics_path,
+  on.exit(set_stics_exe(javastics = javastics_path,
                         stics_exe = list_stics_exe(javastics_path)$current[[1]],
                         verbose= FALSE),
           add = TRUE)
 
-  set_stics_exe(javastics_path = javastics_path, stics_exe = stics_exe,
+  set_stics_exe(javastics = javastics_path, stics_exe = stics_exe,
                 overwrite = TRUE,verbose= verbose)
 
   # Fixing the JavaStics path
   setwd(javastics_path)
 
   # Workspace path (absolute path from user wd + platform's canonical form)
-  workspace_path= normalizePath(workspace_path, winslash = "/", mustWork = FALSE )
+  workspace_path = normalizePath(workspace_path, winslash = "/", mustWork = FALSE )
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path, workspace_path)
@@ -129,15 +132,20 @@ run_javastics <- function(javastics,
   nb_usms <- length(usms_list)
   usms_out <- vector("list", nb_usms)
 
-  # cmd string without usm name
-  command = "java"
-  cmd_generate= paste0('-jar ',jexe,' --generate-txt "',ws,'"')
-  cmd_run= paste0('-jar ',jexe,' --run "',ws,'"')
-  if (user_os() == "win") {
-    command = jexe
-    cmd_generate= paste0(' --generate-txt "',ws,'"')
-    cmd_run= paste0(' --run "',ws,'"')
-  }
+
+  # Getting arguments to give to the system2 command
+  # for executing files conversion or simulation runs
+  # using JavaStics command line interface
+  cmd_type <- "run"
+  if(optim) cmd_type <- "generate"
+  cmd_list <- SticsRFiles:::get_javastics_cmd(javastics,
+                                              java_cmd = java_cmd,
+                                              type = cmd_type,
+                                              workspace = ws)
+  command <- cmd_list[[1]]
+  cmd_string <- cmd_list[[2]]
+
+
 
   histo_file <- file.path(workspace_path,"modhistory.sti")
 
@@ -161,15 +169,15 @@ run_javastics <- function(javastics,
     }
 
     if(optim){
-      system2(command = command, args = paste(cmd_generate,usm_name),
+      system2(command = command, args = paste(cmd_string, usm_name),
               stdout= if(verbose){""}else{NULL})
-      tmp=run_system(stics_path, workspace_path) #, optim=optim)
+      tmp=run_system(stics_path, workspace_path)
 
       usm_out$error <- tmp[[1]]$error
       usm_out$message <- tmp[[1]]$message
 
     }else{
-      status <- system2(command = command, args = paste(cmd_run,usm_name),
+      status <- system2(command = command, args = paste(cmd_string, usm_name),
                         stdout= if(verbose){""}else{NULL}, stderr = FALSE)
 
       err <- grep(pattern = "[eE]rror", tolower(status))
@@ -209,3 +217,5 @@ run_javastics <- function(javastics,
   # Returning usms list with execution return
   return(invisible(usms_out))
 }
+
+

@@ -12,6 +12,7 @@ run_javastics(
   optim = FALSE,
   verbose = TRUE,
   stics_exe = "modulostics",
+  java_cmd = "java",
   javastics_path = lifecycle::deprecated(),
   workspace_path = lifecycle::deprecated()
 )
@@ -32,6 +33,8 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 \item{verbose}{Logical value for displaying information while running}
 
 \item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
+
+\item{java_cmd}{The java virtual machine command name or executable path}
 
 \item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path} is no
 longer supported, use \code{javastics} instead.}
