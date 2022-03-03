@@ -19,10 +19,6 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ```
 
-```{r lib_load}
-library(SticsOnR)
-library(SticsRFiles)
-```
 
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
@@ -136,6 +132,13 @@ Normaly, all the package dependencies will be installed for CRAN packages.
 #### SticsRFiles
 
 `SticsRFiles` must be installed manually using the above syntax, just replacing  **SticsOnR** with **SticsRFiles**. 
+
+## Loading the packages library
+```{r lib_load}
+library(SticsOnR)
+library(SticsRFiles)
+```
+
 
 ## Examples
 
