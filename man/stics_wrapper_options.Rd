@@ -5,24 +5,27 @@
 \title{Getting/setting a stics_wrapper options list with initialized fields}
 \usage{
 stics_wrapper_options(
-  javastics_path = NULL,
+  javastics = NULL,
   stics_exe = "modulostics",
-  data_dir = NULL,
+  workspace = NULL,
   parallel = FALSE,
   cores = NA,
   time_display = FALSE,
   verbose = TRUE,
   force = FALSE,
-  successive_usms = NULL,
+  successive = NULL,
+  javastics_path = lifecycle::deprecated(),
+  data_dir = lifecycle::deprecated(),
+  successive_usms = lifecycle::deprecated(),
   ...
 )
 }
 \arguments{
-\item{javastics_path}{Path of JavaStics installation directory, needed if \code{stics_exe} is not provided, or relates to an exe in the \code{javastics_path} (see details)}
+\item{javastics}{Path of JavaStics. Optional, needed if stics_exe is not provided, or if stics_exe relates to an exe in the javastics_path (see details)}
 
 \item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
 
-\item{data_dir}{Path(s) of the folders containing the STICS input files (text format), or path of the folder that contains these folders}
+\item{workspace}{Path of the workspace containing the Stics (txt) input files or path of a single directory containing one sub-folder per USM (named as the USM names) with Stics (txt) input files in them.}
 
 \item{parallel}{Boolean. Is the computation to be done in parallel ?}
 
@@ -35,8 +38,17 @@ stics_wrapper_options(
 
 \item{force}{Boolean. Don't check \code{javastics_path}, \code{stics_exe} and \code{data_dir} (default to \code{FALSE}, see details)}
 
-\item{successive_usms}{List of vectors containing the names of the UMSs to consider as successive
+\item{successive}{List of vectors containing the names of the UMSs to consider as successive
 (e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)}
+
+\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path} is no
+longer supported, use \code{javastics} instead.}
+
+\item{data_dir}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{data_dir} is no
+longer supported, use \code{workspace} instead.}
+
+\item{successive_usms}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{successive_usms} is no
+longer supported, use \code{successive} instead.}
 
 \item{...}{Add further arguments set the options list values}
 }
@@ -96,10 +108,10 @@ stics_wrapper_options()
 # Setting mandatory simulations options
 javastics_path= "path/to/javastics"
 data_path= "path/to/data_directory"
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
+sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
 
 # Changing default values (e.g. parallel):
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
+sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path,
  parallel = TRUE)
 
 > $javastics_path

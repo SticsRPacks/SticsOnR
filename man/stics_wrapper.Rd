@@ -8,10 +8,12 @@ per \code{situation}, simulated results are returned in a list}
 stics_wrapper(
   model_options,
   param_values = NULL,
-  sit_names = NULL,
-  var_names = NULL,
+  situation = NULL,
+  var = NULL,
   dates = NULL,
-  sit_var_dates_mask = NULL
+  sit_var_dates_mask = NULL,
+  sit_names = lifecycle::deprecated(),
+  var_names = lifecycle::deprecated()
 )
 }
 \arguments{
@@ -29,10 +31,10 @@ for different situations. If param_values is not provided, the simulations will
 be performed using the parameters values defined in the Stics input files referenced
 in model_options argument.}
 
-\item{sit_names}{(optional) vector of situations (USMs) names for which results
+\item{situation}{(optional) vector of situations (USMs) names for which results
 must be returned. Results for all simulated situations are returned if not provided.}
 
-\item{var_names}{(optional) vector of variables names for which results
+\item{var}{(optional) vector of variables names for which results
 must be returned. If not provided, it returns the results for all simulated variables
 that were already listed in the var.mod (i.e. from the last simulation).}
 
@@ -44,6 +46,12 @@ If required dates varies between situations, use sit_var_dates_mask argument}
 containing a mask for variables and dates for which simulated values
 should be returned. Typically a list containing the observations to which
 simulations should be compared as provided by SticsRFiles::get_obs}
+
+\item{sit_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{sit_names} is no
+longer supported, use \code{situation} instead.}
+
+\item{var_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{var_names} is no
+longer supported, use \code{var} instead.}
 }
 \value{
 A list containing simulated values (\code{sim_list}: a list of tibbles (one
@@ -65,20 +73,20 @@ javastics_path <- "/path/to/javastics"
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path)
+sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
 
 # Running all the usms that have a corresponding input folder in data_path
 results <- stics_wrapper(sim_options)
 
 # Running a sublist of usm
 usms_list <- c("wheat", "pea", "maize")
-results <- stics_wrapper(sim_options, sit_names = usms_list)
+results <- stics_wrapper(sim_options, situation = usms_list)
 
 # Applying a single parameter values vector for the sublist of usms
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 results <- stics_wrapper(model_options = sim_options,
-sit_names = usms_list, param_values = param_values)
+situation = usms_list, param_values = param_values)
 
 # Applying different values of the parameters for the usms
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
@@ -88,7 +96,7 @@ param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
                            dlaimax=c(0.001,0.001,0.001),
                            durvieF=c(50,60,70))
 results <- stics_wrapper(model_options = sim_options,
-param_values = param_values, sit_names=c("wheat", "pea", "maize"))
+param_values = param_values, situation=c("wheat", "pea", "maize"))
 
 }
 
