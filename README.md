@@ -1,11 +1,3 @@
-
-``` r
-library(SticsOnR)
-#> Learn SticsOnR at: https://SticsRPacks.github.io/SticsOnR
-library(SticsRFiles)
-#> Learn SticsRFiles at: https://SticsRPacks.github.io/SticsRFiles
-```
-
 # SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
@@ -153,6 +145,15 @@ packages.
 
 `SticsRFiles` must be installed manually using the above syntax, just
 replacing **SticsOnR** with **SticsRFiles**.
+
+
+## Loading the packages library
+``` r
+library(SticsOnR)
+#> Learn SticsOnR at: https://SticsRPacks.github.io/SticsOnR
+library(SticsRFiles)
+#> Learn SticsRFiles at: https://SticsRPacks.github.io/SticsRFiles
+```
 
 ## Examples
 
