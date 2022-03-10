@@ -141,7 +141,8 @@ run_javastics <- function(javastics,
   cmd_list <- SticsRFiles:::get_javastics_cmd(javastics,
                                               java_cmd = java_cmd,
                                               type = cmd_type,
-                                              workspace = ws)
+                                              workspace = ws,
+                                              verbose = verbose)
   command <- cmd_list[[1]]
   cmd_string <- cmd_list[[2]]
 
