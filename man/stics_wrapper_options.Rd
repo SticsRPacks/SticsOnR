@@ -36,7 +36,7 @@ stics_wrapper_options(
 \item{verbose}{Logical value (optional), \code{TRUE} to display informations during execution,
 \code{FALSE} otherwise (default)}
 
-\item{force}{Boolean. Don't check \code{javastics_path}, \code{stics_exe} and \code{data_dir} (default to \code{FALSE}, see details)}
+\item{force}{Boolean. Don't check \code{javastics}, \code{stics_exe} and \code{workspace} (default to \code{FALSE}, see details)}
 
 \item{successive}{List of vectors containing the names of the UMSs to consider as successive
 (e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)}
@@ -68,9 +68,9 @@ shipping with JavaStics;
 \item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe".
 }
 
-\code{javastics_path} must be provided for case (1) and (2).
+\code{javastics} must be provided for case (1) and (2).
 
-If \code{force=TRUE}, checks are not done for \code{javastics_path}, \code{stics_exe} and \code{data_dir}. In this case, they are returned as is,
+If \code{force=TRUE}, checks are not done for \code{javastics}, \code{stics_exe} and \code{workspace}. In this case, they are returned as is,
 and will be checked (and potentially updated to match the right stics executable) only at execution of \code{stics_wrapper()}. This option
 is used for portability, when e.g. \code{stics_wrapper_options} outputs are sent to a remote.
 }
@@ -81,13 +81,13 @@ is used for portability, when e.g. \code{stics_wrapper_options} outputs are sent
 
 stics_wrapper_options()
 
-> $javastics_path
+> $javastics
 > [1] "unknown"
 >
 > $stics_exe
 > [1] "modulostics"
 >
-> $data_dir
+> $workspace
 > [1] "unknown"
 >
 > $parallel
@@ -106,21 +106,21 @@ stics_wrapper_options()
 > [1] FALSE
 
 # Setting mandatory simulations options
-javastics_path= "path/to/javastics"
+javastics= "path/to/javastics"
 data_path= "path/to/data_directory"
-sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
+sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
 
 # Changing default values (e.g. parallel):
-sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path,
+sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path,
  parallel = TRUE)
 
-> $javastics_path
+> $javastics
 > [1] "path/to/JavaSTICS-v85"
 >
 > $stics_exe
 > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
 >
-> $data_dir
+> $workspace
 > [1] "path/to/data"
 >
 > $parallel
@@ -139,16 +139,16 @@ sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = dat
 > [1] FALSE
 
  # Using the `force` argument to keep the inputs as is:
- sim_options <- stics_wrapper_options(javastics = javastics_path, data_dir = data_path,
+ sim_options <- stics_wrapper_options(javastics = javastics, data_dir = data_path,
   force= TRUE)
 
-> $javastics_path
+> $javastics
 > [1] "path/to/JavaSTICS-v85"
 >
 > $stics_exe
 > [1] "modulostics"
 >
-> $data_dir
+> $workspace
 > [1] "path/to/data"
 >
 > $parallel
@@ -169,13 +169,13 @@ sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = dat
 # This will be checked and modified by a `do.call()` in `stics_wrapper()`:
 do.call(stics_wrapper_options,model_options)
 
-> $javastics_path
+> $javastics
 > [1] "path/to/JavaSTICS-v85"
 >
 > $stics_exe
 > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
 >
-> $data_dir
+> $workspace
 > [1] "path/to/data"
 >
 > $parallel

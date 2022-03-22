@@ -51,13 +51,13 @@
 #' \dontrun{
 #'
 #' # Specifying the JavaStics folder
-#' javastics_path <- "/path/to/javastics"
+#' javastics <- "/path/to/javastics"
 #'
 #' # Setting the input data folder path, root directory of the usms directories
 #' data_path <- "/path/to/usms/subdirs/root"
 #'
 #' # Setting the mandatory simulations options
-#' sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
+#' sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
 #'
 #' # Running all the usms that have a corresponding input folder in data_path
 #' results <- stics_wrapper(sim_options)
@@ -126,12 +126,12 @@ stics_wrapper <- function(model_options,
 
   # Getting list values into separated variables
   stics_exe <- model_options$stics_exe
-  data_dir <- model_options$data_dir
+  data_dir <- model_options$workspace
   parallel <- model_options$parallel
   cores <- model_options$cores
   verbose <- model_options$verbose
   time_display <- model_options$time_display
-  successive_usms <- model_options$successive_usms
+  successive_usms <- model_options$successive
   force <- model_options$force
 
   # In case of successive USMs, disable parallel run
@@ -601,7 +601,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' @param time_display Display time
 #' @param verbose Logical value (optional), `TRUE` to display informations during execution,
 #' `FALSE` otherwise (default)
-#' @param force    Boolean. Don't check `javastics_path`, `stics_exe` and `data_dir` (default to `FALSE`, see details)
+#' @param force    Boolean. Don't check `javastics`, `stics_exe` and `workspace` (default to `FALSE`, see details)
 #' @param successive List of vectors containing the names of the UMSs to consider as successive
 #' (e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)
 #' @param ... Add further arguments set the options list values
@@ -618,9 +618,9 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' 2. a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
 #' 3. a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe".
 #'
-#' `javastics_path` must be provided for case (1) and (2).
+#' `javastics` must be provided for case (1) and (2).
 #'
-#' If `force=TRUE`, checks are not done for `javastics_path`, `stics_exe` and `data_dir`. In this case, they are returned as is,
+#' If `force=TRUE`, checks are not done for `javastics`, `stics_exe` and `workspace`. In this case, they are returned as is,
 #' and will be checked (and potentially updated to match the right stics executable) only at execution of `stics_wrapper()`. This option
 #' is used for portability, when e.g. `stics_wrapper_options` outputs are sent to a remote.
 #'
@@ -633,13 +633,13 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #'
 #' stics_wrapper_options()
 #'
-#' > $javastics_path
+#' > $javastics
 #' > [1] "unknown"
 #' >
 #' > $stics_exe
 #' > [1] "modulostics"
 #' >
-#' > $data_dir
+#' > $workspace
 #' > [1] "unknown"
 #' >
 #' > $parallel
@@ -658,21 +658,21 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' > [1] FALSE
 #'
 #' # Setting mandatory simulations options
-#' javastics_path= "path/to/javastics"
+#' javastics= "path/to/javastics"
 #' data_path= "path/to/data_directory"
-#' sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
+#' sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
 #'
 #' # Changing default values (e.g. parallel):
-#' sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path,
+#' sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path,
 #'  parallel = TRUE)
 #'
-#' > $javastics_path
+#' > $javastics
 #' > [1] "path/to/JavaSTICS-v85"
 #' >
 #' > $stics_exe
 #' > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
 #' >
-#' > $data_dir
+#' > $workspace
 #' > [1] "path/to/data"
 #' >
 #' > $parallel
@@ -691,16 +691,16 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' > [1] FALSE
 #'
 #'  # Using the `force` argument to keep the inputs as is:
-#'  sim_options <- stics_wrapper_options(javastics = javastics_path, data_dir = data_path,
+#'  sim_options <- stics_wrapper_options(javastics = javastics, data_dir = data_path,
 #'   force= TRUE)
 #'
-#' > $javastics_path
+#' > $javastics
 #' > [1] "path/to/JavaSTICS-v85"
 #' >
 #' > $stics_exe
 #' > [1] "modulostics"
 #' >
-#' > $data_dir
+#' > $workspace
 #' > [1] "path/to/data"
 #' >
 #' > $parallel
@@ -721,13 +721,13 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' # This will be checked and modified by a `do.call()` in `stics_wrapper()`:
 #' do.call(stics_wrapper_options,model_options)
 #'
-#' > $javastics_path
+#' > $javastics
 #' > [1] "path/to/JavaSTICS-v85"
 #' >
 #' > $stics_exe
 #' > [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
 #' >
-#' > $data_dir
+#' > $workspace
 #' > [1] "path/to/data"
 #' >
 #' > $parallel
@@ -765,13 +765,11 @@ stics_wrapper_options <- function(javastics = NULL,
 
   if (lifecycle::is_present(successive_usms)) {
     lifecycle::deprecate_warn("0.5.0", "stics_wrapper_options(successive_usms)", "stics_wrapper_options(successive)")
-  } else {
-    successive_usms <- successive # to remove when we update inside the function
+    successive <- successive_usms
   }
   if (lifecycle::is_present(data_dir)) {
     lifecycle::deprecate_warn("0.5.0", "stics_wrapper_options(data_dir)", "stics_wrapper_options(workspace)")
-  } else {
-    data_dir <- workspace # to remove when we update inside the function
+    workspace <- data_dir
   }
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn("0.5.0", "stics_wrapper_options(javastics_path)", "stics_wrapper_options(javastics)")
@@ -783,12 +781,12 @@ stics_wrapper_options <- function(javastics = NULL,
     # Template list
     options$javastics <- "unknown"
     options$stics_exe <- "unknown"
-    options$data_dir <- "unknown"
+    options$workspace <- "unknown"
     options$parallel <- FALSE
     options$cores <- NA
     options$time_display <- FALSE
     options$verbose <- TRUE
-    options$successive_usms <- NULL
+    options$successive <- NULL
     options$force <- FALSE
     return(options)
   }
@@ -797,18 +795,18 @@ stics_wrapper_options <- function(javastics = NULL,
     # Forced, no checks on the arguments.
     options$javastics <- javastics
     options$stics_exe <- stics_exe
-    options$data_dir <- data_dir
+    options$workspace <- workspace
     options$parallel <- parallel
     options$cores <- cores
     options$time_display <- time_display
     options$verbose <- verbose
-    options$successive_usms <- successive_usms
+    options$successive <- successive
     options$force <- force
     return(options)
   }
 
-  if(is.null(data_dir)){
-    stop("The data_dir argument is mandatory")
+  if(is.null(workspace)){
+    stop("The workspace argument is mandatory")
   }
 
   # Help people that don't remember well the standard name:
@@ -847,12 +845,12 @@ stics_wrapper_options <- function(javastics = NULL,
   # Adding arguments values to the option list:
   if(!is.null(javastics)) options$javastics <- javastics
   if(!is.null(stics_exe)) options$stics_exe <- stics_exe
-  if(!is.null(data_dir)) options$data_dir <- data_dir
+  if(!is.null(workspace)) options$workspace <- workspace
   if(!is.null(parallel)) options$parallel <- parallel
   if(!is.null(cores)) options$cores <- cores
   if(!is.null(time_display)) options$time_display <- time_display
   if(!is.null(verbose)) options$verbose <- verbose
-  if(!is.null(successive_usms)) options$successive_usms <- successive_usms
+  if(!is.null(successive)) options$successive <- successive
   options$force <- force
 
   # Adding future-proof optional fields:

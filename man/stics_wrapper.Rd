@@ -67,13 +67,13 @@ force Stics input parameters with values given in arguments.
 \dontrun{
 
 # Specifying the JavaStics folder
-javastics_path <- "/path/to/javastics"
+javastics <- "/path/to/javastics"
 
 # Setting the input data folder path, root directory of the usms directories
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = data_path)
+sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
 
 # Running all the usms that have a corresponding input folder in data_path
 results <- stics_wrapper(sim_options)
