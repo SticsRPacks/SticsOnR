@@ -5,8 +5,8 @@
 #' force Stics input parameters with values given in arguments.
 #'
 #' @param model_options List containing any information needed by the model.
-#' In the case of Stics: `javastics_path` (or/and `stics_exe`) and
-#' `data_dir` the path of the directory containing the Stics input data
+#' In the case of Stics: `javastics` (or/and `stics_exe`) and
+#' `workspace` the path of the directory containing the Stics input data
 #' for each USM (one folder per USM where Stics input files are stored in txt
 #' format). See `stics_wrapper_options()` for more informations.
 #'
@@ -473,7 +473,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 
 
     ## In case some variables are not simulated, warn the user, add them in var.mod
-    ## and re-simulate or seelct the results if var.mod has already been modified.
+    ## and re-simulate or select the results if var.mod has already been modified.
     if(length(inter_var_names) < length(req_var_names)){
 
       diff_vars= setdiff(req_var_names,inter_var_names)
@@ -691,7 +691,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names, dates,
 #' > [1] FALSE
 #'
 #'  # Using the `force` argument to keep the inputs as is:
-#'  sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
+#'  sim_options <- stics_wrapper_options(javastics = javastics_path, data_dir = data_path,
 #'   force= TRUE)
 #'
 #' > $javastics_path
@@ -775,14 +775,13 @@ stics_wrapper_options <- function(javastics = NULL,
   }
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn("0.5.0", "stics_wrapper_options(javastics_path)", "stics_wrapper_options(javastics)")
-  } else {
-    javastics_path <- javastics # to remove when we update inside the function
+    javastics <- javastics_path
   }
   options <- list()
   # To get a template, run the function without arguments:
   if(!nargs()){
     # Template list
-    options$javastics_path <- "unknown"
+    options$javastics <- "unknown"
     options$stics_exe <- "unknown"
     options$data_dir <- "unknown"
     options$parallel <- FALSE
@@ -796,7 +795,7 @@ stics_wrapper_options <- function(javastics = NULL,
 
   if(force){
     # Forced, no checks on the arguments.
-    options$javastics_path <- javastics_path
+    options$javastics <- javastics
     options$stics_exe <- stics_exe
     options$data_dir <- data_dir
     options$parallel <- parallel
@@ -823,18 +822,18 @@ stics_wrapper_options <- function(javastics = NULL,
     stics_exe= paste0("stics_modulo",os_suffix())
   }
 
-  if(!is.null(javastics_path)){
+  if(!is.null(javastics)){
     # Checking javastics path if present
-    check_java_path(javastics_path)
+    check_java_path(javastics)
   }
 
   # Case 1: stics_exe is a model name present in the preference file:
-  if(!is.null(javastics_path) && exist_stics_exe(javastics_path, stics_exe)){
-    stics_exe= file.path(javastics_path,list_stics_exe(javastics_path)$stics_list[stics_exe][[1]])
-  }else if(!is.null(javastics_path) &&
-           check_stics_exe(model_path = file.path(javastics_path, "bin", basename(stics_exe)), stop = FALSE)){
+  if(!is.null(javastics) && exist_stics_exe(javastics, stics_exe)){
+    stics_exe= file.path(javastics,list_stics_exe(javastics)$stics_list[stics_exe][[1]])
+  }else if(!is.null(javastics) &&
+           check_stics_exe(model_path = file.path(javastics, "bin", basename(stics_exe)), stop = FALSE)){
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
-    stics_exe= file.path(javastics_path, "bin", basename(stics_exe))
+    stics_exe= file.path(javastics, "bin", basename(stics_exe))
   }else if(!check_stics_exe(model_path = stics_exe, stop = FALSE)){
     # Case were stics_exe was not found in case 1 and 2, and is not a valid path to an executable either:
     stop("stics_exe was not found as a stics name, executable in the bin path of JavaStics nor executable path: ",
@@ -846,7 +845,7 @@ stics_wrapper_options <- function(javastics = NULL,
   if(verbose) cli::cli_alert_success("Using stics: {.val {stics_exe}}")
 
   # Adding arguments values to the option list:
-  if(!is.null(javastics_path)) options$javastics_path <- javastics_path
+  if(!is.null(javastics)) options$javastics <- javastics
   if(!is.null(stics_exe)) options$stics_exe <- stics_exe
   if(!is.null(data_dir)) options$data_dir <- data_dir
   if(!is.null(parallel)) options$parallel <- parallel

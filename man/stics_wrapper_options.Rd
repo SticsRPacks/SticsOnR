@@ -139,7 +139,7 @@ sim_options <- stics_wrapper_options(javastics = javastics_path, workspace = dat
 > [1] FALSE
 
  # Using the `force` argument to keep the inputs as is:
- sim_options <- stics_wrapper_options(javastics_path = javastics_path, data_dir = data_path,
+ sim_options <- stics_wrapper_options(javastics = javastics_path, data_dir = data_path,
   force= TRUE)
 
 > $javastics_path

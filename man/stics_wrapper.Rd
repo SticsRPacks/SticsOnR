@@ -18,8 +18,8 @@ stics_wrapper(
 }
 \arguments{
 \item{model_options}{List containing any information needed by the model.
-In the case of Stics: \code{javastics_path} (or/and \code{stics_exe}) and
-\code{data_dir} the path of the directory containing the Stics input data
+In the case of Stics: \code{javastics} (or/and \code{stics_exe}) and
+\code{workspace} the path of the directory containing the Stics input data
 for each USM (one folder per USM where Stics input files are stored in txt
 format). See \code{stics_wrapper_options()} for more informations.}
 
