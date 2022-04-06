@@ -1,6 +1,6 @@
 Package: SticsOnR
 Type: Package
-Title: Manage STICS simulations running the executable or JavaStics,
+Title: Manage STICS Simulations Running the Executable or JavaStics,
 Version: 0.2.2
 Authors@R: c( person(given = "Patrice",family = "Lecharpentier",role = c("aut", "cre"),email = "patrice.lecharpentier@inra.fr"),
            person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = c("aut")),
