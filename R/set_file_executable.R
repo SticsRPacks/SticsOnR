@@ -35,7 +35,8 @@ set_file_executable <- function(file_path) {
   # Checking if any errors
   status <- attr(ret,"status")
   if(!base::is.null(status) && status){
-    warning(paste("A problem occurs when setting executable status on:", file_path))
+    warning(paste("A problem occurs when setting executable status on:",
+                  file_path))
     return(invisible(FALSE))
   }
 

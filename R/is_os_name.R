@@ -10,7 +10,8 @@
 #' is_os_name <- is_os_name("windows")
 #'}
 #'
-#' @return TRUE if os_tag_name is the current system OS, FALSE otherwise; OS names list if os_tag_name not provided
+#' @return TRUE if os_tag_name is the current system OS, FALSE otherwise;
+#'  OS names list if os_tag_name not provided
 #'
 #' @keywords internal
 #'
@@ -22,12 +23,13 @@ is_os_name <- function(os_tag_name=character()){
     return(SticsRFiles:::is_os_name(os_tag_name = os_tag_name))
   }
 
-  os_names=c("windows","linux","mac","darwin")
+  os_names <- c("windows","linux","mac","darwin")
   if (length(os_tag_name)==0) return(os_names)
-  is_os_name=FALSE
-  os_name=tolower(Sys.info()["sysname"])
-  if (is.element(os_name,os_names) && any(is.element(os_tag_name,os_name))) is_os_name=TRUE
-
+  is_os_name <- FALSE
+  os_name <- tolower(Sys.info()["sysname"])
+  if (is.element(os_name,os_names) && any(is.element(os_tag_name,os_name))) {
+    is_os_name <- TRUE
+  }
   # Storing the OS name as name attribute value
   attr(is_os_name, "name") <- os_name
   return(is_os_name)

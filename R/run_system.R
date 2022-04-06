@@ -12,24 +12,28 @@
 #' @param display Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
 #'
-#' @return A list in which each element contains: usm "name", "error" status (logical)
-#' and an output "message" (model execution output)
+#' @return A list in which each element contains: usm "name", "error" status
+#'  (logical) and an output "message" (model execution output)
 #'
 #' @examples
 #' \dontrun{
 #'
 #' # Specifying individual usm directories
 #' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
-#' run_system("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
+#' run_system("/home/username/bin/Stics",
+#' c("/home/username/Work/SticsInputsDir1",
 #' "/home/username/Work/SticsInputsDir2"))
 #'
 #' # Specifying a parent directory of usms directories
 #' # running one or several usms
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
+#' run_stics("/home/username/bin/Stics",
+#' "/home/username/Work/SticsInputsRootDir","wheat")
+#' run_stics("/home/username/bin/Stics",
+#' "/home/username/Work/SticsInputsRootDir",
 #' c("wheat","maize"))
 #' # running all usms
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
+#' run_stics("/home/username/bin/Stics",
+#' "/home/username/Work/SticsInputsRootDir",
 #' "all")
 #' }
 #'
@@ -43,17 +47,17 @@ run_system <- function(model_path,
                        check_exe = TRUE,
                        display=FALSE) {
 
-  first_wd= getwd()
+  first_wd <- getwd()
   on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(data_dir, winslash = "/")
 
   if(!is.null(usm_dir_names) && !usm_dir_names == "all" ){
-    run_dir=file.path(run_dir,usm_dir_names)
+    run_dir <- file.path(run_dir,usm_dir_names)
   }
 
   if(!is.null(usm_dir_names) && usm_dir_names == "all" ){
-    run_dir = setdiff(list.dirs(run_dir, full.names = TRUE), run_dir)
+    run_dir <- setdiff(list.dirs(run_dir, full.names = TRUE), run_dir)
   }
 
   # testing id dirs exist
@@ -73,9 +77,9 @@ run_system <- function(model_path,
   usms_out <- vector("list", nb_usms)
 
   for (d in 1:nb_usms) {
-    usm_out=list()
+    usm_out <- list()
     usm_dir <- run_dir[d]
-    usm_out$name=basename(usm_dir)
+    usm_out$name <- basename(usm_dir)
 
     if(display) print(usm_out$name)
 
@@ -100,8 +104,8 @@ run_system <- function(model_path,
     # additional check for missing output files
     if (!usm_out$error & usm_chk_out$error) {
       print(paste("Error, missing output file(s) : ", usm_dir))
-      usm_out$error=TRUE
-      usm_out$message=paste("No output files: ", usm_chk_out$missing)
+      usm_out$error <- TRUE
+      usm_out$message <- paste("No output files: ", usm_chk_out$missing)
     }
 
     usms_out[[d]] <- usm_out
