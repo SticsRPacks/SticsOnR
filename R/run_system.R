@@ -19,22 +19,32 @@
 #' \dontrun{
 #'
 #' # Specifying individual usm directories
-#' run_system("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
-#' run_system("/home/username/bin/Stics",
-#' c("/home/username/Work/SticsInputsDir1",
-#' "/home/username/Work/SticsInputsDir2"))
+#' run_system("/home/username/bin/Stics", "/home/username/Work/SticsInputsDir")
+#' run_system(
+#'   "/home/username/bin/Stics",
+#'   c(
+#'     "/home/username/Work/SticsInputsDir1",
+#'     "/home/username/Work/SticsInputsDir2"
+#'   )
+#' )
 #'
 #' # Specifying a parent directory of usms directories
 #' # running one or several usms
-#' run_stics("/home/username/bin/Stics",
-#' "/home/username/Work/SticsInputsRootDir","wheat")
-#' run_stics("/home/username/bin/Stics",
-#' "/home/username/Work/SticsInputsRootDir",
-#' c("wheat","maize"))
+#' run_stics(
+#'   "/home/username/bin/Stics",
+#'   "/home/username/Work/SticsInputsRootDir", "wheat"
+#' )
+#' run_stics(
+#'   "/home/username/bin/Stics",
+#'   "/home/username/Work/SticsInputsRootDir",
+#'   c("wheat", "maize")
+#' )
 #' # running all usms
-#' run_stics("/home/username/bin/Stics",
-#' "/home/username/Work/SticsInputsRootDir",
-#' "all")
+#' run_stics(
+#'   "/home/username/bin/Stics",
+#'   "/home/username/Work/SticsInputsRootDir",
+#'   "all"
+#' )
 #' }
 #'
 #' @keywords internal
@@ -43,20 +53,19 @@
 
 run_system <- function(model_path,
                        data_dir,
-                       usm_dir_names=NULL,
+                       usm_dir_names = NULL,
                        check_exe = TRUE,
-                       display=FALSE) {
-
+                       display = FALSE) {
   first_wd <- getwd()
   on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(data_dir, winslash = "/")
 
-  if(!is.null(usm_dir_names) && !usm_dir_names == "all" ){
-    run_dir <- file.path(run_dir,usm_dir_names)
+  if (!is.null(usm_dir_names) && !usm_dir_names == "all") {
+    run_dir <- file.path(run_dir, usm_dir_names)
   }
 
-  if(!is.null(usm_dir_names) && usm_dir_names == "all" ){
+  if (!is.null(usm_dir_names) && usm_dir_names == "all") {
     run_dir <- setdiff(list.dirs(run_dir, full.names = TRUE), run_dir)
   }
 
@@ -64,14 +73,14 @@ run_system <- function(model_path,
   # print(run_dir)
   dirs_exist <- file.exists(run_dir)
 
-  if(!all(dirs_exist)){
-    print(paste0(run_dir[!dirs_exist],collapse = ", "))
+  if (!all(dirs_exist)) {
+    print(paste0(run_dir[!dirs_exist], collapse = ", "))
     stop("One or more directories does/do not exist !")
   }
 
 
   # optional model executable checking
-  if(check_exe) check_stics_exe(model_path)
+  if (check_exe) check_stics_exe(model_path)
 
   nb_usms <- length(run_dir)
   usms_out <- vector("list", nb_usms)
@@ -81,18 +90,18 @@ run_system <- function(model_path,
     usm_dir <- run_dir[d]
     usm_out$name <- basename(usm_dir)
 
-    if(display) print(usm_out$name)
+    if (display) print(usm_out$name)
 
     setwd(usm_dir)
 
     # new function call, keeping error message as attribute
-    ret <- run_system_cmd(command= model_path, output= TRUE)
+    ret <- run_system_cmd(command = model_path, output = TRUE)
     usm_out$error <- !as.logical(ret)
     usm_out$message <- attr(ret, "output")
 
-    if ( usm_out$error ) {
+    if (usm_out$error) {
       # TODO: see if concatenation !
-      #usm_out$message="Model execution error !"
+      # usm_out$message="Model execution error !"
       usm_out$message <- attr(ret, "message")
     }
 

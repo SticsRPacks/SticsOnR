@@ -26,33 +26,38 @@
 #' \dontrun{
 #'
 #' # Specifying individual usm directories
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
-#' run_stics("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
-#' "/home/username/Work/SticsInputsDir2"))
+#' run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsDir")
+#' run_stics("/home/username/bin/Stics", c(
+#'   "/home/username/Work/SticsInputsDir1",
+#'   "/home/username/Work/SticsInputsDir2"
+#' ))
 #'
 #' # Specifying a parent directory of usms directories
 #' # running one or several usms
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
-#' c("wheat","maize"))
+#' run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir", "wheat")
+#' run_stics(
+#'   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
+#'   c("wheat", "maize")
+#' )
 #' # running all usms
-#' run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
-#' "all")
+#' run_stics(
+#'   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
+#'   "all"
+#' )
 #' }
 #'
 #' @export
 
 run_stics <- function(stics_exe,
                       workspace,
-                      usm=NULL,
+                      usm = NULL,
                       check = TRUE,
-                      verbose=FALSE,
+                      verbose = FALSE,
                       model_path = lifecycle::deprecated(),
                       data_dir = lifecycle::deprecated(),
                       usm_dir_names = lifecycle::deprecated(),
                       check_exe = lifecycle::deprecated(),
                       display = lifecycle::deprecated()) {
-
   if (lifecycle::is_present(model_path)) {
     lifecycle::deprecate_warn("0.5.0", "run_stics(model_path)", "run_stics(stics_exe)")
   } else {
@@ -80,7 +85,9 @@ run_stics <- function(stics_exe,
   }
 
   # Calling the internal underlying function for running the model
-  usms_out <- run_system(model_path, data_dir, usm_dir_names = usm_dir_names,
-                         check_exe = check_exe, display = display)
+  usms_out <- run_system(model_path, data_dir,
+    usm_dir_names = usm_dir_names,
+    check_exe = check_exe, display = display
+  )
   return(invisible(usms_out))
 }

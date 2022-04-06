@@ -31,12 +31,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example")
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","/path/to/workspace")
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example",c("wheat","pea"))
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"))
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"), optim=TRUE)
-#'}
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example")
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "/path/to/workspace")
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example", c("wheat", "pea"))
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"))
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"), optim = TRUE)
+#' }
 #'
 #' @export
 #'
@@ -50,7 +50,6 @@ run_javastics <- function(javastics,
                           java_cmd = "java",
                           javastics_path = lifecycle::deprecated(),
                           workspace_path = lifecycle::deprecated()) {
-
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn("0.5.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
   } else {
@@ -63,12 +62,12 @@ run_javastics <- function(javastics,
   }
 
   # Ensure that the user working directory is unchanged after the function has run
-  current_wd= getwd()
+  current_wd <- getwd()
   on.exit(setwd(current_wd))
 
   # Help people that don't remember well the standard name:
-  if(stics_exe=="stics_modulo"|stics_exe=="sticsmodulo"){
-    stics_exe= "modulostics"
+  if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
+    stics_exe <- "modulostics"
   }
 
   # Getting command line executable name
@@ -78,52 +77,57 @@ run_javastics <- function(javastics,
   check_java_path(javastics_path)
 
   # Getting right executable name for the platform
-  if(stics_exe=="modulostics"){
+  if (stics_exe == "modulostics") {
     # using the exe name instead of the identifier to select the right one for the user's OS
-    stics_exe= paste0("stics_modulo",os_suffix())
+    stics_exe <- paste0("stics_modulo", os_suffix())
   }
 
   # Model path
-  stics_path <- file.path(javastics_path,"bin",stics_exe)
+  stics_path <- file.path(javastics_path, "bin", stics_exe)
 
   # On exit, return to the version used before:
-  on.exit(set_stics_exe(javastics = javastics_path,
-                        stics_exe = list_stics_exe(javastics_path)$current[[1]],
-                        verbose= FALSE),
-          add = TRUE)
+  on.exit(set_stics_exe(
+    javastics = javastics_path,
+    stics_exe = list_stics_exe(javastics_path)$current[[1]],
+    verbose = FALSE
+  ),
+  add = TRUE
+  )
 
-  set_stics_exe(javastics = javastics_path, stics_exe = stics_exe,
-                overwrite = TRUE,verbose= verbose)
+  set_stics_exe(
+    javastics = javastics_path, stics_exe = stics_exe,
+    overwrite = TRUE, verbose = verbose
+  )
 
   # Fixing the JavaStics path
   setwd(javastics_path)
 
   # Workspace path (absolute path from user wd + platform's canonical form)
-  workspace_path = normalizePath(workspace_path, winslash = "/", mustWork = FALSE )
+  workspace_path <- normalizePath(workspace_path, winslash = "/", mustWork = FALSE)
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path, workspace_path)
-  if(is.null(ws)){
+  if (is.null(ws)) {
     return()
   }
 
   # Retrieving usms names list from the usms.xml file
-  full_usms_list = SticsRFiles::get_usms_list(file.path(ws,"usms.xml"))
+  full_usms_list <- SticsRFiles::get_usms_list(file.path(ws, "usms.xml"))
 
   # Checking and selecting usms, if needed
-  if(length(usms_list) == 0){
-    usms_list = full_usms_list
-  }else{
+  if (length(usms_list) == 0) {
+    usms_list <- full_usms_list
+  } else {
     usm_exist <- full_usms_list %in% usms_list
 
     # No usm
-    if(!any(usm_exist)){
+    if (!any(usm_exist)) {
       stop("Not any usm exist in the workspace !")
     }
 
     # Selecting existing usms
-    if(sum(usm_exist) != length(usms_list)){
-      unknown_usms <- setdiff(full_usms_list[usm_exist], usms_list )
+    if (sum(usm_exist) != length(usms_list)) {
+      unknown_usms <- setdiff(full_usms_list[usm_exist], usms_list)
       warning("At least one usm does not exist in the usms.xml file : ", unknown_usms)
       usms_list <- full_usms_list[usm_exist]
     }
@@ -137,56 +141,67 @@ run_javastics <- function(javastics,
   # for executing files conversion or simulation runs
   # using JavaStics command line interface
   cmd_type <- "run"
-  if(optim) cmd_type <- "generate"
+  if (optim) cmd_type <- "generate"
   cmd_list <- SticsRFiles:::get_javastics_cmd(javastics,
-                                              java_cmd = java_cmd,
-                                              type = cmd_type,
-                                              workspace = ws,
-                                              verbose = verbose)
+    java_cmd = java_cmd,
+    type = cmd_type,
+    workspace = ws,
+    verbose = verbose
+  )
   command <- cmd_list[[1]]
   cmd_string <- cmd_list[[2]]
 
 
 
-  histo_file <- file.path(workspace_path,"modhistory.sti")
+  histo_file <- file.path(workspace_path, "modhistory.sti")
 
-  for(i in 1:nb_usms){
-
-    usm_name=usms_list[i]
-    usm_out=list()
-    usm_out$name=usm_name
+  for (i in 1:nb_usms) {
+    usm_name <- usms_list[i]
+    usm_out <- list()
+    usm_out$name <- usm_name
 
     # Managing historical files
-    if(file.exists(histo_file)){
+    if (file.exists(histo_file)) {
       file.remove(histo_file)
     }
-    histo_copy <- file.path(workspace_path,paste0("modhistory_",usm_name,".sti"))
-    if(file.exists(histo_copy)){
+    histo_copy <- file.path(workspace_path, paste0("modhistory_", usm_name, ".sti"))
+    if (file.exists(histo_copy)) {
       file.remove(histo_copy)
     }
 
-    if(verbose){
+    if (verbose) {
       print(usm_name)
     }
 
-    if(optim){
-      system2(command = command, args = paste(cmd_string, usm_name),
-              stdout= if(verbose){""}else{NULL})
-      tmp=run_system(stics_path, workspace_path)
+    if (optim) {
+      system2(
+        command = command, args = paste(cmd_string, usm_name),
+        stdout = if (verbose) {
+          ""
+        } else {
+          NULL
+        }
+      )
+      tmp <- run_system(stics_path, workspace_path)
 
       usm_out$error <- tmp[[1]]$error
       usm_out$message <- tmp[[1]]$message
-
-    }else{
-      status <- system2(command = command, args = paste(cmd_string, usm_name),
-                        stdout= if(verbose){""}else{NULL}, stderr = FALSE)
+    } else {
+      status <- system2(
+        command = command, args = paste(cmd_string, usm_name),
+        stdout = if (verbose) {
+          ""
+        } else {
+          NULL
+        }, stderr = FALSE
+      )
 
       err <- grep(pattern = "[eE]rror", tolower(status))
-      if(length(err)>0|status!=0){
+      if (length(err) > 0 | status != 0) {
         # Any error, keeping the line with Error message
         usm_out$error <- TRUE
         usm_out$message <- status
-      }else{
+      } else {
         # No errors: keeping lines of JavaSticsCmd execution
         usm_out$error <- FALSE
         usm_out$message <- paste(status, collapse = "\n")
@@ -194,7 +209,7 @@ run_javastics <- function(javastics,
     }
 
     # Keeping a copy of modhistory file !
-    if(keep_history && file.exists(histo_file)){
+    if (keep_history && file.exists(histo_file)) {
       file.copy(histo_file, histo_copy)
     }
 
@@ -206,17 +221,15 @@ run_javastics <- function(javastics,
   # names(usms_out) <- usms_list
 
   # Final message:
-  worked = !unlist(lapply(usms_out, function(x) x$error))
+  worked <- !unlist(lapply(usms_out, function(x) x$error))
 
-  if(verbose){
-    if(all(worked)){
+  if (verbose) {
+    if (all(worked)) {
       cli::cli_alert_success("\nAll usms ran successfully!")
-    }else{
+    } else {
       cli::cli_alert_danger("Error during simulation of usm{?s} {.val {usms_list[!worked]}}")
     }
   }
   # Returning usms list with execution return
   return(invisible(usms_out))
 }
-
-

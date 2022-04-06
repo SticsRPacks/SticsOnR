@@ -14,17 +14,19 @@
 #' @examples
 #' \dontrun{
 #' check_output_files("/home/username/Work/SticsInputsDir")
-#' check_output_files("/home/username/Work/SticsInputsRootDir","usmDir")
-#'}
+#' check_output_files("/home/username/Work/SticsInputsRootDir", "usmDir")
+#' }
 #'
 #' @keywords internal
-#@export
+# @export
 check_output_files <- function(run_dir, usm_name = NULL) {
 
   # For keeping backward compatibility
   if (utils::packageVersion("SticsOnR") > "0.2.2") {
-    return(SticsRFiles:::check_output_files(run_dir = run_dir,
-                                            usm_name = usm_name))
+    return(SticsRFiles:::check_output_files(
+      run_dir = run_dir,
+      usm_name = usm_name
+    ))
   }
 
   if (base::is.null(usm_name)) {
@@ -32,14 +34,16 @@ check_output_files <- function(run_dir, usm_name = NULL) {
   } else {
     usm <- usm_name
   }
-  files_list <- c("modhistory.sti",paste0("mod_b",usm,".sti"),
-               "mod_rapport.sti",paste0("mod_s",usm,".sti"))
-  no_hist <- !file.exists(file.path(run_dir,files_list[1]))
-  no_balance <- !file.exists(file.path(run_dir,files_list[2]))
-  no_report <- !file.exists(file.path(run_dir,files_list[3]))
-  no_daily <- file.exists(file.path(run_dir,files_list[4]))
-  no_files  <-  c(no_hist,no_balance,no_report,no_daily)
-  out  <-  list()
+  files_list <- c(
+    "modhistory.sti", paste0("mod_b", usm, ".sti"),
+    "mod_rapport.sti", paste0("mod_s", usm, ".sti")
+  )
+  no_hist <- !file.exists(file.path(run_dir, files_list[1]))
+  no_balance <- !file.exists(file.path(run_dir, files_list[2]))
+  no_report <- !file.exists(file.path(run_dir, files_list[3]))
+  no_daily <- file.exists(file.path(run_dir, files_list[4]))
+  no_files <- c(no_hist, no_balance, no_report, no_daily)
+  out <- list()
   out$error <- no_hist | (no_balance & no_daily & no_report)
   out$missing <- files_list[no_files]
 

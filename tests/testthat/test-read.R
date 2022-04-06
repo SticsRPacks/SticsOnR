@@ -47,4 +47,3 @@ library(SticsOnR)
 # test_that("Test that read_param returns right errors", {
 #   expect_error(read_param(dirpath = "example_data",param= "zdklji"))
 # })
-

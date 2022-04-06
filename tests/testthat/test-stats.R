@@ -90,8 +90,3 @@ library(SticsOnR)
 # test_that("Test RME", {
 #   expect_equal(RME(sim, obs),-0.5555556, tolerance = .0001)
 # })
-
-
-
-
-
