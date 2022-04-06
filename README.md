@@ -1,7 +1,4 @@
-README
-================
-
-# SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+# SticsOnR: The R package for the STICS model <a href='https://www6.paca.inrae.fr/stics_eng/'><img src='man/figures/logo.png' align="right" width="150" /></a>
 
 <!-- badges: start -->
 
