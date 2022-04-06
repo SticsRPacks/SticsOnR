@@ -9,14 +9,15 @@ check_java_workspace(javastics_path, javastics_workspace_path = NULL)
 \arguments{
 \item{javastics_path}{Path of JavaStics installation directory}
 
-\item{javastics_workspace_path}{An absolute or relative path (to JavaStics path)
-of a workspace (Optional)}
+\item{javastics_workspace_path}{An absolute or relative path
+(to JavaStics path) of a workspace (Optional)}
 }
 \value{
 An absolute javastics workspace path
 }
 \description{
-Looking in JavaStics for a workspace path in JavasStics preferences
+Looking in JavaStics for a workspace path
+in JavasStics preferences
 or producing a full path to a workspace located in JavaStics root directory
 or validating an external absolute path. And also checking if the path is a
 valid JavaStics workspace

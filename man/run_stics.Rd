@@ -55,18 +55,24 @@ This function uses Stics directly through a system call
 \dontrun{
 
 # Specifying individual usm directories
-run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsDir")
-run_stics("/home/username/bin/Stics",c("/home/username/Work/SticsInputsDir1",
-"/home/username/Work/SticsInputsDir2"))
+run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsDir")
+run_stics("/home/username/bin/Stics", c(
+  "/home/username/Work/SticsInputsDir1",
+  "/home/username/Work/SticsInputsDir2"
+))
 
 # Specifying a parent directory of usms directories
 # running one or several usms
-run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir","wheat")
-run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
-c("wheat","maize"))
+run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir", "wheat")
+run_stics(
+  "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
+  c("wheat", "maize")
+)
 # running all usms
-run_stics("/home/username/bin/Stics","/home/username/Work/SticsInputsRootDir",
-"all")
+run_stics(
+  "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
+  "all"
+)
 }
 
 }

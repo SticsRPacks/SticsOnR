@@ -17,15 +17,17 @@ A list of two:
 }
 }
 \description{
-Return all stics identifier names and executable available in JavaStics
+Return all stics identifier names and executable available
+in JavaStics
 }
 \details{
-The information is read from the \code{preference.xml} file in JavaStics. The function first
-controls that it exists and is complete, and if not it creates it using an OS-specific version.
+The information is read from the \code{preference.xml} file in JavaStics.
+The function first controls that it exists and is complete, and if not it
+creates it using an OS-specific version.
 }
 \examples{
 \dontrun{
- list_stics_exe("path/to/JavaSTICS-v131-stics-v841")
+list_stics_exe("path/to/JavaSTICS-v131-stics-v841")
 }
 
 }

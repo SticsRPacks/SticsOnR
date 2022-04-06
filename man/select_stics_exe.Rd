@@ -15,16 +15,19 @@ select_stics_exe(javastics, stics_exe = "stics_modulo")
 Nothing. Update the "preference.xml" file in the config of JavaStics.
 }
 \description{
-Select the Stics model executable to use from the preference file in JavaStics.
+Select the Stics model executable to use from the
+preference file in JavaStics.
 }
 \details{
 The \code{stics_exe} is \strong{not} the name of the executable file, but the
-identification name. Please use \code{list_stics_exe()} to list all available executables,
-and \code{set_stics_exe()} to add and select a new one. The identification names can be retreived using
+identification name. Please use \code{list_stics_exe()} to list all available
+executables, and \code{set_stics_exe()} to add and select a new one.
+The identification names can be retreived using
 \code{names(list_stics_exe(javastics)$stics_list)}
 }
 \note{
-"stics_modulo", "sticsmodulo" and "modulostics" are synonyms for the standard STICS executable.
+"stics_modulo", "sticsmodulo" and "modulostics" are synonyms for
+the standard STICS executable.
 }
 \examples{
 \dontrun{

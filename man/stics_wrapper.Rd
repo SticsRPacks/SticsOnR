@@ -21,31 +21,34 @@ stics_wrapper(
 In the case of Stics: \code{javastics} (or/and \code{stics_exe}) and
 \code{workspace} the path of the directory containing the Stics input data
 for each USM (one folder per USM where Stics input files are stored in txt
-format). See \code{stics_wrapper_options()} for more informations.}
+format). See \code{stics_wrapper_options()} for more information.}
 
-\item{param_values}{(optional) a named vector or a tibble that contains values
-of Stics input parameters to use in the simulations. Should have one named column per
-parameter. An optional column named situation containing the name of the
-situations (USMs for Stics) allows to define different values of the parameters
-for different situations. If param_values is not provided, the simulations will
-be performed using the parameters values defined in the Stics input files referenced
-in model_options argument.}
+\item{param_values}{(optional) a named vector or a tibble that contains
+values of Stics input parameters to use in the simulations.
+Should have one named column per parameter.
+An optional column named situation containing the name of the situations
+(USMs for Stics) allows to define different values of the parameters for
+different situations. If param_values is not provided, the simulations will
+be performed using the parameters values defined in the Stics input files
+referenced in model_options argument.}
 
-\item{situation}{(optional) vector of situations (USMs) names for which results
-must be returned. Results for all simulated situations are returned if not provided.}
+\item{situation}{(optional) vector of situations (USMs) names for which
+results must be returned. Results for all simulated situations are returned
+if not provided.}
 
 \item{var}{(optional) vector of variables names for which results
-must be returned. If not provided, it returns the results for all simulated variables
-that were already listed in the var.mod (i.e. from the last simulation).}
+must be returned. If not provided, it returns the results for all simulated
+variables that were already listed in the var.mod
+(i.e. from the last simulation).}
 
-\item{dates}{(optional) vector of dates (POSIXct) for which results
-must be returned. Results for all dates simulated are returned if not provided.
+\item{dates}{(optional) vector of dates (POSIXct) for which results must
+be returned. Results for all dates simulated are returned if not provided.
 If required dates varies between situations, use sit_var_dates_mask argument}
 
 \item{sit_var_dates_mask}{(optional) List of situations: a named list
 containing a mask for variables and dates for which simulated values
 should be returned. Typically a list containing the observations to which
-simulations should be compared as provided by SticsRFiles::get_obs}
+simulations should be compared as provided by \code{SticsRFiles::get_obs}}
 
 \item{sit_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{sit_names} is no
 longer supported, use \code{situation} instead.}
@@ -54,16 +57,15 @@ longer supported, use \code{situation} instead.}
 longer supported, use \code{var} instead.}
 }
 \value{
-A list containing simulated values (\code{sim_list}: a list of tibbles (one
-element per situation) and an error code (\code{error}) indicating if at least one
-simulation ended with an error.
+A list containing simulated values (\code{sim_list}: a list of tibbles
+(one element per situation) and an error code (\code{error}) indicating if at
+least one simulation ended with an error.
 }
 \description{
 This function uses Stics directly through a system call, can
 force Stics input parameters with values given in arguments.
 }
 \examples{
-
 \dontrun{
 
 # Specifying the JavaStics folder
@@ -73,7 +75,10 @@ javastics <- "/path/to/javastics"
 data_path <- "/path/to/usms/subdirs/root"
 
 # Setting the mandatory simulations options
-sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
+sim_options <- stics_wrapper_options(
+  javastics = javastics,
+  workspace = data_path
+)
 
 # Running all the usms that have a corresponding input folder in data_path
 results <- stics_wrapper(sim_options)
@@ -83,24 +88,30 @@ usms_list <- c("wheat", "pea", "maize")
 results <- stics_wrapper(sim_options, situation = usms_list)
 
 # Applying a single parameter values vector for the sublist of usms
-param_values <- c(0.002,50)
+param_values <- c(0.002, 50)
 names(param_values) <- c("dlaimax", "durvieF")
-results <- stics_wrapper(model_options = sim_options,
-situation = usms_list, param_values = param_values)
+results <- stics_wrapper(
+  model_options = sim_options,
+  situation = usms_list, param_values = param_values
+)
 
 # Applying different values of the parameters for the usms
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
 # and usm maize with c(dlaimax=0.001, durvieF=70)
-param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
-                           dlaimax=c(0.001,0.001,0.001),
-                           durvieF=c(50,60,70))
-results <- stics_wrapper(model_options = sim_options,
-param_values = param_values, situation=c("wheat", "pea", "maize"))
-
+param_values <- data.frame(
+  Situation = c("wheat", "pea", "maize"),
+  dlaimax = c(0.001, 0.001, 0.001),
+  durvieF = c(50, 60, 70)
+)
+results <- stics_wrapper(
+  model_options = sim_options,
+  param_values = param_values, situation = c("wheat", "pea", "maize")
+)
 }
 
 }
 \seealso{
-\code{stics_wrapper_options()} for more informations on how to provide \code{model_options}.
+\code{stics_wrapper_options()} for more information on how to
+provide \code{model_options}.
 }

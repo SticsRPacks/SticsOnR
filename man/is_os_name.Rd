@@ -10,7 +10,8 @@ is_os_name(os_tag_name = character())
 \item{os_tag_name}{OS name(s) (see os_names list), optional}
 }
 \value{
-TRUE if os_tag_name is the current system OS, FALSE otherwise; OS names list if os_tag_name not provided
+TRUE if os_tag_name is the current system OS, FALSE otherwise;
+OS names list if os_tag_name not provided
 }
 \description{
 Returning if the given OS name is the system name

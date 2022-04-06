@@ -9,20 +9,23 @@ set_java_workspace(javastics_path, java_wd)
 \arguments{
 \item{javastics_path}{JavaStics installation root folder}
 
-\item{java_wd}{JavaStics working directory (absolute,relative to javastics_path)}
+\item{java_wd}{JavaStics working directory (absolute,relative to
+javastics_path)}
 }
 \description{
-Setting a new JavaStics working directory, a relative directory to JavaStics path or an absolute one
+Setting a new JavaStics working directory, a relative directory
+to JavaStics path or an absolute one
 }
 \details{
-Checking if the directory is a JavaStics workspace (any usms.xml file), and if it's already registered
+Checking if the directory is a JavaStics workspace
+(any usms.xml file), and if it's already registered
 
 before setting new one
 }
 \examples{
 \dontrun{
- set_java_workspace("path/to/JavaSTICS","my_wd")
- set_java_workspace("path/to/JavaSTICS","/path/to/my_wd")
+set_java_workspace("path/to/JavaSTICS", "my_wd")
+set_java_workspace("path/to/JavaSTICS", "/path/to/my_wd")
 }
 
 }

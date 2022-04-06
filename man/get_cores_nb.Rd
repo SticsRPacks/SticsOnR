@@ -27,9 +27,7 @@ get_cores_nb()
 get_cores_nb(parallel = TRUE)
 
 get_cores_nb(parallel = TRUE, required_nb = 4)
-
 }
-
 
 }
 \keyword{internal}

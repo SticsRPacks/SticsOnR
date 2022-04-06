@@ -21,11 +21,16 @@ stics_wrapper_options(
 )
 }
 \arguments{
-\item{javastics}{Path of JavaStics. Optional, needed if stics_exe is not provided, or if stics_exe relates to an exe in the javastics_path (see details)}
+\item{javastics}{Path of JavaStics. Optional, needed if stics_exe is not
+provided, or if stics_exe relates to an exe in the javastics_path
+(see details)}
 
-\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
+\item{stics_exe}{The name, executable or path of the stics executable to use
+(optional, default to "modulostics", see details)}
 
-\item{workspace}{Path of the workspace containing the Stics (txt) input files or path of a single directory containing one sub-folder per USM (named as the USM names) with Stics (txt) input files in them.}
+\item{workspace}{Path of the workspace containing the Stics (txt) input files
+or path of a single directory containing one sub-folder per USM (named as
+the USM names) with Stics (txt) input files in them.}
 
 \item{parallel}{Boolean. Is the computation to be done in parallel ?}
 
@@ -33,22 +38,25 @@ stics_wrapper_options(
 
 \item{time_display}{Display time}
 
-\item{verbose}{Logical value (optional), \code{TRUE} to display informations during execution,
-\code{FALSE} otherwise (default)}
+\item{verbose}{Logical value (optional), \code{TRUE} to display informations
+during execution, \code{FALSE} otherwise (default)}
 
-\item{force}{Boolean. Don't check \code{javastics}, \code{stics_exe} and \code{workspace} (default to \code{FALSE}, see details)}
+\item{force}{Boolean. Don't check \code{javastics}, \code{stics_exe} and \code{workspace}
+(default to \code{FALSE}, see details)}
 
-\item{successive}{List of vectors containing the names of the UMSs to consider as successive
-(e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions usm1.1->usm1.2 and usm2.1->usm2.2)}
+\item{successive}{List of vectors containing the names of the UMSs to
+consider as successive
+(e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions
+usm1.1->usm1.2 and usm2.1->usm2.2)}
 
-\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path} is no
-longer supported, use \code{javastics} instead.}
+\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path}
+is no longer supported, use \code{javastics} instead.}
 
 \item{data_dir}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{data_dir} is no
 longer supported, use \code{workspace} instead.}
 
-\item{successive_usms}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{successive_usms} is no
-longer supported, use \code{successive} instead.}
+\item{successive_usms}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{successive_usms}
+is no longer supported, use \code{successive} instead.}
 
 \item{...}{Add further arguments set the options list values}
 }
@@ -56,144 +64,157 @@ longer supported, use \code{successive} instead.}
 A list containing Stics model stics_wrapper options
 }
 \description{
-This function returns a default options list if called with no arguments, or a pre-formated
-model option list with checks on the inputs.
+This function returns a default options list if called with no
+arguments, or a pre-formated model option list with checks on the inputs.
 }
 \details{
 \code{stics_exe} may be :
 \enumerate{
-\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
+\item a model name pointing to a stics executable as done in JavaStics, e.g.
+"modulostics" for \code{stics_modulo.exe}, the standard version of the model
 shipping with JavaStics;
-\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
-\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe".
+\item a stics executable file available from the bin folder in JavaStics,
+e.g. "stics_modulo.exe";
+\item a path to a stics executable file,
+eg. "C:/Users/username/Desktop/stics.exe".
 }
 
 \code{javastics} must be provided for case (1) and (2).
 
-If \code{force=TRUE}, checks are not done for \code{javastics}, \code{stics_exe} and \code{workspace}. In this case, they are returned as is,
-and will be checked (and potentially updated to match the right stics executable) only at execution of \code{stics_wrapper()}. This option
-is used for portability, when e.g. \code{stics_wrapper_options} outputs are sent to a remote.
+If \code{force=TRUE}, checks are not done for \code{javastics}, \code{stics_exe} and
+\code{workspace}. In this case, they are returned as is, and will be checked
+(and potentially updated to match the right stics executable) only at
+execution of \code{stics_wrapper()}. This option is used for portability,
+when e.g. \code{stics_wrapper_options()} outputs are sent to a remote.
 }
 \examples{
-
 \dontrun{
-# Getting simulations options and defaults values for the stics_wrapper function
+# Getting simulations options and defaults values for the stics_wrapper
+# function
 
 stics_wrapper_options()
 
-> $javastics
-> [1] "unknown"
->
-> $stics_exe
-> [1] "modulostics"
->
-> $workspace
-> [1] "unknown"
->
-> $parallel
-> [1] FALSE
->
-> $cores
-> [1] NA
->
-> $time_display
-> [1] FALSE
->
-> $verbose
-> [1] TRUE
->
-> $force
-> [1] FALSE
+#> $javastics
+#> [1] "unknown"
+#>
+#> $stics_exe
+#> [1] "modulostics"
+#>
+#> $workspace
+#> [1] "unknown"
+#>
+#> $parallel
+#> [1] FALSE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $verbose
+#> [1] TRUE
+#>
+#> $force
+#> [1] FALSE
 
 # Setting mandatory simulations options
-javastics= "path/to/javastics"
-data_path= "path/to/data_directory"
-sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path)
+javastics <- "path/to/javastics"
+data_path <- "path/to/data_directory"
+sim_options <- stics_wrapper_options(
+  javastics = javastics,
+  workspace = data_path
+)
 
 # Changing default values (e.g. parallel):
-sim_options <- stics_wrapper_options(javastics = javastics, workspace = data_path,
- parallel = TRUE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics,
+  workspace = data_path, parallel = TRUE
+)
 
-> $javastics
-> [1] "path/to/JavaSTICS-v85"
->
-> $stics_exe
-> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
->
-> $workspace
-> [1] "path/to/data"
->
-> $parallel
-> [1] TRUE
->
-> $cores
-> [1] NA
->
-> $time_display
-> [1] FALSE
->
-> $verbose
-> [1] TRUE
->
-> $force
-> [1] FALSE
+#> $javastics
+#> [1] "path/to/JavaSTICS-v85"
+#>
+#> $stics_exe
+#> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+#>
+#> $workspace
+#> [1] "path/to/data"
+#>
+#> $parallel
+#> [1] TRUE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $verbose
+#> [1] TRUE
+#>
+#> $force
+#> [1] FALSE
 
- # Using the `force` argument to keep the inputs as is:
- sim_options <- stics_wrapper_options(javastics = javastics, data_dir = data_path,
-  force= TRUE)
+# Using the `force` argument to keep the inputs as is:
+sim_options <- stics_wrapper_options(
+  javastics = javastics,
+  data_dir = data_path, force = TRUE
+)
 
-> $javastics
-> [1] "path/to/JavaSTICS-v85"
->
-> $stics_exe
-> [1] "modulostics"
->
-> $workspace
-> [1] "path/to/data"
->
-> $parallel
-> [1] FALSE
->
-> $cores
-> [1] NA
->
-> $time_display
-> [1] FALSE
->
-> $verbose
-> [1] TRUE
->
-> $force
-> [1] TRUE
+#> $javastics
+#> [1] "path/to/JavaSTICS-v85"
+#>
+#> $stics_exe
+#> [1] "modulostics"
+#>
+#> $workspace
+#> [1] "path/to/data"
+#>
+#> $parallel
+#> [1] FALSE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $verbose
+#> [1] TRUE
+#>
+#> $force
+#> [1] TRUE
 
 # This will be checked and modified by a `do.call()` in `stics_wrapper()`:
-do.call(stics_wrapper_options,model_options)
+do.call(stics_wrapper_options, model_options)
 
-> $javastics
-> [1] "path/to/JavaSTICS-v85"
->
-> $stics_exe
-> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
->
-> $workspace
-> [1] "path/to/data"
->
-> $parallel
-> [1] FALSE
->
-> $cores
-> [1] NA
->
-> $time_display
-> [1] FALSE
->
-> $verbose
-> [1] TRUE
->
-> $force
-> [1] FALSE
+#> $javastics
+#> [1] "path/to/JavaSTICS-v85"
+#>
+#> $stics_exe
+#> [1] "path/to/JavaSTICS-v85/bin/stics_modulo.exe"
+#>
+#> $workspace
+#> [1] "path/to/data"
+#>
+#> $parallel
+#> [1] FALSE
+#>
+#> $cores
+#> [1] NA
+#>
+#> $time_display
+#> [1] FALSE
+#>
+#> $verbose
+#> [1] TRUE
+#>
+#> $force
+#> [1] FALSE
 
-# Note the `stics_exe` path that was modified and checked to the path were it was found.
+# Note the `stics_exe` path that was modified and checked to the path were
+# it was found.
 }
 
 }
