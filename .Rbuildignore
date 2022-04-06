@@ -9,7 +9,6 @@ man/figures
 ^docs$
 CODE_OF_CONDUCT.md
 ^paper$
-sticsOnR.md
 R/to_be_migrated
 vignettes/archives
 old_files
