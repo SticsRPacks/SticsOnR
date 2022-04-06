@@ -73,8 +73,9 @@ set_stics_exe <- function(javastics,
   # Case 1: stics_exe is a model name
   if (exist_stics_exe(javastics, stics_exe)) {
     exe_name <- list_stics_exe(javastics)$stics_list[stics_exe][[1]]
-    if (verbose) cli::cli_alert_success("Using stics {.val {stics_exe}}
-                                       (exe: {.val {exe_name}})")
+    if (verbose) cli::cli_alert_success(
+      "Using stics {.val {stics_exe}} (exe: {.val {exe_name}})"
+    )
     select_stics_exe(javastics, stics_exe)
     return(invisible())
   }
@@ -98,14 +99,16 @@ set_stics_exe <- function(javastics,
       }
       stics_exe <- stics_list[exe_to_use]
       select_stics_exe(javastics, names(stics_exe))
-      if (verbose) cli::cli_alert_success("Using stics {.val {names(stics_exe)}}
-                                        (exe: {.val {stics_exe[[1]]}})")
+      if (verbose) cli::cli_alert_success(
+        "Using stics {.val {names(stics_exe)}} (exe: {.val {stics_exe[[1]]}})"
+      )
       return(invisible())
     }
 
     # If not, continue.
-    if (verbose) cli::cli_alert_success("Using stics executable from:
-                                       {.val {java_stics_exe}}")
+    if (verbose) cli::cli_alert_success(
+     "Using stics executable from: {.val {java_stics_exe}}"
+    )
   } else if (check_stics_exe(model_path = stics_exe, stop = FALSE)) {
     # Case 3: stics_exe is a path to the executable
 
