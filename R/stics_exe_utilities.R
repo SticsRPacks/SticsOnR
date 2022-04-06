@@ -258,8 +258,8 @@ list_stics_exe <- function(javastics){
   stics_list <- SticsRFiles:::getValues(xml_pref,'//entry[@key="model.list"]')
   stics_list_parsed <- gsub("\\{|\\}","",
                             stics_list)%>%strsplit(",|\t")%>%unlist()
-  stics_list_names <- stics_list_parsed[(1:length(stics_list_parsed))%%2==1]
-  stics_list <- as.list(stics_list_parsed[(1:length(stics_list_parsed))%%2==0])
+  stics_list_names <- stics_list_parsed[seq_along(stics_list_parsed)%%2==1]
+  stics_list <- as.list(stics_list_parsed[seq_along(stics_list_parsed)%%2==0])
   names(stics_list) <- stics_list_names
   list(stics_list= stics_list, current= stics_list[current_stics])
 }
