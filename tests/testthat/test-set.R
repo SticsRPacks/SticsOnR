@@ -39,4 +39,3 @@ library(SticsOnR)
 #   expect_error(set_param(dirpath =  "example_data_tests/set",
 #               param = "nbplantes",value = 2))
 # })
-

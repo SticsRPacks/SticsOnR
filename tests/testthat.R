@@ -1,4 +1,4 @@
 library(testthat)
 library(SticsOnR)
 
-#test_check("SticsOnR")
+# test_check("SticsOnR")
