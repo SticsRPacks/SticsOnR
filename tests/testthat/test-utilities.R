@@ -14,4 +14,3 @@ library(SticsOnR)
 #   expect_equal(mean(rbind_sim(sim_1, sim_2)$P_sea_20$tmax),13.75)
 # })
 #
-

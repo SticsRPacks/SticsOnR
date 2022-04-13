@@ -15,16 +15,16 @@ exist_stics_exe(javastics, stics_exe)
 Existing status, logical
 }
 \description{
-Checks if a stics model executable is available in JavaStics (in the
-"preference.xml" file).
+Checks if a stics model executable is available in JavaStics
+(in the "preference.xml" file).
 }
 \details{
-The current model executable available in JavaStics can be listed using
-\code{list_stics_exe()}.
+The current model executable available in JavaStics can be
+listed using \code{list_stics_exe()}.
 }
 \examples{
 \dontrun{
-exist_stics_exe("path/to/JavaSTICS-v131-stics-v841","stics_name")
+exist_stics_exe("path/to/JavaSTICS-v131-stics-v841", "stics_name")
 }
 
 }

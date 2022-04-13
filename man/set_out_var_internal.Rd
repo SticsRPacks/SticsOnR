@@ -7,7 +7,7 @@
 set_out_var_internal(
   filepath = "var.mod",
   vars = c("lai(n)", "masec(n)"),
-  add = F
+  add = FALSE
 )
 }
 \arguments{
@@ -15,7 +15,8 @@ set_out_var_internal(
 
 \item{vars}{The variables needed}
 
-\item{add}{Do we want to add or append the variables to existing variables ?}
+\item{add}{Do we want to add or append the variables to existing
+variables ?}
 }
 \value{
 Nothing, write in the "var.mod" file
@@ -24,7 +25,7 @@ Nothing, write in the "var.mod" file
 Set the output variables needed
 }
 \note{
-This is exactly the same function as \verb{[sticsRFiles::set_out_var_txt()]}, but we add it here
-to avoid a dependency just for a one-liner function.
+This is exactly the same function as \verb{[sticsRFiles::set_out_var_txt()]}
+, but we add it here to avoid a dependency just for a one-liner function.
 }
 \keyword{internal}

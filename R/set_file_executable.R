@@ -16,26 +16,30 @@ set_file_executable <- function(file_path) {
     return(SticsRFiles:::set_file_executable(file_path = file_path))
   }
 
-  if(is_windows()){
+  if (is_windows()) {
     return(invisible(TRUE))
   }
 
   # The file does not exist
-  if(!file.exists(file_path)){
+  if (!file.exists(file_path)) {
     warning(paste("File does no exist:", file_path))
     return(invisible(FALSE))
   }
 
   # if OS != windows, set chmod +x exe
-  ret <- suppressWarnings(system(paste("chmod +x",file_path),
-                intern = TRUE,
-                ignore.stdout = FALSE,
-                ignore.stderr = FALSE))
+  ret <- suppressWarnings(system(paste("chmod +x", file_path),
+    intern = TRUE,
+    ignore.stdout = FALSE,
+    ignore.stderr = FALSE
+  ))
 
   # Checking if any errors
-  status <- attr(ret,"status")
-  if(!base::is.null(status) && status){
-    warning(paste("A problem occurs when setting executable status on:", file_path))
+  status <- attr(ret, "status")
+  if (!base::is.null(status) && status) {
+    warning(paste(
+      "A problem occurs when setting executable status on:",
+      file_path
+    ))
     return(invisible(FALSE))
   }
 

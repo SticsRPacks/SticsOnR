@@ -8,13 +8,13 @@
 #' @examples
 #' \dontrun{
 #' get_java_workspace("/path/to/JavaStics/directory")
-#'}
+#' }
 #'
 #' @keywords internal
 #'
-#@export
+# @export
 
-get_java_workspace <- function(javastics_path){
+get_java_workspace <- function(javastics_path) {
 
 
   # For keeping backward compatibility
@@ -26,17 +26,21 @@ get_java_workspace <- function(javastics_path){
   check_java_path(javastics_path)
 
   # if no preference have been set yet
-  if(!exists_javastics_pref(javastics_path)){
+  if (!exists_javastics_pref(javastics_path)) {
     init_javastics_pref(javastics_path)
   }
 
-  xml_path=file.path(javastics_path,"config","preferences.xml")
+  xml_path <- file.path(javastics_path, "config", "preferences.xml")
 
-  xml_pref= SticsRFiles ::: xmldocument(xml_path)
-  current_wd= SticsRFiles ::: getValues(xml_pref,'//entry[@key="workingDirectory.current"]')
+  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+  current_wd <- SticsRFiles:::getValues(
+    xml_pref,
+    '//entry[@key="workingDirectory.current"]'
+  )
 
-  if(base::is.null(current_wd)) stop("JavaStics working directory hasn't been set (use set_java_wd to do so)!")
-
+  if (base::is.null(current_wd)) {
+    stop("JavaStics working directory hasn't been set
+         (use set_java_wd to do so)!")
+  }
   return(current_wd)
-
 }

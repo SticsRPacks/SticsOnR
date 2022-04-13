@@ -15,20 +15,20 @@ remove_stics_exe(javastics, stics_exe)
 Nothing. Update the "preference.xml" file in the config of JavaStics.
 }
 \description{
-Remove a stics model from the list of available model executables in
-JavaStics (modifies the "preferences.xml" file).
+Remove a stics model from the list of available model
+executables in JavaStics (modifies the "preferences.xml" file).
 }
 \details{
-The executable file in the current JavaStics bin folder will not be deleted,
-please do it by hand instead (in "JavaStics.../bin").
+The executable file in the current JavaStics bin folder will not be
+deleted, please do it by hand instead (in "JavaStics.../bin").
 The \code{stics_exe} is \strong{not} the name of the executable file, but the
-identification name. Please use \code{list_stics_exe()} to list all available executables,
-and \code{set_stics_exe()} to add a new one. The identification names can be retreived using
-\code{names(list_stics_exe(javastics)$stics_list)}
+identification name. Please use \code{list_stics_exe()} to list all available
+executables, and \code{set_stics_exe()} to add a new one. The identification names
+can be retreived using \code{names(list_stics_exe(javastics)$stics_list)}
 }
 \examples{
 \dontrun{
-remove_stics_exe("path/to/JavaSTICS-v131-stics-v841","model_name")
+remove_stics_exe("path/to/JavaSTICS-v131-stics-v841", "model_name")
 }
 
 }

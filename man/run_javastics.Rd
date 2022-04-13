@@ -62,11 +62,11 @@ shipping with JavaStics;
 }
 \examples{
 \dontrun{
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example")
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","/path/to/workspace")
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1","example",c("wheat","pea"))
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"))
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1",usms_list=c("wheat","pea"), optim=TRUE)
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example")
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "/path/to/workspace")
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example", c("wheat", "pea"))
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"))
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"), optim = TRUE)
 }
 
 }

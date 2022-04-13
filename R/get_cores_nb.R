@@ -16,16 +16,14 @@
 #' get_cores_nb(parallel = TRUE)
 #'
 #' get_cores_nb(parallel = TRUE, required_nb = 4)
-#'
 #' }
 #'
-#'
-
-
-get_cores_nb <- function(parallel = FALSE, required_nb = NA, ... ) {
+get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
 
   # For sequential execution
-  if (!parallel) return(1)
+  if (!parallel) {
+    return(1)
+  }
 
   # Getting true (from the machine) or fake cores number,
   # forcing it through cores_nb argument in
@@ -38,14 +36,13 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ... ) {
   }
 
   # Limiting the required cores, if any
-  if ( base::is.na(required_nb) ||
-       required_nb > cores_nb ) {
+  if (base::is.na(required_nb) ||
+    required_nb > cores_nb) {
     return(cores_nb)
   }
 
   # Getting the right required cores number
   return(required_nb)
-
 }
 
 
@@ -63,7 +60,6 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ... ) {
 #' get_cores()
 #'
 #' get_cores(cores_nb = 4)
-#'
 #' }
 #'
 #' @importFrom parallel detectCores
@@ -74,9 +70,10 @@ get_cores <- function(...) {
   dot_args <- list(...)
 
   # Getting real cores number
-  if (! ("cores_nb" %in% names(dot_args)) )  return(detectCores())
+  if (!("cores_nb" %in% names(dot_args))) {
+    return(detectCores())
+  }
 
   # Returning a fake number of cores gave as an input
   return(dot_args$cores_nb)
-
 }
