@@ -5,26 +5,20 @@
 \title{Running usm(s) from a/several directory(ies)
 or a/several subdirectory(ies) named with usm name}
 \usage{
-run_system(
-  model_path,
-  data_dir,
-  usm_dir_names = NULL,
-  check_exe = TRUE,
-  display = FALSE
-)
+run_system(stics_exe, workspace, usm = NULL, check_exe = TRUE, verbose = FALSE)
 }
 \arguments{
-\item{model_path}{Path of Stics executable file}
+\item{stics_exe}{Path of Stics executable file}
 
-\item{data_dir}{Path of a Stics input directory or a vector of,
-or root directory of Stics directories (if usm_dir_names is given)}
+\item{workspace}{Path of a Stics input directory or a vector of,
+or root directory of Stics directories (if usm is given)}
 
-\item{usm_dir_names}{Name(s) vector of sub-directory(ies) of data_dir
+\item{usm}{Name(s) vector of sub-directory(ies) of workspace
 or "all" for extracting all sub-directories path}
 
 \item{check_exe}{Logical, T for checking the model executable, F otherwise}
 
-\item{display}{Logical value (optional), TRUE to display usms names,
+\item{verbose}{Logical value (optional), TRUE to verbose usms names,
 FALSE otherwise (default)}
 }
 \value{
@@ -49,17 +43,17 @@ run_system(
 
 # Specifying a parent directory of usms directories
 # running one or several usms
-run_stics(
+run_system(
   "/home/username/bin/Stics",
   "/home/username/Work/SticsInputsRootDir", "wheat"
 )
-run_stics(
+run_system(
   "/home/username/bin/Stics",
   "/home/username/Work/SticsInputsRootDir",
   c("wheat", "maize")
 )
 # running all usms
-run_stics(
+run_system(
   "/home/username/bin/Stics",
   "/home/username/Work/SticsInputsRootDir",
   "all"

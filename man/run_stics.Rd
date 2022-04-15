@@ -23,7 +23,8 @@ run_stics(
 
 \item{workspace}{Path of the workspace containing the Stics (txt) input files.}
 
-\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs. If not provided, the function runs all the USMs included in workspace.}
+\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs.
+If not provided, the function runs all the USMs included in workspace.}
 
 \item{check}{Logical, T for checking the model executable, F otherwise}
 
@@ -71,7 +72,6 @@ run_stics(
 # running all usms
 run_stics(
   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
-  "all"
 )
 }
 
