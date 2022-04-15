@@ -5,7 +5,8 @@
 #'
 #' @param stics_exe Path of Stics the executable file
 #' @param workspace Path of the workspace containing the Stics (txt) input files.
-#' @param usm Vector of USM names. Optional, if provided, the function runs only the given USMs. If not provided, the function runs all the USMs included in workspace.
+#' @param usm Vector of USM names. Optional, if provided, the function runs only the given USMs.
+#' If not provided, the function runs all the USMs included in workspace.
 #' @param check Logical, T for checking the model executable, F otherwise
 #' @param verbose Logical value (optional), TRUE to display usms names,
 #' FALSE otherwise (default)
@@ -42,7 +43,6 @@
 #' # running all usms
 #' run_stics(
 #'   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
-#'   "all"
 #' )
 #' }
 #'
@@ -84,10 +84,17 @@ run_stics <- function(stics_exe,
     display <- verbose # to remove when we update inside the function
   }
 
+  # Defining the argument of run_system for running all usms subdirectories
+  if (is.null(usm_dir_names) &&
+      !file.exists(file.path(workspace,"new_travail.usm"))) usm_dir_names <- "all"
+
   # Calling the internal underlying function for running the model
-  usms_out <- run_system(model_path, data_dir,
-    usm_dir_names = usm_dir_names,
-    check_exe = check_exe, display = display
+  usms_out <- run_system(model_path,
+                         data_dir,
+                         usm_dir_names,
+                         check_exe,
+                         display
   )
+
   return(invisible(usms_out))
 }
