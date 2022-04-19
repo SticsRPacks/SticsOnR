@@ -18,6 +18,8 @@
 #'   longer supported, use `workspace` instead.
 #' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path` is no
 #'   longer supported, use `javastics` instead.
+#' @param usms_list `r lifecycle::badge("deprecated")` `usms_list` is no
+#'   longer supported, use `usm` instead.
 #'
 #' @details `stics_exe` may be :
 #' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
