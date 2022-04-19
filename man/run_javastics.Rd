@@ -7,14 +7,15 @@
 run_javastics(
   javastics,
   workspace = NULL,
-  usms_list = NULL,
+  usm = NULL,
   keep_history = TRUE,
   optim = FALSE,
   verbose = TRUE,
   stics_exe = "modulostics",
   java_cmd = "java",
   javastics_path = lifecycle::deprecated(),
-  workspace_path = lifecycle::deprecated()
+  workspace_path = lifecycle::deprecated(),
+  usms_list = lifecycle::deprecated()
 )
 }
 \arguments{
@@ -22,7 +23,8 @@ run_javastics(
 
 \item{workspace}{Path of a JavaStics workspace}
 
-\item{usms_list}{Vector of usms to run (optional, default to all usms defined in \code{usms.xml})}
+\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs.
+If not provided, the function runs all the USMs included in workspace.}
 
 \item{keep_history}{Logical value (optional) to keep a copy of history file
 use \code{TRUE} (default), \code{FALSE} otherwise}
@@ -65,8 +67,8 @@ shipping with JavaStics;
 run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example")
 run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "/path/to/workspace")
 run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example", c("wheat", "pea"))
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"))
-run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"), optim = TRUE)
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usm = c("wheat", "pea"))
+run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usm = c("wheat", "pea"), optim = TRUE)
 }
 
 }

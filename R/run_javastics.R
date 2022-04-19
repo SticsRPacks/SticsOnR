@@ -5,7 +5,8 @@
 #'
 #' @param javastics Path of JavaStics
 #' @param workspace Path of a JavaStics workspace
-#' @param usms_list Vector of usms to run (optional, default to all usms defined in `usms.xml`)
+#' @param usm Vector of USM names. Optional, if provided, the function runs only the given USMs.
+#' If not provided, the function runs all the USMs included in workspace.
 #' @param keep_history Logical value (optional) to keep a copy of history file
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
@@ -34,22 +35,24 @@
 #' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example")
 #' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "/path/to/workspace")
 #' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", "example", c("wheat", "pea"))
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"))
-#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usms_list = c("wheat", "pea"), optim = TRUE)
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usm = c("wheat", "pea"))
+#' run_javastics("/path/to/JavaSTICS-1.41-stics-9.1", usm = c("wheat", "pea"), optim = TRUE)
 #' }
 #'
 #' @export
 #'
 run_javastics <- function(javastics,
                           workspace = NULL,
-                          usms_list = NULL,
+                          usm = NULL,
                           keep_history = TRUE,
                           optim = FALSE,
                           verbose = TRUE,
                           stics_exe = "modulostics",
                           java_cmd = "java",
                           javastics_path = lifecycle::deprecated(),
-                          workspace_path = lifecycle::deprecated()) {
+                          workspace_path = lifecycle::deprecated(),
+                          usms_list = lifecycle::deprecated()) {
+
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn("0.5.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
   } else {
@@ -60,6 +63,11 @@ run_javastics <- function(javastics,
   } else {
     workspace_path <- workspace # to remove when we update inside the function
   }
+  if (lifecycle::is_present(usms_list)) {
+    lifecycle::deprecate_warn("0.5.0", "run_javastics(usms_list)", "run_javastics(usm)")
+  } else {
+    usms_list <- usm # to remove when we update inside the function
+  }
 
   # Ensure that the user working directory is unchanged after the function has run
   current_wd <- getwd()
@@ -69,9 +77,6 @@ run_javastics <- function(javastics,
   if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
     stics_exe <- "modulostics"
   }
-
-  # Getting command line executable name
-  # jexe=get_javastics_exe(javastics)
 
   # Checking javastics path
   check_java_path(javastics_path)
@@ -115,7 +120,7 @@ run_javastics <- function(javastics,
   full_usms_list <- SticsRFiles::get_usms_list(file.path(ws, "usms.xml"))
 
   # Checking and selecting usms, if needed
-  if (length(usms_list) == 0) {
+  if (is.null(usms_list)) {
     usms_list <- full_usms_list
   } else {
     usm_exist <- full_usms_list %in% usms_list
