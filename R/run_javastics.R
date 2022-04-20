@@ -150,10 +150,10 @@ run_javastics <- function(javastics,
   cmd_type <- "run"
   if (optim) cmd_type <- "generate"
   cmd_list <- SticsRFiles:::get_javastics_cmd(javastics,
-    java_cmd = java_cmd,
-    type = cmd_type,
-    workspace = ws,
-    verbose = verbose
+                                              java_cmd = java_cmd,
+                                              type = cmd_type,
+                                              workspace = ws,
+                                              verbose = verbose
   )
   command <- cmd_list[[1]]
   cmd_string <- cmd_list[[2]]
@@ -194,17 +194,28 @@ run_javastics <- function(javastics,
       usm_out$error <- tmp[[1]]$error
       usm_out$message <- tmp[[1]]$message
     } else {
+      # status <- system2(
+      #   command = command, args = paste(cmd_string, usm_name),
+      #   stdout = if (verbose) {
+      #     ""
+      #   } else {
+      #     NULL
+      #   },
+      #   stderr = TRUE,
+      #   wait = TRUE
+      # )
+
       status <- system2(
         command = command, args = paste(cmd_string, usm_name),
-        stdout = if (verbose) {
-          ""
-        } else {
-          NULL
-        }, stderr = FALSE
+        stdout = TRUE,
+        stderr = TRUE,
       )
 
+      if (verbose)
+        print(status)
+
       err <- grep(pattern = "[eE]rror", tolower(status))
-      if (length(err) > 0 | status != 0) {
+      if (length(err) > 0) {# | status != 0) {
         # Any error, keeping the line with Error message
         usm_out$error <- TRUE
         usm_out$message <- status
@@ -225,8 +236,6 @@ run_javastics <- function(javastics,
   }
 
   # Naming the list elements
-  # names(usms_out) <- usms_list
-
   # Final message:
   worked <- !unlist(lapply(usms_out, function(x) x$error))
 
@@ -237,6 +246,7 @@ run_javastics <- function(javastics,
       cli::cli_alert_danger("Error during simulation of usm{?s} {.val {usms_list[!worked]}}")
     }
   }
+
   # Returning usms list with execution return
   return(invisible(usms_out))
 }
