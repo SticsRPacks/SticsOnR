@@ -88,11 +88,12 @@ run_system <- function(stics_exe,
   for (d in 1:nb_usms) {
     usm_out <- list()
     usm_dir <- run_dir[d]
-    usm_out$name <- basename(usm_dir)
+    #usm_out$name <- basename(usm_dir)
+    setwd(usm_dir)
+
+    usm_out$name <- get_usm_txt()$nom
 
     if (verbose) print(usm_out$name)
-
-    setwd(usm_dir)
 
     # new function call, keeping error message as attribute
     ret <- run_system_cmd(command = stics_exe, output = TRUE)
