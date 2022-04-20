@@ -91,7 +91,7 @@ run_system <- function(stics_exe,
     #usm_out$name <- basename(usm_dir)
     setwd(usm_dir)
 
-    usm_out$name <- get_usm_txt()$nom
+    usm_out$name <- SticsRFiles::get_usm_txt()$nom
 
     if (verbose) print(usm_out$name)
 
