@@ -50,7 +50,9 @@
 #'
 #' @keywords internal
 set_stics_exe <- function(javastics,
-                          stics_exe, overwrite = FALSE, verbose = TRUE) {
+                          stics_exe,
+                          overwrite = FALSE,
+                          verbose = TRUE) {
 
   # checking javastics path
   check_java_path(javastics)
