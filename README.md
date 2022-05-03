@@ -6,13 +6,13 @@
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R build status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
-[![Codecov test coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/SticsRPacks/SticsOnR?branch=master)
 [![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
 <!-- badges: end -->
 
 The goal of SticsOnR is to perform simulations of the Stics model,
 downloadable with its graphical user interface from
-<https://www6.paca.inra.fr/stics_eng/Download>.
+<https://www6.paca.inrae.fr/stics_eng/Download>.
 
 If you want to be notified when a new release of this package is made, you can tick the Releases box in the “Watch / Unwatch => Custom” menu
 at the top right of [this page](https://github.com/SticsRPacks/SticsOnR).
@@ -69,7 +69,7 @@ be installed first.
 
 - For Windows
     RTools must be installed using the latest installer from
-    [here](https://cran.r-project.org/bin/windows/Rtools)
+    [here](https://cran.r-project.org/bin/windows/Rtools/)
 - For linux
     Development tools must be installed first, like the
     `build-essentials` package for a Debian like distribution for
