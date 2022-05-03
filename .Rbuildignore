@@ -17,3 +17,4 @@ new_versions\*.R$
 ^bin$
 ^\.github$
 ^CITATION.cff$
+^cran-comments\.md$
