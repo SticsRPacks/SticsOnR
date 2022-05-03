@@ -96,6 +96,7 @@
 #' @export
 #'
 #' @importFrom foreach %dopar%
+#' @importFrom vctrs new_list_of
 #' @import parallel
 #' @import doParallel
 #'
@@ -494,7 +495,7 @@ stics_wrapper <- function(model_options,
     res$sim_list <- NULL
   } else {
     # Add the attribute cropr_simulation for using CroPlotR package
-    attr(res$sim_list, "class") <- "cropr_simulation"
+    res$sim_list = new_list_of(res$sim_list, class = "cropr_simulation")
   }
 
 

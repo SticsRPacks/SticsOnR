@@ -36,7 +36,8 @@ Imports:
     SticsRFiles,
     cli,
     tibble,
-    lifecycle
+    lifecycle,
+    vctrs
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
