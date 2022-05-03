@@ -97,8 +97,8 @@
 #'
 #' @importFrom foreach %dopar%
 #' @importFrom vctrs new_list_of
-#' @import parallel
-#' @import doParallel
+#' @importFrom parallel clusterCall makeCluster stopCluster
+#' @importFrom doParallel registerDoParallel
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,
@@ -164,14 +164,14 @@ stics_wrapper <- function(model_options,
   cores_nb <- get_cores_nb(parallel = parallel, required_nb = cores)
 
   # Launching the cluster
-  cl <- parallel::makeCluster(cores_nb)
+  cl <- makeCluster(cores_nb)
 
   # Stopping the cluster when exiting
-  on.exit(parallel::stopCluster(cl))
+  on.exit(stopCluster(cl))
 
   # Registering cluster
-  doParallel::registerDoParallel(cl)
-  parallel::clusterCall(cl, function(x) .libPaths(x), .libPaths())
+  registerDoParallel(cl)
+  clusterCall(cl, function(x) .libPaths(x), .libPaths())
 
 
   # Define the list of USMs to simulate and initialize results -----------------

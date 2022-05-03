@@ -1,5 +1,5 @@
-Package: SticsOnR
 Type: Package
+Package: SticsOnR
 Title: Manage STICS Simulations Running the Executable or JavaStics,
 Version: 0.2.2
 Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4044-4322")),
@@ -13,37 +13,38 @@ Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patric
            person(given = "Alain", family = "Mollier", role = "rev")
            )
 Description: SticsOnR allows users to run STICS simulations, possibly in parallel.  
+License: file LICENSE
 URL: https://github.com/SticsRPacks/SticsOnR
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
-License: file LICENSE
 Depends: 
     R (>= 3.6.0)
-Encoding: UTF-8
-LazyData: true
-ByteCompile: true
-RoxygenNote: 7.1.2
 Imports:
-    magrittr,
-    stats,
-    dplyr,
-    crayon (>= 1.3.4),
-    rstudioapi,
-    doParallel,
-    foreach,
-    parallel,
-    XML,
-    methods,
-    SticsRFiles,
     cli,
+    crayon (>= 1.3.4),
+    doParallel,
+    dplyr,
+    foreach,
+    lifecycle,
+    magrittr,
+    methods,
+    parallel,
+    rstudioapi,
+    stats,
+    SticsRFiles,
     tibble,
     lifecycle,
     vctrs
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
-    testthat,
     covr,
     knitr,
-    rmarkdown
-VignetteBuilder: knitr
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
