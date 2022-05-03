@@ -16,4 +16,4 @@ NEWS.md
 new_versions\*.R$
 ^bin$
 ^\.github$
-CITATION.cff
+^CITATION.cff$
