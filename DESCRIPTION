@@ -33,7 +33,8 @@ Imports:
     SticsRFiles,
     tibble,
     lifecycle,
-    vctrs
+    vctrs,
+    XML
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
