@@ -176,9 +176,9 @@ run_javastics <- function(javastics,
       file.remove(histo_copy)
     }
 
-    if (verbose) {
+    #if (verbose) {
       print(usm_name)
-    }
+    #}
 
     if (optim) {
       system2(
@@ -222,7 +222,7 @@ run_javastics <- function(javastics,
       } else {
         # No errors: keeping lines of JavaSticsCmd execution
         usm_out$error <- FALSE
-        usm_out$message <- paste(status, collapse = "\n")
+        usm_out$message <- paste(status, sep = "\n")
       }
     }
 

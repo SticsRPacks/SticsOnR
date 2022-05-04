@@ -80,7 +80,7 @@ run_system <- function(stics_exe,
 
 
   # optional model executable checking
-  if (check_exe) check_stics_exe(stics_exe)
+  if (check) check_stics_exe(stics_exe)
 
   nb_usms <- length(run_dir)
   usms_out <- vector("list", nb_usms)
