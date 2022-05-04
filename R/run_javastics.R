@@ -77,6 +77,7 @@ run_javastics <- function(javastics,
 
   # Use absolute path from now on:
   javastics_path <- normalizePath(javastics_path, winslash = "/")
+  workspace_path <- normalizePath(workspace_path, winslash = "/", mustWork = FALSE)
 
   # Help people that don't remember well the standard name:
   if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
@@ -111,9 +112,6 @@ run_javastics <- function(javastics,
 
   # Fixing the JavaStics path
   setwd(javastics_path)
-
-  # Workspace path (absolute path from user wd + platform's canonical form)
-  workspace_path <- normalizePath(workspace_path, winslash = "/", mustWork = FALSE)
 
   # Checking and getting JavaStics workspace path
   ws <- check_java_workspace(javastics_path, workspace_path)
