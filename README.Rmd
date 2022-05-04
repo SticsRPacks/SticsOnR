@@ -3,19 +3,61 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_path: ../JavaSTICS-1.41-stics-9.2
-  workspace_path: ../JavaSTICS-1.41-stics-9.2/example
-  output_path: ../tmp/gen_usms_xml2txt
+  javastics_dist: 'JavaSTICS-1.5.0-SNAPSHOT-V10'
+  #javastics_dist: 'JavaSTICS-1.41-stics-9.2'
+  java_cmd: '/usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java'
+  root_path: '/home/plecharpent/Work/tmp/test_SticsOnR'
+  #root_path: 'F:/TESTS/test_SticsOnR'
+  work_dir: 'example'
+  windows: !r Sys.info()[['sysname']]=='Windows'
 ---
 
 
 ```{r setup, echo = FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(SticsRFiles))
+suppressPackageStartupMessages(library(SticsOnR))
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-"
 )
 options(tibble.print_min = 5, tibble.print_max = 5)
+
+javastics_dist <- params$javastics_dist
+root_path <- normalizePath(params$root_path, winslash = "/")
+javastics_path <- file.path(root_path, params$javastics_dist)
+workspace_path <- file.path(javastics_path, params$work_dir)
+output_path <- file.path(root_path, "gen_usms_xml2txt")
+
+
+windows <- params$windows
+linux <- !windows
+
+java_cmd <- 'java'
+if (linux)
+  java_cmd <- normalizePath(params$java_cmd, winslash = "/")
+
+```
+
+```{r error=FALSE, echo=FALSE, results='hide'}
+# For testing consistency betwen JavaSTICS and java version
+
+# Adding a test to see if javastics is compatible with java version
+res <- try(run_javastics(javastics_path,
+                         workspace_path, usm = "wheat", verbose = FALSE,
+                         java_cmd = java_cmd),
+           silent = TRUE)
+
+
+try_err <- attr(res,"class")
+#knitr::knit_exit()
+
+if (!is.null(try_err) && attr(try_err,"class") == "try-error") {
+  ver <- system2(command = 'java', args = "-version", stdout = TRUE, stderr = TRUE)
+  stop(javastics_dist, ": javastics not compatible with java\n",
+       ver[1],
+       "\nA java path must be provided for a compatible java version (11) to run_javastics")
+}
 
 ```
 
@@ -44,15 +86,22 @@ The latest distribution version for Stics is downloadable [here](https://www6.pa
 
 The installation process only consists of unzipping the JavaStics archive.
 
+### Under the Windows operating system
+
+Be aware that the java virtual machine does not need to be installed to use the
+JavaSTICS software, neither the graphical interface (`JavaStics.exe`) nor the command line interface (`JavaSticsCmd.exe`). Because, a Java machine is embedded in the JavaStics archive.
+
 ### Under linux operating systems
 
 #### Java version
 
-For using the JavaStics software (GUI and command line interface) under a `linux` operating system, the java version must be at most the Java 8 version.
+For using the JavaStics software (GUI and command line interface) under a `linux` operating system, the java version must be consistent with the JavaStics version
 
-For recent distributions on which a higher version is installed some manipulations have to be done.
+* for JavaStics 1.41, java version must be at most a Java 8 version
+* for JavaStics 1.5.0, java version must be a Java 11 version
 
-A description is given [here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html) on how to fix it for using the R package (i.e. underlying JavaStics command line interface).
+So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands [see here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html), using a specific java executable path ([see running JavaStics](#runjavasticscmd)).
+
 
 #### System libraries
 For the linux operating system, the SticsOnR package may require to install an `xslt` library.
@@ -71,7 +120,7 @@ For installing packages from the Github site an additional package must be insta
 For `devtools`, installation requires system dependent tools. They must be installed first.
 
 * For Windows
-RTools must be installed using the latest installer from  [here](https://cran.r-project.org/bin/windows/Rtools/)
+RTools must be installed using the latest installer from  [here](https://cran.r-project.org/bin/windows/Rtools)
 * For linux
 Development tools must be installed first, like the `build-essentials` package for a Debian like distribution for example.
 
@@ -145,42 +194,56 @@ library(SticsRFiles)
 
 Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.
 
-### Running the model using JavaStics command line interface (recommended)
+### Running the model using JavaStics command line interface {#runjavasticscmd}
 
-The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contains an `example` workspace folder with a set of runnable usms.
+The JavaStics installation folder (for example, `r javastics_dist`) contains an `example` workspace folder with a set of runnable usms.
 
 
 For running simulations from it, we can use the `run_javastics()` function.
 
-```{r echo = FALSE}
-javastics_path <- normalizePath(params$javastics_path, winslash = "/")
-workspace_path <- normalizePath(params$workspace_path, winslash = "/")
-output_path <- normalizePath(params$output_path, winslash = "/")
-```
 
+* Specifying the JavaStics folder   
+<pre>javastics_path <- `r paste0('/path/to/',javastics_dist)`</pre>
 
-```{r run_javastics, eval = FALSE}
-
-# Specifying the JavaStics folder
-javastics_path <- "/path/to/JavaSTICS-1.41-stics-9.1"
-
-# Specifying a workspace as a subfolder of JavaStics
-workspace_path <- "example"
-
-# or an absolute path to an external folder
-# workspace_path <- "/path/to/javastics/workspace"
-```
-
-
-```{r}
+* Specifying a workspace
+  * as a subfolder of JavaStics    
+<pre>workspace_path <- "example"</pre>
+  * or an absolute path to an external folder    
+<pre>workspace_path <- "/path/to/javastics/workspace"</pre>    
+  
+```{r eval = windows, echo = TRUE, include = TRUE}
+########## For Windows or linux with a compatible java version ################
 # Running specific usms from the workspace
-run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
+run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+              verbose = FALSE)
 
 # Running all usms contained in the workspace
-run_javastics(javastics_path, workspace_path)
+run_javastics(javastics_path, workspace_path,
+              verbose = FALSE)
 
 # Getting information about execution:
-runs_info <- run_javastics(javastics_path, workspace_path, usms_list = c("banana","wheat"))
+runs_info <- run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"), verbose = FALSE)
+
+runs_info
+```
+* For linux systems, if the java version is not compatible
+with the JavaStics version a compatible java executable path must be used
+<pre>java_cmd <- "/path/to/java/exe"</pre>    
+
+```{r eval = linux, echo = TRUE, include = TRUE}
+################ Only for linux with a specific java executable################
+
+# Running specific usms from the workspace
+run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+              verbose = FALSE, java_cmd = java_cmd)
+
+# Running all usms contained in the workspace
+run_javastics(javastics_path, workspace_path,
+              verbose = FALSE, java_cmd = java_cmd)
+
+# Getting information about execution:
+runs_info <- run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+                           verbose = FALSE, java_cmd = java_cmd)
 
 runs_info
 ```
@@ -194,9 +257,19 @@ We need for that a JavaStics folder and a directory with text input files for St
 These directories can be generated using the `[SticsRFiles::gen_usms_xml2txt()]` function from the **SticsRFiles** package, by converting automatically XML files to Stics input text files. See the documentation [here](https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html).
 
 Example of use:
-```{r}
+```{r eval = windows, echo = TRUE}
+# For Windows
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path, out_dir = output_path, verbose = FALSE)
+SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path,
+                              out_dir = output_path, verbose = FALSE)
+```
+
+```{r eval = linux, echo = TRUE}
+# For linux, using a specific java executable
+# Generating files for all the usms contained in the workspace
+SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path, 
+                              out_dir = output_path, verbose = FALSE,
+                              java_cmd = java_cmd)
 ```
 
 ```{r, echo=F, results='hide', eval = TRUE}
@@ -205,29 +278,27 @@ unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
 
 The `run_stics()` function can be used as follows with one folder or multiple sub-folders.
 
+The Stics executable path is set according to each operating system:
+
+* for windows   
+<pre>stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")</pre>
+* for linux    
+<pre>stics_path <- file.path(javastics_path,"bin","stics_modulo")</pre>
+* for Mac
+<pre>stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")</pre>
+
+
 ```{r run_stics_int, echo = FALSE, results='hide'}
 # Specifying the Stics executable file path
-
-# for windows
-# stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
 # for linux
-stics_path <- file.path(javastics_path,"bin","stics_modulo")
-# for linux
-# stics_path <- file.path(javastics_path,"bin","stics_modulo")
+if (is_unix())
+  stics_path <- file.path(javastics_path,"bin","stics_modulo")
 
 ```
 
 
 ```{r run_stics}
-# Specifying the Stics executable file path
-
-# for windows
-# stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
-# for linux
-# stics_path <- file.path(javastics_path,"bin","stics_modulo")
-# for Mac
-# stics_path <- file.path(javastics_path,"bin","stics_modulo_mac")
-
 # Specifying a directory containing Stics input files
 # For example reusing a generated sub-directory in the previous section
 # of the document
@@ -322,17 +393,17 @@ results <- stics_wrapper(model_options = sim_options)
 - Filtering on usms list
 
 ```{r, eval=FALSE}
-usms_list <- c("wheat", "pea", "maize")
+usm <- c("wheat", "pea", "maize")
 
-results <- stics_wrapper(model_options = sim_options, situation = usms_list)
+results <- stics_wrapper(model_options = sim_options, situation = usm)
 ```
 
 - Filtering outputs on variables
 
 ```{r, eval=FALSE}
-usms_list <- c("wheat", "pea", "maize")
+usm <- c("wheat", "pea", "maize")
 
-stics_wrapper(model_options = sim_options, situation = usms_list, var = c("masec_n","mafruit"))
+stics_wrapper(model_options = sim_options, situation = usm, var = c("masec_n","mafruit"))
 ```
 
 - Filtering outputs on variables and dates for several USMs
@@ -377,7 +448,7 @@ In this case, the same values will be applied for all the simulated usms.
 param_values <- c(0.002,50)
 names(param_values) <- c("dlaimax", "durvieF")
 
-results <- stics_wrapper(model_options = sim_options, situation = usms_list, param_values = param_values)
+results <- stics_wrapper(model_options = sim_options, situation = usm, param_values = param_values)
 ```
 
 - Defining different parameters values depending on the usms

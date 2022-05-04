@@ -9,15 +9,17 @@ vignette: >
 
 ## Java installation
 
-The highest version of Java usable with the `SticsOnR` or `SticsRFiles` packages is version 8. Even if a more recent version is installed on the system, it is possible to add a Java 8 version.
+The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8)
+
+For using JavaSTICS-1.41 it is possible to add a Java 8 version and switch to this one when needed.
 
 The next sections are giving information about how to switch to Java 8 and go back to the previously installed version.
 
 These information are partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.
 
-## Switching the java version to Java version 8. 
+## Switching the Java version to Java version 8 (for using a JavaSTICS interface 1.41)
 
-After the Java 8 installation, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
+After the Java 8 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
 
 ```{bash, eval = FALSE}
 #!/bin/bash
@@ -56,7 +58,7 @@ java -version
 After that, 
 
 > the **SticsOnR** package functions using the
-> JavaStics command line interface **can be used**.
+> JavaSTICS 1.41 command line interface **can be used**.
 
 
 ## Switch back to the previous Java version on the system
@@ -95,5 +97,8 @@ java -version
 
 
 ```
+After that, 
 
+> the **SticsOnR** package functions using the
+> JavaSTICS 1.5.0 command line interface **can be used**.
 
