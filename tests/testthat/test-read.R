@@ -25,14 +25,14 @@ library(SticsOnR)
 # test_that("Test that eval_output returns the right format", {
 #   out= eval_output(dirpath = "example_data",
 #                   obs_name = c("wheat_1.obs","wheat_2.obs"))
-#   expect_equal(colnames(out)[1:6],c("Dominance","Date","ian","mo","jo","jul"))
+# ' expect_equal(colnames(out)[1:6],c("Dominance","Date","ian","mo","jo","jul"))
 #   expect_equal(unique(out$Dominance)[order(unique(out$Dominance))],
 #                c("Associated","Principal"))
-#   expect_equal(class(out$Date)[1],"POSIXct")
+# '  expect_equal(class(out$Date)[1],"POSIXct")
 # })
 
 # test_that("Test eval_output consistancy", {
-#   tmp <- tempfile()
+# '  tmp <- tempfile()
 #   expect_known_output(tail(eval_output(dirpath = "example_data",
 #                            obs_name = c("wheat_1.obs","wheat_2.obs")),2),tmp)
 # })
@@ -40,10 +40,10 @@ library(SticsOnR)
 # read_param --------------------------------------------------------------
 
 # test_that("Test read_param output consistancy", {
-#   tmp <- tempfile()
-#   expect_known_output(read_param(dirpath = "example_data"),tmp)
-# })
+# '  tmp <- tempfile()
+# '  expect_known_output(read_param(dirpath = "example_data"),tmp)
+# ' })
 #
 # test_that("Test that read_param returns right errors", {
-#   expect_error(read_param(dirpath = "example_data",param= "zdklji"))
+# '  expect_error(read_param(dirpath = "example_data",param= "zdklji"))
 # })

@@ -52,7 +52,7 @@ test_that("With parallel", {
 test_that("With forcing cores number", {
   #
   # with required
-  # required < available
+  # ' required < available
   expect_equal(SticsOnR:::get_cores_nb(
     parallel = TRUE, required_nb = 1,
     cores_nb = 2
@@ -65,7 +65,7 @@ test_that("With forcing cores number", {
     parallel = TRUE, required_nb = 3,
     cores_nb = 4
   ), 3)
-  # required == available
+  # ' required == available
   expect_equal(SticsOnR:::get_cores_nb(
     parallel = TRUE, required_nb = 1,
     cores_nb = 1
@@ -82,7 +82,7 @@ test_that("With forcing cores number", {
     parallel = TRUE, required_nb = 4,
     cores_nb = 4
   ), 3)
-  # required > available
+  # ' required > available
   expect_equal(SticsOnR:::get_cores_nb(
     parallel = TRUE, required_nb = 2,
     cores_nb = 1

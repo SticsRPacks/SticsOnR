@@ -70,7 +70,7 @@ run_system <- function(stics_exe,
   }
 
   # testing id dirs exist
-  # print(run_dir)
+  # 'print(run_dir)
   dirs_exist <- file.exists(run_dir)
 
   if (!all(dirs_exist)) {
@@ -88,7 +88,7 @@ run_system <- function(stics_exe,
   for (d in 1:nb_usms) {
     usm_out <- list()
     usm_dir <- run_dir[d]
-    #usm_out$name <- basename(usm_dir)
+    # ' usm_out$name <- basename(usm_dir)
     setwd(usm_dir)
 
     usm_out$name <- SticsRFiles::get_usm_txt()$nom
@@ -102,7 +102,7 @@ run_system <- function(stics_exe,
 
     if (usm_out$error) {
       # TODO: see if concatenation !
-      # usm_out$message="Model execution error !"
+      # ' usm_out$message="Model execution error !"
       usm_out$message <- attr(ret, "message")
     }
 

@@ -1,48 +1,55 @@
-Package: SticsOnR
 Type: Package
+Package: SticsOnR
 Title: Manage STICS Simulations Running the Executable or JavaStics,
 Version: 0.2.2
-Authors@R: c( person(given = "Patrice",family = "Lecharpentier",role = c("aut", "cre"),email = "patrice.lecharpentier@inra.fr"),
-           person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = c("aut")),
-           person("SticsRPacks", role= c("aut", "cph")),
-           person(given = "Julie", family = "Constantin", email = "julie.constantin@inra.fr", role = c("rev")),
-           person(given = "Dominique", family = "Ripoche", email = "dominique.ripoche@inra.fr", role = c("rev")),
-           person(given = "Marie", family = "Launay", email = "marie.launay@inra.fr", role = c("rev")),
-           person(given = "Christine", family = "Le Bas", email = "christine.lebas@inra.fr", role = c("rev")),
-           person(given = "Alain", family = "Mollier", email = "alain.mollier@inra.fr", role = c("rev"))
+Date: 2021-07-17
+Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4044-4322")),
+           person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = "aut", comment = c(ORCID = "0000-0002-0808-1461")),
+           person(given = "Samuel", family = "Buis", email = "samuel.buis@inrae.fr", role= "aut", comment = c(ORCID = "0000-0002-8676-5447")),
+		   person(given = "Michel", family = "Giner", email = "michel.giner@cirad.fr", role= "aut", comment = c(ORCID = "0000-0002-9310-2377")),
+           person(given = "Julie", family = "Constantin", role = "rev"),
+           person(given = "Dominique", family = "Ripoche", role = "rev"),
+           person(given = "Marie", family = "Launay", role = "rev"),
+           person(given = "Christine", family = "Le Bas", role = "rev"),
+           person(given = "Alain", family = "Mollier", role = "rev")
            )
-Description: SticsOnR allow users to set simulations (USM) as javaSTICS or Stics do, to run them in different folders on in sequential,
-  and to import the outputs from R.
-URL: https://github.com/SticsRPacks/SticsOnR
-BugReports: https://github.com/SticsRPacks/SticsOnR/issues
+Description: SticsOnR allows users to run STICS simulations, possibly in parallel.
 License: file LICENSE
-Depends: 
+URL: https://github.com/SticsRPacks/SticsOnR,
+ https://doi.org/10.5281/zenodo.4443130
+BugReports: https://github.com/SticsRPacks/SticsOnR/issues
+Depends:
     R (>= 3.6.0)
-Encoding: UTF-8
-LazyData: true
-ByteCompile: true
-RoxygenNote: 7.1.2
 Imports:
-    magrittr,
-    stats,
-    dplyr,
-    crayon (>= 1.3.4),
-    rstudioapi,
-    doParallel,
-    foreach,
-    parallel,
-    XML,
-    methods,
-    SticsRFiles,
     cli,
+    crayon (>= 1.3.4),
+    doParallel,
+    dplyr,
+    foreach,
+    lifecycle,
+    magrittr,
+    methods,
+    parallel,
+    rstudioapi,
+    stats,
+    SticsRFiles,
     tibble,
-    lifecycle
+    lifecycle,
+    vctrs,
+    XML
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
-    testthat,
     covr,
     knitr,
-    rmarkdown
-VignetteBuilder: knitr
+    rmarkdown,
+    spelling,
+    testthat
+VignetteBuilder:
+    knitr
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Language: en-US

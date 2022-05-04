@@ -58,17 +58,16 @@ set_stics_exe <- function(javastics,
   check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
-    # stics_exe= "modulostics"
+    # ' stics_exe= "modulostics"
     switch(user_os(),
       lin = {
-        "modulostics_linux"
-      },
+          "modulostics_linux"
+          },
       mac = {
         "modulostics_mac"
-      },
-      {
+        }, {
         "modulostics"
-      }
+        }
     )
   }
 
@@ -80,7 +79,7 @@ set_stics_exe <- function(javastics,
         "Using stics {.val {stics_exe}} (exe: {.val {exe_name}})"
       )
     }
-    select_stics_exe(javastics, stics_exe)
+    select_stics_exe(javastics, exe_name)
     return(invisible())
   }
 
@@ -553,12 +552,12 @@ remove_stics_exe <- function(javastics, stics_exe) {
     return()
   }
 
-  # exe_name=basename(java_model_exe)
-  # java_exe_path=file.path(javastics,"bin",exe_name)
+  # ' exe_name=basename(java_model_exe)
+  # ' java_exe_path=file.path(javastics,"bin",exe_name)
   #
-  # if (!file.exists(java_model_exe) & !file.exists(java_exe_path)){
-  #   stop("The model executable file doesn't exist : ",java_model_exe)
-  # }
+  # ' if (!file.exists(java_model_exe) & !file.exists(java_exe_path)) {
+  # '  stop("The model executable file doesn't exist : ",java_model_exe)
+  # ' }
 
 
   xml_path <- file.path(javastics, "config", "preferences.xml")
