@@ -2,6 +2,7 @@ Type: Package
 Package: SticsOnR
 Title: Manage STICS Simulations Running the Executable or JavaStics,
 Version: 0.2.2
+Date: 2021-07-17
 Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4044-4322")),
            person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = "aut", comment = c(ORCID = "0000-0002-0808-1461")),
            person(given = "Samuel", family = "Buis", email = "samuel.buis@inrae.fr", role= "aut", comment = c(ORCID = "0000-0002-8676-5447")),
@@ -12,11 +13,12 @@ Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patric
            person(given = "Christine", family = "Le Bas", role = "rev"),
            person(given = "Alain", family = "Mollier", role = "rev")
            )
-Description: SticsOnR allows users to run STICS simulations, possibly in parallel.  
+Description: SticsOnR allows users to run STICS simulations, possibly in parallel.
 License: file LICENSE
-URL: https://github.com/SticsRPacks/SticsOnR
+URL: https://github.com/SticsRPacks/SticsOnR,
+ https://doi.org/10.5281/zenodo.4443130
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
-Depends: 
+Depends:
     R (>= 3.6.0)
 Imports:
     cli,
@@ -43,7 +45,7 @@ Suggests:
     rmarkdown,
     spelling,
     testthat
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 ByteCompile: true
 Encoding: UTF-8
