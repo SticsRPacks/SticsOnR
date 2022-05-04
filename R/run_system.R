@@ -8,7 +8,7 @@
 #' or root directory of Stics directories (if usm is given)
 #' @param usm Name(s) vector of sub-directory(ies) of workspace
 #' or "all" for extracting all sub-directories path
-#' @param check_exe Logical, T for checking the model executable, F otherwise
+#' @param check Logical, T for checking the model executable, F otherwise
 #' @param verbose Logical value (optional), TRUE to verbose usms names,
 #' FALSE otherwise (default)
 #'
@@ -54,7 +54,7 @@
 run_system <- function(stics_exe,
                        workspace,
                        usm = NULL,
-                       check_exe = TRUE,
+                       check = TRUE,
                        verbose = FALSE) {
   first_wd <- getwd()
   on.exit(setwd(first_wd))

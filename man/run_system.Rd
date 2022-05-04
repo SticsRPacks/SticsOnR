@@ -5,7 +5,7 @@
 \title{Running usm(s) from a/several directory(ies)
 or a/several subdirectory(ies) named with usm name}
 \usage{
-run_system(stics_exe, workspace, usm = NULL, check_exe = TRUE, verbose = FALSE)
+run_system(stics_exe, workspace, usm = NULL, check = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{stics_exe}{Path of Stics executable file}
@@ -16,7 +16,7 @@ or root directory of Stics directories (if usm is given)}
 \item{usm}{Name(s) vector of sub-directory(ies) of workspace
 or "all" for extracting all sub-directories path}
 
-\item{check_exe}{Logical, T for checking the model executable, F otherwise}
+\item{check}{Logical, T for checking the model executable, F otherwise}
 
 \item{verbose}{Logical value (optional), TRUE to verbose usms names,
 FALSE otherwise (default)}
