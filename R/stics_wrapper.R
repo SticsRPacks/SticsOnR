@@ -196,7 +196,7 @@ stics_wrapper <- function(model_options,
       warning(paste0(
         "No folder(s) found in ", data_dir, " for USMs ",
         paste(setdiff(required_situations, avail_sit),
-          collapse = " "
+              collapse = " "
         ),
         "\n These USMs will not be simulated."
       ))
@@ -215,7 +215,7 @@ stics_wrapper <- function(model_options,
     warning(paste0(
       "No folder(s) found in ", data_dir, " for USMs ",
       paste(setdiff(unlist(successive_usms), avail_sit),
-        collapse = " "
+            collapse = " "
       ),
       "\n The corresponding successions of USMs will not be simulated."
     ))
@@ -286,7 +286,7 @@ stics_wrapper <- function(model_options,
     if (!is.null(param_values)) {
       if ("situation" %in% names(param_values_sit)) {
         param_values_sit <- param_values_sit %>%
-          dplyr::filter(situation == sit2simulate[i]) %>%
+          dplyr::filter(situation == situation) %>%
           dplyr::select(-situation)
       }
     }
@@ -309,7 +309,7 @@ stics_wrapper <- function(model_options,
         run_dir,
         dplyr::slice(param_values_sit, ip)
       )) {
-        ess <- warning(paste(
+        mess <- warning(paste(
           "Error when generating the forcing parameters file for USM",
           situation, ". \n "
         ))
@@ -325,7 +325,7 @@ stics_wrapper <- function(model_options,
       # first position it must be linked with previous one)
       is_succ <- any(sapply(
         successive_usms,
-        function(x) match(sit2simulate[i], x)
+        function(x) match(situation, x)
       ) >= 2)
       if (!is.na(is_succ) && is_succ) {
 
@@ -354,14 +354,15 @@ stics_wrapper <- function(model_options,
         }
 
         # Copying files and checking return
-        if (!file.copy(
+        recup_copy <- file.copy(
           from = f_recup,
           to = file.path(run_dir, c(
             "recup.tmp",
             "snow_variables.txt"
           )),
           overwrite = TRUE
-        )) {
+        )
+        if (!all(recup_copy)) {
           mess <- warning(
             paste(
               "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
@@ -407,7 +408,7 @@ stics_wrapper <- function(model_options,
         }
         is_prev <- any(sapply(
           successive_usms,
-          function(x) match(sit2simulate[i], x) < length(x)
+          function(x) match(situation, x) < length(x)
         ))
         if (!is.na(is_prev) && is_prev) {
           file.rename(
@@ -570,7 +571,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$simulate <- FALSE
     return(res)
   } else if (!is.null(sit_var_dates_mask) &&
-    is.null(sit_var_dates_mask[[situation]])) {
+             is.null(sit_var_dates_mask[[situation]])) {
 
     # no results required for this situation -> return NULL
     ############################################################################
@@ -616,7 +617,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$message <- warning(paste(
           "Variable(s)",
           paste(setdiff(req_var_names, inter_var_names),
-            collapse = ", "
+                collapse = ", "
           ),
           "not simulated by the Stics model for USM",
           situation,
@@ -640,7 +641,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           res$message <- warning(paste(
             "Variable(s)",
             paste(setdiff(req_var_names, inter_var_names),
-              collapse = ", "
+                  collapse = ", "
             ),
             "not simulated by the Stics model for USM", situation,
             "=>", file.path(run_dir, "var.mod"), "has been modified and the model re-run."
@@ -1019,13 +1020,13 @@ stics_wrapper_options <- function(javastics = NULL,
       list_stics_exe(javastics)$stics_list[stics_exe][[1]]
     )
   } else if (!is.null(javastics) &&
-    check_stics_exe(
-      model_path = file.path(
-        javastics, "bin",
-        basename(stics_exe)
-      ),
-      stop = FALSE
-    )) {
+             check_stics_exe(
+               model_path = file.path(
+                 javastics, "bin",
+                 basename(stics_exe)
+               ),
+               stop = FALSE
+             )) {
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(model_path = stics_exe, stop = FALSE)) {
