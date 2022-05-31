@@ -79,7 +79,7 @@ set_stics_exe <- function(javastics,
         "Using stics {.val {stics_exe}} (exe: {.val {exe_name}})"
       )
     }
-    select_stics_exe(javastics, exe_name)
+    select_stics_exe(javastics, stics_exe)
     return(invisible())
   }
 
