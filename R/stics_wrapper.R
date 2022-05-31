@@ -285,7 +285,7 @@ stics_wrapper <- function(model_options,
     if (!is.null(param_values)) {
       if ("situation" %in% names(param_values_sit)) {
         param_values_sit <- param_values_sit %>%
-          dplyr::filter(situation == situation) %>%
+          dplyr::filter(situation == sit2simulate[i]) %>%
           dplyr::select(-situation)
       }
     }
@@ -324,7 +324,7 @@ stics_wrapper <- function(model_options,
       # first position it must be linked with previous one)
       is_succ <- any(sapply(
         successive_usms,
-        function(x) match(situation, x)
+        function(x) match(sit2simulate[i], x)
       ) >= 2)
       if (!is.na(is_succ) && is_succ) {
 
@@ -407,7 +407,7 @@ stics_wrapper <- function(model_options,
         }
         is_prev <- any(sapply(
           successive_usms,
-          function(x) match(situation, x) < length(x)
+          function(x) match(sit2simulate[i], x) < length(x)
         ))
         if (!is.na(is_prev) && is_prev) {
           file.rename(
