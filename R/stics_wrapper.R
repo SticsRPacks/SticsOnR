@@ -319,76 +319,75 @@ stics_wrapper <- function(model_options,
         next()
       }
 
-
-      # Handling successive USMs (if the usm is part of the list and not in
-      # first position it must be linked with previous one)
-      is_succ <- any(sapply(
-        successive_usms,
-        function(x) match(sit2simulate[i], x)
-      ) >= 2)
-      if (!is.na(is_succ) && is_succ) {
-
-        # Checking recup.tmp and snow_variables.txt files
-        f_recup <- c(
-          file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp")),
-          file.path(
-            run_dirs[i - 1],
-            paste0("snow_variables", ip, ".txt")
-          )
-        )
-        f_exist <- file.exists(f_recup)
-
-        if (!all(f_exist)) {
-          mess <- warning(paste(
-            "Error running the Stics model for USM",
-            situation,
-            ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
-            "file(s) was/were not created by the previous USM."
-          ))
-          sim_list[ip] <- NULL
-          flag_error[ip] <- TRUE
-          flag_rqd_res[ip] <- FALSE
-          messages[ip] <- mess
-          next()
-        }
-
-        # Copying files and checking return
-        recup_copy <- file.copy(
-          from = f_recup,
-          to = file.path(run_dir, c(
-            "recup.tmp",
-            "snow_variables.txt"
-          )),
-          overwrite = TRUE
-        )
-        if (!all(recup_copy)) {
-          mess <- warning(
-            paste(
-              "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
-              situation
-            )
-          )
-          sim_list[ip] <- NULL
-          flag_error[ip] <- TRUE
-          flag_rqd_res[ip] <- FALSE
-          messages[ip] <- mess
-          next()
-        }
-
-        # The following could be done only once in case of repeated call to the
-        # wrapper (e.g. parameters estimation ...)
-        SticsRFiles::set_usm_txt(
-          filepath = file.path(run_dir, "new_travail.usm"),
-          param = "codesuite", value = 1
-        )
-      }
-
-
       # Handle the simulation (may be repeated - using flag simulate - in case
       # some configuration files are not well defined)
       varmod_modified <- FALSE
       simulate <- TRUE
       while (simulate) {
+
+        # Handling successive USMs (if the usm is part of the list and not in
+        # first position it must be linked with previous one)
+        is_succ <- any(sapply(
+          successive_usms,
+          function(x) match(sit2simulate[i], x)
+        ) >= 2)
+        if (!is.na(is_succ) && is_succ) {
+
+          # Checking recup.tmp and snow_variables.txt files
+          f_recup <- c(
+            file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp")),
+            file.path(
+              run_dirs[i - 1],
+              paste0("snow_variables", ip, ".txt")
+            )
+          )
+          f_exist <- file.exists(f_recup)
+
+          if (!all(f_exist)) {
+            mess <- warning(paste(
+              "Error running the Stics model for USM",
+              situation,
+              ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
+              "file(s) was/were not created by the previous USM."
+            ))
+            sim_list[ip] <- NULL
+            flag_error[ip] <- TRUE
+            flag_rqd_res[ip] <- FALSE
+            messages[ip] <- mess
+            next()
+          }
+
+          # Copying files and checking return
+          recup_copy <- file.copy(
+            from = f_recup,
+            to = file.path(run_dir, c(
+              "recup.tmp",
+              "snow_variables.txt"
+            )),
+            overwrite = TRUE
+          )
+          if (!all(recup_copy)) {
+            mess <- warning(
+              paste(
+                "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
+                situation
+              )
+            )
+            sim_list[ip] <- NULL
+            flag_error[ip] <- TRUE
+            flag_rqd_res[ip] <- FALSE
+            messages[ip] <- mess
+            next()
+          }
+
+          # The following could be done only once in case of repeated call to the
+          # wrapper (e.g. parameters estimation ...)
+          SticsRFiles::set_usm_txt(
+            filepath = file.path(run_dir, "new_travail.usm"),
+            param = "codesuite", value = 1
+          )
+        }
+
 
         ## Run the model, forcing not to check the model executable (saves time)
         usm_out <- run_stics(stics_exe, run_dir, check = FALSE)
