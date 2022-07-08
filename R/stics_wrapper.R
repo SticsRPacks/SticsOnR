@@ -288,6 +288,13 @@ stics_wrapper <- function(model_options,
           dplyr::filter(situation == sit2simulate[i]) %>%
           dplyr::select(-situation)
       }
+      if ("variete" %in% names(param_values_sit)) {
+        param_values_sit <- dplyr::select(
+          param_values_sit, c("variete",
+                              setdiff(names(param_values_sit),
+                                      "variete"))
+        )
+      }
     }
     if (is.null((param_values_sit)) | nrow(param_values_sit) == 0) {
       param_values_sit <- tibble::tibble(NA)
