@@ -600,6 +600,10 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     } else {
       req_var_names <- c(var_names)
     }
+
+    ## Convert required variables names to Stics variables names (i.e. handle ())
+    req_var_names <- SticsRFiles:::var_to_col_names(req_var_names)
+
     ## Add reserved keywords "Plant" and "Date" from the list
     # req_var_names <- req_var_names[!grepl("Plant",req_var_names)]
     req_var_names <- unique(c(c("Date", "Plant"), req_var_names))
