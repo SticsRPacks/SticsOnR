@@ -1,3 +1,18 @@
+# SticsOnR ?.?.?  (2022-07-??)
+
+
+CHANGES:
+  * run_javastics: new argument for giving a java version specific path
+  * stics_wrapper: set variete to be forced first if in param_values
+  * some function moved to the SticsRFiles package
+
+FIXES
+  * run successive USMs: if required variables not defined in outputs
+  * run_stics: running automatically usms stored in subdirectories
+  * run_javastics: STICS execution errors were not captured, relative workspace folder checks
+  
+  
+
 # SticsOnR 0.2.2  (2021-06-17)
 
 ## Changes
