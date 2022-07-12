@@ -13,7 +13,15 @@ Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patric
            person(given = "Christine", family = "Le Bas", role = "rev"),
            person(given = "Alain", family = "Mollier", role = "rev")
            )
-Description: SticsOnR allows users to run STICS simulations, possibly in parallel.
+Description: The purpose of SticsOnR is simply to run simulations with the STICS
+    model. It provides three different ways to perform a simulation depending on
+    the use-case: 1/ Call JavaStics to run a simulation on a given situation. In
+    this case JavaStics will handle the generation of the text files from the 
+    XML files; 2/ Call the STICS model executable directly. In this case the 
+    text files should be produced beforehand; and 3/ Call the STICS model 
+    executable through a wrapper that handles distributed runs over the machine
+    CPUs and returns the simulated values to the user. The wrapper also provides
+    a concise manner for making a simulation custom parameters values.
 License: file LICENSE
 URL: https://github.com/SticsRPacks/SticsOnR,
  https://doi.org/10.5281/zenodo.4443130
@@ -35,7 +43,6 @@ Imports:
     SticsRFiles,
     tibble,
     lifecycle,
-    vctrs,
     XML
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
