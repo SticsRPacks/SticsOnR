@@ -148,6 +148,11 @@ stics_wrapper <- function(model_options,
   time_display <- model_options$time_display
   successive_usms <- model_options$successive
   force <- model_options$force
+  javastics <- model_options$javastics
+
+  # Checking if javastics path is set when forcing parameters
+  if(!is.null(param_values) && javastics =="unknown")
+    stop("When parameters values are to be forced, a JavaStics path must be set in model_options list !")
 
   # In case of successive USMs, disable parallel run
   if (!is.null(successive_usms)) parallel <- FALSE
@@ -313,7 +318,8 @@ stics_wrapper <- function(model_options,
       # Force parameters values
       if (!SticsRFiles::force_param_values(
         run_dir,
-        dplyr::slice(param_values_sit, ip)
+        dplyr::slice(param_values_sit, ip),
+        javastics
       )) {
         mess <- warning(paste(
           "Error when generating the forcing parameters file for USM",
