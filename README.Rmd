@@ -393,7 +393,7 @@ results <- stics_wrapper(model_options = sim_options)
 - Filtering on usms list
 
 ```{r, eval=FALSE}
-usm <- c("wheat", "pea", "maize")
+usm <- c("wheat", "maize")
 
 results <- stics_wrapper(model_options = sim_options, situation = usm)
 ```
@@ -401,7 +401,7 @@ results <- stics_wrapper(model_options = sim_options, situation = usm)
 - Filtering outputs on variables
 
 ```{r, eval=FALSE}
-usm <- c("wheat", "pea", "maize")
+usm <- c("wheat", "maize")
 
 stics_wrapper(model_options = sim_options, situation = usm, var = c("masec_n","mafruit"))
 ```
@@ -460,14 +460,13 @@ results <- stics_wrapper(model_options = sim_options, situation = usm, param_val
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
 # and usm maize with c(dlaimax=0.001, durvieF=70)
-param_values <- data.frame(Situation=c("wheat", "pea", "maize"),
-                           dlaimax=c(0.001,0.001,0.001),
+param_values <- data.frame(dlaimax=c(0.001,0.001,0.001),
                            durvieF=c(50,60,70))
 
 # Let's display it
 param_values
 
-results <- stics_wrapper(model_options = sim_options, param_values = param_values, situation=c("wheat", "pea", "maize"))
+results <- stics_wrapper(model_options = sim_options, param_values = param_values, situation=c("wheat", "maize"))
 
 ```
 
