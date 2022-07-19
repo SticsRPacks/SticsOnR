@@ -115,7 +115,7 @@ stics_wrapper <- function(model_options,
 
   if (lifecycle::is_present(sit_names)) {
     lifecycle::deprecate_warn(
-      "0.5.0", "stics_wrapper(sit_names)",
+      "1.0.0", "stics_wrapper(sit_names)",
       "stics_wrapper(situation)"
     )
   } else {
@@ -123,7 +123,7 @@ stics_wrapper <- function(model_options,
   }
   if (lifecycle::is_present(var_names)) {
     lifecycle::deprecate_warn(
-      "0.5.0", "stics_wrapper(var_names)",
+      "1.0.0", "stics_wrapper(var_names)",
       "stics_wrapper(var)"
     )
   } else {
@@ -958,21 +958,21 @@ stics_wrapper_options <- function(javastics = NULL,
                                   ...) {
   if (lifecycle::is_present(successive_usms)) {
     lifecycle::deprecate_warn(
-      "0.5.0", "stics_wrapper_options(successive_usms)",
+      "1.0.0", "stics_wrapper_options(successive_usms)",
       "stics_wrapper_options(successive)"
     )
     successive <- successive_usms
   }
   if (lifecycle::is_present(data_dir)) {
     lifecycle::deprecate_warn(
-      "0.5.0", "stics_wrapper_options(data_dir)",
+      "1.0.0", "stics_wrapper_options(data_dir)",
       "stics_wrapper_options(workspace)"
     )
     workspace <- data_dir
   }
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn(
-      "0.5.0", "stics_wrapper_options(javastics_path)",
+      "1.0.0", "stics_wrapper_options(javastics_path)",
       "stics_wrapper_options(javastics)"
     )
     javastics <- javastics_path

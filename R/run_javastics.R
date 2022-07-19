@@ -56,17 +56,17 @@ run_javastics <- function(javastics,
                           usms_list = lifecycle::deprecated()) {
 
   if (lifecycle::is_present(javastics_path)) {
-    lifecycle::deprecate_warn("0.5.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
   } else {
     javastics_path <- javastics # to remove when we update inside the function
   }
   if (lifecycle::is_present(workspace_path)) {
-    lifecycle::deprecate_warn("0.5.0", "run_javastics(workspace_path)", "run_javastics(workspace)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(workspace_path)", "run_javastics(workspace)")
   } else {
     workspace_path <- workspace # to remove when we update inside the function
   }
   if (lifecycle::is_present(usms_list)) {
-    lifecycle::deprecate_warn("0.5.0", "run_javastics(usms_list)", "run_javastics(usm)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(usms_list)", "run_javastics(usm)")
   } else {
     usms_list <- usm # to remove when we update inside the function
   }

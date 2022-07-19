@@ -59,27 +59,27 @@ run_stics <- function(stics_exe,
                       check_exe = lifecycle::deprecated(),
                       display = lifecycle::deprecated()) {
   if (lifecycle::is_present(model_path)) {
-    lifecycle::deprecate_warn("0.5.0", "run_stics(model_path)", "run_stics(stics_exe)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(model_path)", "run_stics(stics_exe)")
   } else {
     model_path <- stics_exe # to remove when we update inside the function
   }
   if (lifecycle::is_present(data_dir)) {
-    lifecycle::deprecate_warn("0.5.0", "run_stics(data_dir)", "run_stics(workspace)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(data_dir)", "run_stics(workspace)")
   } else {
     data_dir <- workspace # to remove when we update inside the function
   }
   if (lifecycle::is_present(usm_dir_names)) {
-    lifecycle::deprecate_warn("0.5.0", "run_stics(usm_dir_names)", "run_stics(usm)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(usm_dir_names)", "run_stics(usm)")
   } else {
     usm_dir_names <- usm # to remove when we update inside the function
   }
   if (lifecycle::is_present(check_exe)) {
-    lifecycle::deprecate_warn("0.5.0", "run_stics(check_exe)", "run_stics(check)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(check_exe)", "run_stics(check)")
   } else {
     check_exe <- check # to remove when we update inside the function
   }
   if (lifecycle::is_present(display)) {
-    lifecycle::deprecate_warn("0.5.0", "run_stics(display)", "run_stics(verbose)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(display)", "run_stics(verbose)")
   } else {
     display <- verbose # to remove when we update inside the function
   }
