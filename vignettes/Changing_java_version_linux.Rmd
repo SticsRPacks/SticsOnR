@@ -9,43 +9,79 @@ vignette: >
 
 ## Java installation
 
-The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8)
+The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8).
 
-For using JavaSTICS-1.41 it is possible to add a Java 8 version and switch to this one when needed.
+If the default version of java is older than 11, a java 11 can be installed and solutions exist for switching between versions.
 
-The next sections are giving information about how to switch to Java 8 and go back to the previously installed version.
+These information may be partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.
 
-These information are partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.
+## Creating an alias to java 11
+This is the simplest solution and allows to avoid switching between versions. But, it is leading to use additional arguments for some R functions relying on JavaSTICS use in background (i.e. run_javastics, gen_xml2txt, for example).
 
-## Switching the Java version to Java version 8 (for using a JavaSTICS interface 1.41)
+<pre style="font-size: 11px">
 
-After the Java 8 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
+alias java11=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+</pre>
+
+This can be added in the .bashrc file for permanent use.
+
+
+
+## Switching between version
+
+### Using the system tools
+
+The following command under Ubuntu allows to manage switching easily
+
+<pre style="font-size: 11px">
+sudo update-alternatives --config java
+</pre>
+
+
+<pre style="font-size: 11px">
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection     Path                                            Priority  Status
+------------------------------------------------------------
+  0            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      auto mode
+* 1            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
+
+Press <enter> to keep the current choice[*], or type selection number:0
+
+</pre>
+
+
+
+## Using a shell script
+
+After the Java 11 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
 
 ```{bash, eval = FALSE}
 #!/bin/bash
 
-# Changing latest installed Java version to Java version 8
+# Changing latest installed Java version to Java version 11
 echo "The current Java version is : "
 java -version
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if ! [ -z $(echo $version | grep ^1.8) ];then
-  echo "The Java version is already Java 8"
+if ! [ -z $(echo $version | grep ^11) ];then
+  echo "The Java version is already Java 11"
   exit 0
 fi
 
-echo "Changing Java version to Java 8"
-if [ -e /usr/lib/jvm/java-8-openjdk-amd64/bin/java ];then
+echo "Changing Java version to Java 11"
+if [ -e /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java ];then
 	     sudo rm /usr/bin/java
-	     sudo ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java
+	     sudo ln -s /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java /usr/bin/java
 fi
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if [ -z $(echo $version | grep ^1.8) ];then
+if [ -z $(echo $version | grep ^11) ];then
   echo
-  echo "Java 8 is not installed !"
+  echo "Java 11 is not installed !"
   exit 1
 fi
 
@@ -58,7 +94,7 @@ java -version
 After that, 
 
 > the **SticsOnR** package functions using the
-> JavaSTICS 1.41 command line interface **can be used**.
+> JavaSTICS 1.5.0 command line interface **can be used**.
 
 
 ## Switch back to the previous Java version on the system
@@ -75,16 +111,17 @@ java -version
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if [ -z $(echo $version | grep ^1.8) ];then
+if [ -z $(echo $version | grep ^11) ];then
   echo
-  echo "The Java version is not Java 8"
+  echo "The Java version is not Java 11"
   exit 0
 fi
 
+#ls -ald /usr/lib/jvm/* | grep ^d | grep java-
 
 last_version=$(/etc/alternatives/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if ! [ -z $(echo $last_version | grep ^1.8) ];then
+if ! [ -z $(echo $last_version | grep ^11) ];then
   echo
   echo "No more recent version of Java is available on the system !"
   exit 0
@@ -97,8 +134,5 @@ java -version
 
 
 ```
-After that, 
 
-> the **SticsOnR** package functions using the
-> JavaSTICS 1.5.0 command line interface **can be used**.
 
