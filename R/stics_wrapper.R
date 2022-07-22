@@ -52,7 +52,7 @@
 #' \dontrun{
 #'
 #' # Specifying the JavaStics folder
-#' javastics <- "/path/to/javastics"
+#' javastics <- "/path/to/JavaSTICS/folder"
 #'
 #' # Setting the input data folder path, root directory of the usms directories
 #' data_path <- "/path/to/usms/subdirs/root"
