@@ -242,6 +242,11 @@ stics_wrapper <- function(model_options,
     setdiff(sit2simulate, unlist(successive_usms))
   )
 
+  # Initialize the list of phenological stages (specific treatment in the loop)
+  stages_list <- c("iamfs", "idebdess", "idebdorms", "idrps", "ifindorms",
+                   "iflos", "iflos_minus_150", "iflos_plus_150", "igers",
+                   "ilans", "ilaxs", "ilevs", "imats", "imontaisons")
+
 
   # Calculating directories list
   run_dirs <- file.path(data_dir, sit2simulate)
@@ -477,6 +482,17 @@ stics_wrapper <- function(model_options,
         messages[[ip]] <- tmp$message
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
+
+        # For phenological stages, set the value obtained at the last date for all dates.
+        if (length(tmp$sim_list) > 0) {
+          if (length(intersect(stages_list,names(sim_list[[ip]]))>0)) {
+            sim_list[[ip]] <-
+              dplyr::mutate(sim_list[[ip]],
+                            dplyr::across(dplyr::all_of(intersect(stages_list,names(sim_list[[ip]]))),
+                                          ~.x[length(.x)]))
+          }
+        }
+
       }
     }
 
