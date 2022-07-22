@@ -280,11 +280,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[22/07/22]-[13:34:41] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[13:34:41] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[13:34:41] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[13:34:41] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
-#> [5] "[22/07/22]-[13:34:41] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
+#> [1] "[22/07/22]-[14:30:24] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[14:30:25] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
+#> [5] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
 #> 
 #> 
 #> [[2]]
@@ -295,11 +295,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[22/07/22]-[13:34:41] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[13:34:42] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[13:34:42] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[13:34:42] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
-#> [5] "[22/07/22]-[13:34:42] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
+#> [1] "[22/07/22]-[14:30:25] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[14:30:26] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
+#> [5] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
