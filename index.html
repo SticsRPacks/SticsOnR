@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Package to manage STICS simulations https://github.com/SticsRPacks/SticsOnR • SticsOnR</title>
+<title>Manage STICS Simulations Running the Executable or JavaStics, • SticsOnR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,9 +17,16 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="A Package to manage STICS simulations https://github.com/SticsRPacks/SticsOnR">
-<meta property="og:description" content="SticsOnR allow users to set simulations (USM) as javaSTICS or Stics do, to run them in different folders on in sequential,
-  and to import the outputs from R.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Manage STICS Simulations Running the Executable or JavaStics,">
+<meta property="og:description" content="The purpose of SticsOnR is simply to run simulations with the STICS
+    model. It provides three different ways to perform a simulation depending on
+    the use-case: 1/ Call JavaStics to run a simulation on a given situation. In
+    this case JavaStics will handle the generation of the text files from the 
+    XML files; 2/ Call the STICS model executable directly. In this case the 
+    text files should be produced beforehand; and 3/ Call the STICS model 
+    executable through a wrapper that handles distributed runs over the machine
+    CPUs and returns the simulated values to the user. The wrapper also provides
+    a concise manner for making a simulation custom parameters values.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -41,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -51,7 +58,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -68,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/SticsRPacks/SticsOnR/">
+  <a href="https://github.com/SticsRPacks/SticsOnR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,285 +92,328 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">SticsOnR</a></span><span class="op">)</span>
-<span class="co">#&gt; Learn SticsOnR at: https://SticsRPacks.github.io/SticsOnR</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SticsRPacks/SticsRFiles" class="external-link">SticsRFiles</a></span><span class="op">)</span>
-<span class="co">#&gt; Learn SticsRFiles at: https://SticsRPacks.github.io/SticsRFiles</span></code></pre></div>
-<div id="sticsonr-the-r-package-for-the-stics-model-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#sticsonr-the-r-package-for-the-stics-model-" class="anchor" aria-hidden="true"></a>SticsOnR: The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="sticsonr">SticsOnR<a class="anchor" aria-label="anchor" href="#sticsonr"></a>
 </h1></div>
+<p>The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right"></p>
 <!-- badges: start -->
-
-<p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://www6.paca.inra.fr/stics_eng/Download" class="external-link uri">https://www6.paca.inra.fr/stics_eng/Download</a>.</p>
+<p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://www6.paca.inrae.fr/stics_eng/Download" class="external-link uri">https://www6.paca.inrae.fr/stics_eng/Download</a>.</p>
 <p>If you want to be notified when a new release of this package is made, you can tick the Releases box in the “Watch / Unwatch =&gt; Custom” menu at the top right of <a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">this page</a>.</p>
-<div id="prerequisites-and-technical-tips" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prerequisites-and-technical-tips" class="anchor" aria-hidden="true"></a>Prerequisites and technical tips</h2>
-<div id="javastics-software" class="section level3">
-<h3 class="hasAnchor">
-<a href="#javastics-software" class="anchor" aria-hidden="true"></a>JavaStics software</h3>
+<div class="section level2">
+<h2 id="prerequisites-and-technical-tips">Prerequisites and technical tips<a class="anchor" aria-label="anchor" href="#prerequisites-and-technical-tips"></a>
+</h2>
+<div class="section level3">
+<h3 id="javastics-software">JavaStics software<a class="anchor" aria-label="anchor" href="#javastics-software"></a>
+</h3>
 <p>JavaStics must be installed and the minimal version is version 1.41.</p>
-<p>The last distribution version for Stics is downloadable <a href="https://www6.paca.inrae.fr/stics_eng/Download" class="external-link">here</a>.</p>
-<p>The installation process only constists of unzipping the JavaStics archive.</p>
+<p>The latest distribution version for Stics is downloadable <a href="https://www6.paca.inrae.fr/stics_eng/Download" class="external-link">here</a>.</p>
+<p>The installation process only consists of unzipping the JavaStics archive.</p>
 </div>
-<div id="under-linux-operating-systems" class="section level3">
-<h3 class="hasAnchor">
-<a href="#under-linux-operating-systems" class="anchor" aria-hidden="true"></a>Under linux operating systems</h3>
-<div id="java-version" class="section level4">
-<h4 class="hasAnchor">
-<a href="#java-version" class="anchor" aria-hidden="true"></a>Java version</h4>
-<p>For using the JavaStics software (GUI and command line interface) under a <code>linux</code> operating system, the java version must be at most the Java 8 version.</p>
-<p>For recent distributions on which a higher version is installed some manipulations have to be done.</p>
-<p>A description is given <a href="https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html" class="external-link">here</a> on how to fix it for using the R package (i.e. underlying JavaStics command line interface).</p>
+<div class="section level3">
+<h3 id="under-the-windows-operating-system">Under the Windows operating system<a class="anchor" aria-label="anchor" href="#under-the-windows-operating-system"></a>
+</h3>
+<p>Be aware that the java virtual machine does not need to be installed to use the JavaSTICS software, neither the graphical interface (<code>JavaStics.exe</code>) nor the command line interface (<code>JavaSticsCmd.exe</code>). Because, a Java machine is embedded in the JavaStics archive.</p>
 </div>
-<div id="system-libraries" class="section level4">
-<h4 class="hasAnchor">
-<a href="#system-libraries" class="anchor" aria-hidden="true"></a>System libraries</h4>
+<div class="section level3">
+<h3 id="under-linux-operating-systems">Under linux operating systems<a class="anchor" aria-label="anchor" href="#under-linux-operating-systems"></a>
+</h3>
+<div class="section level4">
+<h4 id="java-version">Java version<a class="anchor" aria-label="anchor" href="#java-version"></a>
+</h4>
+<p>For using the JavaStics software (GUI and command line interface) under a <code>linux</code> operating system, the java version must be consistent with the JavaStics version</p>
+<ul>
+<li>for JavaStics 1.41, java version must be at most a Java 8 version</li>
+<li>for the latest JavaStics 1.5.0 version, java version must be a Java 11 version, and only STICS version 10.0.0 can be used</li>
+</ul>
+<p>So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands <a href="https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html" class="external-link">see here</a>, using a specific java executable path (<a href="#runjavasticscmd">see running JavaStics</a>).</p>
+</div>
+<div class="section level4">
+<h4 id="system-libraries">System libraries<a class="anchor" aria-label="anchor" href="#system-libraries"></a>
+</h4>
 <p>For the linux operating system, the SticsOnR package may require to install an <code>xslt</code> library.</p>
 <p>If the SticsOnR installation fails, and the <code>xslt</code> library is missing, the error message indicates what is the name of the xslt library to be installed (according to the common linux distributions). For example, for the Ubuntu or Debian OS <code>libxslt1-dev</code> must be installed.</p>
 </div>
-<div id="filesdirectories-paths-syntax" class="section level4">
-<h4 class="hasAnchor">
-<a href="#filesdirectories-paths-syntax" class="anchor" aria-hidden="true"></a>Files/directories paths syntax</h4>
+<div class="section level4">
+<h4 id="filesdirectories-paths-syntax">Files/directories paths syntax<a class="anchor" aria-label="anchor" href="#filesdirectories-paths-syntax"></a>
+</h4>
 <p>Using the <code>~</code> in files or directories paths may cause errors in SticsOnR functions. So, it is safer for the moment to use absolute paths. This will be fixed in the future versions.</p>
 </div>
-<div id="remote-installation-tools" class="section level4">
-<h4 class="hasAnchor">
-<a href="#remote-installation-tools" class="anchor" aria-hidden="true"></a>Remote installation tools</h4>
+<div class="section level4">
+<h4 id="remote-installation-tools">Remote installation tools<a class="anchor" aria-label="anchor" href="#remote-installation-tools"></a>
+</h4>
 <p>For installing packages from the Github site an additional package must be installed. One can use either <code>devtools</code> or <a href="https://github.com/r-lib/remotes#readme" class="external-link"><code>remotes</code></a></p>
 <p>For <code>devtools</code>, installation requires system dependent tools. They must be installed first.</p>
 <ul>
-<li>For Windows<br>
-RTools must be installed using the last installer from <a href="https://cran.r-project.org/bin/windows/Rtools" class="external-link">here</a>
+<li>For Windows RTools must be installed using the latest installer from <a href="https://cran.r-project.org/bin/windows/Rtools" class="external-link">here</a>
 </li>
-<li>For linux<br>
-Development tools must be installed first, like the <code>build-essentials</code> package for a Debian like distribution for example.</li>
+<li>For linux Development tools must be installed first, like the <code>build-essentials</code> package for a Debian like distribution for example.</li>
 </ul>
 <p>Then the <code>devtools</code> package can be installed using:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">install</span><span class="fu">:::</span><span class="fu">packages</span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
 <p>For <code>remotes</code>, it can be directly installed using:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">install</span><span class="fu">:::</span><span class="fu">packages</span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
-<div id="recommended-installation-sticsrpacks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#recommended-installation-sticsrpacks" class="anchor" aria-hidden="true"></a>Recommended installation: <code>SticsRPacks</code>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="recommended-installation-sticsrpacks">Recommended installation: <code>SticsRPacks</code>
+<a class="anchor" aria-label="anchor" href="#recommended-installation-sticsrpacks"></a>
 </h3>
 <p>The best way to install the packages from <code>SticsRPacks</code>, from which <code>SticsOnR</code> is part of, is by installing the <code>[SticsRPacks]</code> package:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
+<ul><li>With <code>remotes</code>
+</li></ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>With <code>remotes</code>
-</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></code></pre></div>
-<p>The package will install the packages for you at the last release version.</p>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
+<p>The package will install the packages for you at the latest release version.</p>
 </div>
-<div id="other-way-install-each-package-independently" class="section level3">
-<h3 class="hasAnchor">
-<a href="#other-way-install-each-package-independently" class="anchor" aria-hidden="true"></a>Other way: install each package independently</h3>
-<div id="sticsonr" class="section level4">
-<h4 class="hasAnchor">
-<a href="#sticsonr" class="anchor" aria-hidden="true"></a>SticsOnR</h4>
+<div class="section level3">
+<h3 id="other-way-install-each-package-independently">Other way: install each package independently<a class="anchor" aria-label="anchor" href="#other-way-install-each-package-independently"></a>
+</h3>
+<div class="section level4">
+<h4 id="sticsonr-1">SticsOnR<a class="anchor" aria-label="anchor" href="#sticsonr-1"></a>
+</h4>
 <p>The package installation can be remotely done directly from <a href="https://github.com/" class="external-link">GitHub</a> using either <code>devtools</code> or the lightweight <code>remote</code> one package</p>
-<p>The last release version can be installed using:</p>
-<ul>
-<li>With <code>devtools</code>
-</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>With <code>remotes</code>
-</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></code></pre></div>
-<p>Normaly, all the package dependencies will be installed for CRAN packages.</p>
+<p>The latest release version can be installed using:</p>
+<ul><li>With <code>devtools</code>
+</li></ul>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
+<ul><li>With <code>remotes</code>
+</li></ul>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
+<p>Normally, all the package dependencies will be installed for CRAN packages.</p>
 </div>
-<div id="sticsrfiles" class="section level4">
-<h4 class="hasAnchor">
-<a href="#sticsrfiles" class="anchor" aria-hidden="true"></a>SticsRFiles</h4>
+<div class="section level4">
+<h4 id="sticsrfiles">SticsRFiles<a class="anchor" aria-label="anchor" href="#sticsrfiles"></a>
+</h4>
 <p><code>SticsRFiles</code> must be installed manually using the above syntax, just replacing <strong>SticsOnR</strong> with <strong>SticsRFiles</strong>.</p>
 </div>
 </div>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor" aria-hidden="true"></a>Examples</h2>
-<p>Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.</p>
-<div id="running-the-model-using-javastics-command-line-interface-recommended" class="section level3">
-<h3 class="hasAnchor">
-<a href="#running-the-model-using-javastics-command-line-interface-recommended" class="anchor" aria-hidden="true"></a>Running the model using JavaStics command line interface (recommended)</h3>
-<p>The JavaStics installation folder (for example, JavaSTICS-1.41-stics-9.1) contains an <code>example</code> workspace folder with a set of runnable usms.</p>
-<p>For running simulations from it, we can use the <code><a href="reference/run_javastics.html">run_javastics()</a></code> function.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Specifying the JavaStics folder</span>
-<span class="va">javastics_path</span> <span class="op">&lt;-</span> <span class="st">"/path/to/JavaSTICS-1.41-stics-9.1"</span>
-
-<span class="co"># Specifying a workspace as a subfolder of JavaStics </span>
-<span class="va">workspace_path</span> <span class="op">&lt;-</span> <span class="st">"example"</span>
-
-<span class="co"># or an absolute path to an external folder</span>
-<span class="co"># workspace_path &lt;- "/path/to/javastics/workspace"</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Running specific usms from the workspace</span>
-<span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usms_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics 'modulostics' (exe: 'stics_modulo.exe')</span>
-<span class="co">#&gt; [1] "banana"</span>
-<span class="co">#&gt; [1] "wheat"</span>
-<span class="co">#&gt; v All usms ran successfully!</span>
-
-<span class="co"># Running all usms contained in the workspace </span>
-<span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics 'modulostics' (exe: 'stics_modulo.exe')</span>
-<span class="co">#&gt; [1] "SugarCane"</span>
-<span class="co">#&gt; [1] "potato"</span>
-<span class="co">#&gt; [1] "banana"</span>
-<span class="co">#&gt; [1] "sorghum"</span>
-<span class="co">#&gt; [1] "barley"</span>
-<span class="co">#&gt; [1] "sugarbeet"</span>
-<span class="co">#&gt; [1] "wheat"</span>
-<span class="co">#&gt; [1] "maize"</span>
-<span class="co">#&gt; [1] "soybean"</span>
-<span class="co">#&gt; [1] "lettuce"</span>
-<span class="co">#&gt; [1] "tomato"</span>
-<span class="co">#&gt; [1] "DurumWheat"</span>
-<span class="co">#&gt; [1] "rapeseed"</span>
-<span class="co">#&gt; [1] "sunflower"</span>
-<span class="co">#&gt; [1] "grass"</span>
-<span class="co">#&gt; [1] "BareSoil"</span>
-<span class="co">#&gt; [1] "demo_Wheat1"</span>
-<span class="co">#&gt; [1] "demo_BareSoil2"</span>
-<span class="co">#&gt; [1] "demo_maize3"</span>
-<span class="co">#&gt; [1] "DurumWheat_4years"</span>
-<span class="co">#&gt; [1] "maize_4years"</span>
-<span class="co">#&gt; [1] "strawberry"</span>
-<span class="co">#&gt; [1] "pea"</span>
-<span class="co">#&gt; [1] "vine"</span>
-<span class="co">#&gt; [1] "fescue"</span>
-<span class="co">#&gt; [1] "flax"</span>
-<span class="co">#&gt; [1] "intercrop_pea_barley"</span>
-<span class="co">#&gt; [1] "timothy"</span>
-<span class="co">#&gt; [1] "DurumWheat_snow"</span>
-<span class="co">#&gt; [1] "Turmeric"</span>
-<span class="co">#&gt; [1] "cc_BristleOat"</span>
-<span class="co">#&gt; [1] "cc_mustard"</span>
-<span class="co">#&gt; [1] "cc_ItalianRyegrass"</span>
-<span class="co">#&gt; [1] "cc_vetch"</span>
-<span class="co">#&gt; [1] "cc_CrimsonClover"</span>
-<span class="co">#&gt; [1] "proto_rice"</span>
-<span class="co">#&gt; v All usms ran successfully!</span>
-
-<span class="co"># Getting information about execution:</span>
-<span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usms_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics 'modulostics' (exe: 'stics_modulo.exe')</span>
-<span class="co">#&gt; [1] "banana"</span>
-<span class="co">#&gt; [1] "wheat"</span>
-<span class="co">#&gt; v All usms ran successfully!</span>
-
-<span class="va">runs_info</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [[1]]$name</span>
-<span class="co">#&gt; [1] "banana"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$error</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$message</span>
-<span class="co">#&gt; [1] "0"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [[2]]$name</span>
-<span class="co">#&gt; [1] "wheat"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$error</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$message</span>
-<span class="co">#&gt; [1] "0"</span></code></pre></div>
-<p>In the returned information, the error field name gives a list of messages from the JavaStics commandline interface. If any <code>Error</code> key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error’s origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).</p>
+<div class="section level2">
+<h2 id="loading-the-packages-library">Loading the packages library<a class="anchor" aria-label="anchor" href="#loading-the-packages-library"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">SticsOnR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SticsRPacks/SticsRFiles" class="external-link">SticsRFiles</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="running-the-model-using-the-stics-executable-directly" class="section level3">
-<h3 class="hasAnchor">
-<a href="#running-the-model-using-the-stics-executable-directly" class="anchor" aria-hidden="true"></a>Running the model using the stics executable directly</h3>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>Here are basic examples which show you how to run the model either from a R model interface or a JavaStics (command line) one. More complete examples will be detailed in a specific documentation later.</p>
+<div class="section level3">
+<h3 id="running-the-model-using-javastics-command-line-interface">Running the model using JavaStics command line interface<a class="anchor" aria-label="anchor" href="#running-the-model-using-javastics-command-line-interface"></a>
+</h3>
+<p>The JavaStics installation folder (for example, JavaSTICS-1.5.0-STICS-10.0.0) contains an <code>example</code> workspace folder with a set of runnable usms.</p>
+<p>For running simulations from it, we can use the <code><a href="reference/run_javastics.html">run_javastics()</a></code> function.</p>
+<ul>
+<li>Specifying the JavaStics folder<br><pre>javastics_path </pre>
+</li>
+<li>Specifying a workspace<ul>
+<li>as a subfolder of JavaStics<br><pre>workspace_path </pre>
+</li>
+<li>or an absolute path to an external folder<br><pre>workspace_path </pre>
+</li>
+</ul>
+</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">########## For Windows or linux with a compatible java version ################</span></span>
+<span><span class="co"># Running specific usms from the workspace</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Running all usms contained in the workspace</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
+<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Getting information about execution:</span></span>
+<span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">runs_info</span></span></code></pre></div>
+<ul><li>For linux systems, if the java version is not compatible with the JavaStics version a compatible java executable path must be used<pre>java_cmd </pre>
+</li></ul>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">################ Only for linux with a specific java executable################</span></span>
+<span></span>
+<span><span class="co"># Running specific usms from the workspace</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "banana"</span></span>
+<span><span class="co">#&gt; [1] "wheat"</span></span>
+<span></span>
+<span><span class="co"># Running all usms contained in the workspace</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
+<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "SugarCane"</span></span>
+<span><span class="co">#&gt; [1] "potato"</span></span>
+<span><span class="co">#&gt; [1] "banana"</span></span>
+<span><span class="co">#&gt; [1] "sorghum"</span></span>
+<span><span class="co">#&gt; [1] "sugarbeet"</span></span>
+<span><span class="co">#&gt; [1] "wheat"</span></span>
+<span><span class="co">#&gt; [1] "maize"</span></span>
+<span><span class="co">#&gt; [1] "soybean"</span></span>
+<span><span class="co">#&gt; [1] "lettuce"</span></span>
+<span><span class="co">#&gt; [1] "tomato"</span></span>
+<span><span class="co">#&gt; [1] "DurumWheat"</span></span>
+<span><span class="co">#&gt; [1] "rapeseed"</span></span>
+<span><span class="co">#&gt; [1] "sunflower"</span></span>
+<span><span class="co">#&gt; [1] "grass"</span></span>
+<span><span class="co">#&gt; [1] "BareSoil"</span></span>
+<span><span class="co">#&gt; [1] "demo_Wheat1"</span></span>
+<span><span class="co">#&gt; [1] "demo_BareSoil2"</span></span>
+<span><span class="co">#&gt; [1] "demo_maize3"</span></span>
+<span><span class="co">#&gt; [1] "DurumWheat_4years"</span></span>
+<span><span class="co">#&gt; [1] "maize_4years"</span></span>
+<span><span class="co">#&gt; [1] "strawberry"</span></span>
+<span><span class="co">#&gt; [1] "vine"</span></span>
+<span><span class="co">#&gt; [1] "fescue"</span></span>
+<span><span class="co">#&gt; [1] "flax"</span></span>
+<span><span class="co">#&gt; [1] "intercrop_pea_barley"</span></span>
+<span><span class="co">#&gt; [1] "timothy"</span></span>
+<span><span class="co">#&gt; [1] "DurumWheat_snow"</span></span>
+<span><span class="co">#&gt; [1] "Turmeric"</span></span>
+<span><span class="co">#&gt; [1] "cc_BristleOat"</span></span>
+<span><span class="co">#&gt; [1] "cc_mustard"</span></span>
+<span><span class="co">#&gt; [1] "cc_ItalianRyegrass"</span></span>
+<span><span class="co">#&gt; [1] "cc_vetch"</span></span>
+<span><span class="co">#&gt; [1] "cc_CrimsonClover"</span></span>
+<span><span class="co">#&gt; [1] "proto_rice"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2006"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2007"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2008"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2009"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2010"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2011"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2012"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2013"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2014"</span></span>
+<span><span class="co">#&gt; [1] "Miscanthus_2015"</span></span>
+<span></span>
+<span><span class="co"># Getting information about execution:</span></span>
+<span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>                           verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "banana"</span></span>
+<span><span class="co">#&gt; [1] "wheat"</span></span>
+<span></span>
+<span><span class="va">runs_info</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [[1]]$name</span></span>
+<span><span class="co">#&gt; [1] "banana"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[1]]$error</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[1]]$message</span></span>
+<span><span class="co">#&gt; [1] "[22/07/22]-[14:30:24] INFO - Generating txt files ..."                                                                           </span></span>
+<span><span class="co">#&gt; [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"</span></span>
+<span><span class="co">#&gt; [3] "[22/07/22]-[14:30:25] INFO - Files generated :"                                                                                  </span></span>
+<span><span class="co">#&gt; [4] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    </span></span>
+<span><span class="co">#&gt; [5] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [[2]]$name</span></span>
+<span><span class="co">#&gt; [1] "wheat"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]$error</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]$message</span></span>
+<span><span class="co">#&gt; [1] "[22/07/22]-[14:30:25] INFO - Generating txt files ..."                                                                           </span></span>
+<span><span class="co">#&gt; [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"</span></span>
+<span><span class="co">#&gt; [3] "[22/07/22]-[14:30:26] INFO - Files generated :"                                                                                  </span></span>
+<span><span class="co">#&gt; [4] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     </span></span>
+<span><span class="co">#&gt; [5] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"</span></span></code></pre></div>
+<p>In the returned information, the error field name gives a list of messages from the JavaStics command line interface. If any <code>Error</code> key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error’s origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).</p>
+</div>
+<div class="section level3">
+<h3 id="running-the-model-using-the-stics-executable-directly">Running the model using the stics executable directly<a class="anchor" aria-label="anchor" href="#running-the-model-using-the-stics-executable-directly"></a>
+</h3>
 <p>We need for that a JavaStics folder and a directory with text input files for Stics, or a folder containing individual sub-directories for usms.</p>
 <p>These directories can be generated using the <code>[SticsRFiles::gen_usms_xml2txt()]</code> function from the <strong>SticsRFiles</strong> package, by converting automatically XML files to Stics input text files. See the documentation <a href="https://sticsrpacks.github.io/SticsRFiles/articles/Generating_Stics_text_files.html" class="external-link">here</a>.</p>
 <p>Example of use:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Generating files for all the usms contained in the workspace</span>
-<span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>, workspace_path <span class="op">=</span> <span class="va">workspace_path</span>, target_path <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/run_stics.html">run_stics()</a></code> function can be used as follows with one folder or multiple sub-folders.</p>
+<code class="sourceCode R"><span><span class="co"># For Windows</span></span>
+<span><span class="co"># Generating files for all the usms contained in the workspace</span></span>
+<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>, workspace <span class="op">=</span> <span class="va">workspace_path</span>,</span>
+<span>                              out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Specifying the Stics executable file path</span>
-
-<span class="co"># for windows</span>
-<span class="co"># stics_path &lt;- file.path(javastics_path,"bin","stics_modulo.exe")</span>
-<span class="co"># for linux</span>
-<span class="co"># stics_path &lt;- file.path(javastics_path,"bin","stics_modulo")</span>
-<span class="co"># for Mac</span>
-<span class="co"># stics_path &lt;- file.path(javastics_path,"bin","stics_modulo_mac")</span>
-
-<span class="co"># Specifying a directory containing Stics input files</span>
-<span class="co"># For example reusing a generated sub-directory in the previous section</span>
-<span class="co"># of the document</span>
-<span class="co"># Running one usm</span>
-<span class="va">files_dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">output_path</span>,<span class="st">"banana"</span><span class="op">)</span>
-<span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">files_dir_path</span><span class="op">)</span>
-
-<span class="co"># Specifying a root directory containing usms individual directories</span>
-<span class="co"># For example reusing a generated directory in the previous section</span>
-<span class="co"># of the document</span>
-<span class="co"># Running two usms</span>
-<span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm_dir_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Running all the usms defined in the sub-directories of output_path</span>
-<span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm_dir_names <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span>
-
-<span class="co"># Getting returned information about stics runs</span>
-<span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm_dir_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">runs_info</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [[1]]$name</span>
-<span class="co">#&gt; [1] "banana"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$error</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$message</span>
-<span class="co">#&gt; [1] " numcult =            1"                           </span>
-<span class="co">#&gt; [2] " The execution has been successfully accomplished."</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [[2]]$name</span>
-<span class="co">#&gt; [1] "wheat"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$error</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$message</span>
-<span class="co">#&gt; [1] " numcult =            1"                           </span>
-<span class="co">#&gt; [2] " The execution has been successfully accomplished."</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># For linux, using a specific java executable</span></span>
+<span><span class="co"># Generating files for all the usms contained in the workspace</span></span>
+<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>, workspace <span class="op">=</span> <span class="va">workspace_path</span>, </span>
+<span>                              out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                              java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="reference/run_stics.html">run_stics()</a></code> function can be used as follows with one folder or multiple sub-folders.</p>
+<p>The Stics executable path is set according to each operating system:</p>
+<ul>
+<li>for windows<br><pre>stics_path </pre>
+</li>
+<li>for linux<br><pre>stics_path </pre>
+</li>
+<li>for Mac<pre>stics_path </pre>
+</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Specifying a directory containing Stics input files</span></span>
+<span><span class="co"># For example reusing a generated sub-directory in the previous section</span></span>
+<span><span class="co"># of the document</span></span>
+<span><span class="co"># Running one usm</span></span>
+<span><span class="va">files_dir_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">output_path</span>,<span class="st">"banana"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">files_dir_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Specifying a root directory containing usms individual directories</span></span>
+<span><span class="co"># For example reusing a generated directory in the previous section</span></span>
+<span><span class="co"># of the document</span></span>
+<span><span class="co"># Running two usms</span></span>
+<span><span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Running all the usms defined in the sub-directories of output_path</span></span>
+<span><span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in system2(command = command, args = com_args, stderr = TRUE, stdout =</span></span>
+<span><span class="co">#&gt; TRUE): l'exécution de la commande ''/home/plecharpent/Work/tmp/test_SticsOnR/</span></span>
+<span><span class="co">#&gt; JavaSTICS-1.5.0-STICS-10.0.0/bin/stics_modulo' 2&gt;&amp;1' renvoie un statut 9</span></span>
+<span></span>
+<span><span class="co"># Getting returned information about stics runs</span></span>
+<span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_stics.html">run_stics</a></span><span class="op">(</span><span class="va">stics_path</span>, <span class="va">output_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">runs_info</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [[1]]$name</span></span>
+<span><span class="co">#&gt; [1] "banana"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[1]]$error</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[1]]$message</span></span>
+<span><span class="co">#&gt; [1] " numcult =            1"        " The execution was successful."</span></span>
+<span><span class="co">#&gt; [3] " Duration = 0.07 s"            </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [[2]]$name</span></span>
+<span><span class="co">#&gt; [1] "wheat"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]$error</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]$message</span></span>
+<span><span class="co">#&gt; [1] " numcult =            1"        " The execution was successful."</span></span>
+<span><span class="co">#&gt; [3] " Duration = 0.11 s"</span></span></code></pre></div>
 </div>
-<div id="advanced-simulations-parameterization" class="section level3">
-<h3 class="hasAnchor">
-<a href="#advanced-simulations-parameterization" class="anchor" aria-hidden="true"></a>Advanced simulations parameterization</h3>
+<div class="section level3">
+<h3 id="advanced-simulations-parameterization">Advanced simulations parameterization<a class="anchor" aria-label="anchor" href="#advanced-simulations-parameterization"></a>
+</h3>
 <p>A specific function <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> is dedicated to manage simulations with a higher level of parameterization than what <code><a href="reference/run_stics.html">run_stics()</a></code> offers.</p>
 <p>This <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> function allows:</p>
 <ul>
@@ -373,351 +423,321 @@ Development tools must be installed first, like the <code>build-essentials</code
 <li>Run Usms in successive mode</li>
 </ul>
 <p>As the <code><a href="reference/run_stics.html">run_stics()</a></code> function, the <code><a href="reference/stics_wrapper.html">stics_wrapper()</a></code> operates on directories containing text stics input files.</p>
-<div id="defining-simulations-options" class="section level4">
-<h4 class="hasAnchor">
-<a href="#defining-simulations-options" class="anchor" aria-hidden="true"></a>Defining simulations options</h4>
+<div class="section level4">
+<h4 id="defining-simulations-options">Defining simulations options<a class="anchor" aria-label="anchor" href="#defining-simulations-options"></a>
+</h4>
 <p>Simulation options can be fixed using the <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> function. Both of them are mandatory: the model executable path and the directory path containing usms sub-directories with text input files.</p>
 <p>A template is returned by the function when called with no arguments:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; $javastics_path</span>
-<span class="co">#&gt; [1] "unknown"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $stics_exe</span>
-<span class="co">#&gt; [1] "unknown"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $data_dir</span>
-<span class="co">#&gt; [1] "unknown"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $parallel</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $cores</span>
-<span class="co">#&gt; [1] NA</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $time_display</span>
-<span class="co">#&gt; [1] FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $verbose</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>For the example, we will use the default stics model version shipping with JavaStics and the directory where individual usms input directories have been generated:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, 
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>By default, <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> checks that <code>javastics_path</code>, <code>stics_exe</code> and <code>data_dir</code> exists.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $javastics</span></span>
+<span><span class="co">#&gt; [1] "unknown"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $stics_exe</span></span>
+<span><span class="co">#&gt; [1] "unknown"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $workspace</span></span>
+<span><span class="co">#&gt; [1] "unknown"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $parallel</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $cores</span></span>
+<span><span class="co">#&gt; [1] NA</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $time_display</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $verbose</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $force</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>For the example, we will use the default stics model version shipping with JavaStics and the directory where individual usms input directories have been generated:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>By default, <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> checks that <code>javastics</code>, <code>stics_exe</code> and <code>workspace</code> exists.</p>
 <p>There are different solutions if you need to use a custom version of stics:</p>
-<ol style="list-style-type: decimal">
-<li>if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):</li>
-</ol>
-<!-- end list --><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom"</span>,
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<ol style="list-style-type: decimal">
-<li>if it is located in the bin directory of the JavaStics installation directory, provide the executable name:</li>
-</ol>
-<!-- end list --><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom.exe"</span>,
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<ol style="list-style-type: decimal">
-<li>if it is located in any other folder, provide the full path to the executable name, and no need to use <code>javastics_path</code>:</li>
-</ol>
-<!-- end list --><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>stics_exe <span class="op">=</span> <span class="st">"path/to/stics_custom.exe"</span>,
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<ol style="list-style-type: decimal"><li>if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):</li></ol>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom"</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal"><li>if it is located in the bin directory of the JavaStics installation directory, provide the executable name:</li></ol>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom.exe"</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal"><li>if it is located in any other folder, provide the full path to the executable name, and no need to use <code>javastics_path</code>:</li></ol>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>stics_exe <span class="op">=</span> <span class="st">"path/to/stics_custom.exe"</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="simple-simulations-cases" class="section level4">
-<h4 class="hasAnchor">
-<a href="#simple-simulations-cases" class="anchor" aria-hidden="true"></a>Simple simulations cases</h4>
-<ul>
-<li>Without filtering usms or outputs</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>Filtering on usms list</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usms_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, sit_names <span class="op">=</span> <span class="va">usms_list</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>Filtering outputs on variables</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usms_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, sit_names <span class="op">=</span> <span class="va">usms_list</span>, var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"masec_n"</span>,<span class="st">"mafruit"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>Filtering outputs on variables and dates for several USMs</li>
-</ul>
-<p>The argument <code>sit_var_dates_mask</code> must contain a named list (named by usms names) containing data.frames, as the sim_list element of the list returned by stics_wrapper (see here-after) or as observations data.</p>
-<p>It defines a mask: stics_wrapper will return a result for each USM, variable and date that contains at least a value (i.e. different from NA) in the mask.</p>
-<p>The stics_wrapper function returns a list that contains two elements: * error, a boolean indicating if an error occurs during the simulations, * sim_list, a named list of data.frames containing the simulated values for the requested USMS, variables and dates.</p>
+<div class="section level4">
+<h4 id="simple-simulations-cases">Simple simulations cases<a class="anchor" aria-label="anchor" href="#simple-simulations-cases"></a>
+</h4>
+<ul><li>Without filtering usms or outputs</li></ul>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
+<ul><li>Filtering on usms list</li></ul>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">usm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span><span class="op">)</span></span></code></pre></div>
+<ul><li>Filtering outputs on variables</li></ul>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">obs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/get_obs.html" class="external-link">get_obs</a></span><span class="op">(</span>workspace <span class="op">=</span> <span class="va">workspace_path</span>, usm_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># Observations table for wheat</span>
-<span class="va">obs_list</span><span class="op">$</span><span class="va">wheat</span>
-<span class="co">#&gt;          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3</span>
-<span class="co">#&gt; 1  1995-01-30  0.29    0.25   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 2  1995-02-03    NA      NA 21.1 18.8 12.4 133.26     3.1     2.9       4</span>
-<span class="co">#&gt; 3  1995-02-07  0.37    0.31   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 4  1995-02-16  0.40    0.32   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 5  1995-02-24  0.45    0.40   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 6  1995-03-06  0.44    0.38   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 7  1995-03-16  0.60    0.59   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 8  1995-03-23  0.85    0.87   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 9  1995-04-03  1.47    1.28   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 10 1995-04-11  2.37    2.68   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 11 1995-04-18  2.65    3.70   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 12 1995-04-26  4.55    4.67   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 13 1995-05-02  4.41    5.77   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 14 1995-05-05    NA    6.01   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 15 1995-05-09  5.20    7.51   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 16 1995-05-12    NA    9.73   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 17 1995-05-15  5.98    9.87   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 18 1995-05-19    NA   11.08   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 19 1995-05-29    NA   14.08   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt; 20 1995-07-17    NA   21.91   NA   NA   NA     NA      NA      NA      NA</span>
-<span class="co">#&gt;    QNplante   Plant</span>
-<span class="co">#&gt; 1      9.24 plant_1</span>
-<span class="co">#&gt; 2        NA plant_1</span>
-<span class="co">#&gt; 3     10.85 plant_1</span>
-<span class="co">#&gt; 4     12.61 plant_1</span>
-<span class="co">#&gt; 5     13.32 plant_1</span>
-<span class="co">#&gt; 6     16.65 plant_1</span>
-<span class="co">#&gt; 7     24.59 plant_1</span>
-<span class="co">#&gt; 8     38.86 plant_1</span>
-<span class="co">#&gt; 9     60.99 plant_1</span>
-<span class="co">#&gt; 10    98.98 plant_1</span>
-<span class="co">#&gt; 11   103.36 plant_1</span>
-<span class="co">#&gt; 12   141.99 plant_1</span>
-<span class="co">#&gt; 13   170.03 plant_1</span>
-<span class="co">#&gt; 14       NA plant_1</span>
-<span class="co">#&gt; 15   188.57 plant_1</span>
-<span class="co">#&gt; 16       NA plant_1</span>
-<span class="co">#&gt; 17   216.06 plant_1</span>
-<span class="co">#&gt; 18       NA plant_1</span>
-<span class="co">#&gt; 19   258.38 plant_1</span>
-<span class="co">#&gt; 20   258.45 plant_1</span>
-
-<span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, 
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, sit_var_dates_mask <span class="op">=</span> <span class="va">obs_list</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'</span>
-<span class="co">#&gt; Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting</span>
-<span class="co">#&gt; variable(s): force_param_values</span>
-<span class="co">#&gt; Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span>
-<span class="co">#&gt; $error</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $sim_list</span>
-<span class="co">#&gt; $maize</span>
-<span class="co">#&gt;          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante</span>
-<span class="co">#&gt; 1  1996-05-14 0.00048  0.00007  0.00000 69.16374  90.25692 18.71289   0.06000</span>
-<span class="co">#&gt; 2  1996-06-11 0.52827  0.34602  0.00000 39.69806 101.53232 37.54969  11.39259</span>
-<span class="co">#&gt; 3  1996-06-19 1.20459  1.46155  0.00000 31.19296  93.05993 37.34723  34.81186</span>
-<span class="co">#&gt; 4  1996-06-26 1.76653  2.30258  0.00000 27.14680  81.66067 36.21786  57.46828</span>
-<span class="co">#&gt; 5  1996-07-02 2.45174  3.55522  0.00000 22.45446  67.96534 33.68311  81.82993</span>
-<span class="co">#&gt; 6  1996-07-05 2.77730  3.93519  0.00000 16.32175  72.93639 32.37175  89.12132</span>
-<span class="co">#&gt; 7  1996-07-15 4.03727  6.17194  0.00000  8.38111  52.82459 33.41626 124.54063</span>
-<span class="co">#&gt; 8  1996-07-24 5.79979  9.17521  0.00000  7.94482  35.38852 29.95074 163.16862</span>
-<span class="co">#&gt; 9  1996-07-25 5.79979  9.46826  0.00000  8.20963  34.35831 30.10686 167.18677</span>
-<span class="co">#&gt; 10 1996-08-02 5.79979 11.64728  0.00000  8.44133  26.28358 23.05334 195.64365</span>
-<span class="co">#&gt; 11 1996-08-09 5.79979 13.21217  0.00000  7.55000  19.25364 23.24305 214.74731</span>
-<span class="co">#&gt; 12 1996-08-14 5.79979 14.18743  0.00000  5.91982  14.87446 20.48055 226.37970</span>
-<span class="co">#&gt; 13 1996-08-20 5.79940 15.76523  0.80813  6.69296   9.75431 14.13963 244.41234</span>
-<span class="co">#&gt; 14 1996-09-03 5.77766 18.39315  4.01311  4.79599   4.50623  5.81929 273.33353</span>
-<span class="co">#&gt; 15 1996-09-12 5.46220 20.29901  6.55019  4.05262   2.43576  3.54460 287.78687</span>
-<span class="co">#&gt; 16 1996-10-15 4.25747 23.41053 13.76937  1.97948   0.66061  0.96324 316.49945</span>
-<span class="co">#&gt; 17 1996-10-23 3.54677 23.97131 14.85000  1.94655   0.58142  0.71932 320.17722</span>
-<span class="co">#&gt;      Plant</span>
-<span class="co">#&gt; 1  plant_1</span>
-<span class="co">#&gt; 2  plant_1</span>
-<span class="co">#&gt; 3  plant_1</span>
-<span class="co">#&gt; 4  plant_1</span>
-<span class="co">#&gt; 5  plant_1</span>
-<span class="co">#&gt; 6  plant_1</span>
-<span class="co">#&gt; 7  plant_1</span>
-<span class="co">#&gt; 8  plant_1</span>
-<span class="co">#&gt; 9  plant_1</span>
-<span class="co">#&gt; 10 plant_1</span>
-<span class="co">#&gt; 11 plant_1</span>
-<span class="co">#&gt; 12 plant_1</span>
-<span class="co">#&gt; 13 plant_1</span>
-<span class="co">#&gt; 14 plant_1</span>
-<span class="co">#&gt; 15 plant_1</span>
-<span class="co">#&gt; 16 plant_1</span>
-<span class="co">#&gt; 17 plant_1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $wheat</span>
-<span class="co">#&gt;          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1</span>
-<span class="co">#&gt; 1  1995-01-30 0.31003  0.09153 24.50000 24.50000 21.49999 192.3000  0.41713</span>
-<span class="co">#&gt; 2  1995-02-03 0.31242  0.11221 24.50000 24.50000 21.49999 192.3000  0.42380</span>
-<span class="co">#&gt; 3  1995-02-07 0.31354  0.12467 23.84483 24.37532 21.49294 190.8271  0.41926</span>
-<span class="co">#&gt; 4  1995-02-16 0.32451  0.18564 24.50000 24.50000 21.49999 192.3000  0.56208</span>
-<span class="co">#&gt; 5  1995-02-24 0.35891  0.24260 24.50000 24.50000 21.49999 192.3000 26.41268</span>
-<span class="co">#&gt; 6  1995-03-06 0.44264  0.34755 24.14648 24.38064 21.49236 191.3786 20.30915</span>
-<span class="co">#&gt; 7  1995-03-16 0.65818  0.52581 22.89588 23.60845 21.41254 187.1468 10.44319</span>
-<span class="co">#&gt; 8  1995-03-23 0.92638  0.71555 21.59650 24.01906 21.45064 185.8416 83.97830</span>
-<span class="co">#&gt; 9  1995-04-03 1.52201  1.52236 19.84414 22.49030 21.22817 178.4759 67.59111</span>
-<span class="co">#&gt; 10 1995-04-11 2.07250  2.53152 15.95694 21.11659 20.85113 166.8974 55.87930</span>
-<span class="co">#&gt; 11 1995-04-18 2.29059  3.10799 20.66066 19.72960 20.35101 170.2009 51.30755</span>
-<span class="co">#&gt; 12 1995-04-26 3.07941  3.93828 24.50000 24.50000 21.49999 192.3000 21.52207</span>
-<span class="co">#&gt; 13 1995-05-02 3.94086  4.88480 22.22058 23.73749 21.37783 186.0460 84.98852</span>
-<span class="co">#&gt; 14 1995-05-05 4.52523  5.91712 18.70683 22.44921 21.10305 175.7793 75.39217</span>
-<span class="co">#&gt; 15 1995-05-09 4.72279  7.23955 14.63764 20.44039 20.41699 161.1490 64.17078</span>
-<span class="co">#&gt; 16 1995-05-12 4.67417  7.84193 24.50000 24.50000 21.49999 192.3000 33.96954</span>
-<span class="co">#&gt; 17 1995-05-15 4.62342  8.42934 22.93225 23.99567 21.40491 187.9911 23.10137</span>
-<span class="co">#&gt; 18 1995-05-19 4.46845  9.30616 23.36981 23.80873 21.37116 188.2342 12.41579</span>
-<span class="co">#&gt; 19 1995-05-29 3.88449 11.50751 19.07685 20.87937 20.71562 171.4053  5.17826</span>
-<span class="co">#&gt; 20 1995-07-17 0.00000 16.69752 21.79237 24.26819 21.48919 186.8908  8.98478</span>
-<span class="co">#&gt;     AZnit_2  AZnit_3  QNplante   Plant</span>
-<span class="co">#&gt; 1   0.41585  3.28942   5.03274 plant_1</span>
-<span class="co">#&gt; 2   0.33597  2.67066   5.75932 plant_1</span>
-<span class="co">#&gt; 3   0.26660  2.37828   6.46400 plant_1</span>
-<span class="co">#&gt; 4   0.25005  1.48598   8.32339 plant_1</span>
-<span class="co">#&gt; 5   6.94052  2.16342  11.53375 plant_1</span>
-<span class="co">#&gt; 6   7.23958  2.09553  18.91107 plant_1</span>
-<span class="co">#&gt; 7   6.40922  2.43523  31.03929 plant_1</span>
-<span class="co">#&gt; 8   5.19814  3.35878  39.28777 plant_1</span>
-<span class="co">#&gt; 9   3.25693  2.44714  60.99855 plant_1</span>
-<span class="co">#&gt; 10  2.77037  1.89108  75.65481 plant_1</span>
-<span class="co">#&gt; 11  2.51856  1.50726  82.47911 plant_1</span>
-<span class="co">#&gt; 12 13.37259  4.31289 101.03638 plant_1</span>
-<span class="co">#&gt; 13 16.14248  4.74810 120.17694 plant_1</span>
-<span class="co">#&gt; 14 13.88273  4.42838 133.52654 plant_1</span>
-<span class="co">#&gt; 15 11.35942  4.01791 149.24533 plant_1</span>
-<span class="co">#&gt; 16 24.80969 11.06544 160.28954 plant_1</span>
-<span class="co">#&gt; 17 24.04470 14.10819 169.77567 plant_1</span>
-<span class="co">#&gt; 18 21.51919 18.25439 179.93832 plant_1</span>
-<span class="co">#&gt; 19 16.92093 17.07984 196.65919 plant_1</span>
-<span class="co">#&gt; 20 14.76355 20.99991 212.83035 plant_1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "cropr_simulation"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">usm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>, var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"masec_n"</span>,<span class="st">"mafruit"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<ul><li>Filtering outputs on variables and dates for several USMs</li></ul>
+<p>The argument <code>sit_var_dates_mask</code> must contain a named list (named by usms names) containing data.frames, as the sim_list element of the list returned by stics_wrapper (see here-after) or as observations data.</p>
+<p>It defines a mask: stics_wrapper will return a result for each USM, variable and date that contains at least a value (<em>i.e.</em> different from NA) in the mask.</p>
+<p>The stics_wrapper function returns a list that contains two elements:</p>
+<ul>
+<li>error, a boolean indicating if an error occurs during the simulations,</li>
+<li>sim_list, a named list of data.frames containing the simulated values for the requested USMs, variables and dates.</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">obs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/get_obs.html" class="external-link">get_obs</a></span><span class="op">(</span>workspace <span class="op">=</span> <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Observations table for wheat</span></span>
+<span><span class="va">obs_list</span><span class="op">$</span><span class="va">wheat</span></span>
+<span><span class="co">#&gt;          Date lai_n masec_n HR_1 HR_2 HR_3 resmes AZnit_1 AZnit_2 AZnit_3</span></span>
+<span><span class="co">#&gt; 1  1995-01-30  0.29    0.25   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 2  1995-02-03    NA      NA 21.1 18.8 12.4 133.26     3.1     2.9       4</span></span>
+<span><span class="co">#&gt; 3  1995-02-07  0.37    0.31   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 4  1995-02-16  0.40    0.32   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 5  1995-02-24  0.45    0.40   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 6  1995-03-06  0.44    0.38   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 7  1995-03-16  0.60    0.59   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 8  1995-03-23  0.85    0.87   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 9  1995-04-03  1.47    1.28   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 10 1995-04-11  2.37    2.68   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 11 1995-04-18  2.65    3.70   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 12 1995-04-26  4.55    4.67   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 13 1995-05-02  4.41    5.77   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 14 1995-05-05    NA    6.01   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 15 1995-05-09  5.20    7.51   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 16 1995-05-12    NA    9.73   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 17 1995-05-15  5.98    9.87   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 18 1995-05-19    NA   11.08   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 19 1995-05-29    NA   14.08   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt; 20 1995-07-17    NA   21.91   NA   NA   NA     NA      NA      NA      NA</span></span>
+<span><span class="co">#&gt;    QNplante   Plant</span></span>
+<span><span class="co">#&gt; 1      9.24 plant_1</span></span>
+<span><span class="co">#&gt; 2        NA plant_1</span></span>
+<span><span class="co">#&gt; 3     10.85 plant_1</span></span>
+<span><span class="co">#&gt; 4     12.61 plant_1</span></span>
+<span><span class="co">#&gt; 5     13.32 plant_1</span></span>
+<span><span class="co">#&gt; 6     16.65 plant_1</span></span>
+<span><span class="co">#&gt; 7     24.59 plant_1</span></span>
+<span><span class="co">#&gt; 8     38.86 plant_1</span></span>
+<span><span class="co">#&gt; 9     60.99 plant_1</span></span>
+<span><span class="co">#&gt; 10    98.98 plant_1</span></span>
+<span><span class="co">#&gt; 11   103.36 plant_1</span></span>
+<span><span class="co">#&gt; 12   141.99 plant_1</span></span>
+<span><span class="co">#&gt; 13   170.03 plant_1</span></span>
+<span><span class="co">#&gt; 14       NA plant_1</span></span>
+<span><span class="co">#&gt; 15   188.57 plant_1</span></span>
+<span><span class="co">#&gt; 16       NA plant_1</span></span>
+<span><span class="co">#&gt; 17   216.06 plant_1</span></span>
+<span><span class="co">#&gt; 18       NA plant_1</span></span>
+<span><span class="co">#&gt; 19   258.38 plant_1</span></span>
+<span><span class="co">#&gt; 20   258.45 plant_1</span></span>
+<span></span>
+<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/bin/stics_modulo"</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, sit_var_dates_mask <span class="op">=</span> <span class="va">obs_list</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/bin/stics_modulo"</span></span>
+<span><span class="co">#&gt; Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $error</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $sim_list</span></span>
+<span><span class="co">#&gt; $maize</span></span>
+<span><span class="co">#&gt;          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante</span></span>
+<span><span class="co">#&gt; 1  1996-05-14 0.00048  0.00007  0.00000 72.08275  87.81963 18.33811   0.06000</span></span>
+<span><span class="co">#&gt; 2  1996-06-11 0.52827  0.34602  0.00000 41.25510 101.20524 36.68689  11.47832</span></span>
+<span><span class="co">#&gt; 3  1996-06-19 1.20877  1.47023  0.00000 32.54283  92.90659 36.48689  35.17449</span></span>
+<span><span class="co">#&gt; 4  1996-06-26 1.77350  2.31687  0.00000 28.37088  81.70898 35.38022  57.85850</span></span>
+<span><span class="co">#&gt; 5  1996-07-02 2.45930  3.57230  0.00000 23.37861  68.11765 32.88450  82.31313</span></span>
+<span><span class="co">#&gt; 6  1996-07-05 2.78487  3.95259  0.00000 16.47476  73.86992 31.59179  89.59835</span></span>
+<span><span class="co">#&gt; 7  1996-07-15 4.04477  6.19013  0.00000  8.27292  54.08649 32.73149 125.06327</span></span>
+<span><span class="co">#&gt; 8  1996-07-24 5.80729  9.19374  0.00000  7.73798  36.58914 29.51845 163.77878</span></span>
+<span><span class="co">#&gt; 9  1996-07-25 5.80729  9.48680  0.00000  7.98975  35.55033 29.72264 167.79428</span></span>
+<span><span class="co">#&gt; 10 1996-08-02 5.80729 11.66597  0.00000  8.22348  27.48982 22.84724 196.25021</span></span>
+<span><span class="co">#&gt; 11 1996-08-09 5.80729 13.23097  0.00000  7.37852  20.25414 23.36597 215.35928</span></span>
+<span><span class="co">#&gt; 12 1996-08-14 5.80729 14.20630  0.00000  5.79748  15.77425 20.80311 226.98665</span></span>
+<span><span class="co">#&gt; 13 1996-08-20 5.80698 15.78885  0.80934  6.55601  10.70737 14.43716 245.12357</span></span>
+<span><span class="co">#&gt; 14 1996-09-03 5.79139 18.41685  4.01828  4.90096   5.51325  6.09323 274.03085</span></span>
+<span><span class="co">#&gt; 15 1996-09-12 5.54057 20.32297  6.55792  4.04308   3.14270  3.69530 289.17612</span></span>
+<span><span class="co">#&gt; 16 1996-10-15 4.31970 23.43361 13.78295  2.21476   0.99677  1.10246 318.40991</span></span>
+<span><span class="co">#&gt; 17 1996-10-23 3.54666 23.99482 14.85000  2.04174   0.75705  0.80543 322.53864</span></span>
+<span><span class="co">#&gt;      Plant</span></span>
+<span><span class="co">#&gt; 1  plant_1</span></span>
+<span><span class="co">#&gt; 2  plant_1</span></span>
+<span><span class="co">#&gt; 3  plant_1</span></span>
+<span><span class="co">#&gt; 4  plant_1</span></span>
+<span><span class="co">#&gt; 5  plant_1</span></span>
+<span><span class="co">#&gt; 6  plant_1</span></span>
+<span><span class="co">#&gt; 7  plant_1</span></span>
+<span><span class="co">#&gt; 8  plant_1</span></span>
+<span><span class="co">#&gt; 9  plant_1</span></span>
+<span><span class="co">#&gt; 10 plant_1</span></span>
+<span><span class="co">#&gt; 11 plant_1</span></span>
+<span><span class="co">#&gt; 12 plant_1</span></span>
+<span><span class="co">#&gt; 13 plant_1</span></span>
+<span><span class="co">#&gt; 14 plant_1</span></span>
+<span><span class="co">#&gt; 15 plant_1</span></span>
+<span><span class="co">#&gt; 16 plant_1</span></span>
+<span><span class="co">#&gt; 17 plant_1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $wheat</span></span>
+<span><span class="co">#&gt;          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1</span></span>
+<span><span class="co">#&gt; 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.63252</span></span>
+<span><span class="co">#&gt; 2  1995-02-03 0.31673  0.11328 24.50000 24.50000 21.49999 192.3001  1.14203</span></span>
+<span><span class="co">#&gt; 3  1995-02-07 0.31881  0.12590 23.84525 24.37525 21.49292 190.8277  1.06937</span></span>
+<span><span class="co">#&gt; 4  1995-02-16 0.34149  0.19068 24.50000 24.50000 21.49999 192.3001  0.67762</span></span>
+<span><span class="co">#&gt; 5  1995-02-24 0.38695  0.25152 24.50000 24.50000 21.49999 192.3001 26.68379</span></span>
+<span><span class="co">#&gt; 6  1995-03-06 0.48235  0.36370 24.15096 24.38058 21.49219 191.3858 20.06912</span></span>
+<span><span class="co">#&gt; 7  1995-03-16 0.71067  0.55557 22.89094 23.59794 21.40839 187.0971  9.56470</span></span>
+<span><span class="co">#&gt; 8  1995-03-23 0.97289  0.75267 21.60905 24.01386 21.44918 185.8467 83.16945</span></span>
+<span><span class="co">#&gt; 9  1995-04-03 1.54219  1.55895 19.79812 22.46709 21.22229 178.3178 66.95890</span></span>
+<span><span class="co">#&gt; 10 1995-04-11 2.10958  2.56904 15.90296 21.08201 20.84062 166.6803 55.28284</span></span>
+<span><span class="co">#&gt; 11 1995-04-18 2.38348  3.15631 20.64862 19.64727 20.32267 169.8788 50.42439</span></span>
+<span><span class="co">#&gt; 12 1995-04-26 3.08181  3.99189 24.50000 24.50000 21.49999 192.3001 20.96497</span></span>
+<span><span class="co">#&gt; 13 1995-05-02 3.96387  4.93967 22.22493 23.73742 21.37766 186.0529 84.38062</span></span>
+<span><span class="co">#&gt; 14 1995-05-05 4.54930  5.97163 18.71116 22.44751 21.10217 175.7796 74.78400</span></span>
+<span><span class="co">#&gt; 15 1995-05-09 4.75734  7.29235 14.63605 20.43873 20.41607 161.1385 63.61000</span></span>
+<span><span class="co">#&gt; 16 1995-05-12 4.72149  7.89513 24.50000 24.50000 21.49999 192.3001 33.59740</span></span>
+<span><span class="co">#&gt; 17 1995-05-15 4.66091  8.48364 22.93547 23.99541 21.40464 187.9951 22.75400</span></span>
+<span><span class="co">#&gt; 18 1995-05-19 4.58980  9.36445 23.38203 23.80817 21.37027 188.2510 12.12055</span></span>
+<span><span class="co">#&gt; 19 1995-05-29 4.04065 11.57556 19.15819 20.88976 20.70820 171.5402  4.89187</span></span>
+<span><span class="co">#&gt; 20 1995-07-17 0.00000 17.20260 21.79237 24.26819 21.48919 186.8909  8.02394</span></span>
+<span><span class="co">#&gt;     AZnit_2  AZnit_3  QNplante   Plant</span></span>
+<span><span class="co">#&gt; 1   1.49254  6.04378   6.52485 plant_1</span></span>
+<span><span class="co">#&gt; 2   0.94941  5.37864   7.82038 plant_1</span></span>
+<span><span class="co">#&gt; 3   0.72057  5.10246   8.70777 plant_1</span></span>
+<span><span class="co">#&gt; 4   0.38353  3.78632  11.58289 plant_1</span></span>
+<span><span class="co">#&gt; 5   6.86465  3.92920  15.23573 plant_1</span></span>
+<span><span class="co">#&gt; 6   6.00304  3.73341  23.12093 plant_1</span></span>
+<span><span class="co">#&gt; 7   4.50117  3.66756  35.95224 plant_1</span></span>
+<span><span class="co">#&gt; 8   3.22272  3.89414  43.94151 plant_1</span></span>
+<span><span class="co">#&gt; 9   1.79751  2.84935  64.75423 plant_1</span></span>
+<span><span class="co">#&gt; 10  1.47930  2.15104  79.13458 plant_1</span></span>
+<span><span class="co">#&gt; 11  1.34869  1.64058  86.14355 plant_1</span></span>
+<span><span class="co">#&gt; 12 12.16368  4.01051 104.60231 plant_1</span></span>
+<span><span class="co">#&gt; 13 14.85130  4.36084 123.63195 plant_1</span></span>
+<span><span class="co">#&gt; 14 12.58498  4.03790 136.87631 plant_1</span></span>
+<span><span class="co">#&gt; 15 10.08060  3.62519 152.44554 plant_1</span></span>
+<span><span class="co">#&gt; 16 23.66376 10.33759 163.47643 plant_1</span></span>
+<span><span class="co">#&gt; 17 23.05933 13.25554 172.92227 plant_1</span></span>
+<span><span class="co">#&gt; 18 20.75192 17.27203 183.00761 plant_1</span></span>
+<span><span class="co">#&gt; 19 16.48583 16.13381 199.50543 plant_1</span></span>
+<span><span class="co">#&gt; 20 14.95036 19.86865 216.97099 plant_1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "cropr_simulation"</span></span></code></pre></div>
 <p>Some warnings may occur, as in this case (that is why <code>results$error</code> is TRUE), indicating that observed variables and/or observations dates are missing in simulated data. Concerning the dates, this may be due to the USMs simulation period that may not include observed dates. For the variables, this may be due to an incorrect spelling of the variables in obs_list.</p>
 </div>
-<div id="simulations-with-forcing-parameters" class="section level4">
-<h4 class="hasAnchor">
-<a href="#simulations-with-forcing-parameters" class="anchor" aria-hidden="true"></a>Simulations with forcing parameters</h4>
-<ul>
-<li>Applying a single parameter values vector for all the selected usms</li>
-</ul>
+<div class="section level4">
+<h4 id="simulations-with-forcing-parameters">Simulations with forcing parameters<a class="anchor" aria-label="anchor" href="#simulations-with-forcing-parameters"></a>
+</h4>
+<ul><li>Applying a single parameter values vector for all the selected usms</li></ul>
 <p>Parameters values are prescribed using the <code>param_values</code> argument. It can be a named vector containing the values and names of the parameters to force. In this case, the same values will be applied for all the simulated usms.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.002</span>,<span class="fl">50</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">param_values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, sit_names <span class="op">=</span> <span class="va">usms_list</span>, param_values <span class="op">=</span> <span class="va">param_values</span><span class="op">)</span></code></pre></div>
-<ul>
-<li>Defining different parameters values depending on the usms</li>
-</ul>
-<p><code>param_values</code> can also be a data.frame or a tibble having one named column per parameter and an optional column named Situation containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Let's run usm wheat with c(dlaimax=0.001, durvieF=50),</span>
-<span class="co"># usm pea with c(dlaimax=0.001, durvieF=60),</span>
-<span class="co"># and usm maize with c(dlaimax=0.001, durvieF=70)</span>
-<span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Situation<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>,
-                           dlaimax<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.001</span>,<span class="fl">0.001</span>,<span class="fl">0.001</span><span class="op">)</span>,
-                           durvieF<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>,<span class="fl">60</span>,<span class="fl">70</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Let's display it</span>
-<span class="va">param_values</span>
-<span class="co">#&gt;   Situation dlaimax durvieF</span>
-<span class="co">#&gt; 1     wheat   0.001      50</span>
-<span class="co">#&gt; 2       pea   0.001      60</span>
-<span class="co">#&gt; 3     maize   0.001      70</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, param_values <span class="op">=</span> <span class="va">param_values</span>, sit_names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; v Using stics: 'D:/OneDrive - cirad.fr/Travail_Postdoc/SticsRPacks/JavaSTICS-1.41-stics-9.1/bin/stics_modulo.exe'</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.002</span>,<span class="fl">50</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">param_values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>, param_values <span class="op">=</span> <span class="va">param_values</span><span class="op">)</span></span></code></pre></div>
+<ul><li>Defining different parameters values depending on the usms</li></ul>
+<p><code>param_values</code> can also be a data.frame or a tibble having one named column per parameter and an optional column named <code>situation</code> containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Let's run usm wheat with c(dlaimax=0.001, durvieF=50),</span></span>
+<span><span class="co"># usm pea with c(dlaimax=0.001, durvieF=60),</span></span>
+<span><span class="co"># and usm maize with c(dlaimax=0.001, durvieF=70)</span></span>
+<span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>situation<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>,</span>
+<span>                           dlaimax<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.001</span>,<span class="fl">0.001</span>,<span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>                           durvieF<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>,<span class="fl">60</span>,<span class="fl">70</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Let's display it</span></span>
+<span><span class="va">param_values</span></span>
+<span><span class="co">#&gt;   situation dlaimax durvieF</span></span>
+<span><span class="co">#&gt; 1     wheat   0.001      50</span></span>
+<span><span class="co">#&gt; 2       pea   0.001      60</span></span>
+<span><span class="co">#&gt; 3     maize   0.001      70</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, param_values <span class="op">=</span> <span class="va">param_values</span>, situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/bin/stics_modulo"</span></span></code></pre></div>
 </div>
-<div id="simulations-in-successive-mode" class="section level4">
-<h4 class="hasAnchor">
-<a href="#simulations-in-successive-mode" class="anchor" aria-hidden="true"></a>Simulations in successive mode</h4>
-<p>USMs can be run in successive mode, if they are adequately defined (i.e. if the beginning and end of simulations are consistent), using the option <code>successive_usms</code>.</p>
-<p><code>successive_usms</code> is a list of vectors containing the names of the UMSs to consider as successive (e.g. <code>list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))</code> defines 2 successions usm1.1-&gt;usm1.2 and usm2.1-&gt;usm2.2).</p>
+<div class="section level4">
+<h4 id="simulations-in-successive-mode">Simulations in successive mode<a class="anchor" aria-label="anchor" href="#simulations-in-successive-mode"></a>
+</h4>
+<p>USMs can be run in successive mode, if they are adequately defined (<em>i.e.</em> if the beginning and end of simulations are consistent), using the option <code>successive_usms</code>.</p>
+<p><code>successive_usms</code> is a list of vectors containing the names of the UMSs to consider as successive (e.g. <code>list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2"))</code> defines 2 successions usm1.1 -&gt; usm1.2 and usm2.1 -&gt; usm2.2).</p>
 </div>
-<div id="other-optional-arguments" class="section level4">
-<h4 class="hasAnchor">
-<a href="#other-optional-arguments" class="anchor" aria-hidden="true"></a>Other Optional arguments</h4>
-<ul>
-<li>Displaying execution time</li>
-</ul>
-<!-- end list --><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, 
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,
-                                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span>
-<span class="co">#&gt; Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting</span>
-<span class="co">#&gt; variable(s): force_param_values</span>
-<span class="co">#&gt; Time difference of 25.78408 secs</span></code></pre></div>
-<ul>
-<li>Activating parallel execution</li>
-</ul>
-<p>On may specify the number of cores to use with the cores argument.</p>
+<div class="section level4">
+<h4 id="other-optional-arguments">Other Optional arguments<a class="anchor" aria-label="anchor" href="#other-optional-arguments"></a>
+</h4>
+<ul><li>Displaying execution time</li></ul>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, 
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>,
-                                     parallel <span class="op">=</span><span class="cn">TRUE</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,
-                                     cores <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span>
-<span class="co">#&gt; Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting</span>
-<span class="co">#&gt; variable(s): force_param_values</span>
-<span class="co">#&gt; Time difference of 16.0054 secs</span></code></pre></div>
-<p>If cores is not given, parallel execution is performed over machine total cores number minus 1.</p>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
+<ul><li>Activating parallel execution</li></ul>
+<p>On may specify the number of cores to use with the cores argument.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span>
-
-<span class="co"># Used cores number</span>
-<span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>
-<span class="co">#&gt; [1] 11</span>
-
-<span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics_path <span class="op">=</span> <span class="va">javastics_path</span>, 
-                                     data_dir <span class="op">=</span> <span class="va">output_path</span>, parallel <span class="op">=</span><span class="cn">TRUE</span>,
-                                     time_display <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span>
-<span class="co">#&gt; Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting</span>
-<span class="co">#&gt; variable(s): force_param_values</span>
-<span class="co">#&gt; Time difference of 7.891811 secs</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>,</span>
+<span>                                     parallel <span class="op">=</span><span class="cn">TRUE</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                     cores <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
+<p>If cores is not given, parallel execution is performed over machine total cores number minus 1.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Used cores number</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, parallel <span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                                     time_display <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h2>
-<p>If you have used this package for a study that led to a publication or report, please cite us. To get the suggested citation, run <code>citation("SticsOnR")</code>.</p>
+<div class="section level2">
+<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<p>If you have any question or suggestion or if you want to report a bug, please do it via the GitHub <a href="https://github.com/SticsRPacks/SticsOnR/issues" class="external-link">issues</a>.</p>
+<p>Thanks for that, this would greatly help us to improve this package.</p>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of conduct</h2>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you have used this package for a study that led to a publication or report, please cite us. You can either use the citation tool from Github if you used the last version, or use <code>citation("SticsOnR")</code> from R otherwise.</p>
+</div>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
 <p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 <p>The package is under intensive development, so you can fill an issue or request us a feature <a href="https://github.com/SticsRPacks/SticsOnR/issues" class="external-link">here</a> at any time.</p>
 </div>
-<div id="authors-and-acknowledgments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#authors-and-acknowledgments" class="anchor" aria-hidden="true"></a>Authors and acknowledgments</h2>
-<p>The SticsOnR package is developed by Patrice Lecharpentier, Rémi Vezy and the <a href="https://github.com/orgs/SticsRPacks/teams/sticsonr" class="external-link">SticsOnR Team</a>.</p>
 </div>
-</div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/SticsRPacks/SticsOnR/">https://​github.com/​SticsRPacks/​SticsOnR/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/SticsRPacks/SticsOnR/issues">https://​github.com/​SticsRPacks/​SticsOnR/​issues</a>
-</li>
+<li><a href="https://github.com/SticsRPacks/SticsOnR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/SticsRPacks/SticsOnR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -736,22 +756,30 @@ Development tools must be installed first, like the <code>build-essentials</code
 </ul>
 </div>
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing SticsOnR</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Patrice Lecharpentier <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Remi Vezy <br><small class="roles"> Author </small>  </li>
-<li>SticsRPacks <br><small class="roles"> Author, copyright holder </small>  </li>
-<li><a href="authors.html">More on authors...</a></li>
+<li>Patrice Lecharpentier <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4044-4322" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Remi Vezy <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0808-1461" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Samuel Buis <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8676-5447" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Michel Giner <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9310-2377" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.repostatus.org/#wip" class="external-link"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
+<li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
 <li><a href="https://github.com/SticsRPacks/SticsOnR/actions" class="external-link"><img src="https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/SticsRPacks/SticsOnR?branch=master" class="external-link"><img src="https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/SticsRPacks/SticsOnR?branch=master" class="external-link"><img src="https://codecov.io/gh/SticsRPacks/SticsOnR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://zenodo.org/badge/latestdoi/166790380" class="external-link"><img src="https://zenodo.org/badge/166790380.svg" alt="DOI"></a></li>
 </ul>
 </div>
@@ -762,12 +790,12 @@ Development tools must be installed first, like the <code>build-essentials</code
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Patrice Lecharpentier, Remi Vezy, SticsRPacks.</p>
+<p>Developed by Patrice Lecharpentier, Remi Vezy, Samuel Buis, Michel Giner.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>

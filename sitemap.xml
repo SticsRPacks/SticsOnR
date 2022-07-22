@@ -58,7 +58,16 @@
     <loc>/reference/init_javastics_pref.html</loc>
   </url>
   <url>
+    <loc>/reference/is_mac.html</loc>
+  </url>
+  <url>
     <loc>/reference/is_os_name.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_unix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_windows.html</loc>
   </url>
   <url>
     <loc>/reference/list_stics_exe.html</loc>
@@ -98,8 +107,5 @@
   </url>
   <url>
     <loc>/reference/stics_wrapper_options.html</loc>
-  </url>
-  <url>
-    <loc>/sticsOnR.html</loc>
   </url>
 </urlset>
