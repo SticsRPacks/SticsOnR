@@ -1,12 +1,13 @@
-# SticsOnR 1.0.0  (2022-07-??)
+# SticsOnR 1.0.0  (2022-07-22)
 
 MAIN CHANGES:
   * run_javastics: new argument for giving the path of the java version to use
   * stics_wrapper: 
     * set "variete" to be forced first if included in param_values argument (so that varietal parameters are well handled if included in param_values)
     * using () in names of variables (var argument) is now taken into account
-  * Homogenization of argument names between functions
+  * homogenization of argument names between functions
   * some functions moved to the SticsRFiles package
+  * simulated phenological stages now take the same value of julian day whatever the date is
 
 FIXES:
   * stics_wrapper: run successive USMs did not work in case required variables (var argument) were not defined in var.mod
