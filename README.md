@@ -1,5 +1,9 @@
 
-# SticsOnR: The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+# SticsOnR:
+
+The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/)
+model
+<img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
 
@@ -276,11 +280,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[22/07/22]-[10:55:48] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[10:55:48] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[10:55:48] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[10:55:48] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
-#> [5] "[22/07/22]-[10:55:48] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
+#> [1] "[22/07/22]-[11:53:29] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[11:53:29] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[11:53:30] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[11:53:30] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
+#> [5] "[22/07/22]-[11:53:30] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
 #> 
 #> 
 #> [[2]]
@@ -291,11 +295,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[22/07/22]-[10:55:48] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[10:55:49] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[10:55:49] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[10:55:49] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
-#> [5] "[22/07/22]-[10:55:49] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
+#> [1] "[22/07/22]-[11:53:30] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[11:53:31] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[11:53:31] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[11:53:31] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
+#> [5] "[22/07/22]-[11:53:31] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -380,7 +384,7 @@ runs_info
 #> 
 #> [[1]]$message
 #> [1] " numcult =            1"        " The execution was successful."
-#> [3] " Duration = 0.10 s"            
+#> [3] " Duration = 0.09 s"            
 #> 
 #> 
 #> [[2]]
@@ -392,7 +396,7 @@ runs_info
 #> 
 #> [[2]]$message
 #> [1] " numcult =            1"        " The execution was successful."
-#> [3] " Duration = 0.15 s"
+#> [3] " Duration = 0.14 s"
 ```
 
 ### Advanced simulations parameterization
