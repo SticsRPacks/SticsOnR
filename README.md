@@ -1,5 +1,5 @@
-
-# SticsOnR:
+SticsOnR
+================
 
 The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/)
 model
@@ -7,9 +7,9 @@ model
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R build
 status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
 [![Codecov test
@@ -280,11 +280,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[22/07/22]-[11:53:29] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[11:53:29] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[11:53:30] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[11:53:30] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
-#> [5] "[22/07/22]-[11:53:30] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
+#> [1] "[22/07/22]-[14:30:24] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[14:30:25] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
+#> [5] "[22/07/22]-[14:30:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
 #> 
 #> 
 #> [[2]]
@@ -295,11 +295,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[22/07/22]-[11:53:30] INFO - Generating txt files ..."                                                                           
-#> [2] "[22/07/22]-[11:53:31] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[22/07/22]-[11:53:31] INFO - Files generated :"                                                                                  
-#> [4] "[22/07/22]-[11:53:31] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
-#> [5] "[22/07/22]-[11:53:31] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
+#> [1] "[22/07/22]-[14:30:25] INFO - Generating txt files ..."                                                                           
+#> [2] "[22/07/22]-[14:30:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[22/07/22]-[14:30:26] INFO - Files generated :"                                                                                  
+#> [4] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
+#> [5] "[22/07/22]-[14:30:26] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -384,7 +384,7 @@ runs_info
 #> 
 #> [[1]]$message
 #> [1] " numcult =            1"        " The execution was successful."
-#> [3] " Duration = 0.09 s"            
+#> [3] " Duration = 0.07 s"            
 #> 
 #> 
 #> [[2]]
@@ -396,7 +396,7 @@ runs_info
 #> 
 #> [[2]]$message
 #> [1] " numcult =            1"        " The execution was successful."
-#> [3] " Duration = 0.14 s"
+#> [3] " Duration = 0.11 s"
 ```
 
 ### Advanced simulations parameterization
