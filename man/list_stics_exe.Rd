@@ -30,5 +30,6 @@ creates it using an OS-specific version.
 list_stics_exe("path/to/JavaSTICS-v131-stics-v841")
 }
 
+
 }
 \keyword{internal}

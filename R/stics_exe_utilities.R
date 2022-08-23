@@ -246,7 +246,6 @@ set_stics_exe <- function(javastics,
 #' list_stics_exe("path/to/JavaSTICS-v131-stics-v841")
 #' }
 #'
-#' @importFrom magrittr "%>%"
 #'
 #' @keywords internal
 list_stics_exe <- function(javastics) {
