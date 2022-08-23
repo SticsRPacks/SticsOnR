@@ -21,7 +21,3 @@ vignettes/*.pdf
 *.knit.md
 .Renviron
 .DS_Store
-
-# personal filters
-R/scripts_tmp
-R/to_be_migrated_tmp
