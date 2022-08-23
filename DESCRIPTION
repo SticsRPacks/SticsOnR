@@ -3,28 +3,34 @@ Package: SticsOnR
 Title: Manage STICS Simulations Running the Executable or JavaStics,
 Version: 1.0.0
 Date: 2022-07-22
-Authors@R: c( person(given = "Patrice",family = "Lecharpentier", email = "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4044-4322")),
-           person(given = "Remi", family = "Vezy", email = "remi.vezy@cirad.fr", role = "aut", comment = c(ORCID = "0000-0002-0808-1461")),
-           person(given = "Samuel", family = "Buis", email = "samuel.buis@inrae.fr", role= "aut", comment = c(ORCID = "0000-0002-8676-5447")),
-		   person(given = "Michel", family = "Giner", email = "michel.giner@cirad.fr", role= "aut", comment = c(ORCID = "0000-0002-9310-2377")),
-           person(given = "Julie", family = "Constantin", role = "rev"),
-           person(given = "Dominique", family = "Ripoche", role = "rev"),
-           person(given = "Marie", family = "Launay", role = "rev"),
-           person(given = "Christine", family = "Le Bas", role = "rev"),
-           person(given = "Alain", family = "Mollier", role = "rev")
-           )
-Description: The purpose of SticsOnR is simply to run simulations with the STICS
-    model. It provides three different ways to perform a simulation depending on
-    the use-case: 1/ Call JavaStics to run a simulation on a given situation. In
-    this case JavaStics will handle the generation of the text files from the 
-    XML files; 2/ Call the STICS model executable directly. In this case the 
-    text files should be produced beforehand; and 3/ Call the STICS model 
-    executable through a wrapper that handles distributed runs over the machine
-    CPUs and returns the simulated values to the user. The wrapper also provides
-    a concise manner for making a simulation custom parameters values.
+Authors@R: c(
+    person("Patrice", "Lecharpentier", , "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4044-4322")),
+    person("Remi", "Vezy", , "remi.vezy@cirad.fr", role = "aut",
+           comment = c(ORCID = "0000-0002-0808-1461")),
+    person("Samuel", "Buis", , "samuel.buis@inrae.fr", role = "aut",
+           comment = c(ORCID = "0000-0002-8676-5447")),
+    person("Michel", "Giner", , "michel.giner@cirad.fr", role = "aut",
+           comment = c(ORCID = "0000-0002-9310-2377")),
+    person("Julie", "Constantin", role = "rev"),
+    person("Dominique", "Ripoche", role = "rev"),
+    person("Marie", "Launay", role = "rev"),
+    person("Christine", "Le Bas", role = "rev"),
+    person("Alain", "Mollier", role = "rev")
+  )
+Description: The purpose of SticsOnR is simply to run simulations with the
+    STICS model. It provides three different ways to perform a simulation
+    depending on the use-case: 1/ Call JavaStics to run a simulation on a
+    given situation. In this case JavaStics will handle the generation of
+    the text files from the XML files; 2/ Call the STICS model executable
+    directly. In this case the text files should be produced beforehand;
+    and 3/ Call the STICS model executable through a wrapper that handles
+    distributed runs over the machine CPUs and returns the simulated
+    values to the user. The wrapper also provides a concise manner for
+    making a simulation custom parameters values.
 License: file LICENSE
 URL: https://github.com/SticsRPacks/SticsOnR,
- https://doi.org/10.5281/zenodo.4443130
+    https://doi.org/10.5281/zenodo.4443130
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
 Depends:
     R (>= 3.6.0)
@@ -34,6 +40,7 @@ Imports:
     doParallel,
     dplyr,
     foreach,
+    lifecycle,
     magrittr,
     methods,
     parallel,
@@ -41,10 +48,7 @@ Imports:
     stats,
     SticsRFiles,
     tibble,
-    lifecycle,
     XML
-Remotes:
-    github::SticsRPacks/SticsRFiles@*release
 Suggests:
     covr,
     knitr,
@@ -53,9 +57,11 @@ Suggests:
     testthat
 VignetteBuilder:
     knitr
+Remotes:
+    github::SticsRPacks/SticsRFiles@*release
 ByteCompile: true
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-Language: en-US
+RoxygenNote: 7.2.0
