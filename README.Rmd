@@ -460,9 +460,9 @@ results <- stics_wrapper(model_options = sim_options, situation = usm, param_val
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
 # and usm maize with c(dlaimax=0.001, durvieF=70)
-param_values <- data.frame(situation=c("wheat", "pea", "maize"),
-                           dlaimax=c(0.001,0.001,0.001),
-                           durvieF=c(50,60,70))
+param_values <- data.frame(situation = c("wheat", "pea", "maize"),
+                           dlaimax = c(0.001, 0.001, 0.001),
+                           durvieF = c(50, 60, 70))
 
 # Let's display it
 param_values
@@ -496,7 +496,7 @@ On may specify the number of cores to use with the cores argument.
 ```{r eval=FALSE}
 sim_options <- stics_wrapper_options(javastics = javastics_path,
                                      workspace = output_path,
-                                     parallel =TRUE, time_display = TRUE,
+                                     parallel = TRUE, time_display = TRUE,
                                      cores = 2, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
@@ -511,7 +511,7 @@ library(parallel)
 detectCores() - 1
 
 sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path, parallel =TRUE,
+                                     workspace = output_path, parallel = TRUE,
                                      time_display = TRUE, verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)
