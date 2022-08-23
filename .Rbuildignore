@@ -1,5 +1,4 @@
 ^README\.Rmd$
-man/figures
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^appveyor\.yml$
