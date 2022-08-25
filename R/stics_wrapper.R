@@ -98,6 +98,7 @@
 #' @importFrom foreach %dopar%
 #' @importFrom parallel clusterCall makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
+#' @importFrom magrittr %>%
 #'
 stics_wrapper <- function(model_options,
                           param_values = NULL,
