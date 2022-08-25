@@ -41,7 +41,8 @@ Imports:
     SticsRFiles,
     tibble,
     lifecycle,
-    XML
+    XML,
+    magrittr
 Remotes:
     github::SticsRPacks/SticsRFiles@*release
 Suggests:
