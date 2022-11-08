@@ -34,7 +34,7 @@ output_path <- file.path(root_path, "gen_usms_xml2txt")
 windows <- params$windows
 linux <- !windows
 
-java_cmd <- 'java'
+java_cmd <- "java"
 if (linux)
   java_cmd <- normalizePath(params$java_cmd, winslash = "/")
 
@@ -50,11 +50,12 @@ res <- try(run_javastics(javastics_path,
            silent = TRUE)
 
 
-try_err <- attr(res,"class")
+try_err <- attr(res, "class")
 #knitr::knit_exit()
 
-if (!is.null(try_err) && attr(try_err,"class") == "try-error") {
-  ver <- system2(command = 'java', args = "-version", stdout = TRUE, stderr = TRUE)
+if (!is.null(try_err) && attr(try_err, "class") == "try-error") {
+  ver <- system2(command = "java", args = "-version",
+                 stdout = TRUE, stderr = TRUE)
   stop(javastics_dist, ": javastics not compatible with java\n",
        ver[1],
        "\nA java path must be provided for a compatible java version (11) to run_javastics")
@@ -214,7 +215,7 @@ For running simulations from it, we can use the `run_javastics()` function.
 ```{r eval = windows, echo = TRUE, include = TRUE}
 ########## For Windows or linux with a compatible java version ################
 # Running specific usms from the workspace
-run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+run_javastics(javastics_path, workspace_path, usm = c("banana", "wheat"),
               verbose = FALSE)
 
 # Running all usms contained in the workspace
@@ -222,7 +223,8 @@ run_javastics(javastics_path, workspace_path,
               verbose = FALSE)
 
 # Getting information about execution:
-runs_info <- run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"), verbose = FALSE)
+runs_info <- run_javastics(javastics_path, workspace_path,
+                           usm = c("banana", "wheat"), verbose = FALSE)
 
 runs_info
 ```
@@ -234,7 +236,7 @@ with the JavaStics version a compatible java executable path must be used
 ################ Only for linux with a specific java executable################
 
 # Running specific usms from the workspace
-run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+run_javastics(javastics_path, workspace_path, usm = c("banana", "wheat"),
               verbose = FALSE, java_cmd = java_cmd)
 
 # Running all usms contained in the workspace
@@ -242,7 +244,8 @@ run_javastics(javastics_path, workspace_path,
               verbose = FALSE, java_cmd = java_cmd)
 
 # Getting information about execution:
-runs_info <- run_javastics(javastics_path, workspace_path, usm = c("banana","wheat"),
+runs_info <- run_javastics(javastics_path, workspace_path,
+                           usm = c("banana", "wheat"),
                            verbose = FALSE, java_cmd = java_cmd)
 
 runs_info
@@ -267,13 +270,13 @@ SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path,
 ```{r eval = linux, echo = TRUE}
 # For linux, using a specific java executable
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path, 
+SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path,
                               out_dir = output_path, verbose = FALSE,
                               java_cmd = java_cmd)
 ```
 
 ```{r, echo=F, results='hide', eval = TRUE}
-unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = T)
+unlink(x = file.path(output_path, "intercrop_pea_barley"), recursive = TRUE)
 ```
 
 The `run_stics()` function can be used as follows with one folder or multiple sub-folders.
@@ -290,10 +293,10 @@ The Stics executable path is set according to each operating system:
 
 ```{r run_stics_int, echo = FALSE, results='hide'}
 # Specifying the Stics executable file path
-stics_path <- file.path(javastics_path,"bin","stics_modulo.exe")
+stics_path <- file.path(javastics_path, "bin", "stics_modulo.exe")
 # for linux
 if (is_unix())
-  stics_path <- file.path(javastics_path,"bin","stics_modulo")
+  stics_path <- file.path(javastics_path, "bin", "stics_modulo")
 
 ```
 
@@ -303,20 +306,20 @@ if (is_unix())
 # For example reusing a generated sub-directory in the previous section
 # of the document
 # Running one usm
-files_dir_path <- file.path(output_path,"banana")
+files_dir_path <- file.path(output_path, "banana")
 run_stics(stics_path, files_dir_path)
 
 # Specifying a root directory containing usms individual directories
 # For example reusing a generated directory in the previous section
 # of the document
 # Running two usms
-run_stics(stics_path, output_path, usm = c("banana","wheat"))
+run_stics(stics_path, output_path, usm = c("banana", "wheat"))
 
 # Running all the usms defined in the sub-directories of output_path
 run_stics(stics_path, output_path, usm = "all")
 
 # Getting returned information about stics runs
-runs_info <- run_stics(stics_path, output_path, usm = c("banana","wheat"))
+runs_info <- run_stics(stics_path, output_path, usm = c("banana", "wheat"))
 
 runs_info
 
@@ -363,14 +366,16 @@ There are different solutions if you need to use a custom version of stics:
 1. if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):
 
 ```{r, eval=FALSE}
-sim_options <- stics_wrapper_options(javastics = javastics_path, stics_exe = "stics_custom",
+sim_options <- stics_wrapper_options(javastics = javastics_path,
+                                     stics_exe = "stics_custom",
                                      workspace = output_path, verbose = FALSE)
 ```
 
 2. if it is located in the bin directory of the JavaStics installation directory, provide the executable name:
 
 ```{r, eval=FALSE}
-sim_options <- stics_wrapper_options(javastics = javastics_path, stics_exe = "stics_custom.exe",
+sim_options <- stics_wrapper_options(javastics = javastics_path,
+                                     stics_exe = "stics_custom.exe",
                                      workspace = output_path, verbose = FALSE)
 ```
 
@@ -403,7 +408,8 @@ results <- stics_wrapper(model_options = sim_options, situation = usm)
 ```{r, eval=FALSE}
 usm <- c("wheat", "maize")
 
-stics_wrapper(model_options = sim_options, situation = usm, var = c("masec_n","mafruit"))
+stics_wrapper(model_options = sim_options, situation = usm,
+              var = c("masec_n", "mafruit"))
 ```
 
 - Filtering outputs on variables and dates for several USMs
@@ -420,7 +426,8 @@ The stics\_wrapper function returns a list that contains two elements:
 
 
 ```{r}
-obs_list <- get_obs(workspace = workspace_path, usm = c("wheat", "maize"), verbose = FALSE)
+obs_list <- get_obs(workspace = workspace_path, usm = c("wheat", "maize"),
+                    verbose = FALSE)
 
 # Observations table for wheat
 obs_list$wheat
@@ -428,7 +435,8 @@ obs_list$wheat
 sim_options <- stics_wrapper_options(javastics = javastics_path,
                                      workspace = output_path, verbose = TRUE)
 
-results <- stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list)
+results <- stics_wrapper(model_options = sim_options,
+                         sit_var_dates_mask = obs_list)
 head(results)
 ```
 
@@ -445,10 +453,11 @@ Parameters values are prescribed using the `param_values` argument. It can be a 
 In this case, the same values will be applied for all the simulated usms.
 
 ```{r, eval=FALSE}
-param_values <- c(0.002,50)
+param_values <- c(0.002, 50)
 names(param_values) <- c("dlaimax", "durvieF")
 
-results <- stics_wrapper(model_options = sim_options, situation = usm, param_values = param_values)
+results <- stics_wrapper(model_options = sim_options, situation = usm,
+                         param_values = param_values)
 ```
 
 - Defining different parameters values depending on the usms
@@ -467,7 +476,9 @@ param_values <- data.frame(situation = c("wheat", "pea", "maize"),
 # Let's display it
 param_values
 
-results <- stics_wrapper(model_options = sim_options, param_values = param_values, situation = c("wheat", "maize"))
+results <- stics_wrapper(model_options = sim_options,
+                         param_values = param_values,
+                         situation = c("wheat", "maize"))
 
 ```
 
@@ -483,7 +494,8 @@ USMs can be run in successive mode, if they are adequately defined (*i.e.* if th
 
 ```{r eval=FALSE}
 sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path, time_display = TRUE,
+                                     workspace = output_path,
+                                     time_display = TRUE,
                                      verbose = FALSE)
 
 results <- stics_wrapper(model_options = sim_options)

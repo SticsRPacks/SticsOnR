@@ -152,7 +152,7 @@ stics_wrapper <- function(model_options,
   javastics <- model_options$javastics
 
   # Checking if javastics path is set when forcing parameters
-  if(!is.null(param_values) && javastics == "unknown")
+  if (!is.null(param_values) && javastics == "unknown")
     stop("When parameters values are to be forced, a JavaStics path must be set in model_options list !")
 
   # In case of successive USMs, disable parallel run
@@ -282,7 +282,8 @@ stics_wrapper <- function(model_options,
     ##   o list of simulated outputs,
     ##   o flag TRUE if the requested simulation has been not performed
     ##                        (model error),
-    ##   o flag FALSE if all the requested dates and variables were not simulated,
+    ##   o flag FALSE if all the requested dates and variables were
+    ##     not simulated,
     ##   o message in case of warning or error
     ## (one value per set of parameter values to force)
 
@@ -366,7 +367,7 @@ stics_wrapper <- function(model_options,
             mess <- warning(paste(
               "Error running the Stics model for USM",
               situation,
-              ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
+   ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
               "file(s) was/were not created by the previous USM."
             ))
             sim_list[ip] <- NULL
@@ -388,7 +389,7 @@ stics_wrapper <- function(model_options,
           if (!all(recup_copy)) {
             mess <- warning(
               paste(
-                "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
+            "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
                 situation
               )
             )
@@ -399,8 +400,8 @@ stics_wrapper <- function(model_options,
             next()
           }
 
-          # The following could be done only once in case of repeated call to the
-          # wrapper (e.g. parameters estimation ...)
+        # The following could be done only once in case of repeated call to the
+        # wrapper (e.g. parameters estimation ...)
           SticsRFiles::set_usm_txt(
             filepath = file.path(run_dir, "new_travail.usm"),
             param = "codesuite", value = 1
@@ -486,10 +487,10 @@ stics_wrapper <- function(model_options,
 
 # For phenological stages, set the value obtained at the last date for all dates
         if (length(tmp$sim_list) > 0) {
-          if (length(intersect(stages_list,names(sim_list[[ip]]))>0)) {
+          if (length(intersect(stages_list, names(sim_list[[ip]])) > 0)) {
             sim_list[[ip]] <-
               dplyr::mutate(sim_list[[ip]],
-    dplyr::across(dplyr::all_of(intersect(stages_list,names(sim_list[[ip]]))),
+    dplyr::across(dplyr::all_of(intersect(stages_list, names(sim_list[[ip]]))),
                                           ~.x[length(.x)]))
           }
         }
@@ -624,7 +625,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       req_var_names <- c(var_names)
     }
 
-    ## Convert required variables names to Stics variables names (i.e. handle ())
+   ## Convert required variables names to Stics variables names (i.e. handle ())
     req_var_names <- SticsRFiles:::var_to_col_names(req_var_names)
 
     ## Add reserved keywords "Plant" and "Date" from the list
@@ -637,8 +638,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     inter_var_names <- sim_var_names[req_vars_idx]
 
 
-    ## In case some variables are not simulated, warn the user, add them in var.mod
-    ## and re-simulate or select the results if var.mod has already been modified.
+## In case some variables are not simulated, warn the user, add them in var.mod
+## and re-simulate or select the results if var.mod has already been modified.
     if (length(inter_var_names) < length(req_var_names)) {
       diff_vars <- setdiff(req_var_names, inter_var_names)
 
@@ -654,7 +655,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           "not simulated by the Stics model for USM",
           situation,
           "although added in", file.path(run_dir, "var.mod"),
-          "=> these variables may not be Stics variables, please check spelling. \n ",
+    "=> these variables may not be Stics variables, please check spelling. \n ",
           "Simulated variables:", paste(sim_var_names, collapse = ", ")
         ))
         res$flag_error <- FALSE
@@ -676,7 +677,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
                   collapse = ", "
             ),
             "not simulated by the Stics model for USM", situation,
-            "=>", file.path(run_dir, "var.mod"), "has been modified and the model re-run."
+            "=>", file.path(run_dir, "var.mod"),
+            "has been modified and the model re-run."
           ))
         }
 
@@ -1029,7 +1031,7 @@ stics_wrapper_options <- function(javastics = NULL,
   }
 
   # Help people that don't remember well the standard name:
-  if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
+  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     stics_exe <- "modulostics"
   }
 
@@ -1115,7 +1117,8 @@ stics_display_warnings <- function(in_string) {
 #' @return Nothing, write in the "var.mod" file
 #' @keywords internal
 #'
-set_out_var_internal <- function(filepath = "var.mod", vars = c("lai(n)", "masec(n)"),
+set_out_var_internal <- function(filepath = "var.mod",
+                                 vars = c("lai(n)", "masec(n)"),
                                  add = FALSE) {
   cat(vars, file = filepath, sep = "\n", append = add)
 }

@@ -81,16 +81,18 @@ run_javastics <- function(javastics,
     usms_list <- usm # to remove when we update inside the function
   }
 
-  # Ensure that the user working directory is unchanged after the function has run
+  # Ensure that the user working directory is unchanged after
+  # the function has run
   current_wd <- getwd()
   on.exit(setwd(current_wd))
 
   # Use absolute path from now on:
   javastics_path <- normalizePath(javastics_path, winslash = "/")
-  workspace_path <- normalizePath(workspace_path, winslash = "/", mustWork = FALSE)
+  workspace_path <- normalizePath(workspace_path, winslash = "/",
+                                  mustWork = FALSE)
 
   # Help people that don't remember well the standard name:
-  if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
+  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     stics_exe <- "modulostics"
   }
 
@@ -99,7 +101,8 @@ run_javastics <- function(javastics,
 
   # Getting right executable name for the platform
   if (stics_exe == "modulostics") {
-    # using the exe name instead of the identifier to select the right one for the user's OS
+    # using the exe name instead of the identifier to select the right one
+    # for the user's OS
     stics_exe <- paste0("stics_modulo", os_suffix())
   }
 
@@ -146,7 +149,8 @@ run_javastics <- function(javastics,
     # Selecting existing usms
     if (sum(usm_exist) != length(usms_list)) {
       unknown_usms <- setdiff(full_usms_list[usm_exist], usms_list)
-      warning("At least one usm does not exist in the usms.xml file : ", unknown_usms)
+      warning("At least one usm does not exist in the usms.xml file : ",
+              unknown_usms)
       usms_list <- full_usms_list[usm_exist]
     }
   }
@@ -182,7 +186,8 @@ run_javastics <- function(javastics,
     if (file.exists(histo_file)) {
       file.remove(histo_file)
     }
-    histo_copy <- file.path(workspace_path, paste0("modhistory_", usm_name, ".sti"))
+    histo_copy <- file.path(workspace_path, paste0("modhistory_",
+                                                   usm_name, ".sti"))
     if (file.exists(histo_copy)) {
       file.remove(histo_copy)
     }
@@ -254,7 +259,8 @@ run_javastics <- function(javastics,
     if (all(worked)) {
       cli::cli_alert_success("\nAll usms ran successfully!")
     } else {
-      cli::cli_alert_danger("Error during simulation of usm{?s} {.val {usms_list[!worked]}}")
+      cli::cli_alert_danger(
+        "Error during simulation of usm{?s} {.val {usms_list[!worked]}}")
     }
   }
 

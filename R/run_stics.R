@@ -93,7 +93,7 @@ run_stics <- function(stics_exe,
 
   # Defining the argument of run_system for running all usms subdirectories
   if (is.null(usm_dir_names) &&
-    !file.exists(file.path(workspace,"new_travail.usm"))) usm_dir_names <- "all"
+  !file.exists(file.path(workspace, "new_travail.usm"))) usm_dir_names <- "all"
 
   # Calling the internal underlying function for running the model
   usms_out <- run_system(model_path,
