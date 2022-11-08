@@ -4,8 +4,9 @@
 #' @description This function uses Stics directly through a system call
 #'
 #' @param stics_exe Path of Stics the executable file
-#' @param workspace Path of the workspace containing the Stics (txt) input files.
-#' @param usm Vector of USM names. Optional, if provided, the function runs only the given USMs.
+#' @param workspace Path of the workspace containing the Stics (txt) input files
+#' @param usm Vector of USM names. Optional, if provided, the function runs only
+#'  the given USMs.
 #' If not provided, the function runs all the USMs included in workspace.
 #' @param check Logical, T for checking the model executable, F otherwise
 #' @param verbose Logical value (optional), TRUE to display usms names,
@@ -35,7 +36,8 @@
 #'
 #' # Specifying a parent directory of usms directories
 #' # running one or several usms
-#' run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir", "wheat")
+#' run_stics("/home/username/bin/Stics",
+#' "/home/username/Work/SticsInputsRootDir", "wheat")
 #' run_stics(
 #'   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
 #'   c("wheat", "maize")
@@ -59,34 +61,39 @@ run_stics <- function(stics_exe,
                       check_exe = lifecycle::deprecated(),
                       display = lifecycle::deprecated()) {
   if (lifecycle::is_present(model_path)) {
-    lifecycle::deprecate_warn("1.0.0", "run_stics(model_path)", "run_stics(stics_exe)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(model_path)",
+                              "run_stics(stics_exe)")
   } else {
     model_path <- stics_exe # to remove when we update inside the function
   }
   if (lifecycle::is_present(data_dir)) {
-    lifecycle::deprecate_warn("1.0.0", "run_stics(data_dir)", "run_stics(workspace)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(data_dir)",
+                              "run_stics(workspace)")
   } else {
     data_dir <- workspace # to remove when we update inside the function
   }
   if (lifecycle::is_present(usm_dir_names)) {
-    lifecycle::deprecate_warn("1.0.0", "run_stics(usm_dir_names)", "run_stics(usm)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(usm_dir_names)",
+                              "run_stics(usm)")
   } else {
     usm_dir_names <- usm # to remove when we update inside the function
   }
   if (lifecycle::is_present(check_exe)) {
-    lifecycle::deprecate_warn("1.0.0", "run_stics(check_exe)", "run_stics(check)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(check_exe)",
+                              "run_stics(check)")
   } else {
     check_exe <- check # to remove when we update inside the function
   }
   if (lifecycle::is_present(display)) {
-    lifecycle::deprecate_warn("1.0.0", "run_stics(display)", "run_stics(verbose)")
+    lifecycle::deprecate_warn("1.0.0", "run_stics(display)",
+                              "run_stics(verbose)")
   } else {
     display <- verbose # to remove when we update inside the function
   }
 
   # Defining the argument of run_system for running all usms subdirectories
   if (is.null(usm_dir_names) &&
-      !file.exists(file.path(workspace,"new_travail.usm"))) usm_dir_names <- "all"
+    !file.exists(file.path(workspace,"new_travail.usm"))) usm_dir_names <- "all"
 
   # Calling the internal underlying function for running the model
   usms_out <- run_system(model_path,

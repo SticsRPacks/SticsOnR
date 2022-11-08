@@ -5,31 +5,37 @@
 #'
 #' @param javastics Path of JavaStics
 #' @param workspace Path of a JavaStics workspace
-#' @param usm Vector of USM names. Optional, if provided, the function runs only the given USMs.
+#' @param usm Vector of USM names. Optional, if provided, the function runs
+#' only the given USMs.
 #' If not provided, the function runs all the USMs included in workspace.
 #' @param keep_history Logical value (optional) to keep a copy of history file
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
 #' `FALSE` otherwise (default)
 #' @param verbose Logical value for displaying information while running
-#' @param stics_exe The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)
+#' @param stics_exe The name, executable or path of the stics executable to use
+#'  (optional, default to "modulostics", see details)
 #' @param java_cmd The java virtual machine command name or executable path
-#' @param workspace_path `r lifecycle::badge("deprecated")` `workspace_path` is no
-#'   longer supported, use `workspace` instead.
-#' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path` is no
-#'   longer supported, use `javastics` instead.
+#' @param workspace_path `r lifecycle::badge("deprecated")` `workspace_path`
+#'   is no longer supported, use `workspace` instead.
+#' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path`
+#'   is no longer supported, use `javastics` instead.
 #' @param usms_list `r lifecycle::badge("deprecated")` `usms_list` is no
 #'   longer supported, use `usm` instead.
 #'
 #' @details `stics_exe` may be :
-#' 1. a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for `stics_modulo.exe`, the standard version of the model
+#' 1. a model name pointing to a stics executable as done in JavaStics, e.g.
+#' "modulostics" for `stics_modulo.exe`, the standard version of the model
 #' shipping with JavaStics;
-#' 2. a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
-#' 3. a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
-#' `stics_modulo.exe` because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
+#' 2. a stics executable file available from the bin folder in JavaStics, e.g.
+#' "stics_modulo.exe";
+#' 3. a path to a stics executable file, eg.
+#' "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+#' `stics_modulo.exe` because it is the name of the standard STICS shipping
+#' with JavaStics (overwriting is not allowed).
 #'
-#' @return A list in which each element contains: usm "name", "error" status (logical)
-#' and an output "message" (JavaStics commandline execution output)
+#' @return A list in which each element contains: usm "name", "error" status
+#' (logical) and an output "message" (JavaStics commandline execution output)
 #'
 #'
 #' @examples
@@ -38,7 +44,8 @@
 #' run_javastics("/path/to/JavaSTICS/folder", "/path/to/workspace")
 #' run_javastics("/path/to/JavaSTICS/folder", "example", c("wheat", "pea"))
 #' run_javastics("/path/to/JavaSTICS/folder", usm = c("wheat", "pea"))
-#' run_javastics("/path/to/JavaSTICS/folder", usm = c("wheat", "pea"), optim = TRUE)
+#' run_javastics("/path/to/JavaSTICS/folder",
+#' usm = c("wheat", "pea"), optim = TRUE)
 #' }
 #'
 #' @export
@@ -56,17 +63,20 @@ run_javastics <- function(javastics,
                           usms_list = lifecycle::deprecated()) {
 
   if (lifecycle::is_present(javastics_path)) {
-    lifecycle::deprecate_warn("1.0.0", "run_javastics(javastics_path)", "run_javastics(javastics)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(javastics_path)",
+                              "run_javastics(javastics)")
   } else {
     javastics_path <- javastics # to remove when we update inside the function
   }
   if (lifecycle::is_present(workspace_path)) {
-    lifecycle::deprecate_warn("1.0.0", "run_javastics(workspace_path)", "run_javastics(workspace)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(workspace_path)",
+                              "run_javastics(workspace)")
   } else {
     workspace_path <- workspace # to remove when we update inside the function
   }
   if (lifecycle::is_present(usms_list)) {
-    lifecycle::deprecate_warn("1.0.0", "run_javastics(usms_list)", "run_javastics(usm)")
+    lifecycle::deprecate_warn("1.0.0", "run_javastics(usms_list)",
+                              "run_javastics(usm)")
   } else {
     usms_list <- usm # to remove when we update inside the function
   }

@@ -152,7 +152,7 @@ stics_wrapper <- function(model_options,
   javastics <- model_options$javastics
 
   # Checking if javastics path is set when forcing parameters
-  if(!is.null(param_values) && javastics =="unknown")
+  if(!is.null(param_values) && javastics == "unknown")
     stop("When parameters values are to be forced, a JavaStics path must be set in model_options list !")
 
   # In case of successive USMs, disable parallel run
@@ -307,7 +307,7 @@ stics_wrapper <- function(model_options,
         )
       }
     }
-    if (is.null((param_values_sit)) | nrow(param_values_sit) == 0) {
+    if (is.null((param_values_sit)) || nrow(param_values_sit) == 0) {
       param_values_sit <- tibble::tibble(NA)
     }
 
@@ -484,12 +484,12 @@ stics_wrapper <- function(model_options,
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
 
-        # For phenological stages, set the value obtained at the last date for all dates.
+# For phenological stages, set the value obtained at the last date for all dates
         if (length(tmp$sim_list) > 0) {
           if (length(intersect(stages_list,names(sim_list[[ip]]))>0)) {
             sim_list[[ip]] <-
               dplyr::mutate(sim_list[[ip]],
-                            dplyr::across(dplyr::all_of(intersect(stages_list,names(sim_list[[ip]]))),
+    dplyr::across(dplyr::all_of(intersect(stages_list,names(sim_list[[ip]]))),
                                           ~.x[length(.x)]))
           }
         }

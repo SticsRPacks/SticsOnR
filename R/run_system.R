@@ -112,7 +112,7 @@ run_system <- function(stics_exe,
     usm_chk_out <- check_output_files(usm_dir)
 
     # additional check for missing output files
-    if (!usm_out$error & usm_chk_out$error) {
+    if (!usm_out$error && usm_chk_out$error) {
       print(paste("Error, missing output file(s) : ", usm_dir))
       usm_out$error <- TRUE
       usm_out$message <- paste("No output files: ", usm_chk_out$missing)

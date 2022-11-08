@@ -57,7 +57,7 @@ set_stics_exe <- function(javastics,
   # checking javastics path
   check_java_path(javastics)
 
-  if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
+  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
     switch(user_os(),
       lin = {
@@ -436,7 +436,7 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   # checking javastics path
   check_java_path(javastics)
 
-  if (stics_exe == "stics_modulo" | stics_exe == "sticsmodulo") {
+  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     stics_exe <- "modulostics"
   }
 
