@@ -73,7 +73,7 @@ set_stics_exe <- function(javastics,
 
   # Case 1: stics_exe is a model name
   if (exist_stics_exe(javastics, stics_exe)) {
-    exe_name <- list_stics_exe(javastics)$stics_list[stics_exe][[1]]
+    # exe_name <- list_stics_exe(javastics)$stics_list[stics_exe][[1]]
     if (verbose) {
       cli::cli_alert_success(
         "Using stics {.val {stics_exe}} (exe: {.val {exe_name}})"
@@ -479,10 +479,10 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', stics_exe)
 
 
-  exe_path <- file.path(
-    javastics, "bin",
-    list_stics_exe(javastics)$stics_list[[stics_exe]]
-  )
+  #exe_path <- file.path(
+  #  javastics, "bin",
+  #  list_stics_exe(javastics)$stics_list[[stics_exe]]
+  #)
 
   # saving modified file
   SticsRFiles:::saveXmlDoc(xml_pref, xml_path)

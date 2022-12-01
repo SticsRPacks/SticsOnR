@@ -269,7 +269,7 @@ stics_wrapper <- function(model_options,
   # Hack to make force_param_values available on the shared environment.
   # This is done to make it compatible with clusters
   # (Meso@LR didn't work without).
-  force_param_values <- SticsRFiles::force_param_values
+  # force_param_values <- SticsRFiles::force_param_values
 
   i <- 1 # initialization to avoid Note in check ...
   out <- foreach::foreach(
@@ -641,7 +641,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
 ## In case some variables are not simulated, warn the user, add them in var.mod
 ## and re-simulate or select the results if var.mod has already been modified.
     if (length(inter_var_names) < length(req_var_names)) {
-      diff_vars <- setdiff(req_var_names, inter_var_names)
+      # diff_vars <- setdiff(req_var_names, inter_var_names)
 
       if (varmod_modified) {
         ## var.mod has already been modified ... warn the user the required
