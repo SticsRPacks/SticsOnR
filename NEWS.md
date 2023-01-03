@@ -1,3 +1,8 @@
+# SticsOnR 1.0.1  (2023-01-03)
+
+* Fixed cff file generation using github action. Now generated on each commit that modifies the Description file + on release.
+* Minor changes following CRAN checks procedure application.
+
 # SticsOnR 1.0.0  (2022-07-22)
 
 MAIN CHANGES:
