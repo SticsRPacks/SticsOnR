@@ -7,7 +7,7 @@ cff-version: 1.2.0
 message: 'To cite package "SticsOnR" in publications use:'
 type: software
 title: 'SticsOnR: Manage STICS Simulations Running the Executable or JavaStics,'
-version: 1.0.0
+version: 1.0.1
 abstract: 'The purpose of SticsOnR is simply to run simulations with the STICS model.
   It provides three different ways to perform a simulation depending on the use-case:
   1/ Call JavaStics to run a simulation on a given situation. In this case JavaStics
@@ -35,7 +35,7 @@ authors:
   orcid: https://orcid.org/0000-0002-9310-2377
 repository-code: https://github.com/SticsRPacks/SticsOnR
 url: https://doi.org/10.5281/zenodo.4443130
-date-released: '2022-07-22'
+date-released: '2023-01-03'
 contact:
 - family-names: Lecharpentier
   given-names: Patrice
