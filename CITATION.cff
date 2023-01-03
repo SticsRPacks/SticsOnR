@@ -50,7 +50,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2022'
+  year: '2023'
   institution:
     name: R Foundation for Statistical Computing
   version: '>= 3.6.0'
@@ -64,7 +64,7 @@ references:
   - family-names: Csárdi
     given-names: Gábor
     email: csardi.gabor@gmail.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: crayon
   abstract: 'crayon: Colored Terminal Output'
@@ -75,7 +75,7 @@ references:
   - family-names: Csárdi
     given-names: Gábor
     email: csardi.gabor@gmail.com
-  year: '2022'
+  year: '2023'
   version: '>= 1.3.4'
 - type: software
   title: doParallel
@@ -88,7 +88,7 @@ references:
     given-names: Microsoft
   - family-names: Weston
     given-names: Steve
-  year: '2022'
+  year: '2023'
 - type: software
   title: dplyr
   abstract: 'dplyr: A Grammar of Data Manipulation'
@@ -108,7 +108,7 @@ references:
   - family-names: Müller
     given-names: Kirill
     orcid: https://orcid.org/0000-0002-1416-3412
-  year: '2022'
+  year: '2023'
 - type: software
   title: foreach
   abstract: 'foreach: Provides Foreach Looping Construct'
@@ -119,7 +119,7 @@ references:
   - name: Microsoft
   - family-names: Weston
     given-names: Steve
-  year: '2022'
+  year: '2023'
 - type: software
   title: lifecycle
   abstract: 'lifecycle: Manage the Life Cycle of your Package Functions'
@@ -134,7 +134,7 @@ references:
     given-names: Hadley
     email: hadley@rstudio.com
     orcid: https://orcid.org/0000-0003-4757-117X
-  year: '2022'
+  year: '2023'
 - type: software
   title: magrittr
   abstract: 'magrittr: A Forward-Pipe Operator for R'
@@ -148,7 +148,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: methods
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -157,7 +157,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2022'
+  year: '2023'
   institution:
     name: R Foundation for Statistical Computing
 - type: software
@@ -168,7 +168,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2022'
+  year: '2023'
   institution:
     name: R Foundation for Statistical Computing
 - type: software
@@ -190,7 +190,7 @@ references:
   - family-names: Ritchie
     given-names: Gary
     email: gary@rstudio.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: stats
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -199,7 +199,7 @@ references:
   - name: R Core Team
   location:
     name: Vienna, Austria
-  year: '2022'
+  year: '2023'
   institution:
     name: R Foundation for Statistical Computing
 - type: software
@@ -224,7 +224,7 @@ references:
     given-names: Michel
     email: michel.giner@cirad.fr
     orcid: https://orcid.org/0000-0002-9310-2377
-  year: '2022'
+  year: '2023'
 - type: software
   title: tibble
   abstract: 'tibble: Simple Data Frames'
@@ -238,7 +238,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: XML
   abstract: 'XML: Tools for Parsing and Generating XML Within R and S-Plus'
@@ -250,7 +250,7 @@ references:
     given-names: Duncan
     email: duncan@r-project.org
     orcid: https://orcid.org/0000-0003-0159-1546
-  year: '2022'
+  year: '2023'
 - type: software
   title: covr
   abstract: 'covr: Test Coverage for Packages'
@@ -261,7 +261,7 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.f.hester@gmail.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -273,7 +273,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2022'
+  year: '2023'
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -313,7 +313,7 @@ references:
     given-names: Richard
     email: rich@rstudio.com
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2022'
+  year: '2023'
 - type: software
   title: spelling
   abstract: 'spelling: Tools for Spell Checking in R'
@@ -328,7 +328,7 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.hester@rstudio.com
-  year: '2022'
+  year: '2023'
 - type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
@@ -339,4 +339,4 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  year: '2022'
+  year: '2023'
