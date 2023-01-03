@@ -23,7 +23,8 @@ run_javastics(
 
 \item{workspace}{Path of a JavaStics workspace}
 
-\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs.
+\item{usm}{Vector of USM names. Optional, if provided, the function runs
+only the given USMs.
 If not provided, the function runs all the USMs included in workspace.}
 
 \item{keep_history}{Logical value (optional) to keep a copy of history file
@@ -34,22 +35,23 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 
 \item{verbose}{Logical value for displaying information while running}
 
-\item{stics_exe}{The name, executable or path of the stics executable to use (optional, default to "modulostics", see details)}
+\item{stics_exe}{The name, executable or path of the stics executable to use
+(optional, default to "modulostics", see details)}
 
 \item{java_cmd}{The java virtual machine command name or executable path}
 
-\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path} is no
-longer supported, use \code{javastics} instead.}
+\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path}
+is no longer supported, use \code{javastics} instead.}
 
-\item{workspace_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{workspace_path} is no
-longer supported, use \code{workspace} instead.}
+\item{workspace_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{workspace_path}
+is no longer supported, use \code{workspace} instead.}
 
 \item{usms_list}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{usms_list} is no
 longer supported, use \code{usm} instead.}
 }
 \value{
-A list in which each element contains: usm "name", "error" status (logical)
-and an output "message" (JavaStics commandline execution output)
+A list in which each element contains: usm "name", "error" status
+(logical) and an output "message" (JavaStics commandline execution output)
 }
 \description{
 This function uses basically Stics through his
@@ -58,11 +60,15 @@ JavaStics command line interface
 \details{
 \code{stics_exe} may be :
 \enumerate{
-\item a model name pointing to a stics executable as done in JavaStics, e.g. "modulostics" for \code{stics_modulo.exe}, the standard version of the model
+\item a model name pointing to a stics executable as done in JavaStics, e.g.
+"modulostics" for \code{stics_modulo.exe}, the standard version of the model
 shipping with JavaStics;
-\item a stics executable file available from the bin folder in JavaStics, e.g. "stics_modulo.exe";
-\item a path to a stics executable file, eg. "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
-\code{stics_modulo.exe} because it is the name of the standard STICS shipping with JavaStics (overwriting is not allowed).
+\item a stics executable file available from the bin folder in JavaStics, e.g.
+"stics_modulo.exe";
+\item a path to a stics executable file, eg.
+"C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+\code{stics_modulo.exe} because it is the name of the standard STICS shipping
+with JavaStics (overwriting is not allowed).
 }
 }
 \examples{
@@ -71,7 +77,8 @@ run_javastics("/path/to/JavaSTICS/folder", "example")
 run_javastics("/path/to/JavaSTICS/folder", "/path/to/workspace")
 run_javastics("/path/to/JavaSTICS/folder", "example", c("wheat", "pea"))
 run_javastics("/path/to/JavaSTICS/folder", usm = c("wheat", "pea"))
-run_javastics("/path/to/JavaSTICS/folder", usm = c("wheat", "pea"), optim = TRUE)
+run_javastics("/path/to/JavaSTICS/folder",
+usm = c("wheat", "pea"), optim = TRUE)
 }
 
 }

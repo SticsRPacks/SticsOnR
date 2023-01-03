@@ -21,9 +21,10 @@ run_stics(
 \arguments{
 \item{stics_exe}{Path of Stics the executable file}
 
-\item{workspace}{Path of the workspace containing the Stics (txt) input files.}
+\item{workspace}{Path of the workspace containing the Stics (txt) input files}
 
-\item{usm}{Vector of USM names. Optional, if provided, the function runs only the given USMs.
+\item{usm}{Vector of USM names. Optional, if provided, the function runs only
+the given USMs.
 If not provided, the function runs all the USMs included in workspace.}
 
 \item{check}{Logical, T for checking the model executable, F otherwise}
@@ -64,7 +65,8 @@ run_stics("/home/username/bin/Stics", c(
 
 # Specifying a parent directory of usms directories
 # running one or several usms
-run_stics("/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir", "wheat")
+run_stics("/home/username/bin/Stics",
+"/home/username/Work/SticsInputsRootDir", "wheat")
 run_stics(
   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
   c("wheat", "maize")
