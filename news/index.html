@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -58,6 +58,11 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.1" id="sticsonr-101-2023-01-03">SticsOnR 1.0.1 (2023-01-03)<a class="anchor" aria-label="anchor" href="#sticsonr-101-2023-01-03"></a></h2>
+<ul><li>Fixed cff file generation using github action. Now generated on each commit that modifies the Description file + on release.</li>
+<li>Minor changes following CRAN checks procedure application.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="sticsonr-100-2022-07-22">SticsOnR 1.0.0 (2022-07-22)<a class="anchor" aria-label="anchor" href="#sticsonr-100-2022-07-22"></a></h2>
 <p>MAIN CHANGES: * run_javastics: new argument for giving the path of the java version to use * stics_wrapper: * set “variete” to be forced first if included in param_values argument (so that varietal parameters are well handled if included in param_values) * using () in names of variables (var argument) is now taken into account * homogenization of argument names between functions * some functions moved to the SticsRFiles package * simulated phenological stages now take the same value of julian day whatever the date is</p>
 <p>FIXES: * stics_wrapper: run successive USMs did not work in case required variables (var argument) were not defined in var.mod * run_stics: running automatically usms stored in subdirectories of workspace did not work * run_javastics: * STICS execution errors now captured * relative path of workspace now correctly taken into account</p>
@@ -75,7 +80,8 @@
 <h2 class="page-header" data-toc-text="0.2.1" id="sticsonr-021-2021-03-12">SticsOnR 0.2.1 (2021-03-12)<a class="anchor" aria-label="anchor" href="#sticsonr-021-2021-03-12"></a></h2>
 <div class="section level3">
 <h3 id="general-changes-0-2-1">General changes<a class="anchor" aria-label="anchor" href="#general-changes-0-2-1"></a></h3>
-<ul><li>A few bugs fixed</li></ul></div>
+<ul><li>A few bugs fixed</li>
+</ul></div>
 <div class="section level3">
 <h3 id="specific-changes-0-2-1">Specific changes<a class="anchor" aria-label="anchor" href="#specific-changes-0-2-1"></a></h3>
 <p>R/run_system_cmd.R * FIX: relative path for stics executable were not well handled</p>
@@ -89,7 +95,8 @@
 <h3 id="general-changes-0-2-0">General changes<a class="anchor" aria-label="anchor" href="#general-changes-0-2-0"></a></h3>
 <ul><li>
 <p>DESCRIPTION</p>
-<ul><li>license changed to License for CeCILL-C</li></ul></li>
+<ul><li>license changed to License for CeCILL-C</li>
+</ul></li>
 <li><p>README: fix stics_wrapper examples and new ones added</p></li>
 <li>
 <p>Automatic testing:</p>
@@ -116,7 +123,8 @@
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.0.9005" id="sticsonr-0109005-2020-02-06">SticsOnR 0.1.0.9005 (2020-02-06)<a class="anchor" aria-label="anchor" href="#sticsonr-0109005-2020-02-06"></a></h2>
-<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li></ul></div>
+<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -131,7 +139,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

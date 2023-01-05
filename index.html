@@ -18,15 +18,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Manage STICS Simulations Running the Executable or JavaStics,">
-<meta property="og:description" content="The purpose of SticsOnR is simply to run simulations with the STICS
-    model. It provides three different ways to perform a simulation depending on
-    the use-case: 1/ Call JavaStics to run a simulation on a given situation. In
-    this case JavaStics will handle the generation of the text files from the 
-    XML files; 2/ Call the STICS model executable directly. In this case the 
-    text files should be produced beforehand; and 3/ Call the STICS model 
-    executable through a wrapper that handles distributed runs over the machine
-    CPUs and returns the simulated values to the user. The wrapper also provides
-    a concise manner for making a simulation custom parameters values.">
+<meta property="og:description" content="The purpose of SticsOnR is simply to run simulations with the
+    STICS model. It provides three different ways to perform a simulation
+    depending on the use-case: 1/ Call JavaStics to run a simulation on a
+    given situation. In this case JavaStics will handle the generation of
+    the text files from the XML files; 2/ Call the STICS model executable
+    directly. In this case the text files should be produced beforehand;
+    and 3/ Call the STICS model executable through a wrapper that handles
+    distributed runs over the machine CPUs and returns the simulated
+    values to the user. The wrapper also provides a concise manner for 
+	running a simulation using custom parameter values.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -48,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -97,6 +98,7 @@
 </h1></div>
 <p>The R package for the <a href="https://www6.paca.inrae.fr/stics_eng/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right"></p>
 <!-- badges: start -->
+
 <p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://www6.paca.inrae.fr/stics_eng/Download" class="external-link uri">https://www6.paca.inrae.fr/stics_eng/Download</a>.</p>
 <p>If you want to be notified when a new release of this package is made, you can tick the Releases box in the “Watch / Unwatch =&gt; Custom” menu at the top right of <a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">this page</a>.</p>
 <div class="section level2">
@@ -167,11 +169,13 @@
 <p>The best way to install the packages from <code>SticsRPacks</code>, from which <code>SticsOnR</code> is part of, is by installing the <code>[SticsRPacks]</code> package:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
-<ul><li>With <code>remotes</code>
-</li></ul>
+<ul>
+<li>With <code>remotes</code>
+</li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
 <p>The package will install the packages for you at the latest release version.</p>
 </div>
 <div class="section level3">
@@ -182,15 +186,19 @@
 </h4>
 <p>The package installation can be remotely done directly from <a href="https://github.com/" class="external-link">GitHub</a> using either <code>devtools</code> or the lightweight <code>remote</code> one package</p>
 <p>The latest release version can be installed using:</p>
-<ul><li>With <code>devtools</code>
-</li></ul>
+<ul>
+<li>With <code>devtools</code>
+</li>
+</ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
-<ul><li>With <code>remotes</code>
-</li></ul>
+<ul>
+<li>With <code>remotes</code>
+</li>
+</ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
 <p>Normally, all the package dependencies will be installed for CRAN packages.</p>
 </div>
 <div class="section level4">
@@ -219,7 +227,8 @@
 <ul>
 <li>Specifying the JavaStics folder<br><pre>javastics_path </pre>
 </li>
-<li>Specifying a workspace<ul>
+<li>Specifying a workspace
+<ul>
 <li>as a subfolder of JavaStics<br><pre>workspace_path </pre>
 </li>
 <li>or an absolute path to an external folder<br><pre>workspace_path </pre>
@@ -241,8 +250,11 @@
 <span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>,<span class="st">"wheat"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">runs_info</span></span></code></pre></div>
-<ul><li>For linux systems, if the java version is not compatible with the JavaStics version a compatible java executable path must be used<pre>java_cmd </pre>
-</li></ul>
+<ul>
+<li>For linux systems, if the java version is not compatible with the JavaStics version a compatible java executable path must be used
+<pre>java_cmd </pre>
+</li>
+</ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">################ Only for linux with a specific java executable################</span></span>
 <span></span>
@@ -361,7 +373,8 @@
 </li>
 <li>for linux<br><pre>stics_path </pre>
 </li>
-<li>for Mac<pre>stics_path </pre>
+<li>for Mac
+<pre>stics_path </pre>
 </li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -459,15 +472,21 @@
 <span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>By default, <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> checks that <code>javastics</code>, <code>stics_exe</code> and <code>workspace</code> exists.</p>
 <p>There are different solutions if you need to use a custom version of stics:</p>
-<ol style="list-style-type: decimal"><li>if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):</li></ol>
+<ol style="list-style-type: decimal">
+<li>if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):</li>
+</ol>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom"</span>,</span>
 <span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<ol start="2" style="list-style-type: decimal"><li>if it is located in the bin directory of the JavaStics installation directory, provide the executable name:</li></ol>
+<ol start="2" style="list-style-type: decimal">
+<li>if it is located in the bin directory of the JavaStics installation directory, provide the executable name:</li>
+</ol>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>, stics_exe <span class="op">=</span> <span class="st">"stics_custom.exe"</span>,</span>
 <span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<ol start="3" style="list-style-type: decimal"><li>if it is located in any other folder, provide the full path to the executable name, and no need to use <code>javastics_path</code>:</li></ol>
+<ol start="3" style="list-style-type: decimal">
+<li>if it is located in any other folder, provide the full path to the executable name, and no need to use <code>javastics_path</code>:</li>
+</ol>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>stics_exe <span class="op">=</span> <span class="st">"path/to/stics_custom.exe"</span>,</span>
 <span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -475,20 +494,28 @@
 <div class="section level4">
 <h4 id="simple-simulations-cases">Simple simulations cases<a class="anchor" aria-label="anchor" href="#simple-simulations-cases"></a>
 </h4>
-<ul><li>Without filtering usms or outputs</li></ul>
+<ul>
+<li>Without filtering usms or outputs</li>
+</ul>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
-<ul><li>Filtering on usms list</li></ul>
+<ul>
+<li>Filtering on usms list</li>
+</ul>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">usm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span><span class="op">)</span></span></code></pre></div>
-<ul><li>Filtering outputs on variables</li></ul>
+<ul>
+<li>Filtering outputs on variables</li>
+</ul>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">usm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>, var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"masec_n"</span>,<span class="st">"mafruit"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<ul><li>Filtering outputs on variables and dates for several USMs</li></ul>
+<ul>
+<li>Filtering outputs on variables and dates for several USMs</li>
+</ul>
 <p>The argument <code>sit_var_dates_mask</code> must contain a named list (named by usms names) containing data.frames, as the sim_list element of the list returned by stics_wrapper (see here-after) or as observations data.</p>
 <p>It defines a mask: stics_wrapper will return a result for each USM, variable and date that contains at least a value (<em>i.e.</em> different from NA) in the mask.</p>
 <p>The stics_wrapper function returns a list that contains two elements:</p>
@@ -645,14 +672,18 @@
 <div class="section level4">
 <h4 id="simulations-with-forcing-parameters">Simulations with forcing parameters<a class="anchor" aria-label="anchor" href="#simulations-with-forcing-parameters"></a>
 </h4>
-<ul><li>Applying a single parameter values vector for all the selected usms</li></ul>
+<ul>
+<li>Applying a single parameter values vector for all the selected usms</li>
+</ul>
 <p>Parameters values are prescribed using the <code>param_values</code> argument. It can be a named vector containing the values and names of the parameters to force. In this case, the same values will be applied for all the simulated usms.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.002</span>,<span class="fl">50</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">param_values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>, param_values <span class="op">=</span> <span class="va">param_values</span><span class="op">)</span></span></code></pre></div>
-<ul><li>Defining different parameters values depending on the usms</li></ul>
+<ul>
+<li>Defining different parameters values depending on the usms</li>
+</ul>
 <p><code>param_values</code> can also be a data.frame or a tibble having one named column per parameter and an optional column named <code>situation</code> containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Let's run usm wheat with c(dlaimax=0.001, durvieF=50),</span></span>
@@ -681,14 +712,18 @@
 <div class="section level4">
 <h4 id="other-optional-arguments">Other Optional arguments<a class="anchor" aria-label="anchor" href="#other-optional-arguments"></a>
 </h4>
-<ul><li>Displaying execution time</li></ul>
+<ul>
+<li>Displaying execution time</li>
+</ul>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
 <span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
-<ul><li>Activating parallel execution</li></ul>
+<ul>
+<li>Activating parallel execution</li>
+</ul>
 <p>On may specify the number of cores to use with the cores argument.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
@@ -795,7 +830,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

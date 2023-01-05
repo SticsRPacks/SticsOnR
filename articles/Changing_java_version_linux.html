@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
 
       
 
-      </header><script src="Changing_java_version_linux_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Changing Java version procedure under linux</h1>
@@ -98,14 +98,22 @@
 <div class="section level2">
 <h2 id="java-installation">Java installation<a class="anchor" aria-label="anchor" href="#java-installation"></a>
 </h2>
-<p>The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8).</p>
-<p>If the default version of java is older than 11, a java 11 can be installed and solutions exist for switching between versions.</p>
-<p>These information may be partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.</p>
+<p>The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to
+use a more recent Java virtual machine (at least version 11) which is
+not compatible with an older version (i.e. java 8).</p>
+<p>If the default version of java is older than 11, a java 11 can be
+installed and solutions exist for switching between versions.</p>
+<p>These information may be partially specific of installation
+procedures on Debian like distributions and can be easily adapted for
+other linux OS types.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-an-alias-to-java-11">Creating an alias to java 11<a class="anchor" aria-label="anchor" href="#creating-an-alias-to-java-11"></a>
 </h2>
-<p>This is the simplest solution and allows to avoid switching between versions. But, it is leading to use additional arguments for some R functions relying on JavaSTICS use in background (i.e. run_javastics, gen_xml2txt, for example).</p>
+<p>This is the simplest solution and allows to avoid switching between
+versions. But, it is leading to use additional arguments for some R
+functions relying on JavaSTICS use in background (i.e. run_javastics,
+gen_xml2txt, for example).</p>
 <pre style="font-size: 11px">
 
 alias java11=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
@@ -119,7 +127,8 @@ alias java11=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
 <div class="section level3">
 <h3 id="using-the-system-tools">Using the system tools<a class="anchor" aria-label="anchor" href="#using-the-system-tools"></a>
 </h3>
-<p>The following command under Ubuntu allows to manage switching easily</p>
+<p>The following command under Ubuntu allows to manage switching
+easily</p>
 <pre style="font-size: 11px">
 sudo update-alternatives --config java
 </pre>
@@ -139,74 +148,79 @@ Press <enter> to keep the current choice[*], or type selection number:0
 <div class="section level2">
 <h2 id="using-a-shell-script">Using a shell script<a class="anchor" aria-label="anchor" href="#using-a-shell-script"></a>
 </h2>
-<p>After the Java 11 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Changing latest installed Java version to Java version 11</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="bu">echo</span> <span class="st">"The current Java version is : "</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="ex">java</span> -version</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="va">version=$(</span><span class="ex">java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">if</span> !<span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>  <span class="bu">echo</span> <span class="st">"The Java version is already Java 11"</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="bu">exit</span> 0</span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">fi</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="bu">echo</span> <span class="st">"Changing Java version to Java 11"</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-e</span> /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java<span class="bu"> ]</span>;<span class="kw">then</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>         <span class="fu">sudo</span> rm /usr/bin/java</span>
-<span id="cb1-17"><a href="#cb1-17"></a>         <span class="fu">sudo</span> ln -s /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java /usr/bin/java</span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="kw">fi</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="va">version=$(</span><span class="ex">java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>  <span class="bu">echo</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>  <span class="bu">echo</span> <span class="st">"Java 11 is not installed !"</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>  <span class="bu">exit</span> 1</span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="kw">fi</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a></span>
-<span id="cb1-28"><a href="#cb1-28"></a><span class="bu">echo</span> <span class="st">"The Java version is now : "</span></span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="ex">java</span> -version</span></code></pre></div>
+<p>After the Java 11 installation, and if it is not the default version
+known by the system, switching to this version can be done with a script
+like the following one. It can be ran either from R or a shell
+terminal.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing latest installed Java version to Java version 11</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"The current Java version is : "</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-version</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">version</span><span class="op">=</span><span class="va">$(</span><span class="ex">java</span> <span class="at">-version</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="ot">! </span><span class="bu">[</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span> <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"The Java version is already Java 11"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 0</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Changing Java version to Java 11"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-e</span> /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>         <span class="fu">sudo</span> rm /usr/bin/java</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>         <span class="fu">sudo</span> ln <span class="at">-s</span> /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java /usr/bin/java</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="va">version</span><span class="op">=</span><span class="va">$(</span><span class="ex">java</span> <span class="at">-version</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span> <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"Java 11 is not installed !"</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"The Java version is now : "</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-version</span></span></code></pre></div>
 <p>After that,</p>
 <blockquote>
-<p>the <strong>SticsOnR</strong> package functions using the JavaSTICS 1.5.0 command line interface <strong>can be used</strong>.</p>
+<p>the <strong>SticsOnR</strong> package functions using the JavaSTICS
+1.5.0 command line interface <strong>can be used</strong>.</p>
 </blockquote>
 </div>
 <div class="section level2">
 <h2 id="switch-back-to-the-previous-java-version-on-the-system">Switch back to the previous Java version on the system<a class="anchor" aria-label="anchor" href="#switch-back-to-the-previous-java-version-on-the-system"></a>
 </h2>
-<p>For restoring the initial Java version, a script like the following can be ran.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Changing to the previous installed Java version</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="bu">echo</span> <span class="st">"Current Java version is : "</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="ex">java</span> -version</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="va">version=$(</span><span class="ex">java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>  <span class="bu">echo</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>  <span class="bu">echo</span> <span class="st">"The Java version is not Java 11"</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>  <span class="bu">exit</span> 0</span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="kw">fi</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#ls -ald /usr/lib/jvm/* | grep ^d | grep java-</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="va">last_version=$(</span><span class="ex">/etc/alternatives/java</span> -version <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">awk</span> -F <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="kw">if</span> !<span class="bu"> [</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$last_version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span><span class="bu"> ]</span>;<span class="kw">then</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>  <span class="bu">echo</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a>  <span class="bu">echo</span> <span class="st">"No more recent version of Java is available on the system !"</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a>  <span class="bu">exit</span> 0</span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="kw">fi</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a>  </span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="fu">sudo</span> rm /usr/bin/java</span>
-<span id="cb2-27"><a href="#cb2-27"></a><span class="fu">sudo</span> ln -s /etc/alternatives/java /usr/bin/java</span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="bu">echo</span> <span class="st">"JAVA version is now : "</span></span>
-<span id="cb2-29"><a href="#cb2-29"></a><span class="ex">java</span> -version</span></code></pre></div>
+<p>For restoring the initial Java version, a script like the following
+can be ran.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing to the previous installed Java version</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Current Java version is : "</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-version</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">version</span><span class="op">=</span><span class="va">$(</span><span class="ex">java</span> <span class="at">-version</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span> <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"The Java version is not Java 11"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 0</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#ls -ald /usr/lib/jvm/* | grep ^d | grep java-</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="va">last_version</span><span class="op">=</span><span class="va">$(</span><span class="ex">/etc/alternatives/java</span> <span class="at">-version</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'"'</span> <span class="st">'/version/ {print $2}'</span><span class="va">)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="ot">! </span><span class="bu">[</span> <span class="ot">-z</span> <span class="va">$(</span><span class="bu">echo</span> <span class="va">$last_version</span> <span class="kw">|</span> <span class="fu">grep</span> ^11<span class="va">)</span> <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"No more recent version of Java is available on the system !"</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 0</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rm /usr/bin/java</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /etc/alternatives/java /usr/bin/java</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"JAVA version is now : "</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-version</span></span></code></pre></div>
 </div>
   </div>
 
@@ -227,7 +241,7 @@ Press <enter> to keep the current choice[*], or type selection number:0
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
