@@ -61,6 +61,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Install custom R dependencies
+        run: |
+          remotes::install_github("SticsRPacks/SticsRFiles@master")
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
