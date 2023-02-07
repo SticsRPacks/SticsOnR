@@ -153,7 +153,8 @@ stics_wrapper <- function(model_options,
 
   # Checking if javastics path is set when forcing parameters
   if (!is.null(param_values) && javastics == "unknown")
-    stop("When parameters values are to be forced, a JavaStics path must be set in model_options list !")
+    stop(paste0("When parameters values are to be forced,",
+                " a JavaStics path must be set in model_options list !"))
 
   # In case of successive USMs, disable parallel run
   if (!is.null(successive_usms)) parallel <- FALSE
@@ -269,7 +270,8 @@ stics_wrapper <- function(model_options,
   # Hack to make force_param_values available on the shared environment.
   # This is done to make it compatible with clusters
   # (Meso@LR didn't work without).
-  # force_param_values <- SticsRFiles::force_param_values
+  # Create a local copy of force_param_values function,
+  # assigning it with SticsRFiles::force_param_values
 
   i <- 1 # initialization to avoid Note in check ...
   out <- foreach::foreach(
@@ -320,7 +322,7 @@ stics_wrapper <- function(model_options,
     messages <- as.list(rep("", nrow(param_values_sit)))
 
     # For each set of parameter values to force in the model
-    for (ip in seq_along(nrow(param_values_sit))) {
+    for (ip in seq_len(nrow(param_values_sit))) {
 
       # Force parameters values
       if (!SticsRFiles::force_param_values(
@@ -367,7 +369,8 @@ stics_wrapper <- function(model_options,
             mess <- warning(paste(
               "Error running the Stics model for USM",
               situation,
-   ". \n This USMs is part of a succession but recup.tmp or snow_variables.txt",
+              ". \n This USMs is part of a succession",
+              "but recup.tmp or snow_variables.txt",
               "file(s) was/were not created by the previous USM."
             ))
             sim_list[ip] <- NULL
@@ -389,7 +392,8 @@ stics_wrapper <- function(model_options,
           if (!all(recup_copy)) {
             mess <- warning(
               paste(
-            "Error copying recup.tmp and/or snow_variables.txt file(s) for USM",
+                "Error copying recup.tmp and/or",
+                "snow_variables.txt file(s) for USM",
                 situation
               )
             )
@@ -400,8 +404,8 @@ stics_wrapper <- function(model_options,
             next()
           }
 
-        # The following could be done only once in case of repeated call to the
-        # wrapper (e.g. parameters estimation ...)
+          # The following could be done only once in case of repeated call
+          # to the wrapper (e.g. parameters estimation ...)
           SticsRFiles::set_usm_txt(
             filepath = file.path(run_dir, "new_travail.usm"),
             param = "codesuite", value = 1
@@ -485,13 +489,18 @@ stics_wrapper <- function(model_options,
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
 
-# For phenological stages, set the value obtained at the last date for all dates
+        # For phenological stages, set the value obtained at the last date
+        # for all dates
         if (length(tmp$sim_list) > 0) {
           if (length(intersect(stages_list, names(sim_list[[ip]])) > 0)) {
             sim_list[[ip]] <-
-              dplyr::mutate(sim_list[[ip]],
-    dplyr::across(dplyr::all_of(intersect(stages_list, names(sim_list[[ip]]))),
-                                          ~.x[length(.x)]))
+              dplyr::mutate(
+                sim_list[[ip]],
+                dplyr::across(
+                  dplyr::all_of(
+                    intersect(stages_list, names(sim_list[[ip]]))),
+                  ~.x[length(.x)])
+              )
           }
         }
 
@@ -625,11 +634,10 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       req_var_names <- c(var_names)
     }
 
-   ## Convert required variables names to Stics variables names (i.e. handle ())
+    ## Convert required variables names to Stics variables names (i.e. handle ())
     req_var_names <- SticsRFiles:::var_to_col_names(req_var_names)
 
     ## Add reserved keywords "Plant" and "Date" from the list
-    # req_var_names <- req_var_names[!grepl("Plant",req_var_names)]
     req_var_names <- unique(c(c("Date", "Plant"), req_var_names))
 
     ## Identify indexes of required variables among simulated ones
@@ -638,11 +646,9 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     inter_var_names <- sim_var_names[req_vars_idx]
 
 
-## In case some variables are not simulated, warn the user, add them in var.mod
-## and re-simulate or select the results if var.mod has already been modified.
+    ## In case some variables are not simulated, warn the user, add them in var.mod
+    ## and re-simulate or select the results if var.mod has already been modified.
     if (length(inter_var_names) < length(req_var_names)) {
-      # diff_vars <- setdiff(req_var_names, inter_var_names)
-
       if (varmod_modified) {
         ## var.mod has already been modified ... warn the user the required
         ## variables will not be simulated
@@ -655,7 +661,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           "not simulated by the Stics model for USM",
           situation,
           "although added in", file.path(run_dir, "var.mod"),
-    "=> these variables may not be Stics variables, please check spelling. \n ",
+          "=> these variables may not be Stics variables, please check spelling. \n ",
           "Simulated variables:", paste(sim_var_names, collapse = ", ")
         ))
         res$flag_error <- FALSE
@@ -1073,7 +1079,6 @@ stics_wrapper_options <- function(javastics = NULL,
     )
     # NB: case 3 (i.e. stics_exe is a full path to an executable) is implicit
     # here: it is the case where
-    # check_stics_exe(model_path = stics_exe, stop = FALSE) == TRUE
   }
 
   if (verbose) cli::cli_alert_success("Using stics: {.val {stics_exe}}")
@@ -1098,8 +1103,6 @@ stics_wrapper_options <- function(javastics = NULL,
 
 
 stics_display_warnings <- function(in_string) {
-  # print(in_string)
-  # print(length(in_string))
   if (nchar(in_string)) warning(in_string, call. = FALSE)
 }
 
