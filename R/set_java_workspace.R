@@ -53,7 +53,7 @@ set_java_workspace <- function(javastics_path, java_wd) {
   }
 
   # getting current registered wd
-  current_wd <- SticsRFiles:::getValues(
+  current_wd <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="workingDirectory.current"]'
   )
@@ -66,7 +66,7 @@ set_java_workspace <- function(javastics_path, java_wd) {
       "<entry key=\"workingDirectory.current\">",
       java_wd, "</entry>"
     ))
-    SticsRFiles:::addNodes(xml_pref, n)
+    SticsRFiles:::add_nodes(xml_pref, n)
   } else {
     # if it's not different from the new one,
     if (current_wd == java_wd || (dirname(java_wd) == javastics_path) &&
@@ -75,12 +75,12 @@ set_java_workspace <- function(javastics_path, java_wd) {
     }
 
     # else, setting entry value
-    SticsRFiles:::setValues(
+    SticsRFiles:::set_values(
       xml_pref, '//entry[@key="workingDirectory.current"]',
       java_wd
     )
   }
 
   # writing file
-  SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
+  SticsRFiles:::save_xml_doc(xml_pref, xml_path)
 }

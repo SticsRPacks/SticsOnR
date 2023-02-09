@@ -33,7 +33,7 @@ get_java_workspace <- function(javastics_path) {
   xml_path <- file.path(javastics_path, "config", "preferences.xml")
 
   xml_pref <- SticsRFiles:::xmldocument(xml_path)
-  current_wd <- SticsRFiles:::getValues(
+  current_wd <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="workingDirectory.current"]'
   )

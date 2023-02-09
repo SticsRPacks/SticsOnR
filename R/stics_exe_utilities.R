@@ -189,11 +189,11 @@ set_stics_exe <- function(javastics,
       }
     } else {
       # If they have the same executable, use the same name.
-      SticsRFiles:::setValues(
+      SticsRFiles:::set_values(
         xml_pref,
         '//entry[@key="model.last"]', new_stics_name
       )
-      SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
+      SticsRFiles:::save_xml_doc(xml_pref, xml_path)
       return(check_stics_exe(java_stics_exe))
     }
   }
@@ -209,17 +209,17 @@ set_stics_exe <- function(javastics,
     stics_exe_list$stics_list
   ), collapse = "")
   xml_pref <- SticsRFiles:::xmldocument(xml_path)
-  SticsRFiles:::setValues(
+  SticsRFiles:::set_values(
     xml_pref,
     '//entry[@key="model.last"]', new_stics_name
   )
-  SticsRFiles:::setValues(
+  SticsRFiles:::set_values(
     xml_pref,
     '//entry[@key="model.list"]', stics_exe_string
   )
 
   # writing file
-  SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
+  SticsRFiles:::save_xml_doc(xml_pref, xml_path)
 
   # Setting stics_exe to executable (OS != windows)
   # and checking if it is a Stics exe file
@@ -266,7 +266,7 @@ list_stics_exe <- function(javastics) {
     # If the preferences is availabble, control that it is complete
     # (it is not on at install)
     xml_pref <- SticsRFiles:::xmldocument(config_pref)
-    current_stics <- SticsRFiles:::getValues(
+    current_stics <- SticsRFiles:::get_values(
       xml_pref,
       '//entry[@key="model.last"]'
     )
@@ -278,12 +278,12 @@ list_stics_exe <- function(javastics) {
   }
 
   xml_pref <- SticsRFiles:::xmldocument(config_pref)
-  current_stics <- SticsRFiles:::getValues(
+  current_stics <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="model.last"]'
   )
 
-  stics_list <- SticsRFiles:::getValues(xml_pref, '//entry[@key="model.list"]')
+  stics_list <- SticsRFiles:::get_values(xml_pref, '//entry[@key="model.list"]')
   stics_list_parsed <- gsub(
     "\\{|\\}", "",
     stics_list
@@ -467,7 +467,7 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   file.copy(xml_path, xml_path_prev)
 
   xml_pref <- SticsRFiles:::xmldocument(xml_path)
-  current_model <- SticsRFiles:::getValues(
+  current_model <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="model.last"]'
   )
@@ -476,7 +476,7 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
     return(invisible())
   }
   # setting model exe
-  SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', stics_exe)
+  SticsRFiles:::set_values(xml_pref, '//entry[@key="model.last"]', stics_exe)
 
 
   #exe_path <- file.path(
@@ -485,7 +485,7 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   #)
 
   # saving modified file
-  SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
+  SticsRFiles:::save_xml_doc(xml_pref, xml_path)
 }
 
 
@@ -595,15 +595,15 @@ remove_stics_exe <- function(javastics, stics_exe) {
       " Please set a new model executable to use using
             `select_stics_exe()`"
     )
-    SticsRFiles:::setValues(xml_pref, '//entry[@key="model.last"]', "")
+    SticsRFiles:::set_values(xml_pref, '//entry[@key="model.last"]', "")
   }
 
-  SticsRFiles:::setValues(
+  SticsRFiles:::set_values(
     xml_pref,
     '//entry[@key="model.list"]',
     stics_exe_string
   )
 
   # writing file
-  SticsRFiles:::saveXmlDoc(xml_pref, xml_path)
+  SticsRFiles:::save_xml_doc(xml_pref, xml_path)
 }
