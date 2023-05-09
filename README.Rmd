@@ -51,14 +51,15 @@ res <- try(run_javastics(javastics_path,
 
 
 try_err <- attr(res, "class")
-#knitr::knit_exit()
+
 
 if (!is.null(try_err) && attr(try_err, "class") == "try-error") {
   ver <- system2(command = "java", args = "-version",
                  stdout = TRUE, stderr = TRUE)
   stop(javastics_dist, ": javastics not compatible with java\n",
        ver[1],
-       "\nA java path must be provided for a compatible java version (11) to run_javastics")
+       paste0("\nA java path must be provided for a ",
+              "compatible java version (11) to run_javastics"))
 }
 
 ```
@@ -151,7 +152,7 @@ devtools::install_github("SticsRPacks/SticsRPacks")
 - With `remotes`
 
 ```{r eval=FALSE}
-# install.packages("remotes")
+
 remotes::install_github("SticsRPacks/SticsRPacks")
 ```
 
@@ -174,7 +175,7 @@ devtools::install_github("SticsRPacks/SticsOnR@*release")
 - With `remotes`
 
 ```{r eval=FALSE}
-# install.packages("remotes")
+
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 

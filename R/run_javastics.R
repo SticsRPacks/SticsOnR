@@ -210,18 +210,7 @@ run_javastics <- function(javastics,
       usm_out$error <- tmp[[1]]$error
       usm_out$message <- tmp[[1]]$message
     } else {
-      # status <- system2(
-      #   command = command, args = paste(cmd_string, usm_name),
-      #   stdout = if (verbose) {
-      #     ""
-      #   } else {
-      #     NULL
-      #   },
-      #   stderr = TRUE,
-      #   wait = TRUE
-      # )
-
-      status <- system2(
+        status <- system2(
         command = command, args = paste(cmd_string, usm_name),
         stdout = TRUE,
         stderr = TRUE,

@@ -26,8 +26,8 @@ Description: The purpose of SticsOnR is simply to run simulations with the
     directly. In this case the text files should be produced beforehand;
     and 3/ Call the STICS model executable through a wrapper that handles
     distributed runs over the machine CPUs and returns the simulated
-    values to the user. The wrapper also provides a concise manner for 
-	running a simulation using custom parameter values.
+    values to the user. The wrapper also provides a concise manner for
+    running a simulation using custom parameter values.
 License: file LICENSE
 URL: https://github.com/SticsRPacks/SticsOnR,
     https://doi.org/10.5281/zenodo.4443130
