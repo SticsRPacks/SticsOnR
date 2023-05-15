@@ -634,7 +634,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       req_var_names <- c(var_names)
     }
 
-    ## Convert required variables names to Stics variables names (i.e. handle ())
+  ## Convert required variables names to Stics variables names (i.e. handle ())
     req_var_names <- SticsRFiles:::var_to_col_names(req_var_names)
 
     ## Add reserved keywords "Plant" and "Date" from the list
@@ -646,8 +646,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     inter_var_names <- sim_var_names[req_vars_idx]
 
 
-    ## In case some variables are not simulated, warn the user, add them in var.mod
-    ## and re-simulate or select the results if var.mod has already been modified.
+## In case some variables are not simulated, warn the user, add them in var.mod
+## and re-simulate or select the results if var.mod has already been modified.
     if (length(inter_var_names) < length(req_var_names)) {
       if (varmod_modified) {
         ## var.mod has already been modified ... warn the user the required
@@ -661,7 +661,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           "not simulated by the Stics model for USM",
           situation,
           "although added in", file.path(run_dir, "var.mod"),
-          "=> these variables may not be Stics variables, please check spelling. \n ",
+   "=> these variables may not be Stics variables, please check spelling. \n ",
           "Simulated variables:", paste(sim_var_names, collapse = ", ")
         ))
         res$flag_error <- FALSE
