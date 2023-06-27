@@ -60,7 +60,7 @@ jobs:
           # see also: https://stackoverflow.com/questions/73243945/pkgdown-action-failing-at-build-xml
           extra-packages: |
             any::rcmdcheck
-            SticsRPacks/SticsRFiles@master
+            SticsRPacks/SticsRFiles@main
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
