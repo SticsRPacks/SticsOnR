@@ -111,7 +111,7 @@ run_system <- function(stics_exe,
 
     # If history file doesn't exist or all of the output files
     # don't exist: output error
-    usm_chk_out <- check_output_files(usm_dir)
+    usm_chk_out <- SticsRFiles:::check_output_files(usm_dir)
 
     # additional check for missing output files
     if (!usm_out$error && usm_chk_out$error) {

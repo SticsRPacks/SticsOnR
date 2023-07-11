@@ -1045,12 +1045,12 @@ stics_wrapper_options <- function(javastics = NULL,
   if (stics_exe == "modulostics") {
     # using the exe name instead of the identifier to select the right one
     # for the user's OS
-    stics_exe <- paste0("stics_modulo", os_suffix())
+    stics_exe <- paste0("stics_modulo", SticsRFiles:::os_suffix())
   }
 
   if (!is.null(javastics)) {
     # Checking javastics path if present
-    check_java_path(javastics)
+    SticsRFiles:::check_java_path(javastics)
   }
 
   # Case 1: stics_exe is a model name present in the preference file:

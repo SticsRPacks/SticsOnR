@@ -97,13 +97,13 @@ run_javastics <- function(javastics,
   }
 
   # Checking javastics path
-  check_java_path(javastics_path)
+  SticsRFiles:::check_java_path(javastics_path)
 
   # Getting right executable name for the platform
   if (stics_exe == "modulostics") {
     # using the exe name instead of the identifier to select the right one
     # for the user's OS
-    stics_exe <- paste0("stics_modulo", os_suffix())
+    stics_exe <- paste0("stics_modulo", SticsRFiles:::os_suffix())
   }
 
   # Model path
@@ -127,7 +127,7 @@ run_javastics <- function(javastics,
   setwd(javastics_path)
 
   # Checking and getting JavaStics workspace path
-  ws <- check_java_workspace(javastics_path, workspace_path)
+  ws <- SticsRFiles:::check_java_workspace(javastics_path, workspace_path)
   if (is.null(ws)) {
     return()
   }

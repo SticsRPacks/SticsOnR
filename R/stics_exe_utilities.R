@@ -58,11 +58,11 @@ set_stics_exe <- function(javastics,
                           verbose = TRUE) {
 
   # checking javastics path
-  check_java_path(javastics)
+  SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(user_os(),
+    switch(SticsRFiles:::user_os(),
            lin = {
              "modulostics_linux"
            },
@@ -173,7 +173,11 @@ set_stics_exe <- function(javastics,
 
   # Adding the new exe in the list, and name it using the exe name
   # + the user OS name
-  new_stics_name <- paste0(gsub(".exe", "", exe_file_name), "_", user_os())
+  new_stics_name <- paste0(
+    gsub(".exe", "", exe_file_name),
+    "_",
+    SticsRFiles:::user_os()
+    )
 
   # Check if the name already exist:
   exist_stics_name <- exist_stics_exe(javastics, new_stics_name)
@@ -186,7 +190,7 @@ set_stics_exe <- function(javastics,
         i <- i + 1
         new_stics_name <- paste0(
           gsub(".exe", "", exe_file_name),
-          "_", user_os(), "_", i
+          "_", SticsRFiles:::user_os(), "_", i
         )
       }
     } else {
@@ -256,17 +260,17 @@ set_stics_exe <- function(javastics,
 list_stics_exe <- function(javastics) {
 
   # checking javastics path
-  check_java_path(javastics)
+  SticsRFiles:::check_java_path(javastics)
 
   # If the preferences file does not exist, or is incomplete, it means JavaStics
   # was never used before. So we have to use a template for the preferences.
-  is_pref <- exists_javastics_pref(javastics)
+  is_pref <- SticsRFiles:::exists_javastics_pref(javastics)
 
   config_pref <- file.path(javastics, "config", "preferences.xml")
 
   if (!is_pref) {
     cli::cli_alert_info("Preference file not found in {.code javastics}.")
-    init_javastics_pref(javastics, overwrite = FALSE)
+    SticsRFiles:::init_javastics_pref(javastics, overwrite = FALSE)
   } else {
     # If the preferences is availabble, control that it is complete
     # (it is not on at install)
@@ -278,7 +282,7 @@ list_stics_exe <- function(javastics) {
     if (is.null(current_stics)) {
       cli::cli_alert_info("Preference file in {.code javastics}
                           was found incomplete.")
-      init_javastics_pref(javastics, overwrite = TRUE)
+      SticsRFiles:::init_javastics_pref(javastics, overwrite = TRUE)
     }
   }
 
@@ -303,38 +307,38 @@ list_stics_exe <- function(javastics) {
 }
 
 
-#' @title Evaluate if model preferences have been set
-#'
-#' @description Testing if preferences.xml file exist in
-#' JavaSTICS installation folder
-#'
-#' @param javastics_path JavaStics installation folder
-#'
-#' @examples
-#' \dontrun{
-#' exists_pref <- exists_javastics_pref("path/to/Javastics")
-#' }
-#'
-#' @return logical value, TRUE if file exists, FALSE otherwise
-#'
-#' @keywords internal
-#'
-#' @noRd
-#'
-exists_javastics_pref <- function(javastics_path) {
-
-  # For keeping backward compatibility
-  if (utils::packageVersion("SticsOnR") > "0.2.2") {
-    return(SticsRFiles:::exists_javastics_pref(javastics = javastics_path))
-  }
-
-
-  # checking javastics path
-  check_java_path(javastics_path)
-
-  # Returning if file exists
-  return(file.exists(file.path(javastics_path, "config", "preferences.xml")))
-}
+# #' @title Evaluate if model preferences have been set
+# #'
+# #' @description Testing if preferences.xml file exist in
+# #' JavaSTICS installation folder
+# #'
+# #' @param javastics_path JavaStics installation folder
+# #'
+# #' @examples
+# #' \dontrun{
+# #' exists_pref <- SticsRFiles:::exists_javastics_pref("path/to/Javastics")
+# #' }
+# #'
+# #' @return logical value, TRUE if file exists, FALSE otherwise
+# #'
+# #' @keywords internal
+# #'
+# #' @noRd
+# #'
+# exists_javastics_pref <- function(javastics_path) {
+#
+#   # For keeping backward compatibility
+#   if (utils::packageVersion("SticsOnR") > "0.2.2") {
+#     return(SticsRFiles:::exists_javastics_pref(javastics = javastics_path))
+#   }
+#
+#
+#   # checking javastics path
+#   SticsRFiles:::check_java_path(javastics_path)
+#
+#   # Returning if file exists
+#   return(file.exists(file.path(javastics_path, "config", "preferences.xml")))
+# }
 
 #' Checking if given path is a Stics executable path
 #'
@@ -371,7 +375,7 @@ check_stics_exe <- function(model_path,
   }
 
   # Make the file executable if needed for linux or Mac
-  if (!set_file_executable(model_path)) {
+  if (!SticsRFiles:::set_file_executable(model_path)) {
     if (stop) {
       stop(paste("Cannot give execute permissions for model: ", model_path))
     } else {
@@ -444,15 +448,15 @@ check_stics_exe <- function(model_path,
 #'
 select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   # checking javastics path
-  check_java_path(javastics)
+  SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     stics_exe <- "modulostics"
   }
 
   # if no preference have been set yet
-  if (!exists_javastics_pref(javastics)) {
-    init_javastics_pref(javastics)
+  if (!SticsRFiles:::exists_javastics_pref(javastics)) {
+    SticsRFiles:::init_javastics_pref(javastics)
   }
 
   # If the executable does not exist yet in the preference file:
@@ -546,7 +550,7 @@ exist_stics_exe <- function(javastics, stics_exe) {
 remove_stics_exe <- function(javastics, stics_exe) {
 
   # checking javastics path
-  check_java_path(javastics)
+  SticsRFiles:::check_java_path(javastics)
 
   if (!exist_stics_exe(javastics, stics_exe)) {
     warning(
