@@ -49,6 +49,8 @@
 #'
 #' @keywords internal
 #'
+#' @noRd
+#'
 
 
 run_system <- function(stics_exe,

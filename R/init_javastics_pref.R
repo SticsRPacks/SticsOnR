@@ -13,7 +13,9 @@
 #' }
 #'
 #' @keywords internal
-# @export
+#'
+#' @noRd
+#'
 init_javastics_pref <- function(javastics_path, overwrite = FALSE) {
 
   # For keeping backward compatibility

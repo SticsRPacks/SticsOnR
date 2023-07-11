@@ -8,15 +8,16 @@
 #'
 #' @keywords internal
 #'
+#' @noRd
+#'
 #' @examples
-#' \dontrun{
 #'
-#' get_cores_nb()
+#' n_cores <- get_cores_nb()
 #'
-#' get_cores_nb(parallel = TRUE)
+#' n_cores <- get_cores_nb(parallel = TRUE)
 #'
-#' get_cores_nb(parallel = TRUE, required_nb = 4)
-#' }
+#' n_cores <- get_cores_nb(parallel = TRUE, required_nb = 4)
+#'
 #'
 get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
 
@@ -54,13 +55,13 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
 #'
 #' @keywords internal
 #'
+#' @noRd
+#'
 #' @examples
-#' \dontrun{
 #'
 #' get_cores()
 #'
 #' get_cores(cores_nb = 4)
-#' }
 #'
 #' @importFrom parallel detectCores
 #'

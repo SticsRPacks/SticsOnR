@@ -18,7 +18,10 @@
 #' }
 #'
 #' @keywords internal
-# @export
+#'
+#' @noRd
+#'
+#'
 check_output_files <- function(run_dir, usm_name = NULL) {
 
   # For keeping backward compatibility

@@ -49,6 +49,7 @@
 #' }
 #'
 #' @export
+#'
 
 run_stics <- function(stics_exe,
                       workspace,

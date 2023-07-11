@@ -49,6 +49,9 @@
 #' }
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 set_stics_exe <- function(javastics,
                           stics_exe,
                           overwrite = FALSE,
@@ -60,14 +63,14 @@ set_stics_exe <- function(javastics,
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
     switch(user_os(),
-      lin = {
-          "modulostics_linux"
-          },
-      mac = {
-        "modulostics_mac"
-        }, {
-        "modulostics"
-        }
+           lin = {
+             "modulostics_linux"
+           },
+           mac = {
+             "modulostics_mac"
+           }, {
+             "modulostics"
+           }
     )
   }
 
@@ -242,11 +245,14 @@ set_stics_exe <- function(javastics,
 #'
 #' @examples
 #' \dontrun{
-#' list_stics_exe("path/to/JavaSTICS-v131-stics-v841")
+#' list_stics_exe("path/to/Javastics")
 #' }
 #'
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 list_stics_exe <- function(javastics) {
 
   # checking javastics path
@@ -291,7 +297,7 @@ list_stics_exe <- function(javastics) {
     unlist()
   stics_list_names <- stics_list_parsed[seq_along(stics_list_parsed) %% 2 == 1]
   stics_list <- as.list(stics_list_parsed[seq_along(stics_list_parsed)
-  %% 2 == 0])
+                                          %% 2 == 0])
   names(stics_list) <- stics_list_names
   list(stics_list = stics_list, current = stics_list[current_stics])
 }
@@ -306,12 +312,15 @@ list_stics_exe <- function(javastics) {
 #'
 #' @examples
 #' \dontrun{
-#' exists_pref <- exists_javastics_pref("path/to/JavaSTICS-v131-stics-v841")
+#' exists_pref <- exists_javastics_pref("path/to/Javastics")
 #' }
 #'
 #' @return logical value, TRUE if file exists, FALSE otherwise
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 exists_javastics_pref <- function(javastics_path) {
 
   # For keeping backward compatibility
@@ -337,10 +346,9 @@ exists_javastics_pref <- function(javastics_path) {
 #'
 #' @return System output (error,...)
 #'
-# @export
-#'
-# @examples
 #' @keywords internal
+#'
+#' @noRd
 #'
 check_stics_exe <- function(model_path,
                             version = FALSE,
@@ -374,8 +382,8 @@ check_stics_exe <- function(model_path,
   }
   # catching returned error status
   err_status <- suppressWarnings(run_system_cmd(model_path,
-    com_args = "--version",
-    output = version
+                                                com_args = "--version",
+                                                output = version
   ))
 
   # exiting if any error
@@ -427,10 +435,13 @@ check_stics_exe <- function(model_path,
 #'
 #' @examples
 #' \dontrun{
-#' select_stics_exe("path/to/JavaSTICS-v131-stics-v841", "modulostics")
+#' select_stics_exe("path/to/Javastics", "modulostics")
 #' }
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   # checking javastics path
   check_java_path(javastics)
@@ -525,10 +536,13 @@ exist_stics_exe <- function(javastics, stics_exe) {
 #'
 #' @examples
 #' \dontrun{
-#' remove_stics_exe("path/to/JavaSTICS-v131-stics-v841", "model_name")
+#' remove_stics_exe("path/to/JavaStics", "model_name")
 #' }
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 remove_stics_exe <- function(javastics, stics_exe) {
 
   # checking javastics path

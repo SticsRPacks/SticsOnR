@@ -11,8 +11,8 @@
 #'
 #' @keywords internal
 #'
+#' @noRd
 #'
-# @examples
 run_system_cmd <- function(command, com_args = "", output = FALSE) {
 
   # To fix command as an absolute path to the executable

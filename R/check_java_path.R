@@ -7,11 +7,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' check_java_path("/home/plecharpent/Work/JavaSTICS-v131-stics-v841")
+#' check_java_path("/path/to/javastics")
 #' }
 #'
 #' @keywords internal
-# @export
+#'
+#' @noRd
+#'
+
 
 check_java_path <- function(javastics_path) {
 

@@ -17,6 +17,9 @@
 #' }
 #'
 #' @keywords internal
+#'
+#' @noRd
+#'
 set_java_workspace <- function(javastics_path, java_wd) {
 
   # For keeping backward compatibility
