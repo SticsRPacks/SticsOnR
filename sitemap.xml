@@ -7,9 +7,6 @@
     <loc>/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
     <loc>/articles/Changing_java_version_linux.html</loc>
   </url>
   <url>
@@ -25,82 +22,16 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/check_java_path.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_java_workspace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_output_files.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_stics_exe.html</loc>
-  </url>
-  <url>
     <loc>/reference/exist_stics_exe.html</loc>
   </url>
   <url>
-    <loc>/reference/exists_javastics_pref.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_cores.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_cores_nb.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_java_workspace.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/init_javastics_pref.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_mac.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_os_name.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_unix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_windows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/list_stics_exe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/remove_stics_exe.html</loc>
   </url>
   <url>
     <loc>/reference/run_javastics.html</loc>
   </url>
   <url>
     <loc>/reference/run_stics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/run_system.html</loc>
-  </url>
-  <url>
-    <loc>/reference/run_system_cmd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/select_stics_exe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_file_executable.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_java_workspace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_out_var_internal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_stics_exe.html</loc>
   </url>
   <url>
     <loc>/reference/stics_wrapper.html</loc>
