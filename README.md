@@ -90,7 +90,7 @@ For `devtools`, installation requires system dependent tools. They must
 be installed first.
 
 - For Windows RTools must be installed using the latest installer from
-  [here](https://cran.r-project.org/bin/windows/Rtools)
+  [here](https://cran.r-project.org/bin/windows/Rtools/)
 - For linux Development tools must be installed first, like the
   `build-essentials` package for a Debian like distribution for example.
 
@@ -282,11 +282,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[12/07/23]-[09:42:24] INFO - Generating txt files ..."                                                                           
-#> [2] "[12/07/23]-[09:42:24] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[12/07/23]-[09:42:24] INFO - Files generated :"                                                                                  
-#> [4] "[12/07/23]-[09:42:24] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
-#> [5] "[12/07/23]-[09:42:24] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
+#> [1] "[12/07/23]-[11:23:27] INFO - Generating txt files ..."                                                                           
+#> [2] "[12/07/23]-[11:23:27] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[12/07/23]-[11:23:28] INFO - Files generated :"                                                                                  
+#> [4] "[12/07/23]-[11:23:28] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bbanana.sti"    
+#> [5] "[12/07/23]-[11:23:28] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"     
 #> 
 #> 
 #> [[2]]
@@ -297,11 +297,11 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[12/07/23]-[09:42:24] INFO - Generating txt files ..."                                                                           
-#> [2] "[12/07/23]-[09:42:25] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
-#> [3] "[12/07/23]-[09:42:25] INFO - Files generated :"                                                                                  
-#> [4] "[12/07/23]-[09:42:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
-#> [5] "[12/07/23]-[09:42:25] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
+#> [1] "[12/07/23]-[11:23:28] INFO - Generating txt files ..."                                                                           
+#> [2] "[12/07/23]-[11:23:28] INFO - Files generated under /home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example"
+#> [3] "[12/07/23]-[11:23:28] INFO - Files generated :"                                                                                  
+#> [4] "[12/07/23]-[11:23:28] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/mod_bwheat.sti"     
+#> [5] "[12/07/23]-[11:23:28] INFO - \t/home/plecharpent/Work/tmp/test_SticsOnR/JavaSTICS-1.5.0-STICS-10.0.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of

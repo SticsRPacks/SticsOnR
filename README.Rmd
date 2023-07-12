@@ -122,7 +122,7 @@ For installing packages from the Github site an additional package must be insta
 For `devtools`, installation requires system dependent tools. They must be installed first.
 
 * For Windows
-RTools must be installed using the latest installer from  [here](https://cran.r-project.org/bin/windows/Rtools)
+RTools must be installed using the latest installer from  [here](https://cran.r-project.org/bin/windows/Rtools/)
 * For linux
 Development tools must be installed first, like the `build-essentials` package for a Debian like distribution for example.
 
