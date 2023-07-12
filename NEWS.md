@@ -1,9 +1,22 @@
-# SticsOnR 1.0.1  (2023-01-03)
+# SticsOnR 1.1.0 _2023-07-12_
+
+MAIN CHANGES:
+  * Added a valid license (LGPL)
+  * According to SticsRFiles changes 
+  * Using CRAN SticsRFiles package (1.1.3)
+
+FIXES:
+  * Removed useless functions provided by SticsRFiles 1.1.3
+  * Removed useless files and function documentation
+  * linting issues
+
+
+# SticsOnR 1.0.1  _2023-01-03_
 
 * Fixed cff file generation using github action. Now generated on each commit that modifies the Description file + on release.
 * Minor changes following CRAN checks procedure application.
 
-# SticsOnR 1.0.0  (2022-07-22)
+# SticsOnR 1.0.0  _2022-07-22_
 
 MAIN CHANGES:
   * run_javastics: new argument for giving the path of the java version to use
@@ -23,7 +36,7 @@ FIXES:
   
   
 
-# SticsOnR 0.2.2  (2021-06-17)
+# SticsOnR 0.2.2  _2021-06-17_
 
 ## Changes
 
@@ -31,7 +44,7 @@ FIXES:
 * Minor change in run_javastics and stics_wrapper doc
 * FIX: on.exit was badly placed in stics_wrapper, sometimes lead to ugly error messages.
 
-# SticsOnR 0.2.1 (2021-03-12)
+# SticsOnR 0.2.1 _2021-03-12_
 
 ## General changes
 
@@ -53,7 +66,7 @@ R/stics_wrapper.R
 R/stics_exe_utilities.R
  * FIX: better handling of workspace sub-folders list for identifying available situations to simulate
 
-# SticsOnR 0.2.0 (2021-01-15)
+# SticsOnR 0.2.0 _2021-01-15_
 
 ## General changes
 
@@ -90,6 +103,6 @@ and OS type, fix format of available executables list, refactoring and merging o
 
 
 
-# SticsOnR 0.1.0.9005 (2020-02-06)
+# SticsOnR 0.1.0.9005 _2020-02-06_
 
 * Added a `NEWS.md` file to track changes to the package.

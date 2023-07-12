@@ -9,7 +9,7 @@ vignette: >
 
 ## Java installation
 
-The lastest JavaStics interface evolution for JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8).
+The JavaStics interface evolution from JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8).
 
 If the default version of java is older than 11, a java 11 can be installed and solutions exist for switching between versions.
 
@@ -24,7 +24,7 @@ alias java11=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
 
 </pre>
 
-This can be added in the .bashrc file for permanent use.
+This can be added in the `.bashrc` file for permanent use.
 
 
 

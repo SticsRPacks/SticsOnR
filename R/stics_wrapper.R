@@ -1045,12 +1045,12 @@ stics_wrapper_options <- function(javastics = NULL,
   if (stics_exe == "modulostics") {
     # using the exe name instead of the identifier to select the right one
     # for the user's OS
-    stics_exe <- paste0("stics_modulo", os_suffix())
+    stics_exe <- paste0("stics_modulo", SticsRFiles:::os_suffix())
   }
 
   if (!is.null(javastics)) {
     # Checking javastics path if present
-    check_java_path(javastics)
+    SticsRFiles:::check_java_path(javastics)
   }
 
   # Case 1: stics_exe is a model name present in the preference file:
@@ -1104,24 +1104,4 @@ stics_wrapper_options <- function(javastics = NULL,
 
 stics_display_warnings <- function(in_string) {
   if (nchar(in_string)) warning(in_string, call. = FALSE)
-}
-
-
-#' Set the output variables needed
-#'
-#' @param filepath The path to the "var.mod" file.
-#' @param vars     The variables needed
-#' @param add      Do we want to add or append the variables to existing
-#' variables ?
-#'
-#' @note This is exactly the same function as `[sticsRFiles::set_out_var_txt()]`
-#' , but we add it here to avoid a dependency just for a one-liner function.
-#'
-#' @return Nothing, write in the "var.mod" file
-#' @keywords internal
-#'
-set_out_var_internal <- function(filepath = "var.mod",
-                                 vars = c("lai(n)", "masec(n)"),
-                                 add = FALSE) {
-  cat(vars, file = filepath, sep = "\n", append = add)
 }
