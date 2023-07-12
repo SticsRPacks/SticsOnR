@@ -1105,5 +1105,3 @@ stics_wrapper_options <- function(javastics = NULL,
 stics_display_warnings <- function(in_string) {
   if (nchar(in_string)) warning(in_string, call. = FALSE)
 }
-
-

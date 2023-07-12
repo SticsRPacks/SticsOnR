@@ -1,3 +1,16 @@
+# SticsOnR 1.1.0 _2023-07-12_
+
+MAIN CHANGES:
+  * Added a valid license (LGPL)
+  * According to SticsRFiles changes 
+  * Using CRAN SticsRFiles package (1.1.3)
+
+FIXES:
+  * Removed useless functions provided by SticsRFiles 1.1.3
+  * Removed useless files and function documentation
+  * linting issues
+
+
 # SticsOnR 1.0.1  _2023-01-03_
 
 * Fixed cff file generation using github action. Now generated on each commit that modifies the Description file + on release.
