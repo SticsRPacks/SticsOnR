@@ -100,7 +100,7 @@ JavaSTICS software, neither the graphical interface (`JavaStics.exe`) nor the co
 For using the JavaStics software (GUI and command line interface) under a `linux` operating system, the java version must be consistent with the JavaStics version
 
 * for JavaStics 1.41, java version must be at most a Java 8 version
-* for the latest JavaStics 1.5.0 version, java version must be a Java 11 version, and only STICS version 10.0.0 can be used
+* from the JavaStics 1.5.0 version, java version must be a Java 11 version, and only STICS version 10.0.0 can be used
 
 So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands [see here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html), using a specific java executable path ([see running JavaStics](#runjavasticscmd)).
 
@@ -208,7 +208,7 @@ For running simulations from it, we can use the `run_javastics()` function.
 <pre>javastics_path <- `r paste0('/path/to/',javastics_dist)`</pre>
 
 * Specifying a workspace
-  * as a subfolder of JavaStics    
+  * as a sub-folder of JavaStics    
 <pre>workspace_path <- "example"</pre>
   * or an absolute path to an external folder    
 <pre>workspace_path <- "/path/to/javastics/workspace"</pre>    

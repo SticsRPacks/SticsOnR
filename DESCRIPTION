@@ -18,22 +18,23 @@ Authors@R: c(
     person("Christine", "Le Bas", role = "rev"),
     person("Alain", "Mollier", role = "rev")
   )
-Description: The purpose of SticsOnR is simply to run simulations with the
-    STICS model. It provides three different ways to perform a simulation
-    depending on the use-case: 1/ Call JavaStics to run a simulation on a
-    given situation. In this case JavaStics will handle the generation of
-    the text files from the XML files; 2/ Call the STICS model executable
-    directly. In this case the text files should be produced beforehand;
-    and 3/ Call the STICS model executable through a wrapper that handles
-    distributed runs over the machine CPUs and returns the simulated
-    values to the user. The wrapper also provides a concise manner for
-    running a simulation using custom parameter values.
-License: file LICENSE
+Description: Running simulations with the 'STICS' crop model. Different
+    ways of performing simulations are available and based on three
+    use-cases: 1/ Calling 'JavaStics' command line to run simulations on
+    given situations.  'JavaStics' handles text files generation from
+    'XML' files; 2/ Calling the model 'fortran' executable directly. Text
+    files must be produced beforehand; and 3/ Calling the model 'fortran'
+    executable through a wrapper. It can handle distributed runs over the
+    machine CPUs and returns simulated output data. The wrapper also
+    provides a concise manner for running simulations using custom
+    parameter values and allows to chain simulations for successive
+    situations.
+License: LGPL (>= 3) + file LICENSE
 URL: https://github.com/SticsRPacks/SticsOnR,
     https://doi.org/10.5281/zenodo.4443130
 BugReports: https://github.com/SticsRPacks/SticsOnR/issues
 Depends:
-    R (>= 4.0.0)
+    R (>= 3.6.0)
 Imports:
     cli,
     crayon (>= 1.3.4),
@@ -42,13 +43,11 @@ Imports:
     foreach,
     lifecycle,
     magrittr,
-    methods,
     parallel,
     rstudioapi,
     stats,
-    SticsRFiles,
-    tibble,
-    XML
+    SticsRFiles (>= 1.1.3),
+    tibble
 Suggests:
     covr,
     knitr,
@@ -57,11 +56,8 @@ Suggests:
     testthat
 VignetteBuilder:
     knitr
-Remotes:
-    github::SticsRPacks/SticsRFiles@*release
 ByteCompile: true
 Encoding: UTF-8
 Language: en-US
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

@@ -1107,21 +1107,3 @@ stics_display_warnings <- function(in_string) {
 }
 
 
-#' Set the output variables needed
-#'
-#' @param filepath The path to the "var.mod" file.
-#' @param vars     The variables needed
-#' @param add      Do we want to add or append the variables to existing
-#' variables ?
-#'
-#' @note This is exactly the same function as `[sticsRFiles::set_out_var_txt()]`
-#' , but we add it here to avoid a dependency just for a one-liner function.
-#'
-#' @return Nothing, write in the "var.mod" file
-#' @keywords internal
-#'
-set_out_var_internal <- function(filepath = "var.mod",
-                                 vars = c("lai(n)", "masec(n)"),
-                                 add = FALSE) {
-  cat(vars, file = filepath, sep = "\n", append = add)
-}
