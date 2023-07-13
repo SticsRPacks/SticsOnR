@@ -7,7 +7,7 @@ cff-version: 1.2.0
 message: 'To cite package "SticsOnR" in publications use:'
 type: software
 title: 'SticsOnR: Manage STICS Simulations Running the Executable or JavaStics,'
-version: 1.0.1
+version: 1.1.0
 abstract: 'The purpose of SticsOnR is simply to run simulations with the STICS model.
   It provides three different ways to perform a simulation depending on the use-case:
   1/ Call JavaStics to run a simulation on a given situation. In this case JavaStics
