@@ -8,7 +8,7 @@ message: 'To cite package "SticsOnR" in publications use:'
 type: software
 title: 'SticsOnR: Manage STICS Simulations Running the Executable or JavaStics,'
 version: 1.1.0
-abstract: 'Running simulations with the 'STICS' crop model. Different
+abstract: "Running simulations with the 'STICS' crop model. Different
     ways of performing simulations are available and based on three
     use-cases: 1/ Calling 'JavaStics' command line to run simulations on
     given situations.  'JavaStics' handles text files generation from
@@ -18,7 +18,7 @@ abstract: 'Running simulations with the 'STICS' crop model. Different
     machine CPUs and returns simulated output data. The wrapper also
     provides a concise manner for running simulations using custom
     parameter values and allows to chain simulations for successive
-    situations.'
+    situations."
 authors:
 - family-names: Lecharpentier
   given-names: Patrice
