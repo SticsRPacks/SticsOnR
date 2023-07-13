@@ -21,7 +21,7 @@ Authors@R: c(
 Description: Running simulations with the 'STICS' crop model. Different
     ways of performing simulations are available and based on three
     use-cases: 1/ Calling 'JavaStics' command line to run simulations on
-    given situations.  'JavaStics' handles text files generation from
+    given situations. 'JavaStics' handles text files generation from
     'XML' files; 2/ Calling the model 'fortran' executable directly. Text
     files must be produced beforehand; and 3/ Calling the model 'fortran'
     executable through a wrapper. It can handle distributed runs over the
