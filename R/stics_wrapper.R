@@ -152,9 +152,10 @@ stics_wrapper <- function(model_options,
   javastics <- model_options$javastics
 
   # Checking if javastics path is set when forcing parameters
-  if (!is.null(param_values) && javastics == "unknown")
+  if (!is.null(param_values) && is.null(javastics))
     stop(paste0("When parameters values are to be forced,",
-                " a JavaStics path must be set in model_options list !"))
+                " a JavaStics path must be set in model_options list",
+                " (see javastics argument of stics_wrapper_options function)."))
 
   # In case of successive USMs, disable parallel run
   if (!is.null(successive_usms)) parallel <- FALSE
