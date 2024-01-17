@@ -68,7 +68,8 @@ run_system <- function(stics_exe,
   }
 
   if (!is.null(usm) && usm == "all") {
-    run_dir <- setdiff(list.dirs(run_dir, full.names = TRUE), run_dir)
+    run_dir <- setdiff(list.dirs(run_dir, full.names = TRUE, recursive = FALSE),
+                       run_dir)
   }
 
   # testing id dirs exist
