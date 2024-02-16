@@ -506,7 +506,7 @@ stics_wrapper <- function(model_options,
                     intersect(stages_list, names(.))
                   ),
                   ~dplyr::na_if(., 0)) %>%
-                  tidyr::fill(everything(), .direction = "up")
+                  tidyr::fill(tidyr::everything(), .direction = "up")
               )
           }
         }
