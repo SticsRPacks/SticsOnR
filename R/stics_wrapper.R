@@ -493,17 +493,20 @@ stics_wrapper <- function(model_options,
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
 
-        # For phenological stages, set the value obtained at the last date
-        # for all dates
+        # For phenological stages, replace the zeros by the following non-zero
+        # value (works even in case of simulations replicated on several years
+        # within a single USM)
         if (length(tmp$sim_list) > 0) {
           if (length(intersect(stages_list, names(sim_list[[ip]])) > 0)) {
             sim_list[[ip]] <-
+              sim_list[[ip]] %>%
               dplyr::mutate(
-                sim_list[[ip]],
                 dplyr::across(
                   dplyr::all_of(
-                    intersect(stages_list, names(sim_list[[ip]]))),
-                  ~.x[length(.x)])
+                    intersect(stages_list, names(.))
+                  ),
+                  ~dplyr::na_if(., 0)) %>%
+                  tidyr::fill(everything(), .direction = "up")
               )
           }
         }
