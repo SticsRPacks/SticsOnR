@@ -182,10 +182,10 @@ stics_wrapper <- function(model_options,
     clusterCall(cl, function(x) .libPaths(x), .libPaths())
 
     #`%doparornot%` <- `%dopar%`
-    `%do_par_or_not%` <- `%dopar%`
+    `%do_par_or_not%` <- foreach::`%dopar%`
   } else {
     #`%doparornot%` <- `%do%`
-    `%do_par_or_not%` <- `%do%`
+    `%do_par_or_not%` <- foreach::`%do%`
   }
 
   # Define the list of USMs to simulate and initialize results -----------------
@@ -416,7 +416,7 @@ stics_wrapper <- function(model_options,
           # The following could be done only once in case of repeated call
           # to the wrapper (e.g. parameters estimation ...)
           SticsRFiles::set_usm_txt(
-            filepath = file.path(run_dir, "new_travail.usm"),
+            file = file.path(run_dir, "new_travail.usm"),
             param = "codesuite", value = 1
           )
         }
@@ -430,7 +430,7 @@ stics_wrapper <- function(model_options,
         ### snow_variables.txt (for usms that have a successor)
         if (!is.na(is_succ) && is_succ) {
           SticsRFiles::set_usm_txt(
-            filepath = file.path(
+            file = file.path(
               run_dir,
               "new_travail.usm"
             ),
