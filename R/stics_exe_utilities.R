@@ -163,8 +163,7 @@ set_stics_exe <- function(javastics,
   # saving a previous version
   file.copy(xml_path, xml_path_prev)
 
-
-  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+  xml_pref <- get_xml_doc(xml_path)
 
 
   # Getting the existing list in pref file
@@ -214,7 +213,9 @@ set_stics_exe <- function(javastics,
     names(stics_exe_list$stics_list),
     stics_exe_list$stics_list
   ), collapse = "")
-  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+
+  xml_pref <- get_xml_doc(xml_path)
+
   SticsRFiles:::set_values(
     xml_pref,
     '//entry[@key="model.last"]', new_stics_name
@@ -274,7 +275,9 @@ list_stics_exe <- function(javastics) {
   } else {
     # If the preferences is availabble, control that it is complete
     # (it is not on at install)
-    xml_pref <- SticsRFiles:::xmldocument(config_pref)
+
+    xml_pref <- get_xml_doc(config_pref)
+
     current_stics <- SticsRFiles:::get_values(
       xml_pref,
       '//entry[@key="model.last"]'
@@ -286,7 +289,8 @@ list_stics_exe <- function(javastics) {
     }
   }
 
-  xml_pref <- SticsRFiles:::xmldocument(config_pref)
+  xml_pref <- get_xml_doc(config_pref)
+
   current_stics <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="model.last"]'
@@ -447,7 +451,8 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   # saving a previous version
   file.copy(xml_path, xml_path_prev)
 
-  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+  xml_pref <- get_xml_doc(xml_path)
+
   current_model <- SticsRFiles:::get_values(
     xml_pref,
     '//entry[@key="model.last"]'
@@ -555,7 +560,7 @@ remove_stics_exe <- function(javastics, stics_exe) {
     stics_exe_list$stics_list
   ), collapse = "")
 
-  xml_pref <- SticsRFiles:::xmldocument(xml_path)
+  xml_pref <- get_xml_doc(xml_path)
 
   # removing model from last if needed
   if (stics_exe_list$current == stics_exe) {
@@ -575,4 +580,19 @@ remove_stics_exe <- function(javastics, stics_exe) {
 
   # writing file
   SticsRFiles:::save_xml_doc(xml_pref, xml_path)
+}
+
+
+#' Getting a xml_document from an XML file
+#'
+#' @param file
+#'
+#' @return a SticsRFiles xml_document object
+#' @keywords internal
+#'
+#' @noRd
+
+get_xml_doc <- function(file) {
+  suppressMessages(doc <- SticsRFiles:::xmldocument(file))
+  doc
 }
