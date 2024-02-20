@@ -186,6 +186,7 @@ stics_wrapper <- function(model_options,
   } else {
     #`%doparornot%` <- `%do%`
     `%do_par_or_not%` <- foreach::`%do%`
+
   }
 
   # Define the list of USMs to simulate and initialize results -----------------
