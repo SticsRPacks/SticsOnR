@@ -47,7 +47,8 @@ Imports:
     rstudioapi,
     stats,
     SticsRFiles (>= 1.1.3),
-    tibble
+    tibble,
+	tidyr
 Suggests:
     covr,
     knitr,

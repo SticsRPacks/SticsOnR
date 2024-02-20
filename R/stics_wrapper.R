@@ -166,20 +166,23 @@ stics_wrapper <- function(model_options,
   # Activate the stopwatch if required
   if (time_display) start_time <- Sys.time()
 
-  # Managing parallel model simulations
-  # Managing cores number to use
-  cores_nb <- get_cores_nb(parallel = parallel, required_nb = cores)
+  if (parallel) {
+    # Managing parallel model simulations
+    # Managing cores number to use
+    cores_nb <- get_cores_nb(parallel = parallel, required_nb = cores)
 
-  # Launching the cluster
-  cl <- makeCluster(cores_nb)
+    # Launching the cluster
+    cl <- makeCluster(cores_nb)
 
-  # Stopping the cluster when exiting
-  on.exit(stopCluster(cl))
+    # Stopping the cluster when exiting
+    on.exit(stopCluster(cl))
 
-  # Registering cluster
-  registerDoParallel(cl)
-  clusterCall(cl, function(x) .libPaths(x), .libPaths())
+    # Registering cluster
+    registerDoParallel(cl)
+    clusterCall(cl, function(x) .libPaths(x), .libPaths())
 
+    `%doparornot%` <- `%dopar%`
+  } else `%doparornot%` <- `%do%`
 
   # Define the list of USMs to simulate and initialize results -----------------
   # Check the available USMs
@@ -279,7 +282,7 @@ stics_wrapper <- function(model_options,
     i = seq_along(sit2simulate),
     .export = c("run_stics", "select_results"),
     .packages = c("SticsRFiles")
-  ) %dopar% {
+  ) %doparornot% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
     ##   o list of simulated outputs,
@@ -490,17 +493,20 @@ stics_wrapper <- function(model_options,
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
 
-        # For phenological stages, set the value obtained at the last date
-        # for all dates
+        # For phenological stages, replace the zeros by the following non-zero
+        # value (works even in case of simulations replicated on several years
+        # within a single USM)
         if (length(tmp$sim_list) > 0) {
           if (length(intersect(stages_list, names(sim_list[[ip]])) > 0)) {
             sim_list[[ip]] <-
+              sim_list[[ip]] %>%
               dplyr::mutate(
-                sim_list[[ip]],
                 dplyr::across(
                   dplyr::all_of(
-                    intersect(stages_list, names(sim_list[[ip]]))),
-                  ~.x[length(.x)])
+                    intersect(stages_list, names(.))
+                  ),
+                  ~dplyr::na_if(., 0)) %>%
+                  tidyr::fill(tidyr::everything(), .direction = "up")
               )
           }
         }
