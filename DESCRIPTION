@@ -46,7 +46,6 @@ Imports:
     parallel,
     rstudioapi,
     stats,
-    SticsRFiles,
     tibble,
     tidyr
 Suggests:
@@ -54,7 +53,8 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    testthat
+    testthat,
+        SticsRFiles,
 VignetteBuilder:
     knitr
 Remotes:
