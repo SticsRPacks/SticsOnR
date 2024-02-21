@@ -1,7 +1,7 @@
 SticsOnR
 ================
 
-The R package for the [STICS](https://www6.paca.inrae.fr/stics_eng/)
+The R package for the [STICS](https://eng-stics.paca.hub.inrae.fr/)
 model
 <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
@@ -19,7 +19,7 @@ coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/main/graph/badge.svg
 
 The goal of SticsOnR is to perform simulations of the Stics model,
 downloadable with its graphical user interface from
-<https://www6.paca.inrae.fr/stics_eng/Download>.
+<https://eng-stics.paca.hub.inrae.fr/Download>.
 
 If you want to be notified when a new release of this package is made,
 you can tick the Releases box in the “Watch / Unwatch =\> Custom” menu
@@ -33,7 +33,7 @@ page](https://github.com/SticsRPacks/SticsOnR).
 JavaStics must be installed and the minimal version is version 1.41.
 
 The latest distribution version for Stics is downloadable
-[here](https://www6.paca.inrae.fr/stics_eng/Download).
+[here](https://eng-stics.paca.hub.inrae.fr/Download).
 
 The installation process only consists of unzipping the JavaStics
 archive, except for MacOS system (see MacOS installation

@@ -1,3 +1,20 @@
+# SticsOnR 1.2.0 _2024-02-21_
+
+MAIN CHANGES:
+  * paralellization in the wrapper is now optional (cluster deactivation)
+  * README update with latest JavaStics/STICS versions and information     
+  about executable installation on MacOS systems 
+
+
+FIXES:
+  * tidyr package was missing in imports
+  * checking if the JavaStics folder is given when forcing parameters values
+    in the wrapper
+  * for several years simulations, the wrapper now is returning specific values
+    for stages for each year, not the same one for all the years
+  * limitation of sub-dirs discovering (recursivity deactivated) in the 
+    workspace for the run_system function
+
 # SticsOnR 1.1.0 _2023-07-12_
 
 MAIN CHANGES:
