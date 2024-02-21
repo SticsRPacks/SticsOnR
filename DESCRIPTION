@@ -54,7 +54,7 @@ Suggests:
     rmarkdown,
     spelling,
     testthat,
-        SticsRFiles,
+    SticsRFiles,
 VignetteBuilder:
     knitr
 Remotes:
