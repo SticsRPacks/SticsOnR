@@ -46,7 +46,7 @@ Imports:
     parallel,
     rstudioapi,
     stats,
-    SticsRFiles (>= 1.1.3),
+    SticsRFiles,
     tibble,
     tidyr
 Suggests:
