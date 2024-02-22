@@ -47,14 +47,14 @@ Imports:
     rstudioapi,
     stats,
     tibble,
-    tidyr
+    tidyr,
+    SticsRFiles
 Suggests:
     covr,
     knitr,
     rmarkdown,
     spelling,
-    testthat,
-    SticsRFiles,
+    testthat
 VignetteBuilder:
     knitr
 Remotes:
