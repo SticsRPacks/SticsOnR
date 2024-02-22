@@ -229,6 +229,30 @@ references:
     given-names: Maximilian
   year: '2024'
 - type: software
+  title: SticsRFiles
+  abstract: 'SticsRFiles: Read and Modify ''STICS'' Input/Output Files'
+  notes: Imports
+  url: https://doi.org/10.5281/zenodo.4443206
+  repository: https://CRAN.R-project.org/package=SticsRFiles
+  authors:
+  - family-names: Lecharpentier
+    given-names: Patrice
+    email: patrice.lecharpentier@inrae.fr
+    orcid: https://orcid.org/0000-0002-4044-4322
+  - family-names: Vezy
+    given-names: Remi
+    email: remi.vezy@cirad.fr
+    orcid: https://orcid.org/0000-0002-0808-1461
+  - family-names: Buis
+    given-names: Samuel
+    email: samuel.buis@inrae.fr
+    orcid: https://orcid.org/0000-0002-8676-5447
+  - family-names: Giner
+    given-names: Michel
+    email: michel.giner@cirad.fr
+    orcid: https://orcid.org/0000-0002-9310-2377
+  year: '2024'
+- type: software
   title: covr
   abstract: 'covr: Test Coverage for Packages'
   notes: Suggests
@@ -319,28 +343,4 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
-- type: software
-  title: SticsRFiles
-  abstract: 'SticsRFiles: Read and Modify ''STICS'' Input/Output Files'
-  notes: Suggests
-  url: https://doi.org/10.5281/zenodo.4443206
-  repository: https://CRAN.R-project.org/package=SticsRFiles
-  authors:
-  - family-names: Lecharpentier
-    given-names: Patrice
-    email: patrice.lecharpentier@inrae.fr
-    orcid: https://orcid.org/0000-0002-4044-4322
-  - family-names: Vezy
-    given-names: Remi
-    email: remi.vezy@cirad.fr
-    orcid: https://orcid.org/0000-0002-0808-1461
-  - family-names: Buis
-    given-names: Samuel
-    email: samuel.buis@inrae.fr
-    orcid: https://orcid.org/0000-0002-8676-5447
-  - family-names: Giner
-    given-names: Michel
-    email: michel.giner@cirad.fr
-    orcid: https://orcid.org/0000-0002-9310-2377
   year: '2024'
