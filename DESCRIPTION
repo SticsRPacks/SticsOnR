@@ -1,8 +1,8 @@
 Type: Package
 Package: SticsOnR
 Title: Manage STICS Simulations Running the Executable or JavaStics,
-Version: 1.1.0
-Date: 2023-07-12
+Version: 1.2.0
+Date: 2024-02-22
 Authors@R: c(
     person("Patrice", "Lecharpentier", , "patrice.lecharpentier@inrae.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4044-4322")),
@@ -46,9 +46,9 @@ Imports:
     parallel,
     rstudioapi,
     stats,
-    SticsRFiles (>= 1.1.3),
     tibble,
-	tidyr
+    tidyr,
+    SticsRFiles (>= 1.1.3)
 Suggests:
     covr,
     knitr,
@@ -61,4 +61,4 @@ ByteCompile: true
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1

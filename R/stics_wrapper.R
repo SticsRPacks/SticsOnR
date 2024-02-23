@@ -114,6 +114,7 @@ stics_wrapper <- function(model_options,
   #   + handle the case when simulations does not reach the asked stages ...)
   #
 
+
   if (lifecycle::is_present(sit_names)) {
     lifecycle::deprecate_warn(
       "1.0.0", "stics_wrapper(sit_names)",
@@ -181,10 +182,8 @@ stics_wrapper <- function(model_options,
     registerDoParallel(cl)
     clusterCall(cl, function(x) .libPaths(x), .libPaths())
 
-    #`%doparornot%` <- `%dopar%`
     `%do_par_or_not%` <- foreach::`%dopar%`
   } else {
-    #`%doparornot%` <- `%do%`
     `%do_par_or_not%` <- foreach::`%do%`
 
   }
