@@ -1,4 +1,4 @@
-# SticsOnR 1.2.0 _2024-02-21_
+# SticsOnR 1.2.0 _2024-02-22_
 
 MAIN CHANGES:
   * paralellization in the wrapper is now optional (cluster deactivation)
