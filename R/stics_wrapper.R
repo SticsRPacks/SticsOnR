@@ -484,6 +484,23 @@ stics_wrapper <- function(model_options,
           next()
         }
 
+        # For phenological stages, replace the zeros by the following non-zero
+        # value (works even in case of simulations replicated on several years
+        # within a single USM)
+        if (length(sim_tmp) > 0) {
+          if (length(intersect(stages_list, names(sim_tmp)) > 0)) {
+            sim_tmp <-
+              sim_tmp %>%
+              dplyr::mutate(
+                dplyr::across(
+                  dplyr::all_of(
+                    intersect(stages_list, names(.))
+                  ),
+                  ~dplyr::na_if(., 0)) %>%
+                  tidyr::fill(tidyr::everything(), .direction = "up")
+              )
+          }
+        }
 
         ## Select data to return
         tmp <- select_results(
@@ -497,24 +514,6 @@ stics_wrapper <- function(model_options,
         messages[[ip]] <- tmp$message
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
-
-        # For phenological stages, replace the zeros by the following non-zero
-        # value (works even in case of simulations replicated on several years
-        # within a single USM)
-        if (length(tmp$sim_list) > 0) {
-          if (length(intersect(stages_list, names(sim_list[[ip]])) > 0)) {
-            sim_list[[ip]] <-
-              sim_list[[ip]] %>%
-              dplyr::mutate(
-                dplyr::across(
-                  dplyr::all_of(
-                    intersect(stages_list, names(.))
-                  ),
-                  ~dplyr::na_if(., 0)) %>%
-                  tidyr::fill(tidyr::everything(), .direction = "up")
-              )
-          }
-        }
 
       }
     }
