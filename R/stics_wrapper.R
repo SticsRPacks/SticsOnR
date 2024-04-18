@@ -158,35 +158,11 @@ stics_wrapper <- function(model_options,
                 " a JavaStics path must be set in model_options list",
                 " (see javastics argument of stics_wrapper_options function)."))
 
-  # In case of successive USMs, disable parallel run
-  if (!is.null(successive_usms)) parallel <- FALSE
-
   # Checking Stics executable
   if (!force) check_stics_exe(stics_exe)
 
   # Activate the stopwatch if required
   if (time_display) start_time <- Sys.time()
-
-  if (parallel) {
-    # Managing parallel model simulations
-    # Managing cores number to use
-    cores_nb <- get_cores_nb(parallel = parallel, required_nb = cores)
-
-    # Launching the cluster
-    cl <- makeCluster(cores_nb)
-
-    # Stopping the cluster when exiting
-    on.exit(stopCluster(cl))
-
-    # Registering cluster
-    registerDoParallel(cl)
-    clusterCall(cl, function(x) .libPaths(x), .libPaths())
-
-    `%do_par_or_not%` <- foreach::`%dopar%`
-  } else {
-    `%do_par_or_not%` <- foreach::`%do%`
-
-  }
 
   # Define the list of USMs to simulate and initialize results -----------------
   # Check the available USMs
@@ -198,7 +174,6 @@ stics_wrapper <- function(model_options,
   if (length(avail_sit) == 0) {
     stop(paste("Not any Stics directories found in:", data_dir))
   }
-
 
   # Define the USMs to simulate from available USMs and user requirements
   # concerning the results to return (sit_names and sit_var_dates_mask
@@ -272,6 +247,32 @@ stics_wrapper <- function(model_options,
   keep_all_data <- is.null(sit_var_dates_mask) && is.null(var_names) &&
     is.null(dates)
 
+  # In case of successive USMs or single USM, disable parallel run
+  if (!is.null(successive_usms) || length(sit2simulate)==1) parallel <- FALSE
+
+  if (parallel) {
+    # Managing parallel model simulations
+    # Managing cores number to use
+    cores_nb <- get_cores_nb(parallel = parallel, required_nb = cores)
+
+    # Do not allow more cores than number of USMs to simulate: waste of time
+    cores_nb <- min(cores_nb, length(sit2simulate))
+
+    # Launching the cluster
+    cl <- makeCluster(cores_nb)
+
+    # Stopping the cluster when exiting
+    on.exit(stopCluster(cl))
+
+    # Registering cluster
+    registerDoParallel(cl)
+    clusterCall(cl, function(x) .libPaths(x), .libPaths())
+
+    `%do_par_or_not%` <- foreach::`%dopar%`
+  } else {
+    `%do_par_or_not%` <- foreach::`%do%`
+
+  }
 
   # Run Stics and store results ------------------------------------------------
 
