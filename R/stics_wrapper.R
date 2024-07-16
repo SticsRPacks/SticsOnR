@@ -170,6 +170,11 @@ stics_wrapper <- function(model_options,
   # Check the available USMs
   avail_sit <- list.dirs(data_dir, full.names = TRUE, recursive = FALSE)
 
+  # Warning in case sit_var_dates_mask is empty (may occur in case obs is empty ...)
+  if (!is.null(sit_var_dates_mask) && length(sit_var_dates_mask)==0) {
+    warning("sit_var_dates_mask is empty, not any results will be returned by stics_wrapper.")
+  }
+
   ## Checking existing files
   files_exist <- file.exists(file.path(avail_sit, "new_travail.usm"))
   avail_sit <- basename(avail_sit)[files_exist]
@@ -544,7 +549,8 @@ stics_wrapper <- function(model_options,
   }
 
   if (length(res$sim_list) == 0) {
-    warning("Stics simulations failed for all USMs!!!")
+    warning(paste("stics_wrapper will not return simulated results:",
+    "either Stics simulations failed for all USMs or no results were required (e.g. sit_var_dates_mask empty)."))
     res$sim_list <- NULL
   } else {
     # Add the attribute cropr_simulation for using CroPlotR package
