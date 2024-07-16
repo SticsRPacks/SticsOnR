@@ -18,6 +18,8 @@
 #' different situations. If param_values is not provided, the simulations will
 #' be performed using the parameters values defined in the Stics input files
 #' referenced in model_options argument.
+#' WARNING: up to now, for intercrop situations, plant parameter(s) defined in
+#' param_values is(are) only associated to the main crop.
 #'
 #' @param situation (optional) vector of situations (USMs) names for which
 #' results must be returned. Results for all simulated situations are returned
