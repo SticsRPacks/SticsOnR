@@ -628,6 +628,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
     return(res)
+
   } else if (!is.null(sit_var_dates_mask) &&
              is.null(sit_var_dates_mask[[situation]])) {
 
@@ -639,6 +640,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
     return(res)
+
   } else {
 
     # some variables/dates explicitely required
@@ -657,9 +659,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     ## Convert required variables names to Stics variables names (i.e. handle ())
     req_var_names <- SticsRFiles:::var_to_col_names(req_var_names)
 
-    ## Add reserved keywords "Plant" and "Date" from the list
-    req_var_names <- unique(c(c("Date", "Plant"), req_var_names))
-
     ## Identify indexes of required variables among simulated ones
     sim_var_names <- colnames(sim_tmp)
     req_vars_idx <- sim_var_names %in% req_var_names
@@ -668,7 +667,9 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
 
     ## In case some variables are not simulated, warn the user, add them in var.mod
     ## and re-simulate or select the results if var.mod has already been modified.
+    ############################################################################
     if (length(inter_var_names) < length(req_var_names)) {
+
       if (varmod_modified) {
         ## var.mod has already been modified ... warn the user the required
         ## variables will not be simulated
@@ -686,15 +687,12 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         ))
         res$flag_error <- FALSE
         res$flag_rqd_res <- FALSE
+
       } else {
         ## var.mod has not yet been modified ...
         ## try to modify it and resimulate (keyword simulate)
 
         # TODO: check or set the flagecriture to 15 to get daily data results !!
-
-        ## Remove the reserved keywords from required variables names so that
-        ## they do not appear in warning message nor in var.mod
-        req_var_names <- req_var_names[!req_var_names %in% c("Date", "Plant")]
 
         if (verbose) {
           res$message <- warning(paste(
@@ -720,14 +718,25 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$varmod_modified <- TRUE
         res$simulate <- TRUE
         return(res)
+
       }
+
     }
 
     ## Select the results wrt to the required and simulated variables
     ## if required
+
+    ### Add reserved keywords "Plant", "Date" and "Dominance" to the list
+    req_var_names <- unique(c(c("Date", "Plant", "Dominance"), req_var_names))
+    sim_var_names <- colnames(sim_tmp)
+    req_vars_idx <- sim_var_names %in% req_var_names
+
     if (length(req_var_names) > 2) {
+
       if (any(req_vars_idx)) {
+
         sim_tmp <- sim_tmp[, req_vars_idx]
+
       } else { ## no variable simulated, warn the user and return NULL
 
         res$message <- warning(paste(
@@ -741,7 +750,9 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$flag_rqd_res <- FALSE
         res$simulate <- FALSE
         return(res)
+
       }
+
     }
 
 
