@@ -378,9 +378,11 @@ check_stics_exe <- function(model_path,
   # If version is required
   if (version) {
     # attaching the version attribute & removing the output one
+    # Filtering only the first line in case of other information
+    # exist on additional lines (commit,...)
     attr(err_status, "version") <- gsub(
       pattern = "Modulostics version : ",
-      x = trimws(attr(err_status, "output")),
+      x = trimws(attr(err_status, "output")[1]),
       replacement = ""
     )
     attr(err_status, "output") <- NULL
