@@ -56,21 +56,21 @@ set_stics_exe <- function(javastics,
                           stics_exe,
                           overwrite = FALSE,
                           verbose = TRUE) {
-
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
     switch(SticsRFiles:::user_os(),
-           lin = {
-             "modulostics_linux"
-           },
-           mac = {
-             "modulostics_mac"
-           }, {
-             "modulostics"
-           }
+      lin = {
+        "modulostics_linux"
+      },
+      mac = {
+        "modulostics_mac"
+      },
+      {
+        "modulostics"
+      }
     )
   }
 
@@ -90,7 +90,6 @@ set_stics_exe <- function(javastics,
   java_stics_exe <- file.path(javastics, "bin", stics_exe)
 
   if (check_stics_exe(model_path = java_stics_exe, stop = FALSE)) {
-
     # If the executable is already listed with a name:
     stics_list <- list_stics_exe(javastics)$stics_list
     exe_in_list <- grepl(paste0("^", stics_exe, "$"), unlist(stics_list))
@@ -176,7 +175,7 @@ set_stics_exe <- function(javastics,
     gsub(".exe", "", exe_file_name),
     "_",
     SticsRFiles:::user_os()
-    )
+  )
 
   # Check if the name already exist:
   exist_stics_name <- exist_stics_exe(javastics, new_stics_name)
@@ -253,13 +252,11 @@ set_stics_exe <- function(javastics,
 #' list_stics_exe("path/to/Javastics")
 #' }
 #'
-#'
 #' @keywords internal
 #'
 #' @noRd
 #'
 list_stics_exe <- function(javastics) {
-
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
@@ -305,7 +302,7 @@ list_stics_exe <- function(javastics) {
     unlist()
   stics_list_names <- stics_list_parsed[seq_along(stics_list_parsed) %% 2 == 1]
   stics_list <- as.list(stics_list_parsed[seq_along(stics_list_parsed)
-                                          %% 2 == 0])
+  %% 2 == 0])
   names(stics_list) <- stics_list_names
   list(stics_list = stics_list, current = stics_list[current_stics])
 }
@@ -329,7 +326,6 @@ check_stics_exe <- function(model_path,
                             version = FALSE,
                             stop = TRUE,
                             verbose = FALSE) {
-
   # Need to set the directory to the one of the exe for system calls
   start_dir <- getwd()
   on.exit(setwd(start_dir))
@@ -357,8 +353,8 @@ check_stics_exe <- function(model_path,
   }
   # catching returned error status
   err_status <- suppressWarnings(run_system_cmd(model_path,
-                                                com_args = "--version",
-                                                output = version
+    com_args = "--version",
+    output = version
   ))
 
   # exiting if any error
@@ -522,7 +518,6 @@ exist_stics_exe <- function(javastics, stics_exe) {
 #' @noRd
 #'
 remove_stics_exe <- function(javastics, stics_exe) {
-
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 

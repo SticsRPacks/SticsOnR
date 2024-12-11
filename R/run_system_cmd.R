@@ -14,17 +14,17 @@
 #' @noRd
 #'
 run_system_cmd <- function(command, com_args = "", output = FALSE) {
-
   # To fix command as an absolute path to the executable
   command <- normalizePath(command)
 
   err_status <- TRUE
-  ret <- try(system2(
-    command = command, args = com_args,
-    stderr = TRUE,
-    stdout = TRUE
-  ),
-  silent = TRUE
+  ret <- try(
+    system2(
+      command = command, args = com_args,
+      stderr = TRUE,
+      stdout = TRUE
+    ),
+    silent = TRUE
   )
   # 'print(ret)
 
