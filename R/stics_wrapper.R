@@ -433,6 +433,14 @@ stics_wrapper <- function(model_options,
           )
         }
 
+        # Compute user defined operations if any
+        if (is.function(model_options$compute_operations)) {
+          model_options$compute_operations(
+            model_options = model_options,
+            usm_name = situation,
+            param_values = param_values_sit,
+          )
+        }
 
         ## Run the model, forcing not to check the model executable (saves time)
         usm_out <- run_stics(stics_exe, run_dir, check = FALSE)
