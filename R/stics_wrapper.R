@@ -370,16 +370,33 @@ stics_wrapper <- function(model_options,
           successive_usms,
           function(x) match(sit2simulate[i], x)
         ) >= 2)
+
         if (!is.na(is_succ) && is_succ) {
 
           # Checking recup.tmp and snow_variables.txt files
-          f_recup <- c(
-            file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp")),
-            file.path(
+          # recup.tmp file is mandatory
+          f_recup <- #c(
+            file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp")) #,
+            # file.path(
+            #   run_dirs[i - 1],
+            #   paste0("snow_variables", ip, ".txt")
+            # )
+          #)
+          # add snow_variables.txt to be copied only if snow is used
+          # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
+          use_snow <- unlist(
+            get_param_txt(workspace = run_dirs[i - 1],
+                          param = "codesnow",
+                          exact = TRUE),
+            use.names = FALSE)
+
+          if (use_snow == 1) {
+            f_recup <- c(f_recup, file.path(
               run_dirs[i - 1],
               paste0("snow_variables", ip, ".txt")
-            )
-          )
+            ))
+          }
+
           f_exist <- file.exists(f_recup)
 
           if (!all(f_exist)) {
