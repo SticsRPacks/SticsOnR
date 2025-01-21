@@ -110,7 +110,6 @@ stics_wrapper <- function(model_options,
                           sit_var_dates_mask = NULL,
                           sit_names = lifecycle::deprecated(),
                           var_names = lifecycle::deprecated()) {
-
   # TODO LIST
   #   - handle the case of stages (stages should be specified in the var.mod ...
   #   + handle the case when simulations does not reach the asked stages ...)
@@ -155,10 +154,13 @@ stics_wrapper <- function(model_options,
   javastics <- model_options$javastics
 
   # Checking if javastics path is set when forcing parameters
-  if (!is.null(param_values) && is.null(javastics))
-    stop(paste0("When parameters values are to be forced,",
-                " a JavaStics path must be set in model_options list",
-                " (see javastics argument of stics_wrapper_options function)."))
+  if (!is.null(param_values) && is.null(javastics)) {
+    stop(paste0(
+      "When parameters values are to be forced,",
+      " a JavaStics path must be set in model_options list",
+      " (see javastics argument of stics_wrapper_options function)."
+    ))
+  }
 
   # Checking Stics executable
   if (!force) check_stics_exe(stics_exe)
@@ -171,7 +173,7 @@ stics_wrapper <- function(model_options,
   avail_sit <- list.dirs(data_dir, full.names = TRUE, recursive = FALSE)
 
   # Warning in case sit_var_dates_mask is empty (may occur in case obs is empty ...)
-  if (!is.null(sit_var_dates_mask) && length(sit_var_dates_mask)==0) {
+  if (!is.null(sit_var_dates_mask) && length(sit_var_dates_mask) == 0) {
     warning("sit_var_dates_mask is empty, not any results will be returned by stics_wrapper.")
   }
 
@@ -192,7 +194,7 @@ stics_wrapper <- function(model_options,
       warning(paste0(
         "No folder(s) found in ", data_dir, " for USMs ",
         paste(setdiff(required_situations, avail_sit),
-              collapse = " "
+          collapse = " "
         ),
         "\n These USMs will not be simulated."
       ))
@@ -211,7 +213,7 @@ stics_wrapper <- function(model_options,
     warning(paste0(
       "No folder(s) found in ", data_dir, " for USMs ",
       paste(setdiff(unlist(successive_usms), avail_sit),
-            collapse = " "
+        collapse = " "
       ),
       "\n The corresponding successions of USMs will not be simulated."
     ))
@@ -235,9 +237,11 @@ stics_wrapper <- function(model_options,
   )
 
   # Initialize the list of phenological stages (specific treatment in the loop)
-  stages_list <- c("iamfs", "idebdess", "idebdorms", "idrps", "ifindorms",
-                   "iflos", "iflos_minus_150", "iflos_plus_150", "igers",
-                   "ilans", "ilaxs", "ilevs", "imats", "imontaisons")
+  stages_list <- c(
+    "iamfs", "idebdess", "idebdorms", "idrps", "ifindorms",
+    "iflos", "iflos_minus_150", "iflos_plus_150", "igers",
+    "ilans", "ilaxs", "ilevs", "imats", "imontaisons"
+  )
 
 
   # Calculating directories list
@@ -255,7 +259,7 @@ stics_wrapper <- function(model_options,
     is.null(dates)
 
   # In case of successive USMs or single USM, disable parallel run
-  if (!is.null(successive_usms) || length(sit2simulate)==1) parallel <- FALSE
+  if (!is.null(successive_usms) || length(sit2simulate) == 1) parallel <- FALSE
 
   if (parallel) {
     # Managing parallel model simulations
@@ -278,7 +282,6 @@ stics_wrapper <- function(model_options,
     `%do_par_or_not%` <- foreach::`%dopar%`
   } else {
     `%do_par_or_not%` <- foreach::`%do%`
-
   }
 
   # Run Stics and store results ------------------------------------------------
@@ -294,7 +297,7 @@ stics_wrapper <- function(model_options,
     i = seq_along(sit2simulate),
     .export = c("run_stics", "select_results"),
     .packages = c("SticsRFiles")
-    #) %doparornot% {
+    # ) %doparornot% {
   ) %do_par_or_not% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
@@ -321,9 +324,13 @@ stics_wrapper <- function(model_options,
       }
       if ("variete" %in% names(param_values_sit)) {
         param_values_sit <- dplyr::select(
-          param_values_sit, c("variete",
-                              setdiff(names(param_values_sit),
-                                      "variete"))
+          param_values_sit, c(
+            "variete",
+            setdiff(
+              names(param_values_sit),
+              "variete"
+            )
+          )
         )
       }
     }
@@ -340,7 +347,6 @@ stics_wrapper <- function(model_options,
 
     # For each set of parameter values to force in the model
     for (ip in seq_len(nrow(param_values_sit))) {
-
       # Force parameters values
       if (!SticsRFiles::force_param_values(
         run_dir,
@@ -363,7 +369,6 @@ stics_wrapper <- function(model_options,
       varmod_modified <- FALSE
       simulate <- TRUE
       while (simulate) {
-
         # Handling successive USMs (if the usm is part of the list and not in
         # first position it must be linked with previous one)
         is_succ <- any(sapply(
@@ -372,7 +377,6 @@ stics_wrapper <- function(model_options,
         ) >= 2)
 
         if (!is.na(is_succ) && is_succ) {
-
           # Checking recup.tmp and snow_variables.txt files
           # recup.tmp file is mandatory
           f_recup <- #c(
@@ -521,7 +525,8 @@ stics_wrapper <- function(model_options,
                   dplyr::all_of(
                     intersect(stages_list, names(.))
                   ),
-                  ~dplyr::na_if(., 0)) %>%
+                  ~ dplyr::na_if(., 0)
+                ) %>%
                   tidyr::fill(tidyr::everything(), .direction = "up")
               )
           }
@@ -539,7 +544,6 @@ stics_wrapper <- function(model_options,
         messages[[ip]] <- tmp$message
         simulate <- tmp$simulate
         varmod_modified <- tmp$varmod_modified
-
       }
     }
 
@@ -566,8 +570,10 @@ stics_wrapper <- function(model_options,
   }
 
   if (length(res$sim_list) == 0) {
-    warning(paste("stics_wrapper will not return simulated results:",
-    "either Stics simulations failed for all USMs or no results were required (e.g. sit_var_dates_mask empty)."))
+    warning(paste(
+      "stics_wrapper will not return simulated results:",
+      "either Stics simulations failed for all USMs or no results were required (e.g. sit_var_dates_mask empty)."
+    ))
     res$sim_list <- NULL
   } else {
     # Add the attribute cropr_simulation for using CroPlotR package
@@ -636,7 +642,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
   )
 
   if (keep_all_data) {
-
     # return all simulated data
     ############################################################################
 
@@ -645,10 +650,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
     return(res)
-
   } else if (!is.null(sit_var_dates_mask) &&
-             is.null(sit_var_dates_mask[[situation]])) {
-
+    is.null(sit_var_dates_mask[[situation]])) {
     # no results required for this situation -> return NULL
     ############################################################################
 
@@ -657,9 +660,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
     return(res)
-
   } else {
-
     # some variables/dates explicitely required
     # -> Select from sit_var_dates_mask, var_names, dates arguments
     ############################################################################
@@ -686,7 +687,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     ## and re-simulate or select the results if var.mod has already been modified.
     ############################################################################
     if (length(inter_var_names) < length(req_var_names)) {
-
       if (varmod_modified) {
         ## var.mod has already been modified ... warn the user the required
         ## variables will not be simulated
@@ -694,7 +694,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$message <- warning(paste(
           "Variable(s)",
           paste(setdiff(req_var_names, inter_var_names),
-                collapse = ", "
+            collapse = ", "
           ),
           "not simulated by the Stics model for USM",
           situation,
@@ -704,7 +704,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         ))
         res$flag_error <- FALSE
         res$flag_rqd_res <- FALSE
-
       } else {
         ## var.mod has not yet been modified ...
         ## try to modify it and resimulate (keyword simulate)
@@ -715,7 +714,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           res$message <- warning(paste(
             "Variable(s)",
             paste(setdiff(req_var_names, inter_var_names),
-                  collapse = ", "
+              collapse = ", "
             ),
             "not simulated by the Stics model for USM", situation,
             "=>", file.path(run_dir, "var.mod"),
@@ -735,9 +734,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$varmod_modified <- TRUE
         res$simulate <- TRUE
         return(res)
-
       }
-
     }
 
     ## Select the results wrt to the required and simulated variables
@@ -749,11 +746,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     req_vars_idx <- sim_var_names %in% req_var_names
 
     if (length(req_var_names) > 2) {
-
       if (any(req_vars_idx)) {
-
         sim_tmp <- sim_tmp[, req_vars_idx]
-
       } else { ## no variable simulated, warn the user and return NULL
 
         res$message <- warning(paste(
@@ -767,9 +761,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         res$flag_rqd_res <- FALSE
         res$simulate <- FALSE
         return(res)
-
       }
-
     }
 
 
@@ -795,7 +787,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
 
     ## Select requested dates
     if (any(req_dates_idx)) {
-
       ## In case some dates are not simulated, warn the user
       if (length(inter_dates) < length(req_date_list)) {
         missing_dates <- req_date_list[!req_date_list %in% inter_dates]
@@ -1108,13 +1099,13 @@ stics_wrapper_options <- function(javastics = NULL,
       list_stics_exe(javastics)$stics_list[stics_exe][[1]]
     )
   } else if (!is.null(javastics) &&
-             check_stics_exe(
-               model_path = file.path(
-                 javastics, "bin",
-                 basename(stics_exe)
-               ),
-               stop = FALSE
-             )) {
+    check_stics_exe(
+      model_path = file.path(
+        javastics, "bin",
+        basename(stics_exe)
+      ),
+      stop = FALSE
+    )) {
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(model_path = stics_exe, stop = FALSE)) {
