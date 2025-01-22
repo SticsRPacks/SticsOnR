@@ -688,7 +688,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$simulate <- FALSE
     return(res)
   } else if (!is.null(sit_var_dates_mask) &&
-             is.null(sit_var_dates_mask[[situation]])) {
+               is.null(sit_var_dates_mask[[situation]])) {
     # no results required for this situation -> return NULL
     ############################################################################
 
@@ -754,7 +754,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           res$message <- warning(paste(
             "Variable(s)",
             paste(setdiff(req_var_names, inter_var_names),
-                  collapse = ", "
+              collapse = ", "
             ),
             "not simulated by the Stics model for USM", situation,
             "=>", file.path(run_dir, "var.mod"),
@@ -1139,13 +1139,13 @@ stics_wrapper_options <- function(javastics = NULL,
       list_stics_exe(javastics)$stics_list[stics_exe][[1]]
     )
   } else if (!is.null(javastics) &&
-             check_stics_exe(
-               model_path = file.path(
-                 javastics, "bin",
-                 basename(stics_exe)
-               ),
-               stop = FALSE
-             )) {
+    check_stics_exe(
+      model_path = file.path(
+        javastics, "bin",
+        basename(stics_exe)
+      ),
+      stop = FALSE
+    )) {
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(model_path = stics_exe, stop = FALSE)) {
