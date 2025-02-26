@@ -1,4 +1,4 @@
-text_col <- function(x) {
+text_col = function(x) {
   # This function is adapted from: https://github.com/tidyverse/tidyverse
   # If RStudio not available, messages already printed in black
   if (!rstudioapi::isAvailable()) {
