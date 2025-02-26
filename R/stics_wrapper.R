@@ -175,9 +175,10 @@ stics_wrapper <- function(model_options,
   # Warning in case sit_var_dates_mask is empty
   # (may occur in case obs is empty ...)
   if (!is.null(sit_var_dates_mask) && length(sit_var_dates_mask) == 0) {
-    warning(paste("sit_var_dates_mask is empty,",
-                  "not any results will be returned by stics_wrapper.")
-    )
+    warning(paste(
+      "sit_var_dates_mask is empty,",
+      "not any results will be returned by stics_wrapper."
+    ))
   }
 
   ## Checking existing files
@@ -389,17 +390,21 @@ stics_wrapper <- function(model_options,
           # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
           use_snow_prev <-
             unlist(
-              SticsRFiles::get_param_txt(workspace = run_dirs[i - 1],
-                                         param = "codesnow",
-                                         exact = TRUE),
+              SticsRFiles::get_param_txt(
+                workspace = run_dirs[i - 1],
+                param = "codesnow",
+                exact = TRUE
+              ),
               use.names = FALSE
             )
           # check if snow module is used for the current usm
           use_snow_curr <-
             unlist(
-              SticsRFiles::get_param_txt(workspace = run_dirs[i],
-                                         param = "codesnow",
-                                         exact = TRUE),
+              SticsRFiles::get_param_txt(
+                workspace = run_dirs[i],
+                param = "codesnow",
+                exact = TRUE
+              ),
               use.names = FALSE
             )
 
@@ -448,7 +453,7 @@ stics_wrapper <- function(model_options,
             flag_error[ip] <- TRUE
             flag_rqd_res[ip] <- FALSE
             # compiling snow consistency message with running error message
-            messages[ip] <- paste(mess_snow, "\n\n",  mess)
+            messages[ip] <- paste(mess_snow, "\n\n", mess)
             next()
           }
 
@@ -688,7 +693,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$simulate <- FALSE
     return(res)
   } else if (!is.null(sit_var_dates_mask) &&
-               is.null(sit_var_dates_mask[[situation]])) {
+    is.null(sit_var_dates_mask[[situation]])) {
     # no results required for this situation -> return NULL
     ############################################################################
 
@@ -738,8 +743,10 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           "not simulated by the Stics model for USM",
           situation,
           "although added in", file.path(run_dir, "var.mod"),
-          paste0("=> these variables may not be Stics variables,",
-                 " please check spelling. \n "),
+          paste0(
+            "=> these variables may not be Stics variables,",
+            " please check spelling. \n "
+          ),
           "Simulated variables:", paste(sim_var_names, collapse = ", ")
         ))
         res$flag_error <- FALSE
