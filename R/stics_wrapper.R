@@ -462,9 +462,11 @@ stics_wrapper <- function(model_options,
             from = f_recup[f_exist],
             to = file.path(
               run_dir,
-              gsub(pattern = "[0-9*]",
-                   x = basename(f_recup[f_exist]),
-                   replacement = "")
+              gsub(
+                pattern = "[0-9*]",
+                x = basename(f_recup[f_exist]),
+                replacement = ""
+              )
             ),
             overwrite = TRUE
           )
@@ -695,7 +697,7 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$simulate <- FALSE
     return(res)
   } else if (!is.null(sit_var_dates_mask) &&
-               is.null(sit_var_dates_mask[[situation]])) {
+    is.null(sit_var_dates_mask[[situation]])) {
     # no results required for this situation -> return NULL
     ############################################################################
 
