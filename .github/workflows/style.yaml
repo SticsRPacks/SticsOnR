@@ -79,7 +79,7 @@ jobs:
             git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
             git commit ${FILES_TO_COMMIT[*]} -m "Style code (GHA)"
             git pull --ff-only origin "${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-            git push origin
+            git push origin HEAD:"${GITHUB_HEAD_REF}"
           else
             echo "No changes to commit."
           fi
