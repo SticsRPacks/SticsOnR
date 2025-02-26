@@ -14,7 +14,7 @@ text_col <- function(x) {
   if (isTRUE(theme$dark)) crayon::white(x) else crayon::black(x)
 }
 
-.onAttach <- function(libname, pkgname) {
+.onAttach = function(libname, pkgname) {
   packageStartupMessage(
     text_col(paste(
       "Learn SticsOnR at:",
