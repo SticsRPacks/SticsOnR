@@ -53,19 +53,22 @@
 #' @export
 #'
 
-run_stics <- function(stics_exe,
-                      workspace,
-                      usm = NULL,
-                      check = TRUE,
-                      verbose = FALSE,
-                      model_path = lifecycle::deprecated(),
-                      data_dir = lifecycle::deprecated(),
-                      usm_dir_names = lifecycle::deprecated(),
-                      check_exe = lifecycle::deprecated(),
-                      display = lifecycle::deprecated()) {
+run_stics <- function(
+  stics_exe,
+  workspace,
+  usm = NULL,
+  check = TRUE,
+  verbose = FALSE,
+  model_path = lifecycle::deprecated(),
+  data_dir = lifecycle::deprecated(),
+  usm_dir_names = lifecycle::deprecated(),
+  check_exe = lifecycle::deprecated(),
+  display = lifecycle::deprecated()
+) {
   if (lifecycle::is_present(model_path)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_stics(model_path)",
+      "1.0.0",
+      "run_stics(model_path)",
       "run_stics(stics_exe)"
     )
   } else {
@@ -73,7 +76,8 @@ run_stics <- function(stics_exe,
   }
   if (lifecycle::is_present(data_dir)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_stics(data_dir)",
+      "1.0.0",
+      "run_stics(data_dir)",
       "run_stics(workspace)"
     )
   } else {
@@ -81,7 +85,8 @@ run_stics <- function(stics_exe,
   }
   if (lifecycle::is_present(usm_dir_names)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_stics(usm_dir_names)",
+      "1.0.0",
+      "run_stics(usm_dir_names)",
       "run_stics(usm)"
     )
   } else {
@@ -89,7 +94,8 @@ run_stics <- function(stics_exe,
   }
   if (lifecycle::is_present(check_exe)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_stics(check_exe)",
+      "1.0.0",
+      "run_stics(check_exe)",
       "run_stics(check)"
     )
   } else {
@@ -97,7 +103,8 @@ run_stics <- function(stics_exe,
   }
   if (lifecycle::is_present(display)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_stics(display)",
+      "1.0.0",
+      "run_stics(display)",
       "run_stics(verbose)"
     )
   } else {
@@ -105,8 +112,10 @@ run_stics <- function(stics_exe,
   }
 
   # Defining the argument of run_system for running all usms subdirectories
-  if (is.null(usm_dir_names) &&
-    !file.exists(file.path(workspace, "new_travail.usm"))) {
+  if (
+    is.null(usm_dir_names) &&
+      !file.exists(file.path(workspace, "new_travail.usm"))
+  ) {
     usm_dir_names <- "all"
   }
 

@@ -52,12 +52,13 @@
 #' @noRd
 #'
 
-
-run_system <- function(stics_exe,
-                       workspace,
-                       usm = NULL,
-                       check = TRUE,
-                       verbose = FALSE) {
+run_system <- function(
+  stics_exe,
+  workspace,
+  usm = NULL,
+  check = TRUE,
+  verbose = FALSE
+) {
   first_wd <- getwd()
   on.exit(setwd(first_wd))
   # Default one usm directory
@@ -82,7 +83,6 @@ run_system <- function(stics_exe,
     print(paste0(run_dir[!dirs_exist], collapse = ", "))
     stop("One or more directories does/do not exist !")
   }
-
 
   # optional model executable checking
   if (check) check_stics_exe(stics_exe)
@@ -110,7 +110,6 @@ run_system <- function(stics_exe,
       # ' usm_out$message="Model execution error !"
       usm_out$message <- attr(ret, "message")
     }
-
 
     # If history file doesn't exist or all of the output files
     # don't exist: output error
