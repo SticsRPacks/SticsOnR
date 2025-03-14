@@ -314,7 +314,6 @@ stics_wrapper <- function(
     i = seq_along(sit2simulate),
     .export = c("run_stics", "select_results"),
     .packages = c("SticsRFiles")
-    # ) %doparornot% {
   ) %do_par_or_not%
     {
       ## Loops on the USMs that can be simulated
@@ -389,25 +388,19 @@ stics_wrapper <- function(
         varmod_modified <- FALSE
         simulate <- TRUE
         while (simulate) {
-          # Handling successive USMs (if the usm is part of the list and not in
-          # first position it must be linked with previous one)
-          is_succ <- any(
-            sapply(
-              successive_usms,
-              function(x) match(sit2simulate[i], x)
-            ) >=
-              2
-          )
-
-          if (!is.na(is_succ) && is_succ) {
+          is_successive <- is_successive_usm(successive_usms, sit2simulate[i])
+          if (is_successive) {
             # Checking recup.tmp and snow_variables.txt files
             # recup.tmp file is mandatory
-            f_recup <- file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp"))
+            f_recup_prev <- file.path(
+              run_dirs[i - 1],
+              paste0("recup", ip, ".tmp")
+            )
 
             # Add snow_variables.txt to be copied only if snow is used
             # in the previous usm
             # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
-            use_snow_prev <-
+            use_snow_prev <- suppressWarnings(
               unlist(
                 SticsRFiles::get_param_txt(
                   workspace = run_dirs[i - 1],
@@ -416,8 +409,9 @@ stics_wrapper <- function(
                 ),
                 use.names = FALSE
               )
+            )
             # check if snow module is used for the current usm
-            use_snow_curr <-
+            use_snow_curr <- suppressWarnings(
               unlist(
                 SticsRFiles::get_param_txt(
                   workspace = run_dirs[i],
@@ -426,6 +420,7 @@ stics_wrapper <- function(
                 ),
                 use.names = FALSE
               )
+            )
 
             # manage consistency for snow module use for the 2 successive usms
             if (use_snow_prev != use_snow_curr) {
@@ -452,20 +447,14 @@ stics_wrapper <- function(
             }
 
             if (use_snow_prev == 1) {
-              unlink(file.path(
+              # previous snow_variables.txt file
+              snow_prev <- file.path(
                 run_dirs[i - 1],
                 paste0("snow_variables", ip, ".txt")
-              ))
-              f_recup <- c(
-                f_recup,
-                file.path(
-                  run_dirs[i - 1],
-                  paste0("snow_variables", ip, ".txt")
-                )
               )
+              f_recup_prev <- c(f_recup_prev, snow_prev)
             }
-
-            f_exist <- file.exists(f_recup)
+            f_exist <- file.exists(f_recup_prev)
 
             if (!all(f_exist)) {
               mess <- warning(paste(
@@ -473,24 +462,20 @@ stics_wrapper <- function(
                 situation,
                 ". \n This USMs is part of a succession",
                 "but recup.tmp or snow_variables.txt",
-                "file(s) was/were not created by the previous USM."
+                "file(s) was/were not created by the previous USM: \n",
+                paste(f_recup_prev[f_exist], collapse = ", ")
               ))
-              sim_list[ip] <- NULL
-              flag_error[ip] <- TRUE
-              flag_rqd_res[ip] <- FALSE
-              # compiling snow consistency message with running error message
-              messages[ip] <- paste(mess_snow, "\n\n", mess)
-              next()
+              stop(paste(mess_snow, "\n\n", mess))
             }
 
             # Copying needed files and checking return
             recup_copy <- file.copy(
-              from = f_recup[f_exist],
+              from = f_recup_prev[f_exist],
               to = file.path(
                 run_dir,
                 gsub(
                   pattern = "[0-9*]",
-                  x = basename(f_recup[f_exist]),
+                  x = basename(f_recup_prev[f_exist]),
                   replacement = ""
                 )
               ),
@@ -512,11 +497,13 @@ stics_wrapper <- function(
               messages[ip] <- mess
               next()
             }
-            browser()
             # The following could be done only once in case of repeated call
             # to the wrapper (e.g. parameters estimation ...)
+            # new_travail.usm file must be modified to allow successive USMs
+            # file path
+            new_travail <- file.path(run_dir, "new_travail.usm")
             SticsRFiles::set_usm_txt(
-              file = file.path(run_dir, "new_travail.usm"),
+              file = new_travail,
               param = "codesuite",
               value = 1
             )
@@ -528,29 +515,37 @@ stics_wrapper <- function(
           ### In case of successive USMs, re-initialize codesuite (to allow next
           ### run to be in non-successive mode) and rename recup.tmp and
           ### snow_variables.txt (for usms that have a successor)
-          if (!is.na(is_succ) && is_succ) {
+          if (is_successive) {
             SticsRFiles::set_usm_txt(
-              file = file.path(
-                run_dir,
-                "new_travail.usm"
-              ),
+              file = new_travail,
               param = "codesuite",
               value = 0
             )
           }
-          is_prev <- any(sapply(
-            successive_usms,
-            function(x) match(sit2simulate[i], x) < length(x)
-          ))
-          if (!is.na(is_prev) && is_prev) {
+
+          if (is_previous_usm(successive_usms, sit2simulate[i])) {
+            recup_curr <- file.path(run_dir, "recup.tmp")
+
+            if (!file.exists(recup_curr)) {
+              stop("recup.tmp file not found")
+            }
+
             file.rename(
-              from = file.path(run_dir, "recup.tmp"),
+              from = recup_curr,
               to = file.path(run_dir, paste0("recup", ip, ".tmp"))
             )
-            file.rename(
-              from = file.path(run_dir, "snow_variables.txt"),
-              to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
-            )
+
+            snow_curr <- file.path(run_dir, "snow_variables.txt")
+
+            # if (use_snow_curr && !file.exists(snow_curr)) {
+            #   stop("snow_variables.txt file not found")
+            # }
+            if (file.exists(snow_curr)) {
+              file.rename(
+                from = snow_curr,
+                to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
+              )
+            }
           }
 
           ### if the model returns an error, ... go to next simulation
@@ -1099,7 +1094,7 @@ select_results <- function(
 #'
 #' # Note the `stics_exe` path that was modified and checked to the path were
 #' # it was found.
-#' }
+#'
 #'
 #' @export
 #'
@@ -1248,4 +1243,18 @@ stics_wrapper_options <- function(
 
 stics_display_warnings <- function(in_string) {
   if (nchar(in_string)) warning(in_string, call. = FALSE)
+}
+
+is_successive_usm <- function(usms_succession, site) {
+  any(unlist(lapply(
+    usms_succession,
+    function(x) which(x %in% site) >= 2
+  )))
+}
+
+is_previous_usm <- function(usms_succession, site) {
+  any(unlist(lapply(
+    usms_succession,
+    function(x) which(x %in% site) < length(x)
+  )))
 }
