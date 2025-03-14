@@ -52,16 +52,19 @@
 #'
 #' @noRd
 #'
-set_stics_exe <- function(javastics,
-                          stics_exe,
-                          overwrite = FALSE,
-                          verbose = TRUE) {
+set_stics_exe <- function(
+  javastics,
+  stics_exe,
+  overwrite = FALSE,
+  verbose = TRUE
+) {
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -121,16 +124,18 @@ set_stics_exe <- function(javastics,
     # Case 3: stics_exe is a path to the executable
 
     if (exe_file_name == "stics_modulo") {
-      stop("Overwriting the standard STICS version shipping with JavaStics
-           is not allowed. Please rename your executable file.")
+      stop(
+        "Overwriting the standard STICS version shipping with JavaStics
+           is not allowed. Please rename your executable file."
+      )
     }
 
     java_stics_exe <- file.path(javastics, "bin", exe_file_name)
 
-
     # Copy the executable file in the bin folder of JavaStics:
     is_copied <- file.copy(
-      from = stics_exe, to = java_stics_exe,
+      from = stics_exe,
+      to = java_stics_exe,
       overwrite = overwrite
     )
     if (!is_copied) {
@@ -142,12 +147,18 @@ set_stics_exe <- function(javastics,
            execute the one from JavaStics/bin"
       )
     }
-    if (verbose) cli::cli_alert_success("Using stics executable from:
-                                       {.val {stics_exe}}")
+    if (verbose)
+      cli::cli_alert_success(
+        "Using stics executable from:
+                                       {.val {stics_exe}}"
+      )
   } else {
     # Case were stics_exe was not found anywhere
-    stop("stics_exe was not found as a stics name, executable in the bin path
-         of JavaStics nor executable path: ", stics_exe)
+    stop(
+      "stics_exe was not found as a stics name, executable in the bin path
+         of JavaStics nor executable path: ",
+      stics_exe
+    )
   }
 
   xml_path <- file.path(javastics, "config", "preferences.xml")
@@ -163,7 +174,6 @@ set_stics_exe <- function(javastics,
   file.copy(xml_path, xml_path_prev)
 
   xml_pref <- get_xml_doc(xml_path)
-
 
   # Getting the existing list in pref file
   stics_exe_list <- list_stics_exe(javastics)
@@ -188,14 +198,18 @@ set_stics_exe <- function(javastics,
         i <- i + 1
         new_stics_name <- paste0(
           gsub(".exe", "", exe_file_name),
-          "_", SticsRFiles:::user_os(), "_", i
+          "_",
+          SticsRFiles:::user_os(),
+          "_",
+          i
         )
       }
     } else {
       # If they have the same executable, use the same name.
       SticsRFiles:::set_values(
         xml_pref,
-        '//entry[@key="model.last"]', new_stics_name
+        '//entry[@key="model.last"]',
+        new_stics_name
       )
       SticsRFiles:::save_xml_doc(xml_pref, xml_path)
       return(check_stics_exe(java_stics_exe))
@@ -207,21 +221,26 @@ set_stics_exe <- function(javastics,
 
   # writing models list string
   # and setting the current used model with the added one
-  stics_exe_string <- paste0(sprintf(
-    "{%s\t%s},",
-    names(stics_exe_list$stics_list),
-    stics_exe_list$stics_list
-  ), collapse = "")
+  stics_exe_string <- paste0(
+    sprintf(
+      "{%s\t%s},",
+      names(stics_exe_list$stics_list),
+      stics_exe_list$stics_list
+    ),
+    collapse = ""
+  )
 
   xml_pref <- get_xml_doc(xml_path)
 
   SticsRFiles:::set_values(
     xml_pref,
-    '//entry[@key="model.last"]', new_stics_name
+    '//entry[@key="model.last"]',
+    new_stics_name
   )
   SticsRFiles:::set_values(
     xml_pref,
-    '//entry[@key="model.list"]', stics_exe_string
+    '//entry[@key="model.list"]',
+    stics_exe_string
   )
 
   # writing file
@@ -280,8 +299,10 @@ list_stics_exe <- function(javastics) {
       '//entry[@key="model.last"]'
     )
     if (is.null(current_stics)) {
-      cli::cli_alert_info("Preference file in {.code javastics}
-                          was found incomplete.")
+      cli::cli_alert_info(
+        "Preference file in {.code javastics}
+                          was found incomplete."
+      )
       SticsRFiles:::init_javastics_pref(javastics, overwrite = TRUE)
     }
   }
@@ -295,14 +316,16 @@ list_stics_exe <- function(javastics) {
 
   stics_list <- SticsRFiles:::get_values(xml_pref, '//entry[@key="model.list"]')
   stics_list_parsed <- gsub(
-    "\\{|\\}", "",
+    "\\{|\\}",
+    "",
     stics_list
   ) %>%
     strsplit(",|\t") %>%
     unlist()
   stics_list_names <- stics_list_parsed[seq_along(stics_list_parsed) %% 2 == 1]
-  stics_list <- as.list(stics_list_parsed[seq_along(stics_list_parsed)
-  %% 2 == 0])
+  stics_list <- as.list(stics_list_parsed[
+    seq_along(stics_list_parsed) %% 2 == 0
+  ])
   names(stics_list) <- stics_list_names
   list(stics_list = stics_list, current = stics_list[current_stics])
 }
@@ -322,10 +345,12 @@ list_stics_exe <- function(javastics) {
 #'
 #' @noRd
 #'
-check_stics_exe <- function(model_path,
-                            version = FALSE,
-                            stop = TRUE,
-                            verbose = FALSE) {
+check_stics_exe <- function(
+  model_path,
+  version = FALSE,
+  stop = TRUE,
+  verbose = FALSE
+) {
   # Need to set the directory to the one of the exe for system calls
   start_dir <- getwd()
   on.exit(setwd(start_dir))
@@ -335,8 +360,11 @@ check_stics_exe <- function(model_path,
     if (stop) {
       stop(paste("Executable file doesn't exist: ", model_path))
     } else {
-      if (verbose) cli::cli_alert_danger("Executable file does not exist:
-                                        {.val {model_path}}")
+      if (verbose)
+        cli::cli_alert_danger(
+          "Executable file does not exist:
+                                        {.val {model_path}}"
+        )
       return(invisible(FALSE))
     }
   }
@@ -346,13 +374,17 @@ check_stics_exe <- function(model_path,
     if (stop) {
       stop(paste("Cannot give execute permissions for model: ", model_path))
     } else {
-      if (verbose) cli::cli_alert_danger("Cannot give execute permissions
-                                        for model: {.val {model_path}}.")
+      if (verbose)
+        cli::cli_alert_danger(
+          "Cannot give execute permissions
+                                        for model: {.val {model_path}}."
+        )
       return(invisible(FALSE))
     }
   }
   # catching returned error status
-  err_status <- suppressWarnings(run_system_cmd(model_path,
+  err_status <- suppressWarnings(run_system_cmd(
+    model_path,
     com_args = "--version",
     output = version
   ))
@@ -361,12 +393,16 @@ check_stics_exe <- function(model_path,
   if (!err_status) {
     if (stop) {
       stop(paste(
-        "File", model_path,
+        "File",
+        model_path,
         "is either not executable, or an exe for another OS."
       ))
     } else {
-      if (verbose) cli::cli_alert_danger("File {.val {model_path}} is either not
-                                        executable, or an exe for another OS.")
+      if (verbose)
+        cli::cli_alert_danger(
+          "File {.val {model_path}} is either not
+                                        executable, or an exe for another OS."
+        )
       return(invisible(FALSE))
     }
   }
@@ -523,7 +559,8 @@ remove_stics_exe <- function(javastics, stics_exe) {
 
   if (!exist_stics_exe(javastics, stics_exe)) {
     warning(
-      "The model doesn't exists or his name is miss spelled : ", stics_exe,
+      "The model doesn't exists or his name is miss spelled : ",
+      stics_exe,
       ".\n Call names(list_stics_exe(javastics)$stics_list)
             to list existing executables"
     )
@@ -545,17 +582,22 @@ remove_stics_exe <- function(javastics, stics_exe) {
   stics_exe_list <- list_stics_exe(javastics)
 
   # Remove the model version:
-  stics_exe_list$stics_list <- stics_exe_list$stics_list[-grep(
-    stics_exe,
-    names(stics_exe_list$stics_list)
-  )]
+  stics_exe_list$stics_list <- stics_exe_list$stics_list[
+    -grep(
+      stics_exe,
+      names(stics_exe_list$stics_list)
+    )
+  ]
 
   # writing models list string
-  stics_exe_string <- paste0(sprintf(
-    "{%s\t%s},",
-    names(stics_exe_list$stics_list),
-    stics_exe_list$stics_list
-  ), collapse = "")
+  stics_exe_string <- paste0(
+    sprintf(
+      "{%s\t%s},",
+      names(stics_exe_list$stics_list),
+      stics_exe_list$stics_list
+    ),
+    collapse = ""
+  )
 
   xml_pref <- get_xml_doc(xml_path)
 

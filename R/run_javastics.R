@@ -51,20 +51,23 @@
 #'
 #' @export
 #'
-run_javastics <- function(javastics,
-                          workspace = NULL,
-                          usm = NULL,
-                          keep_history = TRUE,
-                          optim = FALSE,
-                          verbose = TRUE,
-                          stics_exe = "modulostics",
-                          java_cmd = "java",
-                          javastics_path = lifecycle::deprecated(),
-                          workspace_path = lifecycle::deprecated(),
-                          usms_list = lifecycle::deprecated()) {
+run_javastics <- function(
+  javastics,
+  workspace = NULL,
+  usm = NULL,
+  keep_history = TRUE,
+  optim = FALSE,
+  verbose = TRUE,
+  stics_exe = "modulostics",
+  java_cmd = "java",
+  javastics_path = lifecycle::deprecated(),
+  workspace_path = lifecycle::deprecated(),
+  usms_list = lifecycle::deprecated()
+) {
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_javastics(javastics_path)",
+      "1.0.0",
+      "run_javastics(javastics_path)",
       "run_javastics(javastics)"
     )
   } else {
@@ -72,7 +75,8 @@ run_javastics <- function(javastics,
   }
   if (lifecycle::is_present(workspace_path)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_javastics(workspace_path)",
+      "1.0.0",
+      "run_javastics(workspace_path)",
       "run_javastics(workspace)"
     )
   } else {
@@ -80,7 +84,8 @@ run_javastics <- function(javastics,
   }
   if (lifecycle::is_present(usms_list)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "run_javastics(usms_list)",
+      "1.0.0",
+      "run_javastics(usms_list)",
       "run_javastics(usm)"
     )
   } else {
@@ -94,7 +99,8 @@ run_javastics <- function(javastics,
 
   # Use absolute path from now on:
   javastics_path <- normalizePath(javastics_path, winslash = "/")
-  workspace_path <- normalizePath(workspace_path,
+  workspace_path <- normalizePath(
+    workspace_path,
     winslash = "/",
     mustWork = FALSE
   )
@@ -128,8 +134,10 @@ run_javastics <- function(javastics,
   )
 
   set_stics_exe(
-    javastics = javastics_path, stics_exe = stics_exe,
-    overwrite = TRUE, verbose = verbose
+    javastics = javastics_path,
+    stics_exe = stics_exe,
+    overwrite = TRUE,
+    verbose = verbose
   )
 
   # Fixing the JavaStics path
@@ -169,13 +177,13 @@ run_javastics <- function(javastics,
   nb_usms <- length(usms_list)
   usms_out <- vector("list", nb_usms)
 
-
   # Getting arguments to give to the system2 command
   # for executing files conversion or simulation runs
   # using JavaStics command line interface
   cmd_type <- "run"
   if (optim) cmd_type <- "generate"
-  cmd_list <- SticsRFiles:::get_javastics_cmd(javastics_path,
+  cmd_list <- SticsRFiles:::get_javastics_cmd(
+    javastics_path,
     java_cmd = java_cmd,
     type = cmd_type,
     workspace = ws,
@@ -183,8 +191,6 @@ run_javastics <- function(javastics,
   )
   command <- cmd_list[[1]]
   cmd_string <- cmd_list[[2]]
-
-
 
   histo_file <- file.path(workspace_path, "modhistory.sti")
 
@@ -197,10 +203,14 @@ run_javastics <- function(javastics,
     if (file.exists(histo_file)) {
       file.remove(histo_file)
     }
-    histo_copy <- file.path(workspace_path, paste0(
-      "modhistory_",
-      usm_name, ".sti"
-    ))
+    histo_copy <- file.path(
+      workspace_path,
+      paste0(
+        "modhistory_",
+        usm_name,
+        ".sti"
+      )
+    )
     if (file.exists(histo_copy)) {
       file.remove(histo_copy)
     }
@@ -211,7 +221,8 @@ run_javastics <- function(javastics,
 
     if (optim) {
       system2(
-        command = command, args = paste(cmd_string, usm_name),
+        command = command,
+        args = paste(cmd_string, usm_name),
         stdout = if (verbose) {
           ""
         } else {
@@ -224,7 +235,8 @@ run_javastics <- function(javastics,
       usm_out$message <- tmp[[1]]$message
     } else {
       status <- system2(
-        command = command, args = paste(cmd_string, usm_name),
+        command = command,
+        args = paste(cmd_string, usm_name),
         stdout = TRUE,
         stderr = TRUE,
       )
@@ -234,7 +246,8 @@ run_javastics <- function(javastics,
       }
 
       err <- grep(pattern = "[eE]rror", tolower(status))
-      if (length(err) > 0) { # | status != 0) {
+      if (length(err) > 0) {
+        # | status != 0) {
         # Any error, keeping the line with Error message
         usm_out$error <- TRUE
         usm_out$message <- status
