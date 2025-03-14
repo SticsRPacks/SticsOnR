@@ -53,18 +53,16 @@
 #' @noRd
 #'
 set_stics_exe <- function(
-  javastics,
-  stics_exe,
-  overwrite = FALSE,
-  verbose = TRUE
-) {
+    javastics,
+    stics_exe,
+    overwrite = FALSE,
+    verbose = TRUE) {
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(
-      SticsRFiles:::user_os(),
+    switch(SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -147,11 +145,12 @@ set_stics_exe <- function(
            execute the one from JavaStics/bin"
       )
     }
-    if (verbose)
+    if (verbose) {
       cli::cli_alert_success(
         "Using stics executable from:
                                        {.val {stics_exe}}"
       )
+    }
   } else {
     # Case were stics_exe was not found anywhere
     stop(
@@ -346,11 +345,10 @@ list_stics_exe <- function(javastics) {
 #' @noRd
 #'
 check_stics_exe <- function(
-  model_path,
-  version = FALSE,
-  stop = TRUE,
-  verbose = FALSE
-) {
+    model_path,
+    version = FALSE,
+    stop = TRUE,
+    verbose = FALSE) {
   # Need to set the directory to the one of the exe for system calls
   start_dir <- getwd()
   on.exit(setwd(start_dir))
@@ -360,11 +358,12 @@ check_stics_exe <- function(
     if (stop) {
       stop(paste("Executable file doesn't exist: ", model_path))
     } else {
-      if (verbose)
+      if (verbose) {
         cli::cli_alert_danger(
           "Executable file does not exist:
                                         {.val {model_path}}"
         )
+      }
       return(invisible(FALSE))
     }
   }
@@ -374,11 +373,12 @@ check_stics_exe <- function(
     if (stop) {
       stop(paste("Cannot give execute permissions for model: ", model_path))
     } else {
-      if (verbose)
+      if (verbose) {
         cli::cli_alert_danger(
           "Cannot give execute permissions
                                         for model: {.val {model_path}}."
         )
+      }
       return(invisible(FALSE))
     }
   }
@@ -398,11 +398,12 @@ check_stics_exe <- function(
         "is either not executable, or an exe for another OS."
       ))
     } else {
-      if (verbose)
+      if (verbose) {
         cli::cli_alert_danger(
           "File {.val {model_path}} is either not
                                         executable, or an exe for another OS."
         )
+      }
       return(invisible(FALSE))
     }
   }

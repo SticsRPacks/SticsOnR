@@ -54,17 +54,16 @@
 #'
 
 run_stics <- function(
-  stics_exe,
-  workspace,
-  usm = NULL,
-  check = TRUE,
-  verbose = FALSE,
-  model_path = lifecycle::deprecated(),
-  data_dir = lifecycle::deprecated(),
-  usm_dir_names = lifecycle::deprecated(),
-  check_exe = lifecycle::deprecated(),
-  display = lifecycle::deprecated()
-) {
+    stics_exe,
+    workspace,
+    usm = NULL,
+    check = TRUE,
+    verbose = FALSE,
+    model_path = lifecycle::deprecated(),
+    data_dir = lifecycle::deprecated(),
+    usm_dir_names = lifecycle::deprecated(),
+    check_exe = lifecycle::deprecated(),
+    display = lifecycle::deprecated()) {
   if (lifecycle::is_present(model_path)) {
     lifecycle::deprecate_warn(
       "1.0.0",
