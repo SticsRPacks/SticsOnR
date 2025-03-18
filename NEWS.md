@@ -1,7 +1,27 @@
+
+# SticsOnR 1.3.0 _2025-03-18_
+
+MAIN CHANGES:
+  * Taking into account latest STICS changes (v10.3.0): copy snow state variables when needed
+  * Deactivation of parallel execution in the stics wrapper function for 1 USM    
+    and core number limitation to USMs number
+  * Taking onto account the Dominance column for inter-crops
+  * Warnings: 
+     * when no results are returnes when sit_var_dates_mask empty but not null
+     * param_values which are not effective for inter-crops
+
+
+FIXES:
+  * Bug in run_system called by run_stics
+  * Code styling
+  * Getting STICS version string from the command line return (linked to STICS changes)
+  * Removal of 0 values for phenological stages must be done before date selection
+  
+
 # SticsOnR 1.2.0 _2024-02-22_
 
 MAIN CHANGES:
-  * paralellization in the wrapper is now optional (cluster deactivation)
+  * parallelization in the wrapper is now optional (cluster deactivation)
   * README update with latest JavaStics/STICS versions and information     
   about executable installation on MacOS systems 
 
