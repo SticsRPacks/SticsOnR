@@ -1,8 +1,7 @@
 SticsOnR
 ================
 
-The R package for the [STICS](https://eng-stics.paca.hub.inrae.fr/)
-model
+The R package for the [STICS](https://stics.inrae.fr/eng) model
 <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
@@ -19,7 +18,7 @@ coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/main/graph/badge.svg
 
 The goal of SticsOnR is to perform simulations of the Stics model,
 downloadable with its graphical user interface from
-<https://eng-stics.paca.hub.inrae.fr/Download>.
+<https://stics.inrae.fr/eng/download>.
 
 If you want to be notified when a new release of this package is made,
 you can tick the Releases box in the “Watch / Unwatch =\> Custom” menu
@@ -33,7 +32,7 @@ page](https://github.com/SticsRPacks/SticsOnR).
 JavaStics must be installed and the minimal version is version 1.41.
 
 The latest distribution version for Stics is downloadable
-[here](https://eng-stics.paca.hub.inrae.fr/Download).
+[here](https://stics.inrae.fr/eng/download).
 
 The installation process only consists of unzipping the JavaStics
 archive, except for MacOS system (see MacOS installation
@@ -57,8 +56,8 @@ JavaStics version
 - for JavaStics 1.41, the java version must be at most a Java 8 version
 - for JavaStics 1.5.0/1.5.1 versions, the java version must be at least
   a Java 11 version
-- for JavaStics 1.5.2 version, the java version must be at least a Java
-  17 version
+- for JavaStics 1.5.2/1.5.3 versions, the java version must be at least
+  a Java 17 version
 
 So, for adapting the java version to the JavaStics version some
 manipulations must be done either by switching between versions through
@@ -134,7 +133,6 @@ devtools::install_github("SticsRPacks/SticsRPacks")
 - With `remotes`
 
 ``` r
-
 remotes::install_github("SticsRPacks/SticsRPacks")
 ```
 
@@ -160,7 +158,6 @@ devtools::install_github("SticsRPacks/SticsOnR@*release")
 - With `remotes`
 
 ``` r
-
 remotes::install_github("SticsRPacks/SticsOnR@*release")
 ```
 
@@ -188,14 +185,14 @@ examples will be detailed in a specific documentation later.
 ### JavaStics command line interface
 
 The JavaStics installation folder (for example,
-JavaSTICS-1.5.2-STICS-10.1.0) contains an `example` workspace folder
+JavaSTICS-1.5.3-STICS-10.3.0) contains an `example` workspace folder
 with a set of runnable usms.
 
 For running simulations from it, we can use the `run_javastics()`
 function.
 
 - Specifying the JavaStics folder  
-  <pre>javastics_path <- /path/to/JavaSTICS-1.5.2-STICS-10.1.0</pre>
+  <pre>javastics_path <- /path/to/JavaSTICS-1.5.3-STICS-10.3.0</pre>
 - Specifying a workspace
   - as a sub-folder of JavaStics  
     <pre>workspace_path <- "example"</pre>
@@ -205,16 +202,20 @@ function.
 ``` r
 ########## For Windows or linux with a compatible java version ################
 # Running specific usms from the workspace
-run_javastics(javastics_path, workspace_path, usm = c("banana", "wheat"),
-              verbose = FALSE)
+run_javastics(javastics_path, workspace_path,
+  usm = c("banana", "wheat"),
+  verbose = FALSE
+)
 
 # Running all usms contained in the workspace
 run_javastics(javastics_path, workspace_path,
-              verbose = FALSE)
+  verbose = FALSE
+)
 
 # Getting information about execution:
 runs_info <- run_javastics(javastics_path, workspace_path,
-                           usm = c("banana", "wheat"), verbose = FALSE)
+  usm = c("banana", "wheat"), verbose = FALSE
+)
 
 runs_info
 ```
@@ -227,14 +228,17 @@ runs_info
 ################ Only for linux with a specific java executable################
 
 # Running specific usms from the workspace
-run_javastics(javastics_path, workspace_path, usm = c("banana", "wheat"),
-              verbose = FALSE, java_cmd = java_cmd)
+run_javastics(javastics_path, workspace_path,
+  usm = c("banana", "wheat"),
+  verbose = FALSE, java_cmd = java_cmd
+)
 #> [1] "banana"
 #> [1] "wheat"
 
 # Running all usms contained in the workspace
 run_javastics(javastics_path, workspace_path,
-              verbose = FALSE, java_cmd = java_cmd)
+  verbose = FALSE, java_cmd = java_cmd
+)
 #> [1] "SugarCane"
 #> [1] "potato"
 #> [1] "banana"
@@ -281,8 +285,9 @@ run_javastics(javastics_path, workspace_path,
 
 # Getting information about execution:
 runs_info <- run_javastics(javastics_path, workspace_path,
-                           usm = c("banana", "wheat"),
-                           verbose = FALSE, java_cmd = java_cmd)
+  usm = c("banana", "wheat"),
+  verbose = FALSE, java_cmd = java_cmd
+)
 #> [1] "banana"
 #> [1] "wheat"
 
@@ -295,9 +300,9 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[20/02/24]-[11:29:25] INFO - Files generated :"                                                                       
-#> [2] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/mod_bbanana.sti"
-#> [3] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/modhistory.sti" 
+#> [1] "[18/03/25]-[14:11:26] INFO - Files generated :"                                                           
+#> [2] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bbanana.sti"
+#> [3] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti" 
 #> 
 #> 
 #> [[2]]
@@ -308,9 +313,9 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[20/02/24]-[11:29:25] INFO - Files generated :"                                                                      
-#> [2] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/mod_bwheat.sti"
-#> [3] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/modhistory.sti"
+#> [1] "[18/03/25]-[14:11:27] INFO - Files generated :"                                                          
+#> [2] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bwheat.sti"
+#> [3] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -338,16 +343,20 @@ Example of use:
 ``` r
 # For Windows
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path,
-                              out_dir = output_path, verbose = FALSE)
+SticsRFiles::gen_usms_xml2txt(javastics_path,
+  workspace = workspace_path,
+  out_dir = output_path, verbose = FALSE
+)
 ```
 
 ``` r
 # For linux, using a specific java executable
 # Generating files for all the usms contained in the workspace
-SticsRFiles::gen_usms_xml2txt(javastics_path, workspace = workspace_path,
-                              out_dir = output_path, verbose = FALSE,
-                              java_cmd = java_cmd)
+SticsRFiles::gen_usms_xml2txt(javastics_path,
+  workspace = workspace_path,
+  out_dir = output_path, verbose = FALSE,
+  java_cmd = java_cmd
+)
 ```
 
 The `run_stics()` function can be used as follows with one folder or
@@ -391,7 +400,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] " The execution was successful." " Duration = 56ms"              
+#> [1] " The execution was successful." " Duration = 37ms"              
 #> 
 #> 
 #> [[2]]
@@ -402,7 +411,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] " The execution was successful." " Duration = 86ms"
+#> [1] " The execution was successful." " Duration = 56ms"
 ```
 
 ### Advanced simulations parameterization
@@ -462,8 +471,10 @@ with JavaStics and the directory where individual usms input directories
 have been generated:
 
 ``` r
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  workspace = output_path, verbose = FALSE
+)
 ```
 
 By default, `stics_wrapper_options()` checks that `javastics`,
@@ -476,26 +487,32 @@ stics:
     simply provide its name (ID):
 
 ``` r
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     stics_exe = "stics_custom",
-                                     workspace = output_path, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  stics_exe = "stics_custom",
+  workspace = output_path, verbose = FALSE
+)
 ```
 
 2.  if it is located in the bin directory of the JavaStics installation
     directory, provide the executable name:
 
 ``` r
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     stics_exe = "stics_custom.exe",
-                                     workspace = output_path, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  stics_exe = "stics_custom.exe",
+  workspace = output_path, verbose = FALSE
+)
 ```
 
 3.  if it is located in any other folder, provide the full path to the
     executable name, and no need to use `javastics_path`:
 
 ``` r
-sim_options <- stics_wrapper_options(stics_exe = "path/to/stics_custom.exe",
-                                     workspace = output_path, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  stics_exe = "path/to/stics_custom.exe",
+  workspace = output_path, verbose = FALSE
+)
 ```
 
 #### Simple simulations cases
@@ -519,8 +536,10 @@ results <- stics_wrapper(model_options = sim_options, situation = usm)
 ``` r
 usm <- c("wheat", "maize")
 
-stics_wrapper(model_options = sim_options, situation = usm,
-              var = c("masec_n", "mafruit"))
+stics_wrapper(
+  model_options = sim_options, situation = usm,
+  var = c("masec_n", "mafruit")
+)
 ```
 
 - Filtering outputs on variables and dates for several USMs
@@ -540,8 +559,10 @@ The stics_wrapper function returns a list that contains two elements:
   for the requested USMs, variables and dates.
 
 ``` r
-obs_list <- get_obs(workspace = workspace_path, usm = c("wheat", "maize"),
-                    verbose = FALSE)
+obs_list <- get_obs(
+  workspace = workspace_path, usm = c("wheat", "maize"),
+  verbose = FALSE
+)
 
 # Observations table for wheat
 obs_list$wheat
@@ -588,38 +609,90 @@ obs_list$wheat
 #> 19   258.38 plant_1
 #> 20   258.45 plant_1
 
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path, verbose = TRUE)
-#> ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  workspace = output_path, verbose = TRUE
+)
+#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
 
-results <- stics_wrapper(model_options = sim_options,
-                         sit_var_dates_mask = obs_list)
-#> ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"
+results <- stics_wrapper(
+  model_options = sim_options,
+  sit_var_dates_mask = obs_list
+)
+#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
+#> mod_smaize.sti
+#> Warning in select_results(keep_all_data, sit_var_dates_mask, var_names, :
+#> Requested date(s) 1996-04-16 is(are) not simulated for USM maize
+#> mod_swheat.sti
 #> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
 head(results)
 #> $error
 #> [1] TRUE
 #> 
 #> $sim_list
+#> $wheat
+#>          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1
+#> 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.07899
+#> 2  1995-02-03 0.31650  0.11303 24.50000 24.50000 21.49999 192.3001  0.76862
+#> 3  1995-02-07 0.31678  0.12561 23.83189 24.38442 21.49393 190.8273  0.60993
+#> 4  1995-02-16 0.32971  0.18710 24.50000 24.50000 21.49999 192.3001  0.56298
+#> 5  1995-02-24 0.36057  0.24471 24.50000 24.50000 21.49999 192.3001 26.17110
+#> 6  1995-03-06 0.44779  0.35035 24.14443 24.38385 21.49153 191.3779 19.42991
+#> 7  1995-03-16 0.65951  0.52936 22.92095 23.63181 21.38363 187.1108  9.46764
+#> 8  1995-03-23 0.93227  0.71936 21.66335 24.01440 21.42110 185.8192 83.92502
+#> 9  1995-04-03 1.57855  1.55586 20.56154 22.34904 20.97554 178.3337 64.59158
+#> 10 1995-04-11 2.09987  2.55337 17.92109 20.99722 20.03741 166.5205 52.84022
+#> 11 1995-04-18 2.35501  3.15292 23.58026 19.75672 19.03260 169.5803 46.57107
+#> 12 1995-04-26 3.14867  3.99307 24.50000 24.50000 21.49999 192.3001 15.92698
+#> 13 1995-05-02 4.00809  4.94513 22.89795 23.84206 21.11930 186.3215 79.20721
+#> 14 1995-05-05 4.66786  6.02794 20.59809 22.80039 20.38152 176.6742 69.22348
+#> 15 1995-05-09 4.84330  7.28487 18.33193 21.14837 19.03372 163.0608 59.09079
+#> 16 1995-05-12 4.79468  7.88745 24.50000 24.50000 21.49999 192.3001 26.11958
+#> 17 1995-05-15 4.74392  8.47785 23.56760 24.06944 21.22628 188.4858 18.00425
+#> 18 1995-05-19 4.57415  9.35892 23.88076 24.22463 21.14586 189.0135  9.34575
+#> 19 1995-05-29 3.97903 11.72744 23.74543 21.45070 19.37518 174.9766  3.42815
+#> 20 1995-07-17 0.00000 15.87414 21.79237 24.26819 21.48919 186.8909  7.14489
+#>     AZnit_2 AZnit_3  QNplante   Plant
+#> 1   1.48309 5.94223   6.41090 plant_1
+#> 2   1.02958 5.36714   7.28596 plant_1
+#> 3   0.77065 5.15434   8.12731 plant_1
+#> 4   0.46101 4.17630  10.04601 plant_1
+#> 5   6.90490 4.46663  13.25611 plant_1
+#> 6   6.11377 4.21979  20.68183 plant_1
+#> 7   4.74363 3.64634  32.71018 plant_1
+#> 8   3.00263 3.02405  41.23374 plant_1
+#> 9   0.56898 0.83703  65.91978 plant_1
+#> 10  0.34906 0.21218  79.40998 plant_1
+#> 11  0.37182 0.06465  87.25913 plant_1
+#> 12 10.59078 3.15716 106.08574 plant_1
+#> 13 12.77094 1.92864 126.41372 plant_1
+#> 14  9.40575 0.93281 140.18687 plant_1
+#> 15  6.08417 0.38794 153.95471 plant_1
+#> 16 19.42081 8.97776 165.35762 plant_1
+#> 17 16.99088 8.49830 176.44347 plant_1
+#> 18 12.89605 7.68170 190.11298 plant_1
+#> 19  4.10261 1.08262 211.33588 plant_1
+#> 20  6.79536 2.67405 222.61638 plant_1
+#> 
 #> $maize
 #>          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante
 #> 1  1996-05-14 0.00048  0.00007  0.00000 72.08270  87.81961 18.33810   0.06000
-#> 2  1996-06-11 0.52827  0.34602  0.00000 41.25511 101.20517 36.68687  11.47820
-#> 3  1996-06-19 1.20877  1.47023  0.00000 32.54288  92.90659 36.48687  35.17423
+#> 2  1996-06-11 0.52827  0.34602  0.00000 41.25512 101.20517 36.68687  11.47820
+#> 3  1996-06-19 1.20877  1.47023  0.00000 32.54289  92.90659 36.48687  35.17423
 #> 4  1996-06-26 1.77350  2.31686  0.00000 28.37093  81.70900 35.38020  57.85825
-#> 5  1996-07-02 2.45930  3.57229  0.00000 23.37866  68.11768 32.88448  82.31290
-#> 6  1996-07-05 2.78486  3.95258  0.00000 16.47478  73.86994 31.59177  89.59812
-#> 7  1996-07-15 4.04477  6.19012  0.00000  8.27292  54.08646 32.73148 125.06309
-#> 8  1996-07-24 5.80729  9.19373  0.00000  7.73798  36.58909 29.51844 163.77870
-#> 9  1996-07-25 5.80729  9.48679  0.00000  7.98975  35.55027 29.72262 167.79420
-#> 10 1996-08-02 5.80729 11.66596  0.00000  8.22348  27.48977 22.84721 196.25015
-#> 11 1996-08-09 5.80729 13.23096  0.00000  7.37852  20.25411 23.36592 215.35924
-#> 12 1996-08-14 5.80729 14.20629  0.00000  5.79748  15.77424 20.80305 226.98662
-#> 13 1996-08-20 5.80698 15.78884  0.80934  6.55602  10.70735 14.43708 245.12354
-#> 14 1996-09-03 5.79138 18.41684  4.01828  4.90096   5.51324  6.09316 274.03082
-#> 15 1996-09-12 5.54056 20.32296  6.55791  4.04308   3.14270  3.69524 289.17609
+#> 5  1996-07-02 2.45930  3.57229  0.00000 23.37866  68.11766 32.88448  82.31290
+#> 6  1996-07-05 2.78486  3.95258  0.00000 16.47478  73.86995 31.59177  89.59813
+#> 7  1996-07-15 4.04477  6.19012  0.00000  8.27293  54.08646 32.73148 125.06310
+#> 8  1996-07-24 5.80729  9.19373  0.00000  7.73798  36.58909 29.51845 163.77870
+#> 9  1996-07-25 5.80729  9.48679  0.00000  7.98975  35.55028 29.72263 167.79420
+#> 10 1996-08-02 5.80729 11.66596  0.00000  8.22348  27.48979 22.84721 196.25015
+#> 11 1996-08-09 5.80729 13.23096  0.00000  7.37852  20.25412 23.36593 215.35924
+#> 12 1996-08-14 5.80729 14.20629  0.00000  5.79748  15.77424 20.80307 226.98660
+#> 13 1996-08-20 5.80698 15.78884  0.80934  6.55602  10.70736 14.43709 245.12352
+#> 14 1996-09-03 5.79138 18.41684  4.01828  4.90096   5.51324  6.09317 274.03082
+#> 15 1996-09-12 5.54056 20.32296  6.55791  4.04308   3.14270  3.69525 289.17609
 #> 16 1996-10-15 4.31971 23.43360 13.78294  2.21475   0.99676  1.10243 318.40985
-#> 17 1996-10-23 3.54667 23.99480 14.85000  2.04173   0.75705  0.80540 322.53854
+#> 17 1996-10-23 3.54667 23.99480 14.85000  2.04174   0.75705  0.80540 322.53854
 #>      Plant
 #> 1  plant_1
 #> 2  plant_1
@@ -638,50 +711,6 @@ head(results)
 #> 15 plant_1
 #> 16 plant_1
 #> 17 plant_1
-#> 
-#> $wheat
-#>          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1
-#> 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.07899
-#> 2  1995-02-03 0.31650  0.11303 24.50000 24.50000 21.49999 192.3001  0.76862
-#> 3  1995-02-07 0.31678  0.12561 23.83189 24.38442 21.49393 190.8273  0.60993
-#> 4  1995-02-16 0.32971  0.18710 24.50000 24.50000 21.49999 192.3001  0.56298
-#> 5  1995-02-24 0.36057  0.24471 24.50000 24.50000 21.49999 192.3001 26.17110
-#> 6  1995-03-06 0.44779  0.35035 24.14443 24.38385 21.49153 191.3779 19.42991
-#> 7  1995-03-16 0.65951  0.52936 22.92095 23.63181 21.38363 187.1108  9.46765
-#> 8  1995-03-23 0.93227  0.71936 21.66335 24.01440 21.42110 185.8192 83.92502
-#> 9  1995-04-03 1.57855  1.55586 20.56154 22.34904 20.97554 178.3337 64.59159
-#> 10 1995-04-11 2.09987  2.55337 17.92109 20.99722 20.03741 166.5205 52.84023
-#> 11 1995-04-18 2.35501  3.15292 23.58026 19.75672 19.03260 169.5803 46.57108
-#> 12 1995-04-26 3.14867  3.99308 24.50000 24.50000 21.49999 192.3001 15.92698
-#> 13 1995-05-02 4.00809  4.94513 22.89795 23.84206 21.11930 186.3215 79.20723
-#> 14 1995-05-05 4.66786  6.02794 20.59809 22.80039 20.38152 176.6742 69.22348
-#> 15 1995-05-09 4.84330  7.28487 18.33193 21.14837 19.03372 163.0608 59.09080
-#> 16 1995-05-12 4.79468  7.88745 24.50000 24.50000 21.49999 192.3001 26.11957
-#> 17 1995-05-15 4.74392  8.47785 23.56760 24.06944 21.22628 188.4858 18.00424
-#> 18 1995-05-19 4.57415  9.35893 23.88076 24.22463 21.14586 189.0135  9.34575
-#> 19 1995-05-29 3.97903 11.72744 23.74543 21.45070 19.37518 174.9766  3.42815
-#> 20 1995-07-17 0.00000 15.87414 21.79237 24.26819 21.48919 186.8909  7.14489
-#>     AZnit_2 AZnit_3  QNplante   Plant
-#> 1   1.48309 5.94223   6.41090 plant_1
-#> 2   1.02958 5.36714   7.28596 plant_1
-#> 3   0.77065 5.15434   8.12731 plant_1
-#> 4   0.46101 4.17630  10.04601 plant_1
-#> 5   6.90490 4.46663  13.25611 plant_1
-#> 6   6.11377 4.21979  20.68182 plant_1
-#> 7   4.74362 3.64634  32.71018 plant_1
-#> 8   3.00263 3.02404  41.23375 plant_1
-#> 9   0.56898 0.83703  65.91978 plant_1
-#> 10  0.34906 0.21218  79.40999 plant_1
-#> 11  0.37182 0.06465  87.25914 plant_1
-#> 12 10.59079 3.15716 106.08575 plant_1
-#> 13 12.77094 1.92864 126.41373 plant_1
-#> 14  9.40576 0.93281 140.18689 plant_1
-#> 15  6.08418 0.38794 153.95473 plant_1
-#> 16 19.42081 8.97776 165.35764 plant_1
-#> 17 16.99088 8.49830 176.44348 plant_1
-#> 18 12.89605 7.68171 190.11299 plant_1
-#> 19  4.10260 1.08262 211.33589 plant_1
-#> 20  6.79536 2.67405 222.61639 plant_1
 #> 
 #> attr(,"class")
 #> [1] "cropr_simulation"
@@ -707,8 +736,10 @@ simulated usms.
 param_values <- c(0.002, 50)
 names(param_values) <- c("dlaimax", "durvieF")
 
-results <- stics_wrapper(model_options = sim_options, situation = usm,
-                         param_values = param_values)
+results <- stics_wrapper(
+  model_options = sim_options, situation = usm,
+  param_values = param_values
+)
 ```
 
 - Defining different parameters values depending on the usms
@@ -719,13 +750,14 @@ the name of the situations (USMs for Stics) that allows to define
 different values of the parameters for different situations.
 
 ``` r
-
 # Let's run usm wheat with c(dlaimax=0.001, durvieF=50),
 # usm pea with c(dlaimax=0.001, durvieF=60),
 # and usm maize with c(dlaimax=0.001, durvieF=70)
-param_values <- data.frame(situation = c("wheat", "pea", "maize"),
-                           dlaimax = c(0.001, 0.001, 0.001),
-                           durvieF = c(50, 60, 70))
+param_values <- data.frame(
+  situation = c("wheat", "pea", "maize"),
+  dlaimax = c(0.001, 0.001, 0.001),
+  durvieF = c(50, 60, 70)
+)
 
 # Let's display it
 param_values
@@ -734,10 +766,14 @@ param_values
 #> 2       pea   0.001      60
 #> 3     maize   0.001      70
 
-results <- stics_wrapper(model_options = sim_options,
-                         param_values = param_values,
-                         situation = c("wheat", "maize"))
-#> ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"
+results <- stics_wrapper(
+  model_options = sim_options,
+  param_values = param_values,
+  situation = c("wheat", "maize")
+)
+#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
+#> mod_smaize.sti
+#> mod_swheat.sti
 ```
 
 #### Simulations in successive mode
@@ -756,10 +792,12 @@ successions usm1.1 -\> usm1.2 and usm2.1 -\> usm2.2).
 - Displaying execution time
 
 ``` r
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path,
-                                     time_display = TRUE,
-                                     verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  workspace = output_path,
+  time_display = TRUE,
+  verbose = FALSE
+)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
@@ -769,10 +807,12 @@ results <- stics_wrapper(model_options = sim_options)
 On may specify the number of cores to use with the cores argument.
 
 ``` r
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path,
-                                     parallel = TRUE, time_display = TRUE,
-                                     cores = 2, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  workspace = output_path,
+  parallel = TRUE, time_display = TRUE,
+  cores = 2, verbose = FALSE
+)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
@@ -786,9 +826,11 @@ library(parallel)
 # Used cores number
 detectCores() - 1
 
-sim_options <- stics_wrapper_options(javastics = javastics_path,
-                                     workspace = output_path, parallel = TRUE,
-                                     time_display = TRUE, verbose = FALSE)
+sim_options <- stics_wrapper_options(
+  javastics = javastics_path,
+  workspace = output_path, parallel = TRUE,
+  time_display = TRUE, verbose = FALSE
+)
 
 results <- stics_wrapper(model_options = sim_options)
 ```
