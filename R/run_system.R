@@ -53,29 +53,29 @@
 #'
 
 run_system <- function(
-    stics_exe,
-    workspace,
-    usm = NULL,
-    check = TRUE,
-    verbose = FALSE) {
+  stics_exe,
+  workspace,
+  usm = NULL,
+  check = TRUE,
+  verbose = FALSE
+) {
   first_wd <- getwd()
   on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(workspace, winslash = "/")
 
-  if (!is.null(usm) && !usm == "all") {
-    run_dir <- file.path(run_dir, usm)
-  }
-
-  if (!is.null(usm) && usm == "all") {
-    run_dir <- setdiff(
-      list.dirs(run_dir, full.names = TRUE, recursive = FALSE),
-      run_dir
-    )
+  if (!is.null(usm)) {
+    if (any(usm == "all")) {
+      run_dir <- setdiff(
+        list.dirs(run_dir, full.names = TRUE, recursive = FALSE),
+        run_dir
+      )
+    } else {
+      run_dir <- file.path(run_dir, usm)
+    }
   }
 
   # testing id dirs exist
-  # 'print(run_dir)
   dirs_exist <- file.exists(run_dir)
 
   if (!all(dirs_exist)) {
