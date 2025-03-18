@@ -4,12 +4,9 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_dist: 'JavaSTICS-1.5.2-STICS-10.1.0'
-  #javastics_dist: 'JavaSTICS-1.41-stics-9.2'
-  #java_cmd: '/usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java'
+  javastics_dist: 'JavaSTICS-1.5.3-STICS-10.3.0'
   java_cmd: 'java'
-  root_path: '/home/plecharpent/Téléchargements'
-  #root_path: 'F:/TESTS/test_SticsOnR'
+  root_path: '/home/plecharpent/tmp'
   work_dir: 'example'
   windows: !r Sys.info()[['sysname']]=='Windows'
 ---
@@ -42,7 +39,7 @@ if (linux) {
 ```
 
 ```{r error=FALSE, echo=FALSE, results='hide'}
-# For testing consistency betwen JavaSTICS and java version
+# For testing consistency between JavaSTICS and java version
 
 # Adding a test to see if javastics is compatible with java version
 res <- try(
@@ -74,7 +71,7 @@ if (!is.null(try_err) && attr(try_err, "class") == "try-error") {
 }
 ```
 
-The R package for the [STICS](https://eng-stics.paca.hub.inrae.fr/) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+The R package for the [STICS](https://stics.inrae.fr/eng) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -83,7 +80,7 @@ The R package for the [STICS](https://eng-stics.paca.hub.inrae.fr/) model <img s
 [![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
 <!-- badges: end -->
 
-The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from https://eng-stics.paca.hub.inrae.fr/Download.
+The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from https://stics.inrae.fr/eng/download.
 
 If you want to be notified when a new release of this package is made, you can tick the Releases box in the "Watch / Unwatch => Custom" menu at the top right of [this page](https://github.com/SticsRPacks/SticsOnR).
 
@@ -94,7 +91,7 @@ If you want to be notified when a new release of this package is made, you can t
 
 JavaStics must be installed and the minimal version is version 1.41.
 
-The latest distribution version for Stics is downloadable [here](https://eng-stics.paca.hub.inrae.fr/Download).
+The latest distribution version for Stics is downloadable [here](https://stics.inrae.fr/eng/download).
 
 The installation process only consists of unzipping the JavaStics archive, except for MacOS system  (see MacOS installation [specificities](#under-macos-systems))
 
@@ -111,7 +108,7 @@ For using the JavaStics software (GUI and command line interface) under a `linux
 
 * for JavaStics 1.41, the java version must be at most a Java 8 version
 * for JavaStics 1.5.0/1.5.1 versions, the java version must be at least a Java 11 version
-* for JavaStics 1.5.2 version, the java version must be at least a Java 17 version 
+* for JavaStics 1.5.2/1.5.3 versions, the java version must be at least a Java 17 version 
 
 So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands [see here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html), using a specific java executable path ([see running JavaStics](#javastics-command-line-interface)).
 
