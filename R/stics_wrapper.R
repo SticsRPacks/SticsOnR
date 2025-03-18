@@ -102,23 +102,24 @@
 #' @importFrom doParallel registerDoParallel
 #' @importFrom magrittr %>%
 #'
-stics_wrapper <- function(model_options,
-                          param_values = NULL,
-                          situation = NULL,
-                          var = NULL,
-                          dates = NULL,
-                          sit_var_dates_mask = NULL,
-                          sit_names = lifecycle::deprecated(),
-                          var_names = lifecycle::deprecated()) {
+stics_wrapper <- function(
+    model_options,
+    param_values = NULL,
+    situation = NULL,
+    var = NULL,
+    dates = NULL,
+    sit_var_dates_mask = NULL,
+    sit_names = lifecycle::deprecated(),
+    var_names = lifecycle::deprecated()) {
   # TODO LIST
   #   - handle the case of stages (stages should be specified in the var.mod ...
   #   + handle the case when simulations does not reach the asked stages ...)
   #
 
-
   if (lifecycle::is_present(sit_names)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "stics_wrapper(sit_names)",
+      "1.0.0",
+      "stics_wrapper(sit_names)",
       "stics_wrapper(situation)"
     )
   } else {
@@ -126,13 +127,13 @@ stics_wrapper <- function(model_options,
   }
   if (lifecycle::is_present(var_names)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "stics_wrapper(var_names)",
+      "1.0.0",
+      "stics_wrapper(var_names)",
       "stics_wrapper(var)"
     )
   } else {
     var_names <- var # to remove when we update inside the function
   }
-
 
   # Preliminary model checks and initializations -------------------------------
 
@@ -196,10 +197,10 @@ stics_wrapper <- function(model_options,
     # If some required situations can not be simulated, warns the user
     if (length(setdiff(required_situations, avail_sit)) > 0) {
       warning(paste0(
-        "No folder(s) found in ", data_dir, " for USMs ",
-        paste(setdiff(required_situations, avail_sit),
-          collapse = " "
-        ),
+        "No folder(s) found in ",
+        data_dir,
+        " for USMs ",
+        paste(setdiff(required_situations, avail_sit), collapse = " "),
         "\n These USMs will not be simulated."
       ))
     }
@@ -215,10 +216,10 @@ stics_wrapper <- function(model_options,
   ## Check that all successive usms are available
   if (length(setdiff(unlist(successive_usms), avail_sit)) > 0) {
     warning(paste0(
-      "No folder(s) found in ", data_dir, " for USMs ",
-      paste(setdiff(unlist(successive_usms), avail_sit),
-        collapse = " "
-      ),
+      "No folder(s) found in ",
+      data_dir,
+      " for USMs ",
+      paste(setdiff(unlist(successive_usms), avail_sit), collapse = " "),
       "\n The corresponding successions of USMs will not be simulated."
     ))
     # Remove successions for which at least one USMs is not available
@@ -242,11 +243,21 @@ stics_wrapper <- function(model_options,
 
   # Initialize the list of phenological stages (specific treatment in the loop)
   stages_list <- c(
-    "iamfs", "idebdess", "idebdorms", "idrps", "ifindorms",
-    "iflos", "iflos_minus_150", "iflos_plus_150", "igers",
-    "ilans", "ilaxs", "ilevs", "imats", "imontaisons"
+    "iamfs",
+    "idebdess",
+    "idebdorms",
+    "idrps",
+    "ifindorms",
+    "iflos",
+    "iflos_minus_150",
+    "iflos_plus_150",
+    "igers",
+    "ilans",
+    "ilaxs",
+    "ilevs",
+    "imats",
+    "imontaisons"
   )
-
 
   # Calculating directories list
   run_dirs <- file.path(data_dir, sit2simulate)
@@ -259,7 +270,8 @@ stics_wrapper <- function(model_options,
   )
 
   # Should all data be returned for each required situation ?
-  keep_all_data <- is.null(sit_var_dates_mask) && is.null(var_names) &&
+  keep_all_data <- is.null(sit_var_dates_mask) &&
+    is.null(var_names) &&
     is.null(dates)
 
   # In case of successive USMs or single USM, disable parallel run
@@ -301,7 +313,6 @@ stics_wrapper <- function(model_options,
     i = seq_along(sit2simulate),
     .export = c("run_stics", "select_results"),
     .packages = c("SticsRFiles")
-    # ) %doparornot% {
   ) %do_par_or_not% {
     ## Loops on the USMs that can be simulated
     ## out is a list containing vectors of:
@@ -312,7 +323,6 @@ stics_wrapper <- function(model_options,
     ##     not simulated,
     ##   o message in case of warning or error
     ## (one value per set of parameter values to force)
-
 
     run_dir <- run_dirs[i]
     situation <- sit2simulate[i]
@@ -328,7 +338,8 @@ stics_wrapper <- function(model_options,
       }
       if ("variete" %in% names(param_values_sit)) {
         param_values_sit <- dplyr::select(
-          param_values_sit, c(
+          param_values_sit,
+          c(
             "variete",
             setdiff(
               names(param_values_sit),
@@ -342,7 +353,6 @@ stics_wrapper <- function(model_options,
       param_values_sit <- tibble::tibble(NA)
     }
 
-
     # Initialize out content
     sim_list <- vector("list", nrow(param_values_sit))
     flag_error <- rep(FALSE, nrow(param_values_sit))
@@ -352,14 +362,17 @@ stics_wrapper <- function(model_options,
     # For each set of parameter values to force in the model
     for (ip in seq_len(nrow(param_values_sit))) {
       # Force parameters values
-      if (!SticsRFiles::force_param_values(
-        run_dir,
-        dplyr::slice(param_values_sit, ip),
-        javastics
-      )) {
+      if (
+        !SticsRFiles::force_param_values(
+          run_dir,
+          dplyr::slice(param_values_sit, ip),
+          javastics
+        )
+      ) {
         mess <- warning(paste(
           "Error when generating the forcing parameters file for USM",
-          situation, ". \n "
+          situation,
+          ". \n "
         ))
         sim_list[ip] <- NULL
         flag_error[ip] <- TRUE
@@ -373,22 +386,19 @@ stics_wrapper <- function(model_options,
       varmod_modified <- FALSE
       simulate <- TRUE
       while (simulate) {
-        # Handling successive USMs (if the usm is part of the list and not in
-        # first position it must be linked with previous one)
-        is_succ <- any(sapply(
-          successive_usms,
-          function(x) match(sit2simulate[i], x)
-        ) >= 2)
-
-        if (!is.na(is_succ) && is_succ) {
+        is_successive <- is_successive_usm(successive_usms, sit2simulate[i])
+        if (is_successive) {
           # Checking recup.tmp and snow_variables.txt files
           # recup.tmp file is mandatory
-          f_recup <- file.path(run_dirs[i - 1], paste0("recup", ip, ".tmp"))
+          f_recup_prev <- file.path(
+            run_dirs[i - 1],
+            paste0("recup", ip, ".tmp")
+          )
 
           # Add snow_variables.txt to be copied only if snow is used
           # in the previous usm
           # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
-          use_snow_prev <-
+          use_snow_prev <- suppressWarnings(
             unlist(
               SticsRFiles::get_param_txt(
                 workspace = run_dirs[i - 1],
@@ -397,8 +407,9 @@ stics_wrapper <- function(model_options,
               ),
               use.names = FALSE
             )
+          )
           # check if snow module is used for the current usm
-          use_snow_curr <-
+          use_snow_curr <- suppressWarnings(
             unlist(
               SticsRFiles::get_param_txt(
                 workspace = run_dirs[i],
@@ -407,6 +418,7 @@ stics_wrapper <- function(model_options,
               ),
               use.names = FALSE
             )
+          )
 
           # manage consistency for snow module use for the 2 successive usms
           if (use_snow_prev != use_snow_curr) {
@@ -433,13 +445,14 @@ stics_wrapper <- function(model_options,
           }
 
           if (use_snow_prev == 1) {
-            f_recup <- c(f_recup, file.path(
+            # previous snow_variables.txt file
+            snow_prev <- file.path(
               run_dirs[i - 1],
               paste0("snow_variables", ip, ".txt")
-            ))
+            )
+            f_recup_prev <- c(f_recup_prev, snow_prev)
           }
-
-          f_exist <- file.exists(f_recup)
+          f_exist <- file.exists(f_recup_prev)
 
           if (!all(f_exist)) {
             mess <- warning(paste(
@@ -447,22 +460,22 @@ stics_wrapper <- function(model_options,
               situation,
               ". \n This USMs is part of a succession",
               "but recup.tmp or snow_variables.txt",
-              "file(s) was/were not created by the previous USM."
+              "file(s) was/were not created by the previous USM: \n",
+              paste(f_recup_prev[f_exist], collapse = ", ")
             ))
-            sim_list[ip] <- NULL
-            flag_error[ip] <- TRUE
-            flag_rqd_res[ip] <- FALSE
-            # compiling snow consistency message with running error message
-            messages[ip] <- paste(mess_snow, "\n\n", mess)
-            next()
+            stop(paste(mess_snow, "\n\n", mess))
           }
 
           # Copying needed files and checking return
           recup_copy <- file.copy(
-            from = f_recup[f_exist],
+            from = f_recup_prev[f_exist],
             to = file.path(
               run_dir,
-              basename(f_recup[f_exist])
+              gsub(
+                pattern = "[0-9*]",
+                x = basename(f_recup_prev[f_exist]),
+                replacement = ""
+              )
             ),
             overwrite = TRUE
           )
@@ -482,15 +495,17 @@ stics_wrapper <- function(model_options,
             messages[ip] <- mess
             next()
           }
-
           # The following could be done only once in case of repeated call
           # to the wrapper (e.g. parameters estimation ...)
+          # new_travail.usm file must be modified to allow successive USMs
+          # file path
+          new_travail <- file.path(run_dir, "new_travail.usm")
           SticsRFiles::set_usm_txt(
-            file = file.path(run_dir, "new_travail.usm"),
-            param = "codesuite", value = 1
+            file = new_travail,
+            param = "codesuite",
+            value = 1
           )
         }
-
 
         ## Run the model, forcing not to check the model executable (saves time)
         usm_out <- run_stics(stics_exe, run_dir, check = FALSE)
@@ -498,28 +513,37 @@ stics_wrapper <- function(model_options,
         ### In case of successive USMs, re-initialize codesuite (to allow next
         ### run to be in non-successive mode) and rename recup.tmp and
         ### snow_variables.txt (for usms that have a successor)
-        if (!is.na(is_succ) && is_succ) {
+        if (is_successive) {
           SticsRFiles::set_usm_txt(
-            file = file.path(
-              run_dir,
-              "new_travail.usm"
-            ),
-            param = "codesuite", value = 0
+            file = new_travail,
+            param = "codesuite",
+            value = 0
           )
         }
-        is_prev <- any(sapply(
-          successive_usms,
-          function(x) match(sit2simulate[i], x) < length(x)
-        ))
-        if (!is.na(is_prev) && is_prev) {
+
+        if (is_previous_usm(successive_usms, sit2simulate[i])) {
+          recup_curr <- file.path(run_dir, "recup.tmp")
+
+          if (!file.exists(recup_curr)) {
+            stop("recup.tmp file not found")
+          }
+
           file.rename(
-            from = file.path(run_dir, "recup.tmp"),
+            from = recup_curr,
             to = file.path(run_dir, paste0("recup", ip, ".tmp"))
           )
-          file.rename(
-            from = file.path(run_dir, "snow_variables.txt"),
-            to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
-          )
+
+          snow_curr <- file.path(run_dir, "snow_variables.txt")
+
+          # if (use_snow_curr && !file.exists(snow_curr)) {
+          #   stop("snow_variables.txt file not found")
+          # }
+          if (file.exists(snow_curr)) {
+            file.rename(
+              from = snow_curr,
+              to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
+            )
+          }
         }
 
         ### if the model returns an error, ... go to next simulation
@@ -527,7 +551,8 @@ stics_wrapper <- function(model_options,
           mess <- warning(paste(
             "Error running the Stics model for USM",
             situation,
-            ". \n ", usm_out[[1]]$message
+            ". \n ",
+            usm_out[[1]]$message
           ))
           sim_list[[ip]] <- NULL
           flag_error[ip] <- TRUE
@@ -543,7 +568,8 @@ stics_wrapper <- function(model_options,
         ## Any error reading output file ... go to next simulation
         if (is.null(sim_tmp)) {
           mess <- warning(paste(
-            "Error reading outputs for ", situation,
+            "Error reading outputs for ",
+            situation,
             ". \n "
           ))
           sim_list[[ip]] <- NULL
@@ -575,9 +601,15 @@ stics_wrapper <- function(model_options,
 
         ## Select data to return
         tmp <- select_results(
-          keep_all_data, sit_var_dates_mask, var_names,
-          dates, situation, sim_tmp,
-          varmod_modified, verbose, run_dir
+          keep_all_data,
+          sit_var_dates_mask,
+          var_names,
+          dates,
+          situation,
+          sim_tmp,
+          varmod_modified,
+          verbose,
+          run_dir
         )
         sim_list[[ip]] <- tmp$sim_list
         flag_error[ip] <- tmp$flag_error
@@ -590,7 +622,6 @@ stics_wrapper <- function(model_options,
 
     return(list(sim_list, flag_error, flag_rqd_res, messages))
   }
-
 
   # Filtering situation names for keeping only the required results
   names(out) <- sit2simulate
@@ -622,7 +653,6 @@ stics_wrapper <- function(model_options,
     attr(res$sim_list, "class") <- "cropr_simulation"
   }
 
-
   # Handling errors
   res$error <- any(unlist(lapply(
     out,
@@ -630,7 +660,6 @@ stics_wrapper <- function(model_options,
       return(any(x[[2]]) || !all(x[[3]]))
     }
   )))
-
 
   # Calculating and printing duration
   if (time_display) {
@@ -640,7 +669,6 @@ stics_wrapper <- function(model_options,
 
   return(invisible(res))
 }
-
 
 
 #' @title Select results to return
@@ -675,12 +703,23 @@ stics_wrapper <- function(model_options,
 #'
 #' @noRd
 
-select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
-                           dates, situation, sim_tmp, varmod_modified,
-                           verbose, run_dir) {
+select_results <- function(
+    keep_all_data,
+    sit_var_dates_mask,
+    var_names,
+    dates,
+    situation,
+    sim_tmp,
+    varmod_modified,
+    verbose,
+    run_dir) {
   res <- list(
-    sim_list = NULL, flag_error = FALSE, flag_rqd_res = TRUE,
-    simulate = FALSE, message = NULL, varmod_modified = varmod_modified
+    sim_list = NULL,
+    flag_error = FALSE,
+    flag_rqd_res = TRUE,
+    simulate = FALSE,
+    message = NULL,
+    varmod_modified = varmod_modified
   )
 
   if (keep_all_data) {
@@ -692,8 +731,10 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
     return(res)
-  } else if (!is.null(sit_var_dates_mask) &&
-    is.null(sit_var_dates_mask[[situation]])) {
+  } else if (
+    !is.null(sit_var_dates_mask) &&
+      is.null(sit_var_dates_mask[[situation]])
+  ) {
     # no results required for this situation -> return NULL
     ############################################################################
 
@@ -725,7 +766,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     req_vars_idx <- sim_var_names %in% req_var_names
     inter_var_names <- sim_var_names[req_vars_idx]
 
-
     ## In case some variables are not simulated, warn the user,
     # add them in var.mod and re-simulate or select the results
     # if var.mod has already been modified.
@@ -737,17 +777,17 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
 
         res$message <- warning(paste(
           "Variable(s)",
-          paste(setdiff(req_var_names, inter_var_names),
-            collapse = ", "
-          ),
+          paste(setdiff(req_var_names, inter_var_names), collapse = ", "),
           "not simulated by the Stics model for USM",
           situation,
-          "although added in", file.path(run_dir, "var.mod"),
+          "although added in",
+          file.path(run_dir, "var.mod"),
           paste0(
             "=> these variables may not be Stics variables,",
             " please check spelling. \n "
           ),
-          "Simulated variables:", paste(sim_var_names, collapse = ", ")
+          "Simulated variables:",
+          paste(sim_var_names, collapse = ", ")
         ))
         res$flag_error <- FALSE
         res$flag_rqd_res <- FALSE
@@ -760,11 +800,11 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
         if (verbose) {
           res$message <- warning(paste(
             "Variable(s)",
-            paste(setdiff(req_var_names, inter_var_names),
-              collapse = ", "
-            ),
-            "not simulated by the Stics model for USM", situation,
-            "=>", file.path(run_dir, "var.mod"),
+            paste(setdiff(req_var_names, inter_var_names), collapse = ", "),
+            "not simulated by the Stics model for USM",
+            situation,
+            "=>",
+            file.path(run_dir, "var.mod"),
             "has been modified and the model re-run."
           ))
         }
@@ -795,12 +835,14 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     if (length(req_var_names) > 2) {
       if (any(req_vars_idx)) {
         sim_tmp <- sim_tmp[, req_vars_idx]
-      } else { ## no variable simulated, warn the user and return NULL
+      } else {
+        ## no variable simulated, warn the user and return NULL
 
         res$message <- warning(paste(
           "Requested variable(s)",
           paste(req_var_names, collapse = ", "),
-          "for USM", situation,
+          "for USM",
+          situation,
           " is (are) not valid STICS variable(s)."
         ))
         res$sim_list <- NULL
@@ -811,8 +853,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       }
     }
 
-
-
     # Then select dates ...
     #######################
 
@@ -821,7 +861,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       req_date_list <- sit_var_dates_mask[[situation]]$Date
     } else if (!is.null(dates)) {
       req_date_list <- dates
-    } else { ## do not operate selection on dates
+    } else {
+      ## do not operate selection on dates
       res$sim_list <- sim_tmp
       res$flag_error <- FALSE
       res$flag_rqd_res <- TRUE
@@ -841,7 +882,8 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
           res$message <- warning(paste(
             "Requested date(s)",
             paste(missing_dates, collapse = ", "),
-            "is(are) not simulated for USM", situation
+            "is(are) not simulated for USM",
+            situation
           ))
         }
         res$flag_error <- FALSE
@@ -851,11 +893,13 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
       sim_tmp <- sim_tmp[req_dates_idx, ]
       res$sim_list <- sim_tmp
       res$simulate <- FALSE
-    } else { ## not any required date simulated => return NULL
+    } else {
+      ## not any required date simulated => return NULL
       res$message <- warning(paste(
         "Not any requested date(s)",
         paste(req_date_list, collapse = ", "),
-        "is simulated for USM", situation
+        "is simulated for USM",
+        situation
       ))
       res$sim_list <- NULL
       res$flag_error <- TRUE
@@ -866,8 +910,6 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
     return(res)
   }
 }
-
-
 
 
 #' @title Getting/setting a stics_wrapper options list with initialized fields
@@ -1050,40 +1092,43 @@ select_results <- function(keep_all_data, sit_var_dates_mask, var_names,
 #' # Note the `stics_exe` path that was modified and checked to the path were
 #' # it was found.
 #' }
-#'
 #' @export
 #'
 #'
-stics_wrapper_options <- function(javastics = NULL,
-                                  stics_exe = "modulostics",
-                                  workspace = NULL,
-                                  parallel = FALSE,
-                                  cores = NA,
-                                  time_display = FALSE,
-                                  verbose = TRUE,
-                                  force = FALSE,
-                                  successive = NULL,
-                                  javastics_path = lifecycle::deprecated(),
-                                  data_dir = lifecycle::deprecated(),
-                                  successive_usms = lifecycle::deprecated(),
-                                  ...) {
+stics_wrapper_options <- function(
+    javastics = NULL,
+    stics_exe = "modulostics",
+    workspace = NULL,
+    parallel = FALSE,
+    cores = NA,
+    time_display = FALSE,
+    verbose = TRUE,
+    force = FALSE,
+    successive = NULL,
+    javastics_path = lifecycle::deprecated(),
+    data_dir = lifecycle::deprecated(),
+    successive_usms = lifecycle::deprecated(),
+    ...) {
   if (lifecycle::is_present(successive_usms)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "stics_wrapper_options(successive_usms)",
+      "1.0.0",
+      "stics_wrapper_options(successive_usms)",
       "stics_wrapper_options(successive)"
     )
     successive <- successive_usms
   }
   if (lifecycle::is_present(data_dir)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "stics_wrapper_options(data_dir)",
+      "1.0.0",
+      "stics_wrapper_options(data_dir)",
       "stics_wrapper_options(workspace)"
     )
     workspace <- data_dir
   }
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn(
-      "1.0.0", "stics_wrapper_options(javastics_path)",
+      "1.0.0",
+      "stics_wrapper_options(javastics_path)",
       "stics_wrapper_options(javastics)"
     )
     javastics <- javastics_path
@@ -1145,14 +1190,17 @@ stics_wrapper_options <- function(javastics = NULL,
       javastics,
       list_stics_exe(javastics)$stics_list[stics_exe][[1]]
     )
-  } else if (!is.null(javastics) &&
-    check_stics_exe(
-      model_path = file.path(
-        javastics, "bin",
-        basename(stics_exe)
-      ),
-      stop = FALSE
-    )) {
+  } else if (
+    !is.null(javastics) &&
+      check_stics_exe(
+        model_path = file.path(
+          javastics,
+          "bin",
+          basename(stics_exe)
+        ),
+        stop = FALSE
+      )
+  ) {
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(model_path = stics_exe, stop = FALSE)) {
@@ -1190,4 +1238,18 @@ stics_wrapper_options <- function(javastics = NULL,
 
 stics_display_warnings <- function(in_string) {
   if (nchar(in_string)) warning(in_string, call. = FALSE)
+}
+
+is_successive_usm <- function(usms_succession, site) {
+  any(unlist(lapply(
+    usms_succession,
+    function(x) which(x %in% site) >= 2
+  )))
+}
+
+is_previous_usm <- function(usms_succession, site) {
+  any(unlist(lapply(
+    usms_succession,
+    function(x) which(x %in% site) < length(x)
+  )))
 }

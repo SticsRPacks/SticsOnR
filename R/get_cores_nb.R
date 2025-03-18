@@ -35,8 +35,10 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
   }
 
   # Limiting the required cores, if any
-  if (base::is.na(required_nb) ||
-    required_nb > cores_nb) {
+  if (
+    base::is.na(required_nb) ||
+      required_nb > cores_nb
+  ) {
     return(cores_nb)
   }
 
