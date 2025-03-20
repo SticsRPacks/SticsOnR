@@ -9,18 +9,18 @@ vignette: >
 
 ## Java installation
 
-The JavaStics interface evolution from JavaSTICS-1.5.0 led to use a more recent Java virtual machine (at least version 11) which is not compatible with an older version (i.e. java 8).
+The JavaStics interface evolution from JavaSTICS-1.5.2 led to use a more recent Java virtual machine (at least version 17) which is not compatible with an older version (i.e. java 11).
 
-If the default version of java is older than 11, a java 11 can be installed and solutions exist for switching between versions.
+If the default version of java is older than 17, a java 17 can be installed and solutions exist for using an alias or switching between versions as described in the next sections.
 
 These information may be partially specific of installation procedures on Debian like distributions and can be easily adapted for other linux OS types.
 
-## Creating an alias to java 11
+## Creating an alias to java 17
 This is the simplest solution and allows to avoid switching between versions. But, it is leading to use additional arguments for some R functions relying on JavaSTICS use in background (i.e. run_javastics, gen_xml2txt, for example).
 
 <pre style="font-size: 11px">
 
-alias java11=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+alias java17=/usr/lib/jvm/java-17-openjdk-amd64/bin/java
 
 </pre>
 
@@ -44,8 +44,8 @@ There are 2 choices for the alternative java (providing /usr/bin/java).
 
   Selection     Path                                            Priority  Status
 ------------------------------------------------------------
-  0            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      auto mode
-* 1            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
+  0            /usr/lib/jvm/java-17-openjdk-amd64/bin/java      1111      auto mode
+* 1            /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/java   1081      manual mode
 
 Press <enter> to keep the current choice[*], or type selection number:0
 
@@ -55,7 +55,7 @@ Press <enter> to keep the current choice[*], or type selection number:0
 
 ## Using a shell script
 
-After the Java 11 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
+After the Java 17 installation, and if it is not the default version known by the system, switching to this version can be done with a script like the following one. It can be ran either from R or a shell terminal.
 
 ```{bash, eval = FALSE}
 #!/bin/bash
@@ -66,22 +66,22 @@ java -version
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if ! [ -z $(echo $version | grep ^11) ];then
-  echo "The Java version is already Java 11"
+if ! [ -z $(echo $version | grep ^17) ];then
+  echo "The Java version is already Java 17"
   exit 0
 fi
 
-echo "Changing Java version to Java 11"
-if [ -e /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java ];then
+echo "Changing Java version to Java 17"
+if [ -e /usr/lib/jvm/java-11-openjdk-amd64/bin/java ];then
 	     sudo rm /usr/bin/java
-	     sudo ln -s /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java /usr/bin/java
+	     sudo ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java
 fi
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if [ -z $(echo $version | grep ^11) ];then
+if [ -z $(echo $version | grep ^17) ];then
   echo
-  echo "Java 11 is not installed !"
+  echo "Java 17 is not installed !"
   exit 1
 fi
 
@@ -94,7 +94,7 @@ java -version
 After that, 
 
 > the **SticsOnR** package functions using the
-> JavaSTICS 1.5.0 command line interface **can be used**.
+> JavaSTICS 1.5.2 command line interface **can be used**.
 
 
 ## Switch back to the previous Java version on the system
@@ -111,9 +111,9 @@ java -version
 
 version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if [ -z $(echo $version | grep ^11) ];then
+if [ -z $(echo $version | grep ^17) ];then
   echo
-  echo "The Java version is not Java 11"
+  echo "The Java version is not Java 17"
   exit 0
 fi
 
@@ -121,7 +121,7 @@ fi
 
 last_version=$(/etc/alternatives/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 
-if ! [ -z $(echo $last_version | grep ^11) ];then
+if ! [ -z $(echo $last_version | grep ^17) ];then
   echo
   echo "No more recent version of Java is available on the system !"
   exit 0
