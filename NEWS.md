@@ -1,5 +1,5 @@
 
-# SticsOnR 1.3.0 _2025-03-18_
+# SticsOnR 1.3.0 _2025-03-20_
 
 MAIN CHANGES:
   * Taking into account latest STICS changes (v10.3.0): copy snow state variables when needed
