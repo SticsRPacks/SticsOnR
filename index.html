@@ -6,29 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manage STICS Simulations Running the Executable or JavaStics, • SticsOnR</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Manage STICS Simulations Running the Executable or JavaStics,">
-<meta property="og:description" content="Running simulations with the STICS crop model. Different
-    ways of performing simulations are available and based on three
-    use-cases: 1/ Calling JavaStics command line to run simulations on
-    given situations. JavaStics handles text files generation from
-    XML files; 2/ Calling the model fortran executable directly. Text
-    files must be produced beforehand; and 3/ Calling the model fortran
-    executable through a wrapper. It can handle distributed runs over the
-    machine CPUs and returns simulated output data. The wrapper also
-    provides a concise manner for running simulations using custom
-    parameter values and allows to chain simulations for successive
-    situations.">
+<meta property="og:description" content="Running simulations with the STICS crop model. Different ways of performing simulations are available and based on three use-cases: 1/ Calling JavaStics command line to run simulations on given situations. JavaStics handles text files generation from XML files; 2/ Calling the model fortran executable directly. Text files must be produced beforehand; and 3/ Calling the model fortran executable through a wrapper. It can handle distributed runs over the machine CPUs and returns simulated output data. The wrapper also provides a concise manner for running simulations using custom parameter values and allows to chain simulations for successive situations.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -36,7 +20,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -50,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SticsOnR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -62,7 +46,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -79,7 +63,7 @@
 <li>
   <a href="https://github.com/SticsRPacks/SticsOnR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -90,17 +74,17 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
 <div class="page-header"><h1 id="sticsonr">SticsOnR<a class="anchor" aria-label="anchor" href="#sticsonr"></a>
 </h1></div>
-<p>The R package for the <a href="https://eng-stics.paca.hub.inrae.fr/" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right"></p>
+<p>The R package for the <a href="https://stics.inrae.fr/eng" class="external-link">STICS</a> model <img src="reference/figures/logo.png" alt="logo" width="150" align="right"></p>
 <!-- badges: start -->
 
-<p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://eng-stics.paca.hub.inrae.fr/Download" class="external-link uri">https://eng-stics.paca.hub.inrae.fr/Download</a>.</p>
+<p>The goal of SticsOnR is to perform simulations of the Stics model, downloadable with its graphical user interface from <a href="https://stics.inrae.fr/eng/download" class="external-link uri">https://stics.inrae.fr/eng/download</a>.</p>
 <p>If you want to be notified when a new release of this package is made, you can tick the Releases box in the “Watch / Unwatch =&gt; Custom” menu at the top right of <a href="https://github.com/SticsRPacks/SticsOnR" class="external-link">this page</a>.</p>
 <div class="section level2">
 <h2 id="prerequisites-and-technical-tips">Prerequisites and technical tips<a class="anchor" aria-label="anchor" href="#prerequisites-and-technical-tips"></a>
@@ -109,7 +93,7 @@
 <h3 id="javastics-software">JavaStics software<a class="anchor" aria-label="anchor" href="#javastics-software"></a>
 </h3>
 <p>JavaStics must be installed and the minimal version is version 1.41.</p>
-<p>The latest distribution version for Stics is downloadable <a href="https://eng-stics.paca.hub.inrae.fr/Download" class="external-link">here</a>.</p>
+<p>The latest distribution version for Stics is downloadable <a href="https://stics.inrae.fr/eng/download" class="external-link">here</a>.</p>
 <p>The installation process only consists of unzipping the JavaStics archive, except for MacOS system (see MacOS installation <a href="#under-macos-systems">specificities</a>)</p>
 </div>
 <div class="section level3">
@@ -127,7 +111,7 @@
 <ul>
 <li>for JavaStics 1.41, the java version must be at most a Java 8 version</li>
 <li>for JavaStics 1.5.0/1.5.1 versions, the java version must be at least a Java 11 version</li>
-<li>for JavaStics 1.5.2 version, the java version must be at least a Java 17 version</li>
+<li>for JavaStics 1.5.2/1.5.3 versions, the java version must be at least a Java 17 version</li>
 </ul>
 <p>So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands <a href="https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html" class="external-link">see here</a>, using a specific java executable path (<a href="#javastics-command-line-interface">see running JavaStics</a>).</p>
 </div>
@@ -182,8 +166,7 @@
 </li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsRPacks"</span><span class="op">)</span></span></code></pre></div>
 <p>The package will install the packages for you at the latest release version.</p>
 </div>
 <div class="section level3">
@@ -205,8 +188,7 @@
 </li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SticsRPacks/SticsOnR@*release"</span><span class="op">)</span></span></code></pre></div>
 <p>Normally, all the package dependencies will be installed for CRAN packages.</p>
 </div>
 <div class="section level4">
@@ -230,7 +212,7 @@
 <div class="section level3">
 <h3 id="javastics-command-line-interface">JavaStics command line interface<a class="anchor" aria-label="anchor" href="#javastics-command-line-interface"></a>
 </h3>
-<p>The JavaStics installation folder (for example, JavaSTICS-1.5.2-STICS-10.1.0) contains an <code>example</code> workspace folder with a set of runnable usms.</p>
+<p>The JavaStics installation folder (for example, JavaSTICS-1.5.3-STICS-10.3.0) contains an <code>example</code> workspace folder with a set of runnable usms.</p>
 <p>For running simulations from it, we can use the <code><a href="reference/run_javastics.html">run_javastics()</a></code> function.</p>
 <ul>
 <li>Specifying the JavaStics folder<br><pre>javastics_path </pre>
@@ -247,16 +229,20 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">########## For Windows or linux with a compatible java version ################</span></span>
 <span><span class="co"># Running specific usms from the workspace</span></span>
-<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
-<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
+<span>  usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Running all usms contained in the workspace</span></span>
 <span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
-<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Getting information about execution:</span></span>
 <span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
-<span>                           usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">runs_info</span></span></code></pre></div>
 <ul>
@@ -268,14 +254,17 @@
 <code class="sourceCode R"><span><span class="co">################ Only for linux with a specific java executable################</span></span>
 <span></span>
 <span><span class="co"># Running specific usms from the workspace</span></span>
-<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
-<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
+<span>  usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "banana"</span></span>
 <span><span class="co">#&gt; [1] "wheat"</span></span>
 <span></span>
 <span><span class="co"># Running all usms contained in the workspace</span></span>
 <span><span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
-<span>              verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "SugarCane"</span></span>
 <span><span class="co">#&gt; [1] "potato"</span></span>
 <span><span class="co">#&gt; [1] "banana"</span></span>
@@ -322,8 +311,9 @@
 <span></span>
 <span><span class="co"># Getting information about execution:</span></span>
 <span><span class="va">runs_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_javastics.html">run_javastics</a></span><span class="op">(</span><span class="va">javastics_path</span>, <span class="va">workspace_path</span>,</span>
-<span>                           usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
-<span>                           verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span>
+<span>  usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span>, <span class="st">"wheat"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, java_cmd <span class="op">=</span> <span class="va">java_cmd</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "banana"</span></span>
 <span><span class="co">#&gt; [1] "wheat"</span></span>
 <span></span>
@@ -336,9 +326,9 @@
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[1]]$message</span></span>
-<span><span class="co">#&gt; [1] "[20/02/24]-[11:29:25] INFO - Files generated :"                                                                       </span></span>
-<span><span class="co">#&gt; [2] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/mod_bbanana.sti"</span></span>
-<span><span class="co">#&gt; [3] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/modhistory.sti" </span></span>
+<span><span class="co">#&gt; [1] "[18/03/25]-[14:11:26] INFO - Files generated :"                                                           </span></span>
+<span><span class="co">#&gt; [2] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bbanana.sti"</span></span>
+<span><span class="co">#&gt; [3] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti" </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
@@ -349,9 +339,9 @@
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]$message</span></span>
-<span><span class="co">#&gt; [1] "[20/02/24]-[11:29:25] INFO - Files generated :"                                                                      </span></span>
-<span><span class="co">#&gt; [2] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/mod_bwheat.sti"</span></span>
-<span><span class="co">#&gt; [3] "[20/02/24]-[11:29:25] INFO - \t/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/example/modhistory.sti"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "[18/03/25]-[14:11:27] INFO - Files generated :"                                                          </span></span>
+<span><span class="co">#&gt; [2] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bwheat.sti"</span></span>
+<span><span class="co">#&gt; [3] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti"</span></span></code></pre></div>
 <p>In the returned information, the error field name gives a list of messages from the JavaStics command line interface. If any <code>Error</code> key word appears in a message, the corresponding simulation failed. But, at the moment it is impossible to identify what is the error’s origin. Things must be checked manually in the workspace, after running again the faulty usm (because the model input files are overwritten at each usms simulation).</p>
 </div>
 <div class="section level3">
@@ -363,14 +353,18 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For Windows</span></span>
 <span><span class="co"># Generating files for all the usms contained in the workspace</span></span>
-<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>, workspace <span class="op">=</span> <span class="va">workspace_path</span>,</span>
-<span>                              out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">workspace_path</span>,</span>
+<span>  out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For linux, using a specific java executable</span></span>
 <span><span class="co"># Generating files for all the usms contained in the workspace</span></span>
-<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>, workspace <span class="op">=</span> <span class="va">workspace_path</span>,</span>
-<span>                              out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                              java_cmd <span class="op">=</span> <span class="va">java_cmd</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">SticsRFiles</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/gen_usms_xml2txt.html" class="external-link">gen_usms_xml2txt</a></span><span class="op">(</span><span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">workspace_path</span>,</span>
+<span>  out_dir <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  java_cmd <span class="op">=</span> <span class="va">java_cmd</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="reference/run_stics.html">run_stics()</a></code> function can be used as follows with one folder or multiple sub-folders.</p>
 <p>The Stics executable path is set according to each operating system:</p>
 <ul>
@@ -411,7 +405,7 @@
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[1]]$message</span></span>
-<span><span class="co">#&gt; [1] " The execution was successful." " Duration = 56ms"              </span></span>
+<span><span class="co">#&gt; [1] " The execution was successful." " Duration = 37ms"              </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
@@ -422,7 +416,7 @@
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]$message</span></span>
-<span><span class="co">#&gt; [1] " The execution was successful." " Duration = 86ms"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] " The execution was successful." " Duration = 56ms"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="advanced-simulations-parameterization">Advanced simulations parameterization<a class="anchor" aria-label="anchor" href="#advanced-simulations-parameterization"></a>
@@ -468,30 +462,38 @@
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>For the example, we will use the default stics model version shipping with JavaStics and the directory where individual usms input directories have been generated:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>By default, <code><a href="reference/stics_wrapper_options.html">stics_wrapper_options()</a></code> checks that <code>javastics</code>, <code>stics_exe</code> and <code>workspace</code> exists.</p>
 <p>There are different solutions if you need to use a custom version of stics:</p>
 <ol style="list-style-type: decimal">
 <li>if it is already listed in the preference (e.g. added in JavaStics), simply provide its name (ID):</li>
 </ol>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     stics_exe <span class="op">=</span> <span class="st">"stics_custom"</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  stics_exe <span class="op">=</span> <span class="st">"stics_custom"</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>if it is located in the bin directory of the JavaStics installation directory, provide the executable name:</li>
 </ol>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     stics_exe <span class="op">=</span> <span class="st">"stics_custom.exe"</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  stics_exe <span class="op">=</span> <span class="st">"stics_custom.exe"</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>if it is located in any other folder, provide the full path to the executable name, and no need to use <code>javastics_path</code>:</li>
 </ol>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>stics_exe <span class="op">=</span> <span class="st">"path/to/stics_custom.exe"</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  stics_exe <span class="op">=</span> <span class="st">"path/to/stics_custom.exe"</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="simple-simulations-cases">Simple simulations cases<a class="anchor" aria-label="anchor" href="#simple-simulations-cases"></a>
@@ -514,8 +516,10 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">usm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>,</span>
-<span>              var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"masec_n"</span>, <span class="st">"mafruit"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span></span>
+<span>  model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>,</span>
+<span>  var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"masec_n"</span>, <span class="st">"mafruit"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Filtering outputs on variables and dates for several USMs</li>
 </ul>
@@ -527,8 +531,10 @@
 <li>sim_list, a named list of data.frames containing the simulated values for the requested USMs, variables and dates.</li>
 </ul>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">obs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/get_obs.html" class="external-link">get_obs</a></span><span class="op">(</span>workspace <span class="op">=</span> <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span>,</span>
-<span>                    verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">obs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SticsRFiles/man/get_obs.html" class="external-link">get_obs</a></span><span class="op">(</span></span>
+<span>  workspace <span class="op">=</span> <span class="va">workspace_path</span>, usm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Observations table for wheat</span></span>
 <span><span class="va">obs_list</span><span class="op">$</span><span class="va">wheat</span></span>
@@ -575,38 +581,90 @@
 <span><span class="co">#&gt; 19   258.38 plant_1</span></span>
 <span><span class="co">#&gt; 20   258.45 plant_1</span></span>
 <span></span>
-<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"</span></span>
+<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"</span></span>
 <span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>,</span>
-<span>                         sit_var_dates_mask <span class="op">=</span> <span class="va">obs_list</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span></span>
+<span>  model_options <span class="op">=</span> <span class="va">sim_options</span>,</span>
+<span>  sit_var_dates_mask <span class="op">=</span> <span class="va">obs_list</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"</span></span>
+<span><span class="co">#&gt; mod_smaize.sti</span></span>
+<span><span class="co">#&gt; Warning in select_results(keep_all_data, sit_var_dates_mask, var_names, :</span></span>
+<span><span class="co">#&gt; Requested date(s) 1996-04-16 is(are) not simulated for USM maize</span></span>
+<span><span class="co">#&gt; mod_swheat.sti</span></span>
 <span><span class="co">#&gt; Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $error</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sim_list</span></span>
+<span><span class="co">#&gt; $wheat</span></span>
+<span><span class="co">#&gt;          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1</span></span>
+<span><span class="co">#&gt; 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.07899</span></span>
+<span><span class="co">#&gt; 2  1995-02-03 0.31650  0.11303 24.50000 24.50000 21.49999 192.3001  0.76862</span></span>
+<span><span class="co">#&gt; 3  1995-02-07 0.31678  0.12561 23.83189 24.38442 21.49393 190.8273  0.60993</span></span>
+<span><span class="co">#&gt; 4  1995-02-16 0.32971  0.18710 24.50000 24.50000 21.49999 192.3001  0.56298</span></span>
+<span><span class="co">#&gt; 5  1995-02-24 0.36057  0.24471 24.50000 24.50000 21.49999 192.3001 26.17110</span></span>
+<span><span class="co">#&gt; 6  1995-03-06 0.44779  0.35035 24.14443 24.38385 21.49153 191.3779 19.42991</span></span>
+<span><span class="co">#&gt; 7  1995-03-16 0.65951  0.52936 22.92095 23.63181 21.38363 187.1108  9.46764</span></span>
+<span><span class="co">#&gt; 8  1995-03-23 0.93227  0.71936 21.66335 24.01440 21.42110 185.8192 83.92502</span></span>
+<span><span class="co">#&gt; 9  1995-04-03 1.57855  1.55586 20.56154 22.34904 20.97554 178.3337 64.59158</span></span>
+<span><span class="co">#&gt; 10 1995-04-11 2.09987  2.55337 17.92109 20.99722 20.03741 166.5205 52.84022</span></span>
+<span><span class="co">#&gt; 11 1995-04-18 2.35501  3.15292 23.58026 19.75672 19.03260 169.5803 46.57107</span></span>
+<span><span class="co">#&gt; 12 1995-04-26 3.14867  3.99307 24.50000 24.50000 21.49999 192.3001 15.92698</span></span>
+<span><span class="co">#&gt; 13 1995-05-02 4.00809  4.94513 22.89795 23.84206 21.11930 186.3215 79.20721</span></span>
+<span><span class="co">#&gt; 14 1995-05-05 4.66786  6.02794 20.59809 22.80039 20.38152 176.6742 69.22348</span></span>
+<span><span class="co">#&gt; 15 1995-05-09 4.84330  7.28487 18.33193 21.14837 19.03372 163.0608 59.09079</span></span>
+<span><span class="co">#&gt; 16 1995-05-12 4.79468  7.88745 24.50000 24.50000 21.49999 192.3001 26.11958</span></span>
+<span><span class="co">#&gt; 17 1995-05-15 4.74392  8.47785 23.56760 24.06944 21.22628 188.4858 18.00425</span></span>
+<span><span class="co">#&gt; 18 1995-05-19 4.57415  9.35892 23.88076 24.22463 21.14586 189.0135  9.34575</span></span>
+<span><span class="co">#&gt; 19 1995-05-29 3.97903 11.72744 23.74543 21.45070 19.37518 174.9766  3.42815</span></span>
+<span><span class="co">#&gt; 20 1995-07-17 0.00000 15.87414 21.79237 24.26819 21.48919 186.8909  7.14489</span></span>
+<span><span class="co">#&gt;     AZnit_2 AZnit_3  QNplante   Plant</span></span>
+<span><span class="co">#&gt; 1   1.48309 5.94223   6.41090 plant_1</span></span>
+<span><span class="co">#&gt; 2   1.02958 5.36714   7.28596 plant_1</span></span>
+<span><span class="co">#&gt; 3   0.77065 5.15434   8.12731 plant_1</span></span>
+<span><span class="co">#&gt; 4   0.46101 4.17630  10.04601 plant_1</span></span>
+<span><span class="co">#&gt; 5   6.90490 4.46663  13.25611 plant_1</span></span>
+<span><span class="co">#&gt; 6   6.11377 4.21979  20.68183 plant_1</span></span>
+<span><span class="co">#&gt; 7   4.74363 3.64634  32.71018 plant_1</span></span>
+<span><span class="co">#&gt; 8   3.00263 3.02405  41.23374 plant_1</span></span>
+<span><span class="co">#&gt; 9   0.56898 0.83703  65.91978 plant_1</span></span>
+<span><span class="co">#&gt; 10  0.34906 0.21218  79.40998 plant_1</span></span>
+<span><span class="co">#&gt; 11  0.37182 0.06465  87.25913 plant_1</span></span>
+<span><span class="co">#&gt; 12 10.59078 3.15716 106.08574 plant_1</span></span>
+<span><span class="co">#&gt; 13 12.77094 1.92864 126.41372 plant_1</span></span>
+<span><span class="co">#&gt; 14  9.40575 0.93281 140.18687 plant_1</span></span>
+<span><span class="co">#&gt; 15  6.08417 0.38794 153.95471 plant_1</span></span>
+<span><span class="co">#&gt; 16 19.42081 8.97776 165.35762 plant_1</span></span>
+<span><span class="co">#&gt; 17 16.99088 8.49830 176.44347 plant_1</span></span>
+<span><span class="co">#&gt; 18 12.89605 7.68170 190.11298 plant_1</span></span>
+<span><span class="co">#&gt; 19  4.10261 1.08262 211.33588 plant_1</span></span>
+<span><span class="co">#&gt; 20  6.79536 2.67405 222.61638 plant_1</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $maize</span></span>
 <span><span class="co">#&gt;          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante</span></span>
 <span><span class="co">#&gt; 1  1996-05-14 0.00048  0.00007  0.00000 72.08270  87.81961 18.33810   0.06000</span></span>
-<span><span class="co">#&gt; 2  1996-06-11 0.52827  0.34602  0.00000 41.25511 101.20517 36.68687  11.47820</span></span>
-<span><span class="co">#&gt; 3  1996-06-19 1.20877  1.47023  0.00000 32.54288  92.90659 36.48687  35.17423</span></span>
+<span><span class="co">#&gt; 2  1996-06-11 0.52827  0.34602  0.00000 41.25512 101.20517 36.68687  11.47820</span></span>
+<span><span class="co">#&gt; 3  1996-06-19 1.20877  1.47023  0.00000 32.54289  92.90659 36.48687  35.17423</span></span>
 <span><span class="co">#&gt; 4  1996-06-26 1.77350  2.31686  0.00000 28.37093  81.70900 35.38020  57.85825</span></span>
-<span><span class="co">#&gt; 5  1996-07-02 2.45930  3.57229  0.00000 23.37866  68.11768 32.88448  82.31290</span></span>
-<span><span class="co">#&gt; 6  1996-07-05 2.78486  3.95258  0.00000 16.47478  73.86994 31.59177  89.59812</span></span>
-<span><span class="co">#&gt; 7  1996-07-15 4.04477  6.19012  0.00000  8.27292  54.08646 32.73148 125.06309</span></span>
-<span><span class="co">#&gt; 8  1996-07-24 5.80729  9.19373  0.00000  7.73798  36.58909 29.51844 163.77870</span></span>
-<span><span class="co">#&gt; 9  1996-07-25 5.80729  9.48679  0.00000  7.98975  35.55027 29.72262 167.79420</span></span>
-<span><span class="co">#&gt; 10 1996-08-02 5.80729 11.66596  0.00000  8.22348  27.48977 22.84721 196.25015</span></span>
-<span><span class="co">#&gt; 11 1996-08-09 5.80729 13.23096  0.00000  7.37852  20.25411 23.36592 215.35924</span></span>
-<span><span class="co">#&gt; 12 1996-08-14 5.80729 14.20629  0.00000  5.79748  15.77424 20.80305 226.98662</span></span>
-<span><span class="co">#&gt; 13 1996-08-20 5.80698 15.78884  0.80934  6.55602  10.70735 14.43708 245.12354</span></span>
-<span><span class="co">#&gt; 14 1996-09-03 5.79138 18.41684  4.01828  4.90096   5.51324  6.09316 274.03082</span></span>
-<span><span class="co">#&gt; 15 1996-09-12 5.54056 20.32296  6.55791  4.04308   3.14270  3.69524 289.17609</span></span>
+<span><span class="co">#&gt; 5  1996-07-02 2.45930  3.57229  0.00000 23.37866  68.11766 32.88448  82.31290</span></span>
+<span><span class="co">#&gt; 6  1996-07-05 2.78486  3.95258  0.00000 16.47478  73.86995 31.59177  89.59813</span></span>
+<span><span class="co">#&gt; 7  1996-07-15 4.04477  6.19012  0.00000  8.27293  54.08646 32.73148 125.06310</span></span>
+<span><span class="co">#&gt; 8  1996-07-24 5.80729  9.19373  0.00000  7.73798  36.58909 29.51845 163.77870</span></span>
+<span><span class="co">#&gt; 9  1996-07-25 5.80729  9.48679  0.00000  7.98975  35.55028 29.72263 167.79420</span></span>
+<span><span class="co">#&gt; 10 1996-08-02 5.80729 11.66596  0.00000  8.22348  27.48979 22.84721 196.25015</span></span>
+<span><span class="co">#&gt; 11 1996-08-09 5.80729 13.23096  0.00000  7.37852  20.25412 23.36593 215.35924</span></span>
+<span><span class="co">#&gt; 12 1996-08-14 5.80729 14.20629  0.00000  5.79748  15.77424 20.80307 226.98660</span></span>
+<span><span class="co">#&gt; 13 1996-08-20 5.80698 15.78884  0.80934  6.55602  10.70736 14.43709 245.12352</span></span>
+<span><span class="co">#&gt; 14 1996-09-03 5.79138 18.41684  4.01828  4.90096   5.51324  6.09317 274.03082</span></span>
+<span><span class="co">#&gt; 15 1996-09-12 5.54056 20.32296  6.55791  4.04308   3.14270  3.69525 289.17609</span></span>
 <span><span class="co">#&gt; 16 1996-10-15 4.31971 23.43360 13.78294  2.21475   0.99676  1.10243 318.40985</span></span>
-<span><span class="co">#&gt; 17 1996-10-23 3.54667 23.99480 14.85000  2.04173   0.75705  0.80540 322.53854</span></span>
+<span><span class="co">#&gt; 17 1996-10-23 3.54667 23.99480 14.85000  2.04174   0.75705  0.80540 322.53854</span></span>
 <span><span class="co">#&gt;      Plant</span></span>
 <span><span class="co">#&gt; 1  plant_1</span></span>
 <span><span class="co">#&gt; 2  plant_1</span></span>
@@ -626,50 +684,6 @@
 <span><span class="co">#&gt; 16 plant_1</span></span>
 <span><span class="co">#&gt; 17 plant_1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $wheat</span></span>
-<span><span class="co">#&gt;          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1</span></span>
-<span><span class="co">#&gt; 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.07899</span></span>
-<span><span class="co">#&gt; 2  1995-02-03 0.31650  0.11303 24.50000 24.50000 21.49999 192.3001  0.76862</span></span>
-<span><span class="co">#&gt; 3  1995-02-07 0.31678  0.12561 23.83189 24.38442 21.49393 190.8273  0.60993</span></span>
-<span><span class="co">#&gt; 4  1995-02-16 0.32971  0.18710 24.50000 24.50000 21.49999 192.3001  0.56298</span></span>
-<span><span class="co">#&gt; 5  1995-02-24 0.36057  0.24471 24.50000 24.50000 21.49999 192.3001 26.17110</span></span>
-<span><span class="co">#&gt; 6  1995-03-06 0.44779  0.35035 24.14443 24.38385 21.49153 191.3779 19.42991</span></span>
-<span><span class="co">#&gt; 7  1995-03-16 0.65951  0.52936 22.92095 23.63181 21.38363 187.1108  9.46765</span></span>
-<span><span class="co">#&gt; 8  1995-03-23 0.93227  0.71936 21.66335 24.01440 21.42110 185.8192 83.92502</span></span>
-<span><span class="co">#&gt; 9  1995-04-03 1.57855  1.55586 20.56154 22.34904 20.97554 178.3337 64.59159</span></span>
-<span><span class="co">#&gt; 10 1995-04-11 2.09987  2.55337 17.92109 20.99722 20.03741 166.5205 52.84023</span></span>
-<span><span class="co">#&gt; 11 1995-04-18 2.35501  3.15292 23.58026 19.75672 19.03260 169.5803 46.57108</span></span>
-<span><span class="co">#&gt; 12 1995-04-26 3.14867  3.99308 24.50000 24.50000 21.49999 192.3001 15.92698</span></span>
-<span><span class="co">#&gt; 13 1995-05-02 4.00809  4.94513 22.89795 23.84206 21.11930 186.3215 79.20723</span></span>
-<span><span class="co">#&gt; 14 1995-05-05 4.66786  6.02794 20.59809 22.80039 20.38152 176.6742 69.22348</span></span>
-<span><span class="co">#&gt; 15 1995-05-09 4.84330  7.28487 18.33193 21.14837 19.03372 163.0608 59.09080</span></span>
-<span><span class="co">#&gt; 16 1995-05-12 4.79468  7.88745 24.50000 24.50000 21.49999 192.3001 26.11957</span></span>
-<span><span class="co">#&gt; 17 1995-05-15 4.74392  8.47785 23.56760 24.06944 21.22628 188.4858 18.00424</span></span>
-<span><span class="co">#&gt; 18 1995-05-19 4.57415  9.35893 23.88076 24.22463 21.14586 189.0135  9.34575</span></span>
-<span><span class="co">#&gt; 19 1995-05-29 3.97903 11.72744 23.74543 21.45070 19.37518 174.9766  3.42815</span></span>
-<span><span class="co">#&gt; 20 1995-07-17 0.00000 15.87414 21.79237 24.26819 21.48919 186.8909  7.14489</span></span>
-<span><span class="co">#&gt;     AZnit_2 AZnit_3  QNplante   Plant</span></span>
-<span><span class="co">#&gt; 1   1.48309 5.94223   6.41090 plant_1</span></span>
-<span><span class="co">#&gt; 2   1.02958 5.36714   7.28596 plant_1</span></span>
-<span><span class="co">#&gt; 3   0.77065 5.15434   8.12731 plant_1</span></span>
-<span><span class="co">#&gt; 4   0.46101 4.17630  10.04601 plant_1</span></span>
-<span><span class="co">#&gt; 5   6.90490 4.46663  13.25611 plant_1</span></span>
-<span><span class="co">#&gt; 6   6.11377 4.21979  20.68182 plant_1</span></span>
-<span><span class="co">#&gt; 7   4.74362 3.64634  32.71018 plant_1</span></span>
-<span><span class="co">#&gt; 8   3.00263 3.02404  41.23375 plant_1</span></span>
-<span><span class="co">#&gt; 9   0.56898 0.83703  65.91978 plant_1</span></span>
-<span><span class="co">#&gt; 10  0.34906 0.21218  79.40999 plant_1</span></span>
-<span><span class="co">#&gt; 11  0.37182 0.06465  87.25914 plant_1</span></span>
-<span><span class="co">#&gt; 12 10.59079 3.15716 106.08575 plant_1</span></span>
-<span><span class="co">#&gt; 13 12.77094 1.92864 126.41373 plant_1</span></span>
-<span><span class="co">#&gt; 14  9.40576 0.93281 140.18689 plant_1</span></span>
-<span><span class="co">#&gt; 15  6.08418 0.38794 153.95473 plant_1</span></span>
-<span><span class="co">#&gt; 16 19.42081 8.97776 165.35764 plant_1</span></span>
-<span><span class="co">#&gt; 17 16.99088 8.49830 176.44348 plant_1</span></span>
-<span><span class="co">#&gt; 18 12.89605 7.68171 190.11299 plant_1</span></span>
-<span><span class="co">#&gt; 19  4.10260 1.08262 211.33589 plant_1</span></span>
-<span><span class="co">#&gt; 20  6.79536 2.67405 222.61639 plant_1</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "cropr_simulation"</span></span></code></pre></div>
 <p>Some warnings may occur, as in this case (that is why <code>results$error</code> is TRUE), indicating that observed variables and/or observations dates are missing in simulated data. Concerning the dates, this may be due to the USMs simulation period that may not include observed dates. For the variables, this may be due to an incorrect spelling of the variables in obs_list.</p>
@@ -685,20 +699,23 @@
 <code class="sourceCode R"><span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.002</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">param_values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dlaimax"</span>, <span class="st">"durvieF"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>,</span>
-<span>                         param_values <span class="op">=</span> <span class="va">param_values</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span></span>
+<span>  model_options <span class="op">=</span> <span class="va">sim_options</span>, situation <span class="op">=</span> <span class="va">usm</span>,</span>
+<span>  param_values <span class="op">=</span> <span class="va">param_values</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Defining different parameters values depending on the usms</li>
 </ul>
 <p><code>param_values</code> can also be a data.frame or a tibble having one named column per parameter and an optional column named <code>situation</code> containing the name of the situations (USMs for Stics) that allows to define different values of the parameters for different situations.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Let's run usm wheat with c(dlaimax=0.001, durvieF=50),</span></span>
+<code class="sourceCode R"><span><span class="co"># Let's run usm wheat with c(dlaimax=0.001, durvieF=50),</span></span>
 <span><span class="co"># usm pea with c(dlaimax=0.001, durvieF=60),</span></span>
 <span><span class="co"># and usm maize with c(dlaimax=0.001, durvieF=70)</span></span>
-<span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>,</span>
-<span>                           dlaimax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.001</span>, <span class="fl">0.001</span><span class="op">)</span>,</span>
-<span>                           durvieF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">param_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"pea"</span>, <span class="st">"maize"</span><span class="op">)</span>,</span>
+<span>  dlaimax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.001</span>, <span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>  durvieF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">60</span>, <span class="fl">70</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Let's display it</span></span>
 <span><span class="va">param_values</span></span>
@@ -707,10 +724,14 @@
 <span><span class="co">#&gt; 2       pea   0.001      60</span></span>
 <span><span class="co">#&gt; 3     maize   0.001      70</span></span>
 <span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span>,</span>
-<span>                         param_values <span class="op">=</span> <span class="va">param_values</span>,</span>
-<span>                         situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/Téléchargements/JavaSTICS-1.5.2-STICS-10.1.0/bin/stics_modulo"</span></span></code></pre></div>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span></span>
+<span>  model_options <span class="op">=</span> <span class="va">sim_options</span>,</span>
+<span>  param_values <span class="op">=</span> <span class="va">param_values</span>,</span>
+<span>  situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wheat"</span>, <span class="st">"maize"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"</span></span>
+<span><span class="co">#&gt; mod_smaize.sti</span></span>
+<span><span class="co">#&gt; mod_swheat.sti</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="simulations-in-successive-mode">Simulations in successive mode<a class="anchor" aria-label="anchor" href="#simulations-in-successive-mode"></a>
@@ -725,10 +746,12 @@
 <li>Displaying execution time</li>
 </ul>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>,</span>
-<span>                                     time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>,</span>
+<span>  time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
 <ul>
@@ -736,10 +759,12 @@
 </ul>
 <p>On may specify the number of cores to use with the cores argument.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>,</span>
-<span>                                     parallel <span class="op">=</span> <span class="cn">TRUE</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                     cores <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">TRUE</span>, time_display <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cores <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
 <p>If cores is not given, parallel execution is performed over machine total cores number minus 1.</p>
@@ -749,9 +774,11 @@
 <span><span class="co"># Used cores number</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
 <span></span>
-<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span>javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
-<span>                                     workspace <span class="op">=</span> <span class="va">output_path</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                     time_display <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">sim_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper_options.html">stics_wrapper_options</a></span><span class="op">(</span></span>
+<span>  javastics <span class="op">=</span> <span class="va">javastics_path</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="va">output_path</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  time_display <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/stics_wrapper.html">stics_wrapper</a></span><span class="op">(</span>model_options <span class="op">=</span> <span class="va">sim_options</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -839,16 +866,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
