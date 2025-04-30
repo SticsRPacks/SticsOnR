@@ -75,7 +75,7 @@ The R package for the [STICS](https://stics.inrae.fr/eng) model <img src="man/fi
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R build status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
+[![R build status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svgbadge.svg?branch=main)](https://github.com/SticsRPacks/SticsOnR/actions)
 [![Codecov test coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SticsRPacks/SticsOnR?branch=main)
 [![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
 <!-- badges: end -->
