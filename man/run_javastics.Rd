@@ -78,7 +78,8 @@ run_javastics("/path/to/JavaSTICS/folder", "/path/to/workspace")
 run_javastics("/path/to/JavaSTICS/folder", "example", c("wheat", "pea"))
 run_javastics("/path/to/JavaSTICS/folder", usm = c("wheat", "pea"))
 run_javastics("/path/to/JavaSTICS/folder",
-usm = c("wheat", "pea"), optim = TRUE)
+  usm = c("wheat", "pea"), optim = TRUE
+)
 }
 
 }

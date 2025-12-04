@@ -216,5 +216,4 @@ do.call(stics_wrapper_options, model_options)
 # Note the `stics_exe` path that was modified and checked to the path were
 # it was found.
 }
-
 }
