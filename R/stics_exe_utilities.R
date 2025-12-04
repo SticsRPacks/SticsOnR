@@ -53,10 +53,11 @@
 #' @noRd
 #'
 set_stics_exe <- function(
-    javastics,
-    stics_exe,
-    overwrite = FALSE,
-    verbose = TRUE) {
+  javastics,
+  stics_exe,
+  overwrite = FALSE,
+  verbose = TRUE
+) {
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
@@ -345,10 +346,11 @@ list_stics_exe <- function(javastics) {
 #' @noRd
 #'
 check_stics_exe <- function(
-    model_path,
-    version = FALSE,
-    stop = TRUE,
-    verbose = FALSE) {
+  model_path,
+  version = FALSE,
+  stop = TRUE,
+  verbose = FALSE
+) {
   # Need to set the directory to the one of the exe for system calls
   start_dir <- getwd()
   on.exit(setwd(start_dir))
