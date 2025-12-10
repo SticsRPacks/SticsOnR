@@ -81,3 +81,4 @@ jobs:
           token: ${{ secrets.TRIGGER_PAT }}
           repository: SticsRPacks/SticsRTests
           event-type: R-CMD-check
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
