@@ -65,8 +65,10 @@ run_stics("/home/username/bin/Stics", c(
 
 # Specifying a parent directory of usms directories
 # running one or several usms
-run_stics("/home/username/bin/Stics",
-"/home/username/Work/SticsInputsRootDir", "wheat")
+run_stics(
+  "/home/username/bin/Stics",
+  "/home/username/Work/SticsInputsRootDir", "wheat"
+)
 run_stics(
   "/home/username/bin/Stics", "/home/username/Work/SticsInputsRootDir",
   c("wheat", "maize")
