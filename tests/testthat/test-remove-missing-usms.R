@@ -2,7 +2,6 @@ context("Test removing missing usms from successive USMs list")
 library(SticsOnR)
 
 test_that("remove_missing_usms keeps all successions when no USM is missing", {
-
   successive_usms <- list(
     c("A1", "A2"),
     c("B1", "B2")
@@ -21,7 +20,6 @@ test_that("remove_missing_usms keeps all successions when no USM is missing", {
 
 
 test_that("remove_missing_usms removes successions containing missing USMs", {
-
   successive_usms <- list(
     c("A1", "A2"),
     c("B1", "B2"),
@@ -49,7 +47,6 @@ test_that("remove_missing_usms removes successions containing missing USMs", {
 
 
 test_that("remove_missing_usms emits a warning listing missing USMs", {
-
   successive_usms <- list(
     c("A1", "A2"),
     c("B1", "B2")
@@ -69,7 +66,6 @@ test_that("remove_missing_usms emits a warning listing missing USMs", {
 
 
 test_that("remove_missing_usms removes all successions if all USMs are missing", {
-
   successive_usms <- list(
     c("A1", "A2"),
     c("B1")
@@ -90,7 +86,6 @@ test_that("remove_missing_usms removes all successions if all USMs are missing",
 
 
 test_that("remove_missing_usms handles empty successive_usms", {
-
   successive_usms <- list()
 
   avail_sit <- c("A1", "A2")
@@ -106,7 +101,6 @@ test_that("remove_missing_usms handles empty successive_usms", {
 
 
 test_that("remove_missing_usms does not modify input by reference", {
-
   successive_usms <- list(
     c("A1", "A2"),
     c("B1")

@@ -103,14 +103,15 @@
 #' @importFrom magrittr %>%
 #'
 stics_wrapper <- function(
-    model_options,
-    param_values = NULL,
-    situation = NULL,
-    var = NULL,
-    dates = NULL,
-    sit_var_dates_mask = NULL,
-    sit_names = lifecycle::deprecated(),
-    var_names = lifecycle::deprecated()) {
+  model_options,
+  param_values = NULL,
+  situation = NULL,
+  var = NULL,
+  dates = NULL,
+  sit_var_dates_mask = NULL,
+  sit_names = lifecycle::deprecated(),
+  var_names = lifecycle::deprecated()
+) {
   # TODO LIST
   #   - handle the case of stages (stages should be specified in the var.mod ...
   #   + handle the case when simulations does not reach the asked stages ...)
@@ -690,15 +691,16 @@ stics_wrapper <- function(
 #' @noRd
 
 select_results <- function(
-    keep_all_data,
-    sit_var_dates_mask,
-    var_names,
-    dates,
-    situation,
-    sim_tmp,
-    varmod_modified,
-    verbose,
-    run_dir) {
+  keep_all_data,
+  sit_var_dates_mask,
+  var_names,
+  dates,
+  situation,
+  sim_tmp,
+  varmod_modified,
+  verbose,
+  run_dir
+) {
   res <- list(
     sim_list = NULL,
     flag_error = FALSE,
@@ -1082,19 +1084,20 @@ select_results <- function(
 #'
 #'
 stics_wrapper_options <- function(
-    javastics = NULL,
-    stics_exe = "modulostics",
-    workspace = NULL,
-    parallel = FALSE,
-    cores = NA,
-    time_display = FALSE,
-    verbose = TRUE,
-    force = FALSE,
-    successive = NULL,
-    javastics_path = lifecycle::deprecated(),
-    data_dir = lifecycle::deprecated(),
-    successive_usms = lifecycle::deprecated(),
-    ...) {
+  javastics = NULL,
+  stics_exe = "modulostics",
+  workspace = NULL,
+  parallel = FALSE,
+  cores = NA,
+  time_display = FALSE,
+  verbose = TRUE,
+  force = FALSE,
+  successive = NULL,
+  javastics_path = lifecycle::deprecated(),
+  data_dir = lifecycle::deprecated(),
+  successive_usms = lifecycle::deprecated(),
+  ...
+) {
   if (lifecycle::is_present(successive_usms)) {
     lifecycle::deprecate_warn(
       "1.0.0",
