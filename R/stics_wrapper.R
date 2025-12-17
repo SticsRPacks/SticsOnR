@@ -549,7 +549,7 @@ stics_wrapper <- function(
         }
 
         ## Get results
-        sim_tmp <- SticsRFiles::get_sim(run_dir)[[1]]
+        sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = verbose)[[1]]
 
         ## Any error reading output file ... go to next simulation
         if (is.null(sim_tmp)) {
