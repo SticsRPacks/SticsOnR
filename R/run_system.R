@@ -53,11 +53,12 @@
 #'
 
 run_system <- function(
-    stics_exe,
-    workspace,
-    usm = NULL,
-    check = TRUE,
-    verbose = FALSE) {
+  stics_exe,
+  workspace,
+  usm = NULL,
+  check = TRUE,
+  verbose = FALSE
+) {
   first_wd <- getwd()
   on.exit(setwd(first_wd))
   # Default one usm directory

@@ -52,17 +52,18 @@
 #' @export
 #'
 run_javastics <- function(
-    javastics,
-    workspace = NULL,
-    usm = NULL,
-    keep_history = TRUE,
-    optim = FALSE,
-    verbose = TRUE,
-    stics_exe = "modulostics",
-    java_cmd = "java",
-    javastics_path = lifecycle::deprecated(),
-    workspace_path = lifecycle::deprecated(),
-    usms_list = lifecycle::deprecated()) {
+  javastics,
+  workspace = NULL,
+  usm = NULL,
+  keep_history = TRUE,
+  optim = FALSE,
+  verbose = TRUE,
+  stics_exe = "modulostics",
+  java_cmd = "java",
+  javastics_path = lifecycle::deprecated(),
+  workspace_path = lifecycle::deprecated(),
+  usms_list = lifecycle::deprecated()
+) {
   if (lifecycle::is_present(javastics_path)) {
     lifecycle::deprecate_warn(
       "1.0.0",
