@@ -214,26 +214,12 @@ stics_wrapper <- function(
 
   # Case of successive USMs (argument successive_usms)
   ## Check that all successive usms are available
-  if (length(setdiff(unlist(successive_usms), avail_sit)) > 0) {
-    warning(paste0(
-      "No folder(s) found in ",
-      data_dir,
-      " for USMs ",
-      paste(setdiff(unlist(successive_usms), avail_sit), collapse = " "),
-      "\n The corresponding successions of USMs will not be simulated."
-    ))
-    # Remove successions for which at least one USMs is not available
-    idx <- unique(sapply(
-      setdiff(unlist(successive_usms), avail_sit),
-      function(x) {
-        which(sapply(
-          successive_usms,
-          function(y) x %in% y
-        ))
-      }
-    ))
-    successive_usms[[idx]] <- NULL
-  }
+  successive_usms <- remove_missing_usms(
+    data_dir = data_dir,
+    successive_usms = successive_usms,
+    avail_sit = avail_sit
+  )
+
   ## Add the successive USMs in the list of USMs to simulate if there are some
   ## missing ones and order them
   sit2simulate <- c(
@@ -1252,4 +1238,25 @@ is_previous_usm <- function(usms_succession, site) {
     usms_succession,
     function(x) which(x %in% site) < length(x)
   )))
+}
+
+remove_missing_usms <- function(data_dir, successive_usms, avail_sit) {
+  missing_usms <- setdiff(unlist(successive_usms), avail_sit)
+  if (length(missing_usms) > 0) {
+    warning(paste0(
+      "No folder(s) found in ",
+      data_dir,
+      " for USMs ",
+      paste(missing_usms, collapse = " "),
+      "\n The corresponding successions of USMs will not be simulated."
+    ))
+    # Remove successions for which at least one USMs is not available
+    idx <- which(vapply(
+      successive_usms,
+      function(y) any(y %in% missing_usms),
+      logical(1)
+    ))
+    successive_usms[idx] <- NULL
+  }
+  successive_usms
 }
