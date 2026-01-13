@@ -83,6 +83,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: SticsRPacks/SticsRTests
+          owner: SticsRPacks
           event-type: R-CMD-check
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "repo": "${{ github.event.repository.name }}"}'
 
