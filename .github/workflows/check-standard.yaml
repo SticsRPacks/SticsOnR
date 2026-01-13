@@ -38,7 +38,7 @@ jobs:
             }
 
     env:
-      GITHUB_PAT: ${{ secrets.STICSRPACKS_PAT }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
@@ -78,7 +78,7 @@ jobs:
       - name: Trigger
         uses: peter-evans/repository-dispatch@v4
         with:
-          token: ${{ secrets.STICSRPACKS_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: SticsRPacks/SticsRTests
           event-type: R-CMD-check
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "repo": "${{ github.event.repository.name }}"}'
@@ -86,7 +86,7 @@ jobs:
       - name: Wait for SticsRTests workflow to complete (block-and-fail)
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.STICSRPACKS_PAT }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const owner = 'SticsRPacks';
             const repo = 'SticsRTests';
