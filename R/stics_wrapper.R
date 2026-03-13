@@ -359,7 +359,8 @@ stics_wrapper <- function(
           !SticsRFiles::force_param_values(
             run_dir,
             dplyr::slice(param_values_sit, ip),
-            javastics
+            javastics,
+            force = force
           )
         ) {
           mess <- warning(paste(
