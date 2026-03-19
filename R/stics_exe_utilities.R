@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -330,6 +331,59 @@ list_stics_exe <- function(javastics) {
   list(stics_list = stics_list, current = stics_list[current_stics])
 }
 
+# TODO: merge this function with the following one
+get_exe_version <- function(exe_path, numeric = FALSE) {
+  if (!file.exists(exe_path)) return()
+
+  exe_version_string <- system(command = paste(exe_path, " -v"), intern = TRUE)[
+    1
+  ]
+
+  SticsRFiles:::get_version_num(
+    gsub(
+      pattern = "(.*)(v[0-9\\.]*)(.*)",
+      replacement = "\\2",
+      x = exe_version_string[1]
+    ),
+    numeric = numeric
+  )
+}
+
+get_stics_exe_version <- function(stics_exe) {
+  # catching returned error status
+  err_status <- suppressWarnings(run_system_cmd(
+    model_path,
+    com_args = "--version",
+    output = version
+  ))
+
+  if (!err_status) {
+    if (stop) {
+      stop(paste(
+        "File",
+        model_path,
+        "is either not executable, or an exe for another OS."
+      ))
+    } else {
+      if (verbose) {
+        cli::cli_alert_danger(
+          "File {.val {model_path}} is either not
+                                        executable, or an exe for another OS."
+        )
+      }
+      return(invisible(FALSE))
+    }
+  }
+  # getting the version
+  attr(err_status, "version") <- gsub(
+    pattern = "Modulostics version : ",
+    x = trimws(attr(err_status, "output")[1]),
+    replacement = ""
+  )
+  attr(err_status, "output") <- NULL
+
+  err_status
+}
 
 #' Checking if given path is a Stics executable path
 #'
