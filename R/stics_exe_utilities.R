@@ -331,59 +331,134 @@ list_stics_exe <- function(javastics) {
   list(stics_list = stics_list, current = stics_list[current_stics])
 }
 
-# TODO: merge this function with the following one
-get_exe_version <- function(exe_path, numeric = FALSE) {
-  if (!file.exists(exe_path)) return()
 
-  exe_version_string <- system(command = paste(exe_path, " -v"), intern = TRUE)[
-    1
-  ]
-
-  SticsRFiles:::get_version_num(
-    gsub(
-      pattern = "(.*)(v[0-9\\.]*)(.*)",
-      replacement = "\\2",
-      x = exe_version_string[1]
-    ),
-    numeric = numeric
-  )
-}
-
-get_stics_exe_version <- function(stics_exe) {
-  # catching returned error status
-  err_status <- suppressWarnings(run_system_cmd(
-    model_path,
-    com_args = "--version",
-    output = version
-  ))
-
-  if (!err_status) {
-    if (stop) {
-      stop(paste(
-        "File",
-        model_path,
-        "is either not executable, or an exe for another OS."
-      ))
-    } else {
-      if (verbose) {
-        cli::cli_alert_danger(
-          "File {.val {model_path}} is either not
-                                        executable, or an exe for another OS."
-        )
-      }
-      return(invisible(FALSE))
-    }
+#' Get STICS executable version number, or string, or hash
+#'
+#' @param exe_path executable file path
+#' @param numeric Logical, `TRUE` (default) to return a numeric version as a
+#' semver class vector, or `FALSE` to return a character string with the version
+#'
+#' @returns a smvr class vector if `numeric = TRUE` (default),
+#' or a character string if `numeric = FALSE`, with an attribute "date" if
+#' the version date is provided in the system command output.
+#' Or a hash string if the system command output contains a hash.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'   get_version_number("path/to/stics_exe")
+#'   get_version_number("path/to/stics_exe", numeric = FALSE)
+#' }
+#'
+get_version_number <- function(exe_path, numeric = TRUE) {
+  if (!file.exists(exe_path)) {
+    warning("Executable file doesn't exist: ", exe_path)
+    return(NA)
   }
-  # getting the version
-  attr(err_status, "version") <- gsub(
-    pattern = "Modulostics version : ",
-    x = trimws(attr(err_status, "output")[1]),
-    replacement = ""
-  )
-  attr(err_status, "output") <- NULL
 
-  err_status
+  version_line <- suppressWarnings(system(
+    command = paste(exe_path, " --version"),
+    intern = TRUE
+  ))[1]
+
+  # If no output, or not a STICS executable, return NA with a warning
+  if (is.na(version_line)) {
+    warning("No output from the executable, or it is not a STICS executable !")
+    return(NA)
+  }
+
+  get_version(version_line, numeric = numeric)
 }
+
+get_version_date <- function(exe_path) {
+  date_string <- attr(get_version_number(exe_path), "date")
+  if (is.null(date_string)) {
+    return(NA)
+  }
+  as.Date(date_string)
+}
+
+get_version <- function(version_line, numeric = TRUE) {
+  # testing the hash if any & early return, no release number
+  version_hash <- extract_version_hash(version_line)
+  if (!is.na((version_hash))) return(version_hash)
+
+  # testing the release info line
+  if (!grepl(pattern = "stics", x = tolower(version_line)))
+    stop(
+      "The version information returned by the executable is not a STICS one"
+    )
+
+  # rewrite the version as a complete version with 3 digits (x.y.z) to be
+  # able to parse it as a semver
+  full_version <- complete_version(
+    extract_version_string(version_line)
+  )
+
+  # returning a svlist class object
+  if (numeric) {
+    full_version <- semver::parse_version(full_version)
+  }
+  # getting the version date
+  date_string <- extract_version_date(version_line)
+  if (!is.na(date_string)) {
+    attr(full_version, "date") <- date_string
+  }
+  full_version
+}
+
+extract_version_string <- function(version_string) {
+  number_string <- gsub(
+    pattern = "(.*v)([0-9\\.]*)(.*)",
+    replacement = "\\2",
+    x = tolower(version_string)
+  )
+  number_string
+}
+
+extract_version_hash <- function(version_string) {
+  if (
+    grepl(
+      pattern = "[0-9a-z]{9}\\_",
+      x = trimws(tolower(version_string))
+    )
+  )
+    return(gsub(
+      pattern = "(.*)([0-9a-z]{9})(.*)",
+      x = version_string,
+      replacement = "\\2"
+    ))
+  NA
+}
+
+extract_version_date <- function(version_string) {
+  grepl(
+    pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}",
+    x = trimws(tolower(version_string))
+  )
+  return(gsub(
+    pattern = "(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})",
+    x = version_string,
+    replacement = "\\2"
+  ))
+  NA
+}
+
+complete_version <- function(stics_version) {
+  if (is.numeric(stics_version)) stics_version <- as.character(stics_version)
+
+  version_parts <- strsplit(stics_version, split = ".", fixed = TRUE)[[1]]
+  version_parts_number <- length(version_parts)
+  if (version_parts_number == 2) {
+    replic <- 1
+  } else if (version_parts_number == 1) {
+    replic <- 2
+  } else {
+    return(stics_version)
+  }
+  paste(c(version_parts, rep("0", replic)), collapse = ".")
+}
+
 
 #' Checking if given path is a Stics executable path
 #'
@@ -469,10 +544,9 @@ check_stics_exe <- function(
     # attaching the version attribute & removing the output one
     # Filtering only the first line in case of other information
     # exist on additional lines (commit,...)
-    attr(err_status, "version") <- gsub(
-      pattern = "Modulostics version : ",
-      x = trimws(attr(err_status, "output")[1]),
-      replacement = ""
+    attr(err_status, "version") <- get_version(
+      attr(err_status, "output")[1],
+      numeric = FALSE
     )
     attr(err_status, "output") <- NULL
   }
