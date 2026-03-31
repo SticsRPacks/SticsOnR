@@ -48,7 +48,8 @@ Imports:
     stats,
     tibble,
     tidyr,
-    SticsRFiles (>= 1.1.3)
+    SticsRFiles (>= 1.1.3),
+    semver
 Suggests:
     covr,
     knitr,
