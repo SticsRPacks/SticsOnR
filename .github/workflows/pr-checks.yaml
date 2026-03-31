@@ -3,7 +3,7 @@ run-name: pull-request-checks for ${{ github.head_ref }}
 
 on:
   pull_request:
-    branches: [main, master]
+    branches: main
 
 permissions:
   contents: read

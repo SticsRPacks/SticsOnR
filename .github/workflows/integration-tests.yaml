@@ -35,8 +35,7 @@ jobs:
         github.event.workflow_run.conclusion == 'success' &&
         github.event.workflow_run.event == 'push' &&
         (
-          github.event.workflow_run.head_branch == 'main' ||
-          github.event.workflow_run.head_branch == 'master'
+          github.event.workflow_run.head_branch == 'main'
         )
       )
     uses: SticsRPacks/SticsRTests/.github/workflows/integration-tests.yaml@main
