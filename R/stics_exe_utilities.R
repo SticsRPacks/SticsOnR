@@ -417,16 +417,17 @@ extract_version_string <- function(version_string) {
 }
 
 extract_version_hash <- function(version_string) {
+  version_string <- trimws(tolower(version_string))
   if (
     grepl(
-      pattern = "[0-9a-z]{9}\\_",
-      x = trimws(tolower(version_string))
+      pattern = "^[[:alnum:]]{8,9}_",
+      x = version_string
     )
   )
     return(gsub(
-      pattern = "(.*)([0-9a-z]{9})(.*)",
+      pattern = "(^[[:alnum:]]{8,9})(_.*)",
       x = version_string,
-      replacement = "\\2"
+      replacement = "\\1"
     ))
   NA
 }
@@ -468,7 +469,8 @@ complete_version <- function(stics_version) {
 #' @param stop Logical for stopping or not execution
 #' @param verbose provide hints to the user if `TRUE` (only if `stop= FALSE`)
 #'
-#' @return System output (error,...)
+#' @return checking success, logical TRUE if checking is ok, FALSE if not,
+#' with an attribute "version" as an attribute
 #'
 #' @keywords internal
 #'
@@ -476,7 +478,7 @@ complete_version <- function(stics_version) {
 #'
 check_stics_exe <- function(
   model_path,
-  version = FALSE,
+  add_version = FALSE,
   stop = TRUE,
   verbose = FALSE
 ) {
@@ -499,25 +501,11 @@ check_stics_exe <- function(
     }
   }
 
-  # Make the file executable if needed for linux or Mac
-  if (!SticsRFiles:::set_file_executable(model_path)) {
-    if (stop) {
-      stop(paste("Cannot give execute permissions for model: ", model_path))
-    } else {
-      if (verbose) {
-        cli::cli_alert_danger(
-          "Cannot give execute permissions
-                                        for model: {.val {model_path}}."
-        )
-      }
-      return(invisible(FALSE))
-    }
-  }
   # catching returned error status
   err_status <- suppressWarnings(run_system_cmd(
     model_path,
     com_args = "--version",
-    output = version
+    output = add_version
   ))
 
   # exiting if any error
@@ -539,6 +527,21 @@ check_stics_exe <- function(
     }
   }
 
+  # Make the file executable if needed for linux or Mac
+  if (!SticsRFiles:::set_file_executable(model_path)) {
+    if (stop) {
+      stop(paste("Cannot give execute permissions for model: ", model_path))
+    } else {
+      if (verbose) {
+        cli::cli_alert_danger(
+          "Cannot give execute permissions
+                                        for model: {.val {model_path}}."
+        )
+      }
+      return(invisible(FALSE))
+    }
+  }
+
   # If version is required
   if (version) {
     # attaching the version attribute & removing the output one
@@ -551,7 +554,7 @@ check_stics_exe <- function(
     attr(err_status, "output") <- NULL
   }
 
-  return(invisible(err_status))
+  invisible(err_status)
 }
 
 #' @title Select the Stics executable

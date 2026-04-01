@@ -34,7 +34,7 @@ test_that("Get the full version from number or string", {
   testthat::expect_equal(SticsOnR:::complete_version("10.5.0"), "10.5.0")
 })
 
-test_that("Get the version hash from the exe info", {
+test_that("Get the version hash from the executable info string", {
   version_line <- " b09f41236_2026-02-17"
   testthat::expect_equal(SticsOnR:::get_version(version_line), "b09f41236")
   testthat::expect_equal(
@@ -55,4 +55,6 @@ test_that("Get the version hash from the exe info", {
     SticsOnR:::get_version(version_line, numeric = FALSE),
     "10.0.0"
   )
+  version_line <- "   "
+  testthat::expect_error(SticsOnR:::get_version(version_line))
 })
