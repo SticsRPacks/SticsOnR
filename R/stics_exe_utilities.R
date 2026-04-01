@@ -63,8 +63,7 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(
-      SticsRFiles:::user_os(),
+    switch(SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -346,8 +345,8 @@ list_stics_exe <- function(javastics) {
 #'
 #' @examples
 #' \dontrun{
-#'   get_version_number("path/to/stics_exe")
-#'   get_version_number("path/to/stics_exe", numeric = FALSE)
+#' get_version_number("path/to/stics_exe")
+#' get_version_number("path/to/stics_exe", numeric = FALSE)
 #' }
 #'
 get_version_number <- function(exe_path, numeric = TRUE) {
@@ -381,13 +380,16 @@ get_version_date <- function(exe_path) {
 get_version <- function(version_line, numeric = TRUE) {
   # testing the hash if any & early return, no release number
   version_hash <- extract_version_hash(version_line)
-  if (!is.na((version_hash))) return(version_hash)
+  if (!is.na((version_hash))) {
+    return(version_hash)
+  }
 
   # testing the release info line
-  if (!grepl(pattern = "stics", x = tolower(version_line)))
+  if (!grepl(pattern = "stics", x = tolower(version_line))) {
     stop(
       "The version information returned by the executable is not a STICS one"
     )
+  }
 
   # rewrite the version as a complete version with 3 digits (x.y.z) to be
   # able to parse it as a semver
@@ -423,12 +425,13 @@ extract_version_hash <- function(version_string) {
       pattern = "^[[:alnum:]]{8,9}_",
       x = version_string
     )
-  )
+  ) {
     return(gsub(
       pattern = "(^[[:alnum:]]{8,9})(_.*)",
       x = version_string,
       replacement = "\\1"
     ))
+  }
   NA
 }
 
