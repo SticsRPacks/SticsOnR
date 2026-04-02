@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -91,7 +92,7 @@ set_stics_exe <- function(
   exe_file_name <- basename(stics_exe)
   java_stics_exe <- file.path(javastics, "bin", stics_exe)
 
-  if (check_stics_exe(model_path = java_stics_exe, stop = FALSE)) {
+  if (check_stics_exe(model_path = java_stics_exe, stop_on_error = FALSE)) {
     # If the executable is already listed with a name:
     stics_list <- list_stics_exe(javastics)$stics_list
     exe_in_list <- grepl(paste0("^", stics_exe, "$"), unlist(stics_list))
@@ -119,7 +120,7 @@ set_stics_exe <- function(
         "Using stics executable from: {.val {java_stics_exe}}"
       )
     }
-  } else if (check_stics_exe(model_path = stics_exe, stop = FALSE)) {
+  } else if (check_stics_exe(model_path = stics_exe, stop_on_error = FALSE)) {
     # Case 3: stics_exe is a path to the executable
 
     if (exe_file_name == "stics_modulo") {
@@ -484,7 +485,7 @@ complete_version <- function(stics_version) {
 #' @param model_path Model executable path
 #' @param version Logical, or getting system command return i.e.
 #' model version or not (default)
-#' @param stop Logical for stopping or not execution
+#' @param stop_on_error Logical for stopping or not execution
 #' @param verbose provide hints to the user if `TRUE` (only if `stop= FALSE`)
 #'
 #' @return checking success, logical TRUE if checking is ok, FALSE if not,
@@ -497,7 +498,7 @@ complete_version <- function(stics_version) {
 check_stics_exe <- function(
   model_path,
   add_version = FALSE,
-  stop = TRUE,
+  stop_on_error = TRUE,
   verbose = FALSE
 ) {
   # Need to set the directory to the one of the exe for system calls
@@ -506,7 +507,7 @@ check_stics_exe <- function(
 
   # Check that file exist:
   if (!file.exists(model_path)) {
-    if (stop) {
+    if (stop_on_error) {
       stop(paste("Executable file doesn't exist: ", model_path))
     } else {
       if (verbose) {
@@ -519,16 +520,16 @@ check_stics_exe <- function(
     }
   }
 
-  # catching returned error status
-  err_status <- suppressWarnings(run_system_cmd(
+  # catching returned success status
+  success_status <- suppressWarnings(run_system_cmd(
     model_path,
     com_args = "--version",
     output = add_version
   ))
 
   # exiting if any error
-  if (!err_status) {
-    if (stop) {
+  if (!success_status) {
+    if (stop_on_error) {
       stop(paste(
         "File",
         model_path,
@@ -547,7 +548,7 @@ check_stics_exe <- function(
 
   # Make the file executable if needed for linux or Mac
   if (!SticsRFiles:::set_file_executable(model_path)) {
-    if (stop) {
+    if (stop_on_error) {
       stop(paste("Cannot give execute permissions for model: ", model_path))
     } else {
       if (verbose) {
@@ -561,18 +562,18 @@ check_stics_exe <- function(
   }
 
   # If version is required
-  if (version) {
+  if (add_version) {
     # attaching the version attribute & removing the output one
     # Filtering only the first line in case of other information
     # exist on additional lines (commit,...)
-    attr(err_status, "version") <- get_version(
-      attr(err_status, "output")[1],
+    attr(success_status, "version") <- get_version(
+      attr(success_status, "output")[1],
       numeric = FALSE
     )
-    attr(err_status, "output") <- NULL
+    attr(success_status, "output") <- NULL
   }
 
-  invisible(err_status)
+  invisible(success_status)
 }
 
 #' @title Select the Stics executable
