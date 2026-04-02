@@ -303,324 +303,323 @@ stics_wrapper <- function(
     .export = c("run_stics", "select_results"),
     .packages = c("SticsRFiles"),
     .combine = "c"
-  ) %do_par_or_not%
-    {
-      ## Loops on the USMs that can be simulated
-      ## out is a list containing vectors of:
-      ##   o list of simulated outputs,
-      ##   o flag TRUE if the requested simulation has been not performed
-      ##                        (model error),
-      ##   o flag FALSE if all the requested dates and variables were
-      ##     not simulated,
-      ##   o message in case of warning or error
-      ## (one value per set of parameter values to force)
+  ) %do_par_or_not% {
+    ## Loops on the USMs that can be simulated
+    ## out is a list containing vectors of:
+    ##   o list of simulated outputs,
+    ##   o flag TRUE if the requested simulation has been not performed
+    ##                        (model error),
+    ##   o flag FALSE if all the requested dates and variables were
+    ##     not simulated,
+    ##   o message in case of warning or error
+    ## (one value per set of parameter values to force)
 
-      rotation <- rotations[[i]]
-      rotation_out <- list()
-      for (j in seq_along(rotation)) {
-        situation <- rotation[j]
-        run_dir <- file.path(data_dir, situation)
+    rotation <- rotations[[i]]
+    rotation_out <- list()
+    for (j in seq_along(rotation)) {
+      situation <- rotation[j]
+      run_dir <- file.path(data_dir, situation)
 
-        # Select param_values depending on the situation to simulate
-        # convert param_values in a tibble if needed
-        param_values_sit <- tibble::tibble(!!!param_values)
-        if (!is.null(param_values)) {
-          if ("situation" %in% names(param_values_sit)) {
-            param_values_sit <- param_values_sit %>%
-              dplyr::filter(situation == situation) %>%
-              dplyr::select(-situation)
-          }
-          if ("variete" %in% names(param_values_sit)) {
-            param_values_sit <- dplyr::select(
-              param_values_sit,
-              c(
-                "variete",
-                setdiff(
-                  names(param_values_sit),
-                  "variete"
-                )
+      # Select param_values depending on the situation to simulate
+      # convert param_values in a tibble if needed
+      param_values_sit <- tibble::tibble(!!!param_values)
+      if (!is.null(param_values)) {
+        if ("situation" %in% names(param_values_sit)) {
+          param_values_sit <- param_values_sit %>%
+            dplyr::filter(situation == situation) %>%
+            dplyr::select(-situation)
+        }
+        if ("variete" %in% names(param_values_sit)) {
+          param_values_sit <- dplyr::select(
+            param_values_sit,
+            c(
+              "variete",
+              setdiff(
+                names(param_values_sit),
+                "variete"
               )
             )
-          }
+          )
         }
-        if (is.null((param_values_sit)) || nrow(param_values_sit) == 0) {
-          param_values_sit <- tibble::tibble(NA)
+      }
+      if (is.null((param_values_sit)) || nrow(param_values_sit) == 0) {
+        param_values_sit <- tibble::tibble(NA)
+      }
+
+      # Initialize out content
+      sim_list <- vector("list", nrow(param_values_sit))
+      flag_error <- rep(FALSE, nrow(param_values_sit))
+      flag_rqd_res <- rep(TRUE, nrow(param_values_sit))
+      messages <- as.list(rep("", nrow(param_values_sit)))
+
+      # For each set of parameter values to force in the model
+      for (ip in seq_len(nrow(param_values_sit))) {
+        # Force parameters values
+        if (
+          !SticsRFiles::force_param_values(
+            run_dir,
+            dplyr::slice(param_values_sit, ip),
+            javastics
+          )
+        ) {
+          mess <- warning(paste(
+            "Error when generating the forcing parameters file for USM",
+            situation,
+            ". \n "
+          ))
+          sim_list[ip] <- NULL
+          flag_error[ip] <- TRUE
+          flag_rqd_res[ip] <- FALSE
+          messages[ip] <- mess
+          next()
         }
 
-        # Initialize out content
-        sim_list <- vector("list", nrow(param_values_sit))
-        flag_error <- rep(FALSE, nrow(param_values_sit))
-        flag_rqd_res <- rep(TRUE, nrow(param_values_sit))
-        messages <- as.list(rep("", nrow(param_values_sit)))
-
-        # For each set of parameter values to force in the model
-        for (ip in seq_len(nrow(param_values_sit))) {
-          # Force parameters values
-          if (
-            !SticsRFiles::force_param_values(
-              run_dir,
-              dplyr::slice(param_values_sit, ip),
-              javastics
+        # Handle the simulation (may be repeated - using flag simulate - in case
+        # some configuration files are not well defined)
+        varmod_modified <- FALSE
+        simulate <- TRUE
+        while (simulate) {
+          is_successive <- is_successive_usm(successive_usms, situation)
+          if (is_successive) {
+            previous_run_dir <- file.path(data_dir, rotation[j - 1])
+            # Checking recup.tmp and snow_variables.txt files
+            # recup.tmp file is mandatory
+            f_recup_prev <- file.path(
+              previous_run_dir,
+              paste0("recup", ip, ".tmp")
             )
-          ) {
-            mess <- warning(paste(
-              "Error when generating the forcing parameters file for USM",
-              situation,
-              ". \n "
-            ))
-            sim_list[ip] <- NULL
-            flag_error[ip] <- TRUE
-            flag_rqd_res[ip] <- FALSE
-            messages[ip] <- mess
-            next()
-          }
 
-          # Handle the simulation (may be repeated - using flag simulate - in case
-          # some configuration files are not well defined)
-          varmod_modified <- FALSE
-          simulate <- TRUE
-          while (simulate) {
-            is_successive <- is_successive_usm(successive_usms, situation)
-            if (is_successive) {
-              previous_run_dir <- file.path(data_dir, rotation[j - 1])
-              # Checking recup.tmp and snow_variables.txt files
-              # recup.tmp file is mandatory
-              f_recup_prev <- file.path(
-                previous_run_dir,
-                paste0("recup", ip, ".tmp")
-              )
-
-              # Add snow_variables.txt to be copied only if snow is used
-              # in the previous usm
-              # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
-              use_snow_prev <- suppressWarnings(
-                unlist(
-                  SticsRFiles::get_param_txt(
-                    workspace = previous_run_dir,
-                    param = "codesnow",
-                    exact = TRUE
-                  ),
-                  use.names = FALSE
-                )
-              )
-              # check if snow module is used for the current usm
-              use_snow_curr <- suppressWarnings(
-                unlist(
-                  SticsRFiles::get_param_txt(
-                    workspace = run_dir,
-                    param = "codesnow",
-                    exact = TRUE
-                  ),
-                  use.names = FALSE
-                )
-              )
-
-              # manage consistency for snow module use for the 2 successive usms
-              if (use_snow_prev != use_snow_curr) {
-                if (use_snow_prev == 1) {
-                  mess_snow <- c(
-                    "but snow module is not used in the current USM",
-                    "while it was used in the previous USM."
-                  )
-                } else {
-                  mess_snow <- c(
-                    "but snow module is used in the current USM",
-                    "while it was not used in the previous USM."
-                  )
-                }
-                mess_snow <- warning(paste(
-                  "Error running the Stics model for USM",
-                  situation,
-                  ". \n This USM is part of a succession",
-                  mess_snow[1],
-                  mess_snow[2]
-                ))
-              } else {
-                mess_snow <- NULL
-              }
-
-              if (use_snow_prev == 1) {
-                # previous snow_variables.txt file
-                snow_prev <- file.path(
-                  previous_run_dir,
-                  paste0("snow_variables", ip, ".txt")
-                )
-                f_recup_prev <- c(f_recup_prev, snow_prev)
-              }
-              f_exist <- file.exists(f_recup_prev)
-
-              if (!all(f_exist)) {
-                mess <- warning(paste(
-                  "Error running the Stics model for USM",
-                  situation,
-                  ". \n This USMs is part of a succession",
-                  "but recup.tmp or snow_variables.txt",
-                  "file(s) was/were not created by the previous USM: \n",
-                  paste(f_recup_prev[f_exist], collapse = ", ")
-                ))
-                stop(paste(mess_snow, "\n\n", mess))
-              }
-
-              # Copying needed files and checking return
-              recup_copy <- file.copy(
-                from = f_recup_prev[f_exist],
-                to = file.path(
-                  run_dir,
-                  gsub(
-                    pattern = "[0-9*]",
-                    x = basename(f_recup_prev[f_exist]),
-                    replacement = ""
-                  )
+            # Add snow_variables.txt to be copied only if snow is used
+            # in the previous usm
+            # (use_snow == 1, i.e. codesnow == 1 in the USM input file)
+            use_snow_prev <- suppressWarnings(
+              unlist(
+                SticsRFiles::get_param_txt(
+                  workspace = previous_run_dir,
+                  param = "codesnow",
+                  exact = TRUE
                 ),
-                overwrite = TRUE
+                use.names = FALSE
               )
-
-              if (!all(recup_copy)) {
-                mess <- warning(
-                  paste(
-                    "Error copying recup.tmp and/or",
-                    "snow_variables.txt file(s) for USM",
-                    situation
-                  )
-                )
-
-                sim_list[ip] <- NULL
-                flag_error[ip] <- TRUE
-                flag_rqd_res[ip] <- FALSE
-                messages[ip] <- mess
-                next()
-              }
-              # The following could be done only once in case of repeated call
-              # to the wrapper (e.g. parameters estimation ...)
-              # new_travail.usm file must be modified to allow successive USMs
-              # file path
-              new_travail <- file.path(run_dir, "new_travail.usm")
-              SticsRFiles::set_usm_txt(
-                file = new_travail,
-                param = "codesuite",
-                value = 1
+            )
+            # check if snow module is used for the current usm
+            use_snow_curr <- suppressWarnings(
+              unlist(
+                SticsRFiles::get_param_txt(
+                  workspace = run_dir,
+                  param = "codesnow",
+                  exact = TRUE
+                ),
+                use.names = FALSE
               )
-            }
-
-            # Run the model, forcing not to check the model executable
-            # (saves time)
-            usm_out <- run_stics(
-              stics_exe,
-              run_dir,
-              verbose = verbose,
-              check = FALSE
             )
 
-            # In case of successive USMs, re-initialize codesuite (to allow next
-            # run to be in non-successive mode) and rename recup.tmp and
-            # snow_variables.txt (for usms that have a successor)
-            if (is_successive) {
-              SticsRFiles::set_usm_txt(
-                file = new_travail,
-                param = "codesuite",
-                value = 0
-              )
-            }
-
-            if (is_previous_usm(successive_usms, situation)) {
-              recup_curr <- file.path(run_dir, "recup.tmp")
-
-              if (!file.exists(recup_curr)) {
-                stop("recup.tmp file not found")
-              }
-
-              file.rename(
-                from = recup_curr,
-                to = file.path(run_dir, paste0("recup", ip, ".tmp"))
-              )
-
-              snow_curr <- file.path(run_dir, "snow_variables.txt")
-
-              if (file.exists(snow_curr)) {
-                file.rename(
-                  from = snow_curr,
-                  to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
+            # manage consistency for snow module use for the 2 successive usms
+            if (use_snow_prev != use_snow_curr) {
+              if (use_snow_prev == 1) {
+                mess_snow <- c(
+                  "but snow module is not used in the current USM",
+                  "while it was used in the previous USM."
+                )
+              } else {
+                mess_snow <- c(
+                  "but snow module is used in the current USM",
+                  "while it was not used in the previous USM."
                 )
               }
+              mess_snow <- warning(paste(
+                "Error running the Stics model for USM",
+                situation,
+                ". \n This USM is part of a succession",
+                mess_snow[1],
+                mess_snow[2]
+              ))
+            } else {
+              mess_snow <- NULL
             }
 
-            # if the model returns an error, ... go to next simulation
-            if (usm_out[[1]]$error) {
+            if (use_snow_prev == 1) {
+              # previous snow_variables.txt file
+              snow_prev <- file.path(
+                previous_run_dir,
+                paste0("snow_variables", ip, ".txt")
+              )
+              f_recup_prev <- c(f_recup_prev, snow_prev)
+            }
+            f_exist <- file.exists(f_recup_prev)
+
+            if (!all(f_exist)) {
               mess <- warning(paste(
                 "Error running the Stics model for USM",
                 situation,
-                ". \n ",
-                usm_out[[1]]$message
+                ". \n This USMs is part of a succession",
+                "but recup.tmp or snow_variables.txt",
+                "file(s) was/were not created by the previous USM: \n",
+                paste(f_recup_prev[f_exist], collapse = ", ")
               ))
-              sim_list[[ip]] <- NULL
-              flag_error[ip] <- TRUE
-              flag_rqd_res[ip] <- FALSE
-              messages[[ip]] <- mess
-              simulate <- FALSE
-              next()
+              stop(paste(mess_snow, "\n\n", mess))
             }
 
-            # Get results
-            sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = verbose)[[1]]
-
-            # Any error reading output file ... go to next simulation
-            if (is.null(sim_tmp)) {
-              mess <- warning(paste(
-                "Error reading outputs for ",
-                situation,
-                ". \n "
-              ))
-              sim_list[[ip]] <- NULL
-              flag_error[ip] <- TRUE
-              flag_rqd_res[ip] <- FALSE
-              messages[[ip]] <- mess
-              simulate <- FALSE
-              next()
-            }
-
-            # For phenological stages, replace the zeros by the following non-zero
-            # value (works even in case of simulations replicated on several years
-            # within a single USM)
-            if (length(sim_tmp) > 0) {
-              if (length(intersect(stages_list, names(sim_tmp)) > 0)) {
-                sim_tmp <-
-                  sim_tmp %>%
-                  dplyr::mutate(
-                    dplyr::across(
-                      dplyr::all_of(
-                        intersect(stages_list, names(.))
-                      ),
-                      ~ dplyr::na_if(., 0)
-                    ) %>%
-                      tidyr::fill(tidyr::everything(), .direction = "up")
-                  )
-              }
-            }
-
-            # Select data to return
-            tmp <- select_results(
-              keep_all_data,
-              sit_var_dates_mask,
-              var_names,
-              dates,
-              situation,
-              sim_tmp,
-              varmod_modified,
-              verbose,
-              run_dir
+            # Copying needed files and checking return
+            recup_copy <- file.copy(
+              from = f_recup_prev[f_exist],
+              to = file.path(
+                run_dir,
+                gsub(
+                  pattern = "[0-9*]",
+                  x = basename(f_recup_prev[f_exist]),
+                  replacement = ""
+                )
+              ),
+              overwrite = TRUE
             )
-            sim_list[[ip]] <- tmp$sim_list
-            flag_error[ip] <- tmp$flag_error
-            flag_rqd_res[ip] <- tmp$flag_rqd_res
-            messages[[ip]] <- tmp$message
-            simulate <- tmp$simulate
-            varmod_modified <- tmp$varmod_modified
+
+            if (!all(recup_copy)) {
+              mess <- warning(
+                paste(
+                  "Error copying recup.tmp and/or",
+                  "snow_variables.txt file(s) for USM",
+                  situation
+                )
+              )
+
+              sim_list[ip] <- NULL
+              flag_error[ip] <- TRUE
+              flag_rqd_res[ip] <- FALSE
+              messages[ip] <- mess
+              next()
+            }
+            # The following could be done only once in case of repeated call
+            # to the wrapper (e.g. parameters estimation ...)
+            # new_travail.usm file must be modified to allow successive USMs
+            # file path
+            new_travail <- file.path(run_dir, "new_travail.usm")
+            SticsRFiles::set_usm_txt(
+              file = new_travail,
+              param = "codesuite",
+              value = 1
+            )
           }
+
+          # Run the model, forcing not to check the model executable
+          # (saves time)
+          usm_out <- run_stics(
+            stics_exe,
+            run_dir,
+            verbose = verbose,
+            check = FALSE
+          )
+
+          # In case of successive USMs, re-initialize codesuite (to allow next
+          # run to be in non-successive mode) and rename recup.tmp and
+          # snow_variables.txt (for usms that have a successor)
+          if (is_successive) {
+            SticsRFiles::set_usm_txt(
+              file = new_travail,
+              param = "codesuite",
+              value = 0
+            )
+          }
+
+          if (is_previous_usm(successive_usms, situation)) {
+            recup_curr <- file.path(run_dir, "recup.tmp")
+
+            if (!file.exists(recup_curr)) {
+              stop("recup.tmp file not found")
+            }
+
+            file.rename(
+              from = recup_curr,
+              to = file.path(run_dir, paste0("recup", ip, ".tmp"))
+            )
+
+            snow_curr <- file.path(run_dir, "snow_variables.txt")
+
+            if (file.exists(snow_curr)) {
+              file.rename(
+                from = snow_curr,
+                to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
+              )
+            }
+          }
+
+          # if the model returns an error, ... go to next simulation
+          if (usm_out[[1]]$error) {
+            mess <- warning(paste(
+              "Error running the Stics model for USM",
+              situation,
+              ". \n ",
+              usm_out[[1]]$message
+            ))
+            sim_list[[ip]] <- NULL
+            flag_error[ip] <- TRUE
+            flag_rqd_res[ip] <- FALSE
+            messages[[ip]] <- mess
+            simulate <- FALSE
+            next()
+          }
+
+          # Get results
+          sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = verbose)[[1]]
+
+          # Any error reading output file ... go to next simulation
+          if (is.null(sim_tmp)) {
+            mess <- warning(paste(
+              "Error reading outputs for ",
+              situation,
+              ". \n "
+            ))
+            sim_list[[ip]] <- NULL
+            flag_error[ip] <- TRUE
+            flag_rqd_res[ip] <- FALSE
+            messages[[ip]] <- mess
+            simulate <- FALSE
+            next()
+          }
+
+          # For phenological stages, replace the zeros by the following non-zero
+          # value (works even in case of simulations replicated on several years
+          # within a single USM)
+          if (length(sim_tmp) > 0) {
+            if (length(intersect(stages_list, names(sim_tmp)) > 0)) {
+              sim_tmp <-
+                sim_tmp %>%
+                dplyr::mutate(
+                  dplyr::across(
+                    dplyr::all_of(
+                      intersect(stages_list, names(.))
+                    ),
+                    ~ dplyr::na_if(., 0)
+                  ) %>%
+                    tidyr::fill(tidyr::everything(), .direction = "up")
+                )
+            }
+          }
+
+          # Select data to return
+          tmp <- select_results(
+            keep_all_data,
+            sit_var_dates_mask,
+            var_names,
+            dates,
+            situation,
+            sim_tmp,
+            varmod_modified,
+            verbose,
+            run_dir
+          )
+          sim_list[[ip]] <- tmp$sim_list
+          flag_error[ip] <- tmp$flag_error
+          flag_rqd_res[ip] <- tmp$flag_rqd_res
+          messages[[ip]] <- tmp$message
+          simulate <- tmp$simulate
+          varmod_modified <- tmp$varmod_modified
         }
-        rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
       }
-      return(rotation_out)
+      rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
     }
+    return(rotation_out)
+  }
 
   # Filtering situation names for keeping only the required results
   names(out) <- sit2simulate
@@ -1205,7 +1204,7 @@ stics_wrapper_options <- function(
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(stics_exe, stop_on_error = FALSE)) {
-    #} else if (!check_stics_exe(model_path = stics_exe, stop_on_error = FALSE)) {
+    # } else if (!check_stics_exe(model_path = stics_exe, stop_on_error = FALSE)) {
     # Case were stics_exe was not found in case 1 and 2, and is not a valid
     # path to an executable either:
     stop(
