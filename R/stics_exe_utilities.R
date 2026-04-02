@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -369,12 +370,15 @@ get_version_number <- function(exe_path, numeric = TRUE) {
   get_version(version_line, numeric = numeric)
 }
 
-get_version_date <- function(exe_path) {
-  date_string <- attr(get_version_number(exe_path), "date")
-  if (is.null(date_string)) {
+get_exe_date <- function(exe_path) {
+  get_version_date(get_version_number(exe_path))
+}
+
+get_version_date <- function(version_object) {
+  if (!"date" %in% names(attributes(version_object))) {
     return(NA)
   }
-  as.Date(date_string)
+  attr(version_object, "date")
 }
 
 get_version <- function(version_line, numeric = TRUE) {
@@ -404,7 +408,7 @@ get_version <- function(version_line, numeric = TRUE) {
   # getting the version date
   date_string <- extract_version_date(version_line)
   if (!is.na(date_string)) {
-    attr(full_version, "date") <- date_string
+    attr(full_version, "date") <- as.Date(date_string)
   }
   full_version
 }

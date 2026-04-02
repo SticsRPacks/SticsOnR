@@ -23,8 +23,8 @@ Get STICS executable version number, or string, or hash
 }
 \examples{
 \dontrun{
-  get_version_number("path/to/stics_exe")
-  get_version_number("path/to/stics_exe", numeric = FALSE)
+get_version_number("path/to/stics_exe")
+get_version_number("path/to/stics_exe", numeric = FALSE)
 }
 
 }
