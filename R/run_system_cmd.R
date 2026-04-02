@@ -38,8 +38,6 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
     return(err_status)
   }
 
-  # Not a try-error ??? Why ?
-  # TODO: to be merged with preceeding conditionnal block !!!!!
   if ("status" %in% names(attributes(ret)) && attr(ret, "status") > 0) {
     err_status <- FALSE
     attr(err_status, "message") <- ret[1]
