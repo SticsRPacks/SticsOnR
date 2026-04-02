@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -381,74 +382,86 @@ get_version_date <- function(version_object) {
 }
 
 get_version <- function(version_line, numeric = TRUE) {
-  # testing the hash if any & early return, no release number
+  # getting the version date
+  date_string <- extract_version_date(version_line)
+  # no date detected
+  if (is.na(date_string)) {
+    return(NA)
+  }
+  # converting to Date
+  date_object <- as.Date(date_string)
+
+  # trying to get the hash if any & early return
   version_hash <- extract_version_hash(version_line)
   if (!is.na((version_hash))) {
+    attr(version_hash, "date") <- date_object
     return(version_hash)
   }
 
-  # testing the release info line
+  # Trying to get the release number
   if (!grepl(pattern = "stics", x = tolower(version_line))) {
-    stop(
+    warning(
       "The version information returned by the executable is not a STICS one"
     )
+    return(NA)
   }
-
-  # rewrite the version as a complete version with 3 digits (x.y.z) to be
-  # able to parse it as a semver
-  full_version <- complete_version(
+  # Rewriting the version (which may be incomplete, i.e. 10.5)
+  # as a full version (with 3 digits x.y.z) to be
+  # able to parse it as a semver object
+  version_object <- complete_version(
     extract_version_string(version_line)
   )
-
-  # returning a svlist class object
   if (numeric) {
-    full_version <- semver::parse_version(full_version)
+    version_object <- semver::parse_version(version_object)
   }
-  # getting the version date
-  date_string <- extract_version_date(version_line)
-  if (!is.na(date_string)) {
-    attr(full_version, "date") <- as.Date(date_string)
-  }
-  full_version
+  # Adding date as attribute to the semver object or character version
+  attr(version_object, "date") <- date_object
+
+  version_object
 }
 
 extract_version_string <- function(version_string) {
-  number_string <- gsub(
+  if (!grepl(pattern = "v[0-9\\.]*", version_string)) {
+    return(NA)
+  }
+  gsub(
     pattern = "(.*v)([0-9\\.]*)(.*)",
     replacement = "\\2",
-    x = tolower(version_string)
+    x = trimws(tolower(version_string))
   )
-  number_string
 }
 
 extract_version_hash <- function(version_string) {
   version_string <- trimws(tolower(version_string))
   if (
-    grepl(
+    !grepl(
       pattern = "^[[:alnum:]]{8,9}_",
       x = version_string
     )
   ) {
-    return(gsub(
-      pattern = "(^[[:alnum:]]{8,9})(_.*)",
-      x = version_string,
-      replacement = "\\1"
-    ))
+    return(NA)
   }
-  NA
+  gsub(
+    pattern = "(^[[:alnum:]]{8,9})(_.*)",
+    x = version_string,
+    replacement = "\\1"
+  )
 }
 
 extract_version_date <- function(version_string) {
-  grepl(
-    pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}",
-    x = trimws(tolower(version_string))
-  )
-  return(gsub(
+  if (
+    !grepl(
+      pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}",
+      x = trimws(tolower(version_string))
+    )
+  ) {
+    return(NA)
+  }
+  gsub(
     pattern = "(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})",
     x = version_string,
     replacement = "\\2"
-  ))
-  NA
+  )
 }
 
 complete_version <- function(stics_version) {
