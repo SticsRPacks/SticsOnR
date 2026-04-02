@@ -5,18 +5,7 @@
 \title{Running usm(s) from a/several directory(ies)
 or a/several subdirectory(ies) named with usm name}
 \usage{
-run_stics(
-  stics_exe,
-  workspace,
-  usm = NULL,
-  check = TRUE,
-  verbose = FALSE,
-  model_path = lifecycle::deprecated(),
-  data_dir = lifecycle::deprecated(),
-  usm_dir_names = lifecycle::deprecated(),
-  check_exe = lifecycle::deprecated(),
-  display = lifecycle::deprecated()
-)
+run_stics(stics_exe, workspace, usm = NULL, check = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{stics_exe}{Path of Stics the executable file}
@@ -31,21 +20,6 @@ If not provided, the function runs all the USMs included in workspace.}
 
 \item{verbose}{Logical value (optional), TRUE to display usms names,
 FALSE otherwise (default)}
-
-\item{model_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{model_path} is no
-longer supported, use \code{stics_exe} instead.}
-
-\item{data_dir}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{data_dir} is no
-longer supported, use \code{workspace} instead.}
-
-\item{usm_dir_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{usm_dir_names} is no
-longer supported, use \code{usm} instead.}
-
-\item{check_exe}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{check_exe} is no
-longer supported, use \code{check} instead.}
-
-\item{display}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{display} is no
-longer supported, use \code{verbose} instead.}
 }
 \value{
 A list with usm names and execution error status

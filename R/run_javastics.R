@@ -16,12 +16,6 @@
 #' @param stics_exe The name, executable or path of the stics executable to use
 #'  (optional, default to "modulostics", see details)
 #' @param java_cmd The java virtual machine command name or executable path
-#' @param workspace_path `r lifecycle::badge("deprecated")` `workspace_path`
-#'   is no longer supported, use `workspace` instead.
-#' @param javastics_path `r lifecycle::badge("deprecated")` `javastics_path`
-#'   is no longer supported, use `javastics` instead.
-#' @param usms_list `r lifecycle::badge("deprecated")` `usms_list` is no
-#'   longer supported, use `usm` instead.
 #'
 #' @details `stics_exe` may be :
 #' 1. a model name pointing to a stics executable as done in JavaStics, e.g.
@@ -59,48 +53,17 @@ run_javastics <- function(
   optim = FALSE,
   verbose = TRUE,
   stics_exe = "modulostics",
-  java_cmd = "java",
-  javastics_path = lifecycle::deprecated(),
-  workspace_path = lifecycle::deprecated(),
-  usms_list = lifecycle::deprecated()
+  java_cmd = "java"
 ) {
-  if (lifecycle::is_present(javastics_path)) {
-    lifecycle::deprecate_warn(
-      "1.0.0",
-      "run_javastics(javastics_path)",
-      "run_javastics(javastics)"
-    )
-  } else {
-    javastics_path <- javastics # to remove when we update inside the function
-  }
-  if (lifecycle::is_present(workspace_path)) {
-    lifecycle::deprecate_warn(
-      "1.0.0",
-      "run_javastics(workspace_path)",
-      "run_javastics(workspace)"
-    )
-  } else {
-    workspace_path <- workspace # to remove when we update inside the function
-  }
-  if (lifecycle::is_present(usms_list)) {
-    lifecycle::deprecate_warn(
-      "1.0.0",
-      "run_javastics(usms_list)",
-      "run_javastics(usm)"
-    )
-  } else {
-    usms_list <- usm # to remove when we update inside the function
-  }
-
   # Ensure that the user working directory is unchanged after
   # the function has run
   current_wd <- getwd()
   on.exit(setwd(current_wd))
 
   # Use absolute path from now on:
-  javastics_path <- normalizePath(javastics_path, winslash = "/")
-  workspace_path <- normalizePath(
-    workspace_path,
+  javastics <- normalizePath(javastics, winslash = "/")
+  workspace <- normalizePath(
+    workspace,
     winslash = "/",
     mustWork = FALSE
   )
@@ -111,7 +74,7 @@ run_javastics <- function(
   }
 
   # Checking javastics path
-  SticsRFiles:::check_java_path(javastics_path)
+  SticsRFiles:::check_java_path(javastics)
 
   # Getting right executable name for the platform
   if (stics_exe == "modulostics") {
@@ -121,30 +84,30 @@ run_javastics <- function(
   }
 
   # Model path
-  stics_path <- file.path(javastics_path, "bin", stics_exe)
+  stics_path <- file.path(javastics, "bin", stics_exe)
 
   # On exit, return to the version used before:
   on.exit(
     set_stics_exe(
-      javastics = javastics_path,
-      stics_exe = list_stics_exe(javastics_path)$current[[1]],
+      javastics = javastics,
+      stics_exe = list_stics_exe(javastics)$current[[1]],
       verbose = FALSE
     ),
     add = TRUE
   )
 
   set_stics_exe(
-    javastics = javastics_path,
+    javastics = javastics,
     stics_exe = stics_exe,
     overwrite = TRUE,
     verbose = verbose
   )
 
   # Fixing the JavaStics path
-  setwd(javastics_path)
+  setwd(javastics)
 
   # Checking and getting JavaStics workspace path
-  ws <- SticsRFiles:::check_java_workspace(javastics_path, workspace_path)
+  ws <- SticsRFiles:::check_java_workspace(javastics, workspace)
   if (is.null(ws)) {
     return()
   }
@@ -153,10 +116,10 @@ run_javastics <- function(
   full_usms_list <- SticsRFiles::get_usms_list(file.path(ws, "usms.xml"))
 
   # Checking and selecting usms, if needed
-  if (is.null(usms_list)) {
-    usms_list <- full_usms_list
+  if (is.null(usm)) {
+    usm <- full_usms_list
   } else {
-    usm_exist <- full_usms_list %in% usms_list
+    usm_exist <- full_usms_list %in% usm
 
     # No usm
     if (!any(usm_exist)) {
@@ -164,17 +127,17 @@ run_javastics <- function(
     }
 
     # Selecting existing usms
-    if (sum(usm_exist) != length(usms_list)) {
-      unknown_usms <- setdiff(full_usms_list[usm_exist], usms_list)
+    if (sum(usm_exist) != length(usm)) {
+      unknown_usms <- setdiff(full_usms_list[usm_exist], usm)
       warning(
         "At least one usm does not exist in the usms.xml file : ",
         unknown_usms
       )
-      usms_list <- full_usms_list[usm_exist]
+      usm <- full_usms_list[usm_exist]
     }
   }
 
-  nb_usms <- length(usms_list)
+  nb_usms <- length(usm)
   usms_out <- vector("list", nb_usms)
 
   # Getting arguments to give to the system2 command
@@ -183,7 +146,7 @@ run_javastics <- function(
   cmd_type <- "run"
   if (optim) cmd_type <- "generate"
   cmd_list <- SticsRFiles:::get_javastics_cmd(
-    javastics_path,
+    javastics,
     java_cmd = java_cmd,
     type = cmd_type,
     workspace = ws,
@@ -192,10 +155,10 @@ run_javastics <- function(
   command <- cmd_list[[1]]
   cmd_string <- cmd_list[[2]]
 
-  histo_file <- file.path(workspace_path, "modhistory.sti")
+  histo_file <- file.path(workspace, "modhistory.sti")
 
   for (i in 1:nb_usms) {
-    usm_name <- usms_list[i]
+    usm_name <- usm[i]
     usm_out <- list()
     usm_out$name <- usm_name
 
@@ -204,7 +167,7 @@ run_javastics <- function(
       file.remove(histo_file)
     }
     histo_copy <- file.path(
-      workspace_path,
+      workspace,
       paste0(
         "modhistory_",
         usm_name,
@@ -215,9 +178,7 @@ run_javastics <- function(
       file.remove(histo_copy)
     }
 
-    # if (verbose) {
     print(usm_name)
-    # }
 
     if (optim) {
       system2(
@@ -229,7 +190,7 @@ run_javastics <- function(
           NULL
         }
       )
-      tmp <- run_system(stics_path, workspace_path)
+      tmp <- run_system(stics_path, workspace)
 
       usm_out$error <- tmp[[1]]$error
       usm_out$message <- tmp[[1]]$message
@@ -247,7 +208,6 @@ run_javastics <- function(
 
       err <- grep(pattern = "[eE]rror", tolower(status))
       if (length(err) > 0) {
-        # | status != 0) {
         # Any error, keeping the line with Error message
         usm_out$error <- TRUE
         usm_out$message <- status
@@ -276,7 +236,7 @@ run_javastics <- function(
       cli::cli_alert_success("\nAll usms ran successfully!")
     } else {
       cli::cli_alert_danger(
-        "Error during simulation of usm{?s} {.val {usms_list[!worked]}}"
+        "Error during simulation of usm{?s} {.val {usm[!worked]}}"
       )
     }
   }

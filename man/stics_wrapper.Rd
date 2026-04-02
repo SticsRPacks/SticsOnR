@@ -11,9 +11,7 @@ stics_wrapper(
   situation = NULL,
   var = NULL,
   dates = NULL,
-  sit_var_dates_mask = NULL,
-  sit_names = lifecycle::deprecated(),
-  var_names = lifecycle::deprecated()
+  sit_var_dates_mask = NULL
 )
 }
 \arguments{
@@ -51,12 +49,6 @@ If required dates varies between situations, use sit_var_dates_mask argument}
 containing a mask for variables and dates for which simulated values
 should be returned. Typically a list containing the observations to which
 simulations should be compared as provided by \code{SticsRFiles::get_obs}}
-
-\item{sit_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{sit_names} is no
-longer supported, use \code{situation} instead.}
-
-\item{var_names}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{var_names} is no
-longer supported, use \code{var} instead.}
 }
 \value{
 A list containing simulated values (\code{sim_list}: a list of tibbles
