@@ -1,5 +1,4 @@
 context("Test removing missing usms from successive USMs list")
-library(SticsOnR)
 
 test_that("remove_missing_usms keeps all successions when no USM is missing", {
   successive_usms <- list(
