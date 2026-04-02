@@ -1203,7 +1203,8 @@ stics_wrapper_options <- function(
   ) {
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
-  } else if (!check_stics_exe(model_path = stics_exe, stop = FALSE)) {
+  } else if (!check_stics_exe(stics_exe, stop_on_error = FALSE)) {
+    # } else if (!check_stics_exe(model_path = stics_exe, stop_on_error = FALSE)) {
     # Case were stics_exe was not found in case 1 and 2, and is not a valid
     # path to an executable either:
     stop(
