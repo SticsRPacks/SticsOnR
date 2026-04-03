@@ -12,10 +12,7 @@ run_javastics(
   optim = FALSE,
   verbose = TRUE,
   stics_exe = "modulostics",
-  java_cmd = "java",
-  javastics_path = lifecycle::deprecated(),
-  workspace_path = lifecycle::deprecated(),
-  usms_list = lifecycle::deprecated()
+  java_cmd = "java"
 )
 }
 \arguments{
@@ -39,15 +36,6 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 (optional, default to "modulostics", see details)}
 
 \item{java_cmd}{The java virtual machine command name or executable path}
-
-\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path}
-is no longer supported, use \code{javastics} instead.}
-
-\item{workspace_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{workspace_path}
-is no longer supported, use \code{workspace} instead.}
-
-\item{usms_list}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{usms_list} is no
-longer supported, use \code{usm} instead.}
 }
 \value{
 A list in which each element contains: usm "name", "error" status

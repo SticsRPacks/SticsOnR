@@ -14,15 +14,12 @@ stics_wrapper_options(
   verbose = TRUE,
   force = FALSE,
   successive = NULL,
-  javastics_path = lifecycle::deprecated(),
-  data_dir = lifecycle::deprecated(),
-  successive_usms = lifecycle::deprecated(),
   ...
 )
 }
 \arguments{
 \item{javastics}{Path of JavaStics. Optional, needed if stics_exe is not
-provided, or if stics_exe relates to an exe in the javastics_path
+provided, or if stics_exe relates to an exe in the javastics path
 (see details)}
 
 \item{stics_exe}{The name, executable or path of the stics executable to use
@@ -48,15 +45,6 @@ during execution, \code{FALSE} otherwise (default)}
 consider as successive
 (e.g. list(c("usm1.1","usm1.2"),c("usm2.1","usm2.2")) defines 2 successions
 usm1.1->usm1.2 and usm2.1->usm2.2)}
-
-\item{javastics_path}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{javastics_path}
-is no longer supported, use \code{javastics} instead.}
-
-\item{data_dir}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{data_dir} is no
-longer supported, use \code{workspace} instead.}
-
-\item{successive_usms}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{successive_usms}
-is no longer supported, use \code{successive} instead.}
 
 \item{...}{Add further arguments set the options list values}
 }
@@ -129,7 +117,8 @@ sim_options <- stics_wrapper_options(
 # Changing default values (e.g. parallel):
 sim_options <- stics_wrapper_options(
   javastics = javastics,
-  workspace = data_path, parallel = TRUE
+  workspace = data_path,
+  parallel = TRUE
 )
 
 #> $javastics
@@ -159,7 +148,8 @@ sim_options <- stics_wrapper_options(
 # Using the `force` argument to keep the inputs as is:
 sim_options <- stics_wrapper_options(
   javastics = javastics,
-  data_dir = data_path, force = TRUE
+  workspace = data_path,
+  force = TRUE
 )
 
 #> $javastics

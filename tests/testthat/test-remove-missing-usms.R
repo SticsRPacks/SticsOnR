@@ -1,7 +1,7 @@
 context("Test removing missing usms from successive USMs list")
 
 test_that("remove_missing_usms keeps all successions when no USM is missing", {
-  successive_usms <- list(
+  successive <- list(
     c("A1", "A2"),
     c("B1", "B2")
   )
@@ -9,17 +9,17 @@ test_that("remove_missing_usms keeps all successions when no USM is missing", {
   avail_sit <- c("A1", "A2", "B1", "B2")
 
   result <- remove_missing_usms(
-    data_dir = "/fake/path",
-    successive_usms = successive_usms,
+    workspace = "/fake/path",
+    successive = successive,
     avail_sit = avail_sit
   )
 
-  expect_equal(result, successive_usms)
+  expect_equal(result, successive)
 })
 
 
 test_that("remove_missing_usms removes successions containing missing USMs", {
-  successive_usms <- list(
+  successive <- list(
     c("A1", "A2"),
     c("B1", "B2"),
     c("C1", "C2")
@@ -29,8 +29,8 @@ test_that("remove_missing_usms removes successions containing missing USMs", {
 
   result <- suppressWarnings(
     remove_missing_usms(
-      data_dir = "/fake/path",
-      successive_usms = successive_usms,
+      workspace = "/fake/path",
+      successive = successive,
       avail_sit = avail_sit
     )
   )
@@ -46,7 +46,7 @@ test_that("remove_missing_usms removes successions containing missing USMs", {
 
 
 test_that("remove_missing_usms emits a warning listing missing USMs", {
-  successive_usms <- list(
+  successive <- list(
     c("A1", "A2"),
     c("B1", "B2")
   )
@@ -55,8 +55,8 @@ test_that("remove_missing_usms emits a warning listing missing USMs", {
 
   expect_warning(
     remove_missing_usms(
-      data_dir = "/data",
-      successive_usms = successive_usms,
+      workspace = "/data",
+      successive = successive,
       avail_sit = avail_sit
     ),
     regexp = "B1 B2"
@@ -65,7 +65,7 @@ test_that("remove_missing_usms emits a warning listing missing USMs", {
 
 
 test_that("remove_missing_usms removes all successions if all USMs are missing", {
-  successive_usms <- list(
+  successive <- list(
     c("A1", "A2"),
     c("B1")
   )
@@ -74,8 +74,8 @@ test_that("remove_missing_usms removes all successions if all USMs are missing",
 
   result <- suppressWarnings(
     remove_missing_usms(
-      data_dir = "/fake/path",
-      successive_usms = successive_usms,
+      workspace = "/fake/path",
+      successive = successive,
       avail_sit = avail_sit
     )
   )
@@ -84,14 +84,14 @@ test_that("remove_missing_usms removes all successions if all USMs are missing",
 })
 
 
-test_that("remove_missing_usms handles empty successive_usms", {
-  successive_usms <- list()
+test_that("remove_missing_usms handles empty successive", {
+  successive <- list()
 
   avail_sit <- c("A1", "A2")
 
   result <- remove_missing_usms(
-    data_dir = "/fake/path",
-    successive_usms = successive_usms,
+    workspace = "/fake/path",
+    successive = successive,
     avail_sit = avail_sit
   )
 
@@ -100,22 +100,22 @@ test_that("remove_missing_usms handles empty successive_usms", {
 
 
 test_that("remove_missing_usms does not modify input by reference", {
-  successive_usms <- list(
+  successive <- list(
     c("A1", "A2"),
     c("B1")
   )
 
   avail_sit <- c("A1", "A2")
 
-  successive_usms_copy <- successive_usms
+  successive_copy <- successive
 
   suppressWarnings(
     remove_missing_usms(
-      data_dir = "/fake/path",
-      successive_usms = successive_usms,
+      workspace = "/fake/path",
+      successive = successive,
       avail_sit = avail_sit
     )
   )
 
-  expect_equal(successive_usms, successive_usms_copy)
+  expect_equal(successive, successive_copy)
 })
