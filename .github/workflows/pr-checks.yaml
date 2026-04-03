@@ -1,10 +1,12 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+name: pull-request-checks
+run-name: pull-request-checks for ${{ github.head_ref }}
+
 on:
-  push:
+  pull_request:
     branches: main
 
-name: R-CMD-check
+permissions:
+  contents: read
 
 jobs:
   R-CMD-check:
@@ -16,7 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          #- { os: macos-latest, r: "release" }
           - { os: windows-latest, r: "release" }
           - {
               os: ubuntu-latest,
@@ -47,14 +48,36 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           pak-version: rc
-          # about pak-version:
-          # Ubuntu doesn't install the proper version of XML see https://github.com/r-lib/actions/issues/559. Remove when fixed.
-          # see also: https://stackoverflow.com/questions/73243945/pkgdown-action-failing-at-build-xml
           extra-packages: |
             any::rcmdcheck
             SticsRPacks/SticsRFiles@main
+            github::r-lib/testthat@3.1.8
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+
+  integration-tests-main:
+    name: integration-tests (others main)
+    needs: R-CMD-check
+    uses: SticsRPacks/SticsRTests/.github/workflows/integration-tests.yaml@main
+    with:
+      repo: SticsOnR
+      ref: ${{ github.head_ref }}
+      sha: ${{ github.event.pull_request.head.sha }}
+      dependency_mode: main
+      sticsrtests_ref: main
+    secrets: inherit
+
+  integration-tests-release:
+    name: integration-tests (others release)
+    needs: R-CMD-check
+    uses: SticsRPacks/SticsRTests/.github/workflows/integration-tests.yaml@main
+    with:
+      repo: SticsOnR
+      ref: ${{ github.head_ref }}
+      sha: ${{ github.event.pull_request.head.sha }}
+      dependency_mode: release
+      sticsrtests_ref: main
+    secrets: inherit
