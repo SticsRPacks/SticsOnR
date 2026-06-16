@@ -381,9 +381,10 @@ get_version_date <- function(version_object) {
 }
 
 get_version <- function(version_line, numeric = TRUE) {
-
   date_string <- extract_version_date(version_line)
-  if (is.na(date_string)) return(NA)
+  if (is.na(date_string)) {
+    return(NA)
+  }
 
   date_object <- as.Date(date_string)
 
