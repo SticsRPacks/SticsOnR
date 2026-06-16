@@ -337,10 +337,11 @@ list_stics_exe <- function(javastics) {
 #' @param numeric Logical, `TRUE` (default) to return a numeric version as a
 #' semver class vector, or `FALSE` to return a character string with the version
 #'
-#' @returns a smvr class vector if `numeric = TRUE` (default),
+#' @returns a semver class vector if `numeric = TRUE` (default),
 #' or a character string if `numeric = FALSE`, with an attribute "date" if
 #' the version date is provided in the system command output.
 #' Or a hash string if the system command output contains a hash.
+#' Or a label string if neither a version number nor a hash is found.
 #' @export
 #'
 #' @examples
