@@ -13,10 +13,11 @@ get_version_number(exe_path, numeric = TRUE)
 semver class vector, or \code{FALSE} to return a character string with the version}
 }
 \value{
-a smvr class vector if \code{numeric = TRUE} (default),
+a semver class vector if \code{numeric = TRUE} (default),
 or a character string if \code{numeric = FALSE}, with an attribute "date" if
 the version date is provided in the system command output.
 Or a hash string if the system command output contains a hash.
+Or a label string if neither a version number nor a hash is found.
 }
 \description{
 Get STICS executable version number, or string, or hash

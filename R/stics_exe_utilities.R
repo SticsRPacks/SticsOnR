@@ -399,11 +399,9 @@ get_version <- function(version_line, numeric = TRUE) {
 
   if (!is.na(version_raw)) {
     version_full <- complete_version(version_raw)
-
-    if (numeric) {
-      version_object <- semver::parse_version(version_full)
-    } else {
-      version_object <- sub("^v", "", version_full)
+    version_object <- semver::parse_version(version_full)
+    if (!numeric) {
+      version_object <- as.character(version_object)
     }
 
     attr(version_object, "date") <- date_object
