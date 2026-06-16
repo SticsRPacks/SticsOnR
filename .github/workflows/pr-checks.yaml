@@ -51,7 +51,6 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             SticsRPacks/SticsRFiles@main
-            github::r-lib/testthat@3.1.8
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

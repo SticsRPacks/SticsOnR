@@ -337,10 +337,11 @@ list_stics_exe <- function(javastics) {
 #' @param numeric Logical, `TRUE` (default) to return a numeric version as a
 #' semver class vector, or `FALSE` to return a character string with the version
 #'
-#' @returns a smvr class vector if `numeric = TRUE` (default),
+#' @returns a semver class vector if `numeric = TRUE` (default),
 #' or a character string if `numeric = FALSE`, with an attribute "date" if
 #' the version date is provided in the system command output.
 #' Or a hash string if the system command output contains a hash.
+#' Or a label string if neither a version number nor a hash is found.
 #' @export
 #'
 #' @examples
@@ -381,101 +382,108 @@ get_version_date <- function(version_object) {
 }
 
 get_version <- function(version_line, numeric = TRUE) {
-  # getting the version date
   date_string <- extract_version_date(version_line)
-  # no date detected
   if (is.na(date_string)) {
     return(NA)
   }
-  # converting to Date
+
   date_object <- as.Date(date_string)
 
-  # trying to get the hash if any & early return
   version_hash <- extract_version_hash(version_line)
-  if (!is.na((version_hash))) {
+  if (!is.na(version_hash)) {
     attr(version_hash, "date") <- date_object
     return(version_hash)
   }
 
-  # Trying to get the release number
-  if (!grepl(pattern = "stics", x = tolower(version_line))) {
-    warning(
-      "The version information returned by the executable is not a STICS one"
-    )
-    return(NA)
-  }
-  # Rewriting the version (which may be incomplete, i.e. 10.5)
-  # as a full version (with 3 digits x.y.z) to be
-  # able to parse it as a semver object
-  version_object <- complete_version(
-    extract_version_string(version_line)
-  )
-  if (numeric) {
-    version_object <- semver::parse_version(version_object)
-  }
-  # Adding date as attribute to the semver object or character version
-  attr(version_object, "date") <- date_object
+  version_raw <- extract_version_string(version_line)
 
-  version_object
+  if (!is.na(version_raw)) {
+    version_full <- complete_version(version_raw)
+
+    if (numeric) {
+      version_object <- semver::parse_version(version_full)
+    } else {
+      version_object <- sub("^v", "", version_full)
+    }
+
+    attr(version_object, "date") <- date_object
+    return(version_object)
+  }
+
+  version_label <- extract_version_label(version_line)
+  if (!is.na(version_label)) {
+    attr(version_label, "date") <- date_object
+    return(version_label)
+  }
+
+  NA
 }
 
 extract_version_string <- function(version_string) {
-  if (!grepl(pattern = "v[0-9\\.]*", version_string)) {
-    return(NA)
-  }
-  gsub(
-    pattern = "(.*v)([0-9\\.]*)(.*)",
-    replacement = "\\2",
-    x = trimws(tolower(version_string))
+  version_string <- tolower(trimws(version_string))
+
+  match <- regmatches(
+    version_string,
+    regexpr("v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-z0-9.]+)?", version_string)
   )
+
+  if (length(match) == 0 || match == "") {
+    return(NA_character_)
+  }
+
+  sub("^v", "", match)
 }
 
 extract_version_hash <- function(version_string) {
   version_string <- trimws(tolower(version_string))
-  if (
-    !grepl(
-      pattern = "^[[:alnum:]]{8,9}_",
-      x = version_string
-    )
-  ) {
-    return(NA)
+
+  if (!grepl("^[[:alnum:]]{8,9}_", version_string)) {
+    return(NA_character_)
   }
-  gsub(
-    pattern = "(^[[:alnum:]]{8,9})(_.*)",
-    x = version_string,
-    replacement = "\\1"
-  )
+
+  sub("^([[:alnum:]]{8,9})_.*", "\\1", version_string)
+}
+
+extract_version_label <- function(version_string) {
+  version_string <- trimws(tolower(version_string))
+
+  if (!grepl("^.+_[0-9]{4}-[0-9]{2}-[0-9]{2}$", version_string)) {
+    return(NA_character_)
+  }
+
+  sub("_[0-9]{4}-[0-9]{2}-[0-9]{2}$", "", version_string)
 }
 
 extract_version_date <- function(version_string) {
-  if (
-    !grepl(
-      pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}",
-      x = trimws(tolower(version_string))
-    )
-  ) {
+  version_string <- trimws(tolower(version_string))
+
+  if (!grepl("[0-9]{4}-[0-9]{2}-[0-9]{2}", version_string)) {
     return(NA)
   }
-  gsub(
-    pattern = "(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})",
-    x = version_string,
-    replacement = "\\2"
-  )
+
+  sub(".*([0-9]{4}-[0-9]{2}-[0-9]{2}).*", "\\1", version_string)
 }
 
 complete_version <- function(stics_version) {
-  if (is.numeric(stics_version)) stics_version <- as.character(stics_version)
-
-  version_parts <- strsplit(stics_version, split = ".", fixed = TRUE)[[1]]
-  version_parts_number <- length(version_parts)
-  if (version_parts_number == 2) {
-    replic <- 1
-  } else if (version_parts_number == 1) {
-    replic <- 2
-  } else {
-    return(stics_version)
+  if (is.numeric(stics_version)) {
+    stics_version <- as.character(stics_version)
   }
-  paste(c(version_parts, rep("0", replic)), collapse = ".")
+
+  if (is.na(stics_version) || stics_version == "") {
+    return(NA)
+  }
+
+  version_parts <- strsplit(stics_version, "\\.", fixed = FALSE)[[1]]
+
+  if (length(version_parts) == 2) {
+    return(paste0(stics_version, ".0"))
+  }
+
+  if (length(version_parts) == 1) {
+    return(paste0(stics_version, ".0.0"))
+  }
+
+  stics_version
 }
 
 
