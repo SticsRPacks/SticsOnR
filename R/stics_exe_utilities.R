@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -782,7 +783,7 @@ remove_stics_exe <- function(javastics, stics_exe) {
 
 #' Getting a xml_document from an XML file
 #'
-#' @param file
+#' @param file An xml file path
 #'
 #' @return a SticsRFiles xml_document object
 #' @keywords internal
