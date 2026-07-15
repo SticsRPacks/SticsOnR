@@ -63,8 +63,7 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(
-      SticsRFiles:::user_os(),
+    switch(SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
