@@ -295,11 +295,15 @@ stics_wrapper <- function(
 
       # Select param_values depending on the situation to simulate
       # convert param_values in a tibble if needed
-      param_values_sit <- tibble::tibble(!!!param_values)
-      if (!is.null(param_values)) {
+      if (is.null(param_values)) {
+        param_values_sit <- tibble::tibble(NA)
+      } else {
+        # if (!is.null(param_values)) {
+        param_values_sit <- tibble::tibble(!!!param_values)
         if ("situation" %in% names(param_values_sit)) {
+          sit_name <- situation
           param_values_sit <- param_values_sit %>%
-            dplyr::filter(situation == situation) %>%
+            dplyr::filter(situation == sit_name) %>%
             dplyr::select(-situation)
         }
         if ("variete" %in% names(param_values_sit)) {
@@ -314,9 +318,10 @@ stics_wrapper <- function(
             )
           )
         }
-      }
-      if (is.null((param_values_sit)) || nrow(param_values_sit) == 0) {
-        param_values_sit <- tibble::tibble(NA)
+        # Not any parameter to force for the current situation
+        if (nrow(param_values_sit) == 0) {
+          param_values_sit <- tibble::tibble(NA)
+        }
       }
 
       # Initialize out content

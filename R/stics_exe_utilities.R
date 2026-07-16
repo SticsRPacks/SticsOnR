@@ -782,7 +782,7 @@ remove_stics_exe <- function(javastics, stics_exe) {
 
 #' Getting a xml_document from an XML file
 #'
-#' @param file
+#' @param file An xml file path
 #'
 #' @return a SticsRFiles xml_document object
 #' @keywords internal
