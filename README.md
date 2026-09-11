@@ -10,7 +10,7 @@ The R package for the [STICS](https://stics.inrae.fr/eng) model
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R build
-status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svg)](https://github.com/SticsRPacks/SticsOnR/actions)
+status](https://github.com/SticsRPacks/SticsOnR/workflows/R-CMD-check/badge.svgbadge.svg?branch=main)](https://github.com/SticsRPacks/SticsOnR/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/SticsRPacks/SticsOnR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SticsRPacks/SticsOnR?branch=main)
 [![DOI](https://zenodo.org/badge/166790380.svg)](https://zenodo.org/badge/latestdoi/166790380)
@@ -58,6 +58,12 @@ JavaStics version
   a Java 11 version
 - for JavaStics 1.5.2/1.5.3 versions, the java version must be at least
   a Java 17 version
+- for JavaStics from version 10.4.0 to 11.0.0 version, the java version
+  must be at least a Java 17 version
+
+> Note: After the JavaStics Version 1.5.3, STICS version 10.3.0 the
+> release number has changed, a unique version has been chosen for
+> JavaSTICS and STICS using the STICS version number only.
 
 So, for adapting the java version to the JavaStics version some
 manipulations must be done either by switching between versions through
@@ -184,15 +190,14 @@ examples will be detailed in a specific documentation later.
 
 ### JavaStics command line interface
 
-The JavaStics installation folder (for example,
-JavaSTICS-1.5.3-STICS-10.3.0) contains an `example` workspace folder
-with a set of runnable usms.
+The JavaStics installation folder (for example, JavaSTICS-v11.0.0)
+contains an `example` workspace folder with a set of runnable usms.
 
 For running simulations from it, we can use the `run_javastics()`
 function.
 
 - Specifying the JavaStics folder  
-  <pre>javastics_path <- /path/to/JavaSTICS-1.5.3-STICS-10.3.0</pre>
+  <pre>javastics_path <- /path/to/JavaSTICS-v11.0.0</pre>
 - Specifying a workspace
   - as a sub-folder of JavaStics  
     <pre>workspace_path <- "example"</pre>
@@ -243,6 +248,9 @@ run_javastics(javastics_path, workspace_path,
 #> [1] "potato"
 #> [1] "banana"
 #> [1] "sorghum"
+#> [1] "barley"
+#> [1] "radish"
+#> [1] "winterbarley"
 #> [1] "sugarbeet"
 #> [1] "wheat"
 #> [1] "maize"
@@ -260,6 +268,8 @@ run_javastics(javastics_path, workspace_path,
 #> [1] "DurumWheat_4years"
 #> [1] "maize_4years"
 #> [1] "strawberry"
+#> [1] "alfalfa"
+#> [1] "pea"
 #> [1] "vine"
 #> [1] "fescue"
 #> [1] "flax"
@@ -300,9 +310,9 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] "[18/03/25]-[14:11:26] INFO - Files generated :"                                                           
-#> [2] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bbanana.sti"
-#> [3] "[18/03/25]-[14:11:26] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti" 
+#> [1] "[11/09/26]-[13:12:10] INFO - Files generated :"                               
+#> [2] "[11/09/26]-[13:12:10] INFO - \t/tmp/JavaSTICS-v11.0.0/example/mod_bbanana.sti"
+#> [3] "[11/09/26]-[13:12:10] INFO - \t/tmp/JavaSTICS-v11.0.0/example/modhistory.sti" 
 #> 
 #> 
 #> [[2]]
@@ -313,9 +323,9 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] "[18/03/25]-[14:11:27] INFO - Files generated :"                                                          
-#> [2] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/mod_bwheat.sti"
-#> [3] "[18/03/25]-[14:11:27] INFO - \t/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/example/modhistory.sti"
+#> [1] "[11/09/26]-[13:12:11] INFO - Files generated :"                              
+#> [2] "[11/09/26]-[13:12:11] INFO - \t/tmp/JavaSTICS-v11.0.0/example/mod_bwheat.sti"
+#> [3] "[11/09/26]-[13:12:11] INFO - \t/tmp/JavaSTICS-v11.0.0/example/modhistory.sti"
 ```
 
 In the returned information, the error field name gives a list of
@@ -393,25 +403,19 @@ runs_info <- run_stics(stics_path, output_path, usm = c("banana", "wheat"))
 
 runs_info
 #> [[1]]
-#> [[1]]$name
-#> [1] "banana"
-#> 
 #> [[1]]$error
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] " The execution was successful." " Duration = 37ms"              
+#> [1] " The execution was successful." " Duration = 48ms"              
 #> 
 #> 
 #> [[2]]
-#> [[2]]$name
-#> [1] "wheat"
-#> 
 #> [[2]]$error
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] " The execution was successful." " Duration = 56ms"
+#> [1] " The execution was successful." " Duration = 78ms"
 ```
 
 ### Advanced simulations parameterization
@@ -613,16 +617,18 @@ sim_options <- stics_wrapper_options(
   javastics = javastics_path,
   workspace = output_path, verbose = TRUE
 )
-#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
+#> ✔ Using stics: "/tmp/JavaSTICS-v11.0.0/bin/stics_modulo"
 
 results <- stics_wrapper(
   model_options = sim_options,
   sit_var_dates_mask = obs_list
 )
-#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
+#> ✔ Using stics: "/tmp/JavaSTICS-v11.0.0/bin/stics_modulo"
+#> NULL
 #> mod_smaize.sti
-#> Warning in select_results(keep_all_data, sit_var_dates_mask, var_names, :
+#> Warning in select_results(keep_all_data, sit_var_dates_mask, var, dates, :
 #> Requested date(s) 1996-04-16 is(are) not simulated for USM maize
+#> NULL
 #> mod_swheat.sti
 #> Warning: Requested date(s) 1996-04-16 is(are) not simulated for USM maize
 head(results)
@@ -632,67 +638,67 @@ head(results)
 #> $sim_list
 #> $wheat
 #>          Date   lai_n  masec_n     HR_1     HR_2     HR_3   resmes  AZnit_1
-#> 1  1995-01-30 0.31050  0.09176 24.50000 24.50000 21.49999 192.3001  1.07899
-#> 2  1995-02-03 0.31650  0.11303 24.50000 24.50000 21.49999 192.3001  0.76862
-#> 3  1995-02-07 0.31678  0.12561 23.83189 24.38442 21.49393 190.8273  0.60993
-#> 4  1995-02-16 0.32971  0.18710 24.50000 24.50000 21.49999 192.3001  0.56298
-#> 5  1995-02-24 0.36057  0.24471 24.50000 24.50000 21.49999 192.3001 26.17110
-#> 6  1995-03-06 0.44779  0.35035 24.14443 24.38385 21.49153 191.3779 19.42991
-#> 7  1995-03-16 0.65951  0.52936 22.92095 23.63181 21.38363 187.1108  9.46764
-#> 8  1995-03-23 0.93227  0.71936 21.66335 24.01440 21.42110 185.8192 83.92502
-#> 9  1995-04-03 1.57855  1.55586 20.56154 22.34904 20.97554 178.3337 64.59158
-#> 10 1995-04-11 2.09987  2.55337 17.92109 20.99722 20.03741 166.5205 52.84022
-#> 11 1995-04-18 2.35501  3.15292 23.58026 19.75672 19.03260 169.5803 46.57107
-#> 12 1995-04-26 3.14867  3.99307 24.50000 24.50000 21.49999 192.3001 15.92698
-#> 13 1995-05-02 4.00809  4.94513 22.89795 23.84206 21.11930 186.3215 79.20721
-#> 14 1995-05-05 4.66786  6.02794 20.59809 22.80039 20.38152 176.6742 69.22348
-#> 15 1995-05-09 4.84330  7.28487 18.33193 21.14837 19.03372 163.0608 59.09079
-#> 16 1995-05-12 4.79468  7.88745 24.50000 24.50000 21.49999 192.3001 26.11958
-#> 17 1995-05-15 4.74392  8.47785 23.56760 24.06944 21.22628 188.4858 18.00425
-#> 18 1995-05-19 4.57415  9.35892 23.88076 24.22463 21.14586 189.0135  9.34575
-#> 19 1995-05-29 3.97903 11.72744 23.74543 21.45070 19.37518 174.9766  3.42815
-#> 20 1995-07-17 0.00000 15.87414 21.79237 24.26819 21.48919 186.8909  7.14489
+#> 1  1995-01-30 0.31047  0.09176 24.50000 24.50000 21.49999 192.3001  1.07906
+#> 2  1995-02-03 0.31647  0.11302 24.50000 24.50000 21.49999 192.3001  0.76867
+#> 3  1995-02-07 0.31675  0.12560 23.83189 24.38442 21.49393 190.8273  0.60996
+#> 4  1995-02-16 0.32967  0.18709 24.50000 24.50000 21.49999 192.3001  0.56299
+#> 5  1995-02-24 0.36052  0.24472 24.50000 24.50000 21.49999 192.3001 26.17132
+#> 6  1995-03-06 0.44773  0.35035 24.14443 24.38385 21.49153 191.3779 19.43084
+#> 7  1995-03-16 0.65941  0.52925 22.92203 23.63120 21.38371 187.1119  9.47288
+#> 8  1995-03-23 0.93213  0.71923 21.66327 24.01443 21.42111 185.8192 83.92821
+#> 9  1995-04-03 1.60897  1.51912 20.53255 22.33671 20.97579 178.2568 64.49403
+#> 10 1995-04-11 2.11740  2.51888 17.87852 20.96373 20.03455 166.3606 52.72443
+#> 11 1995-04-18 2.35890  3.11908 23.53486 19.71395 19.02314 169.3662 46.47309
+#> 12 1995-04-26 3.14998  3.95933 24.50000 24.50000 21.49999 192.3001 15.88929
+#> 13 1995-05-02 4.00996  4.91136 22.89703 23.84146 21.11928 186.3185 79.14928
+#> 14 1995-05-05 4.66426  5.99253 20.59554 22.79885 20.38098 176.6640 69.17404
+#> 15 1995-05-09 5.06741  7.25232 18.34674 21.13781 19.02040 163.0054 59.05639
+#> 16 1995-05-12 5.00149  7.85879 24.50000 24.50000 21.49999 192.3001 26.04494
+#> 17 1995-05-15 4.95074  8.45430 23.59786 24.06950 21.22138 188.5183 17.89682
+#> 18 1995-05-19 4.78099  9.34396 23.90090 24.22408 21.14507 189.0450  9.21602
+#> 19 1995-05-29 4.15112 11.72757 23.77647 21.60940 19.34156 175.2144  3.35481
+#> 20 1995-07-17 0.00000 15.90543 21.79237 24.26819 21.48919 186.8909  7.13947
 #>     AZnit_2 AZnit_3  QNplante   Plant
-#> 1   1.48309 5.94223   6.41090 plant_1
-#> 2   1.02958 5.36714   7.28596 plant_1
-#> 3   0.77065 5.15434   8.12731 plant_1
-#> 4   0.46101 4.17630  10.04601 plant_1
-#> 5   6.90490 4.46663  13.25611 plant_1
-#> 6   6.11377 4.21979  20.68183 plant_1
-#> 7   4.74363 3.64634  32.71018 plant_1
-#> 8   3.00263 3.02405  41.23374 plant_1
-#> 9   0.56898 0.83703  65.91978 plant_1
-#> 10  0.34906 0.21218  79.40998 plant_1
-#> 11  0.37182 0.06465  87.25913 plant_1
-#> 12 10.59078 3.15716 106.08574 plant_1
-#> 13 12.77094 1.92864 126.41372 plant_1
-#> 14  9.40575 0.93281 140.18687 plant_1
-#> 15  6.08417 0.38794 153.95471 plant_1
-#> 16 19.42081 8.97776 165.35762 plant_1
-#> 17 16.99088 8.49830 176.44347 plant_1
-#> 18 12.89605 7.68170 190.11298 plant_1
-#> 19  4.10261 1.08262 211.33588 plant_1
-#> 20  6.79536 2.67405 222.61638 plant_1
+#> 1   1.48314 5.94228   6.41071 plant_1
+#> 2   1.02964 5.36720   7.28576 plant_1
+#> 3   0.77070 5.15441   8.12712 plant_1
+#> 4   0.46104 4.17639  10.04583 plant_1
+#> 5   6.90497 4.46672  13.25567 plant_1
+#> 6   6.11397 4.21992  20.68053 plant_1
+#> 7   4.74499 3.64725  32.70287 plant_1
+#> 8   3.00492 3.02563  41.22743 plant_1
+#> 9   0.57943 0.86838  65.97122 plant_1
+#> 10  0.35149 0.22198  79.47796 plant_1
+#> 11  0.37307 0.06797  87.31826 plant_1
+#> 12 10.55028 3.12066 106.17278 plant_1
+#> 13 12.72143 1.90198 126.53635 plant_1
+#> 14  9.36668 0.91945 140.27345 plant_1
+#> 15  6.05763 0.38219 153.99565 plant_1
+#> 16 19.40196 8.98489 165.41039 plant_1
+#> 17 16.92532 8.46642 176.60738 plant_1
+#> 18 12.77524 7.62676 190.36121 plant_1
+#> 19  4.08388 1.07035 211.35207 plant_1
+#> 20  6.78473 2.65830 222.54381 plant_1
 #> 
 #> $maize
 #>          Date   lai_n  masec_n  mafruit  AZnit_1   AZnit_2  AZnit_3  QNplante
-#> 1  1996-05-14 0.00048  0.00007  0.00000 72.08270  87.81961 18.33810   0.06000
-#> 2  1996-06-11 0.52827  0.34602  0.00000 41.25512 101.20517 36.68687  11.47820
-#> 3  1996-06-19 1.20877  1.47023  0.00000 32.54289  92.90659 36.48687  35.17423
-#> 4  1996-06-26 1.77350  2.31686  0.00000 28.37093  81.70900 35.38020  57.85825
-#> 5  1996-07-02 2.45930  3.57229  0.00000 23.37866  68.11766 32.88448  82.31290
-#> 6  1996-07-05 2.78486  3.95258  0.00000 16.47478  73.86995 31.59177  89.59813
-#> 7  1996-07-15 4.04477  6.19012  0.00000  8.27293  54.08646 32.73148 125.06310
-#> 8  1996-07-24 5.80729  9.19373  0.00000  7.73798  36.58909 29.51845 163.77870
-#> 9  1996-07-25 5.80729  9.48679  0.00000  7.98975  35.55028 29.72263 167.79420
-#> 10 1996-08-02 5.80729 11.66596  0.00000  8.22348  27.48979 22.84721 196.25015
-#> 11 1996-08-09 5.80729 13.23096  0.00000  7.37852  20.25412 23.36593 215.35924
-#> 12 1996-08-14 5.80729 14.20629  0.00000  5.79748  15.77424 20.80307 226.98660
-#> 13 1996-08-20 5.80698 15.78884  0.80934  6.55602  10.70736 14.43709 245.12352
-#> 14 1996-09-03 5.79138 18.41684  4.01828  4.90096   5.51324  6.09317 274.03082
-#> 15 1996-09-12 5.54056 20.32296  6.55791  4.04308   3.14270  3.69525 289.17609
-#> 16 1996-10-15 4.31971 23.43360 13.78294  2.21475   0.99676  1.10243 318.40985
-#> 17 1996-10-23 3.54667 23.99480 14.85000  2.04174   0.75705  0.80540 322.53854
+#> 1  1996-05-14 0.00048  0.00007  0.00000 72.07960  87.81781 18.33803   0.06000
+#> 2  1996-06-11 0.52803  0.34581  0.00000 41.26554 101.20135 36.68623  11.45065
+#> 3  1996-06-19 1.20767  1.46809  0.00000 32.55967  92.92489 36.48620  35.11575
+#> 4  1996-06-26 1.77221  2.31411  0.00000 28.38425  81.73040 35.37685  57.80360
+#> 5  1996-07-02 2.45816  3.56939  0.00000 23.38979  68.14319 32.87709  82.26146
+#> 6  1996-07-05 2.78372  3.94963  0.00000 16.47776  73.89182 31.59528  89.54784
+#> 7  1996-07-15 4.04410  6.18755  0.00000  8.26993  54.08766 32.78808 124.97989
+#> 8  1996-07-24 5.80662  9.19113  0.00000  7.73803  36.59579 29.54989 163.71301
+#> 9  1996-07-25 5.80662  9.48419  0.00000  7.99003  35.55569 29.75502 167.72890
+#> 10 1996-08-02 5.80662 11.66335  0.00000  8.22520  27.49678 22.87428 196.18904
+#> 11 1996-08-09 5.80662 13.22834  0.00000  7.38039  20.26172 23.39011 215.30142
+#> 12 1996-08-14 5.80662 14.20366  0.00000  5.79982  15.78235 20.82519 226.92953
+#> 13 1996-08-20 5.80632 15.78620  0.80920  6.55887  10.71679 14.45400 245.07114
+#> 14 1996-09-03 5.79073 18.41420  4.01770  4.90890   5.52559  6.10203 273.98001
+#> 15 1996-09-12 5.54006 20.32032  6.55706  4.04545   3.14978  3.69930 289.14258
+#> 16 1996-10-15 4.32031 23.43092 13.78136  2.21793   1.00016  1.10358 318.38190
+#> 17 1996-10-23 3.54723 23.99213 14.85000  2.04324   0.75845  0.80574 322.51587
 #>      Plant
 #> 1  plant_1
 #> 2  plant_1
@@ -771,8 +777,10 @@ results <- stics_wrapper(
   param_values = param_values,
   situation = c("wheat", "maize")
 )
-#> ✔ Using stics: "/home/plecharpent/tmp/JavaSTICS-1.5.3-STICS-10.3.0/bin/stics_modulo"
-#> mod_smaize.sti
+#> ✔ Using stics: "/tmp/JavaSTICS-v11.0.0/bin/stics_modulo"
+#> NULL
+#> mod_smaize.sti 
+#> NULL
 #> mod_swheat.sti
 ```
 

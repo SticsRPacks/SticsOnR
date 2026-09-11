@@ -4,9 +4,9 @@ output:
   github_document:
    html_preview: true
 params:
-  javastics_dist: 'JavaSTICS-1.5.3-STICS-10.3.0'
+  javastics_dist: 'JavaSTICS-v11.0.0'
   java_cmd: 'java'
-  root_path: '/home/plecharpent/tmp'
+  root_path: '/tmp'
   work_dir: 'example'
   windows: !r Sys.info()[['sysname']]=='Windows'
 ---
@@ -109,6 +109,10 @@ For using the JavaStics software (GUI and command line interface) under a `linux
 * for JavaStics 1.41, the java version must be at most a Java 8 version
 * for JavaStics 1.5.0/1.5.1 versions, the java version must be at least a Java 11 version
 * for JavaStics 1.5.2/1.5.3 versions, the java version must be at least a Java 17 version 
+* for JavaStics from version 10.4.0 to 11.0.0 version, the java version must be at least a Java 17 version
+
+> Note: After the JavaStics Version 1.5.3, STICS version 10.3.0 the release number has changed, a unique version
+> has been chosen for JavaSTICS and STICS using the STICS version number only.
 
 So, for adapting the java version to the JavaStics version some manipulations must be done either by switching between versions through system commands [see here](https://sticsrpacks.github.io/SticsOnR/articles/Changing_java_version_linux.html), using a specific java executable path ([see running JavaStics](#javastics-command-line-interface)).
 

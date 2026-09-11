@@ -1,3 +1,18 @@
+# SticsOnR 1.4.0 _2026-09-11_
+
+MAIN CHANGES:
+ * Removed useless deprecated functions' arguments
+ * Add get executable version function
+ * stics_wrapper: Allow use of parallelism with rotations
+ * Github actions: improved checks, integration test management updates,
+ libraries updates
+
+
+FIXES:
+  * Fix situation parameters filtering in stics_wrapper
+  * fix(wrapper): verbose parameter is now given to SticsRFiles::get_sim
+  
+  
 
 # SticsOnR 1.3.0 _2025-03-20_
 
