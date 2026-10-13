@@ -349,7 +349,7 @@ stics_wrapper <- function(
           flag_error[ip] <- TRUE
           flag_rqd_res[ip] <- FALSE
           messages[ip] <- mess
-          next()
+          next
         }
 
         # Handle the simulation (may be repeated - using flag simulate - in case
@@ -465,7 +465,7 @@ stics_wrapper <- function(
               flag_error[ip] <- TRUE
               flag_rqd_res[ip] <- FALSE
               messages[ip] <- mess
-              next()
+              next
             }
             # The following could be done only once in case of repeated call
             # to the wrapper (e.g. parameters estimation ...)
@@ -534,7 +534,7 @@ stics_wrapper <- function(
             flag_rqd_res[ip] <- FALSE
             messages[[ip]] <- mess
             simulate <- FALSE
-            next()
+            next
           }
 
           # Get results
@@ -552,7 +552,7 @@ stics_wrapper <- function(
             flag_rqd_res[ip] <- FALSE
             messages[[ip]] <- mess
             simulate <- FALSE
-            next()
+            next
           }
 
           # For phenological stages, replace the zeros by the following non-zero
