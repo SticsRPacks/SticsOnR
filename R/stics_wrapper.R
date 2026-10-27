@@ -38,8 +38,10 @@
 #' simulations should be compared as provided by `SticsRFiles::get_obs`
 #'
 #' @return A list containing simulated values (`sim_list`: a list of tibbles
-#' (one element per situation) and an error code (`error`) indicating if at
-#' least one simulation ended with an error.
+#' (one element per situation), an error code (`error`) indicating if at
+#' least one simulation ended with an error, and the error messages
+#' (`messages`: a named list with one character vector per situation for which
+#' at least one simulation ended with an error, empty list if none).
 #'
 #' @seealso `stics_wrapper_options()` for more information on how to
 #' provide `model_options`.
@@ -672,6 +674,12 @@ stics_wrapper <- function(
       return(any(x[[2]]) || !all(x[[3]]))
     }
   )))
+
+  # Gathering error messages (only for situations having some)
+  res$messages <- lapply(out, function(x) {
+    return(unlist(x[[4]][x[[2]]]))
+  })
+  res$messages <- res$messages[lengths(res$messages) > 0]
 
   # Calculating and printing duration
   if (time_display) {

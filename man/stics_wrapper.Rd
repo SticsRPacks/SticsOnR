@@ -52,8 +52,10 @@ simulations should be compared as provided by \code{SticsRFiles::get_obs}}
 }
 \value{
 A list containing simulated values (\code{sim_list}: a list of tibbles
-(one element per situation) and an error code (\code{error}) indicating if at
-least one simulation ended with an error.
+(one element per situation), an error code (\code{error}) indicating if at
+least one simulation ended with an error, and the error messages
+(\code{messages}: a named list with one character vector per situation for which
+at least one simulation ended with an error, empty list if none).
 }
 \description{
 This function uses Stics directly through a system call, can
