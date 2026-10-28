@@ -884,9 +884,9 @@ select_results <- function(
       req_date_list <- dates
     } else {
       ## do not operate selection on dates
+      ## NB: flag_error and flag_rqd_res are kept as set above, so that the
+      ## information about required variables not simulated is not lost
       res$sim_list <- sim_tmp
-      res$flag_error <- FALSE
-      res$flag_rqd_res <- TRUE
       res$simulate <- FALSE
       return(res)
     }
