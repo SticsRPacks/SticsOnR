@@ -38,8 +38,10 @@
 #' simulations should be compared as provided by `SticsRFiles::get_obs`
 #'
 #' @return A list containing simulated values (`sim_list`: a list of tibbles
-#' (one element per situation) and an error code (`error`) indicating if at
-#' least one simulation ended with an error.
+#' (one element per situation), an error code (`error`) indicating if at
+#' least one simulation ended with an error, and the error messages
+#' (`messages`: a named list with one character vector per situation for which
+#' at least one simulation ended with an error, empty list if none).
 #'
 #' @seealso `stics_wrapper_options()` for more information on how to
 #' provide `model_options`.
@@ -332,6 +334,13 @@ stics_wrapper <- function(
 
       # For each set of parameter values to force in the model
       for (ip in seq_len(nrow(param_values_sit))) {
+        # Context used in error messages for successive USMs
+        usm_context <- paste0(
+          "USM ", situation,
+          " (rotation: ", paste(rotation, collapse = " -> "),
+          ", parameter set: ", ip, ")"
+        )
+
         # Force parameters values
         if (
           !SticsRFiles::force_param_values(
@@ -426,16 +435,22 @@ stics_wrapper <- function(
             }
             f_exist <- file.exists(f_recup_prev)
 
+            # The previous USM failed: go to next simulation
             if (!all(f_exist)) {
               mess <- warning(paste(
-                "Error running the Stics model for USM",
-                situation,
-                ". \n This USMs is part of a succession",
-                "but recup.tmp or snow_variables.txt",
-                "file(s) was/were not created by the previous USM: \n",
-                paste(f_recup_prev[f_exist], collapse = ", ")
+                "Error running the Stics model for", usm_context,
+                ". \n Previous USM", rotation[j - 1],
+                "failed, recup.tmp or snow_variables.txt",
+                "file(s) not available: \n",
+                paste(f_recup_prev[!f_exist], collapse = ", "),
+                if (!is.null(mess_snow)) paste("\n", mess_snow)
               ))
-              stop(paste(mess_snow, "\n\n", mess))
+              sim_list[[ip]] <- NULL
+              flag_error[ip] <- TRUE
+              flag_rqd_res[ip] <- FALSE
+              messages[[ip]] <- mess
+              simulate <- FALSE
+              next
             }
 
             # Copying needed files and checking return
@@ -465,6 +480,7 @@ stics_wrapper <- function(
               flag_error[ip] <- TRUE
               flag_rqd_res[ip] <- FALSE
               messages[ip] <- mess
+              simulate <- FALSE
               next
             }
             # The following could be done only once in case of repeated call
@@ -477,6 +493,16 @@ stics_wrapper <- function(
               param = "codesuite",
               value = 1
             )
+          }
+
+          # Remove recup and snow files kept from a previous call, so that a
+          # failure of this USM is detected by the next USM of the rotation
+          is_previous <- is_previous_usm(successive, situation)
+          if (is_previous) {
+            unlink(file.path(
+              run_dir,
+              paste0(c("recup", "snow_variables"), ip, c(".tmp", ".txt"))
+            ))
           }
 
           # Run the model, forcing not to check the model executable
@@ -499,11 +525,39 @@ stics_wrapper <- function(
             )
           }
 
-          if (is_previous_usm(successive, situation)) {
+          # if the model returns an error, ... go to next simulation
+          # (checked before recup.tmp, so that the model error is reported)
+          if (usm_out[[1]]$error) {
+            mess <- warning(paste(
+              "Error running the Stics model for USM",
+              situation,
+              ". \n ",
+              usm_out[[1]]$message
+            ))
+            sim_list[[ip]] <- NULL
+            flag_error[ip] <- TRUE
+            flag_rqd_res[ip] <- FALSE
+            messages[[ip]] <- mess
+            simulate <- FALSE
+            next
+          }
+
+          if (is_previous) {
             recup_curr <- file.path(run_dir, "recup.tmp")
 
+            # recup.tmp not created ... go to next simulation
             if (!file.exists(recup_curr)) {
-              stop("recup.tmp file not found")
+              mess <- warning(paste(
+                "Error running the Stics model for", usm_context,
+                ". \n recup.tmp file not found, it is needed by the",
+                "next USM of the rotation."
+              ))
+              sim_list[[ip]] <- NULL
+              flag_error[ip] <- TRUE
+              flag_rqd_res[ip] <- FALSE
+              messages[[ip]] <- mess
+              simulate <- FALSE
+              next
             }
 
             file.rename(
@@ -519,22 +573,6 @@ stics_wrapper <- function(
                 to = file.path(run_dir, paste0("snow_variables", ip, ".txt"))
               )
             }
-          }
-
-          # if the model returns an error, ... go to next simulation
-          if (usm_out[[1]]$error) {
-            mess <- warning(paste(
-              "Error running the Stics model for USM",
-              situation,
-              ". \n ",
-              usm_out[[1]]$message
-            ))
-            sim_list[[ip]] <- NULL
-            flag_error[ip] <- TRUE
-            flag_rqd_res[ip] <- FALSE
-            messages[[ip]] <- mess
-            simulate <- FALSE
-            next
           }
 
           # Get results
@@ -636,6 +674,12 @@ stics_wrapper <- function(
       return(any(x[[2]]) || !all(x[[3]]))
     }
   )))
+
+  # Gathering error messages (only for situations having some)
+  res$messages <- lapply(out, function(x) {
+    return(unlist(x[[4]][x[[2]]]))
+  })
+  res$messages <- res$messages[lengths(res$messages) > 0]
 
   # Calculating and printing duration
   if (time_display) {

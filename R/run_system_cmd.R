@@ -38,9 +38,17 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
     return(err_status)
   }
 
+  # keeping the whole command output, or the exit status if no output
   if ("status" %in% names(attributes(ret)) && attr(ret, "status") > 0) {
     err_status <- FALSE
-    attr(err_status, "message") <- ret[1]
+    if (length(ret)) {
+      attr(err_status, "message") <- paste(ret, collapse = "\n")
+    } else {
+      attr(err_status, "message") <- paste(
+        "Command execution ended with status",
+        attr(ret, "status")
+      )
+    }
     return(err_status)
   }
 
