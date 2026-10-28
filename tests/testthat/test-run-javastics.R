@@ -76,17 +76,23 @@ test_that("run_javastics warns when only some of the usms exist", {
     command = local_fake_javastics_cmd()
   )
 
+  # The unknown usms are listed in the warning ...
   expect_warning(
-    suppressMessages(
+    out <- suppressMessages(
       run_javastics(
         javastics,
         workspace,
-        usm = c("wheat", "unknown_usm"),
+        usm = c("wheat", "unknown_usm", "other_usm"),
         verbose = FALSE
       )
     ),
-    regexp = "At least one usm does not exist"
+    regexp = "At least one usm does not exist.*: unknown_usm, other_usm$"
   )
+
+  # ... and only the existing ones are run (skipped on Windows, where the
+  # fake command line can not be executed)
+  skip_on_os("windows")
+  expect_equal(vapply(out, function(x) x$name, character(1)), "wheat")
 })
 
 test_that("run_javastics runs all the workspace usms by default", {
