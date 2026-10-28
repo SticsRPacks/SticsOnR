@@ -437,12 +437,19 @@ stics_wrapper <- function(
 
             # The previous USM failed: go to next simulation
             if (!all(f_exist)) {
+              f_missing <- f_recup_prev[!f_exist]
+              # recup.tmp missing: the previous USM failed, otherwise only
+              # the snow variables file is missing
+              if (f_missing[1] == f_recup_prev[1]) {
+                cause <- "failed,"
+              } else {
+                cause <- "did not create the snow variables file,"
+              }
               mess <- warning(paste(
                 "Error running the Stics model for", usm_context,
-                ". \n Previous USM", rotation[j - 1],
-                "failed, recup.tmp or snow_variables.txt",
+                ". \n Previous USM", rotation[j - 1], cause,
                 "file(s) not available: \n",
-                paste(f_recup_prev[!f_exist], collapse = ", "),
+                paste(f_missing, collapse = ", "),
                 if (!is.null(mess_snow)) paste("\n", mess_snow)
               ))
               sim_list[[ip]] <- NULL
@@ -884,9 +891,9 @@ select_results <- function(
       req_date_list <- dates
     } else {
       ## do not operate selection on dates
+      ## NB: flag_error and flag_rqd_res are kept as set above, so that the
+      ## information about required variables not simulated is not lost
       res$sim_list <- sim_tmp
-      res$flag_error <- FALSE
-      res$flag_rqd_res <- TRUE
       res$simulate <- FALSE
       return(res)
     }
@@ -1135,7 +1142,8 @@ stics_wrapper_options <- function(
     options$cores <- NA
     options$time_display <- FALSE
     options$verbose <- TRUE
-    options$successive <- NULL
+    # NB: options$successive <- NULL would not create the element
+    options["successive"] <- list(NULL)
     options$force <- FALSE
     return(options)
   }
@@ -1149,8 +1157,10 @@ stics_wrapper_options <- function(
     options$cores <- cores
     options$time_display <- time_display
     options$verbose <- verbose
-    options$successive <- successive
+    options["successive"] <- list(successive)
     options$force <- force
+    # Adding future-proof optional fields, as done when not forced
+    options <- c(options, list(...))
     return(options)
   }
 
