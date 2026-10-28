@@ -127,11 +127,11 @@ run_javastics <- function(
     }
 
     # Selecting existing usms
-    if (sum(usm_exist) != length(usm)) {
-      unknown_usms <- setdiff(full_usms_list[usm_exist], usm)
+    unknown_usms <- setdiff(usm, full_usms_list)
+    if (length(unknown_usms) > 0) {
       warning(
         "At least one usm does not exist in the usms.xml file : ",
-        unknown_usms
+        paste(unknown_usms, collapse = ", ")
       )
       usm <- full_usms_list[usm_exist]
     }

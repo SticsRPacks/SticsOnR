@@ -21,3 +21,6 @@ vignettes/*.pdf
 *.knit.md
 .Renviron
 .DS_Store
+
+tests/testthat/_problems/
+tests/testthat/testthat-problems.rds
