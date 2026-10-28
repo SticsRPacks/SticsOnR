@@ -61,26 +61,8 @@ set_stics_exe <- function(
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
-  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
-    # Help people that don't remember well the standard model name: use the
-    # OS specific one (as in the preferences templates) if it is listed,
-    # or the generic one. If none is listed, stics_exe is kept unchanged and
-    # is then looked for as an executable of the JavaStics bin directory.
-    os_model_name <- switch(SticsRFiles:::user_os(),
-      lin = "modulostics_linux",
-      mac = "modulostics_mac",
-      "modulostics"
-    )
-    model_names <- unique(c(os_model_name, "modulostics"))
-    model_exist <- vapply(
-      model_names,
-      function(x) exist_stics_exe(javastics, x),
-      logical(1)
-    )
-    if (any(model_exist)) {
-      stics_exe <- model_names[model_exist][1]
-    }
-  }
+  # Help people that don't remember well the standard model name
+  stics_exe <- resolve_standard_model(javastics, stics_exe)
 
   # Case 1: stics_exe is a model name
   if (exist_stics_exe(javastics, stics_exe)) {
@@ -620,14 +602,13 @@ select_stics_exe <- function(javastics, stics_exe = "stics_modulo") {
   # checking javastics path
   SticsRFiles:::check_java_path(javastics)
 
-  if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
-    stics_exe <- "modulostics"
-  }
-
   # if no preference have been set yet
   if (!SticsRFiles:::exists_javastics_pref(javastics)) {
     SticsRFiles:::init_javastics_pref(javastics)
   }
+
+  # Help people that don't remember well the standard model name
+  stics_exe <- resolve_standard_model(javastics, stics_exe)
 
   # If the executable does not exist yet in the preference file:
   if (!exist_stics_exe(javastics, stics_exe)) {
@@ -799,4 +780,62 @@ remove_stics_exe <- function(javastics, stics_exe) {
 get_xml_doc <- function(file) {
   suppressMessages(doc <- SticsRFiles:::xmldocument(file))
   doc
+}
+
+
+#' Resolve the identifier of the standard STICS model
+#'
+#' "stics_modulo", "sticsmodulo" and "modulostics" are synonyms for the
+#' standard STICS model, whose identifier in the JavaStics preferences depends
+#' on the OS ("modulostics" on Windows, "modulostics_linux" on Linux,
+#' "modulostics_mac" on macOS).
+#'
+#' @param javastics Path to the JavaStics installation directory
+#' @param stics_exe Stics executable identifier name
+#'
+#' @return The identifier of the standard model listed in the JavaStics
+#' preferences: "modulostics" if given and listed, otherwise the OS specific
+#' one, otherwise "modulostics". If none is listed, `stics_exe` is returned
+#' unchanged (except "sticsmodulo", returned as "stics_modulo", the name of the
+#' executable file, so that it can be looked for in the JavaStics bin
+#' directory). Any other `stics_exe` is returned unchanged.
+#'
+#' @keywords internal
+#'
+#' @noRd
+#'
+resolve_standard_model <- function(javastics, stics_exe) {
+  synonyms <- c("stics_modulo", "sticsmodulo", "modulostics")
+  if (!is.character(stics_exe) || length(stics_exe) != 1 ||
+    !stics_exe %in% synonyms) {
+    return(stics_exe)
+  }
+
+  os_model_name <- switch(SticsRFiles:::user_os(),
+    lin = "modulostics_linux",
+    mac = "modulostics_mac",
+    "modulostics"
+  )
+
+  if (stics_exe == "modulostics") {
+    model_names <- unique(c("modulostics", os_model_name))
+  } else {
+    model_names <- unique(c(os_model_name, "modulostics"))
+  }
+
+  model_exist <- vapply(
+    model_names,
+    function(x) exist_stics_exe(javastics, x),
+    logical(1)
+  )
+
+  if (any(model_exist)) {
+    return(model_names[model_exist][1])
+  }
+
+  if (stics_exe == "sticsmodulo") {
+    return("stics_modulo")
+  }
+
+  stics_exe
 }

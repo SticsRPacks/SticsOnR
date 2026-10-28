@@ -257,3 +257,91 @@ test_that("check_stics_exe returns the version when required", {
   expect_equal(as.character(attr(status, "version")), "10.4.1")
   expect_false("output" %in% names(attributes(status)))
 })
+
+test_that("resolve_standard_model gives the OS specific standard model", {
+  os_names <- c(
+    lin = "modulostics_linux",
+    mac = "modulostics_mac",
+    win = "modulostics"
+  )
+  for (os in names(os_names)) {
+    local_mocked_bindings(user_os = function() os, .package = "SticsRFiles")
+    models <- c("stics_modulo", "stics_custom")
+    names(models) <- c(os_names[[os]], "stics_custom_test")
+    javastics <- local_fake_javastics_dir(models = models)
+
+    for (name in c("stics_modulo", "sticsmodulo", "modulostics")) {
+      expect_equal(
+        resolve_standard_model(javastics, name),
+        os_names[[os]],
+        info = paste(os, name)
+      )
+    }
+  }
+})
+
+test_that("resolve_standard_model keeps modulostics when it is listed", {
+  local_mocked_bindings(user_os = function() "lin", .package = "SticsRFiles")
+  javastics <- local_fake_javastics_dir(
+    models = c(modulostics = "stics_modulo", modulostics_linux = "stics_modulo")
+  )
+
+  expect_equal(resolve_standard_model(javastics, "modulostics"), "modulostics")
+  expect_equal(
+    resolve_standard_model(javastics, "stics_modulo"),
+    "modulostics_linux"
+  )
+})
+
+test_that("resolve_standard_model leaves the other names unchanged", {
+  javastics <- local_fake_javastics_dir(
+    current = "stics_custom_test",
+    models = c(stics_custom_test = "stics_custom")
+  )
+
+  expect_equal(
+    resolve_standard_model(javastics, "stics_custom_test"),
+    "stics_custom_test"
+  )
+  # No standard model listed: names kept to be looked for in the bin dir
+  expect_equal(
+    resolve_standard_model(javastics, "stics_modulo"),
+    "stics_modulo"
+  )
+  expect_equal(resolve_standard_model(javastics, "sticsmodulo"), "stics_modulo")
+  expect_equal(resolve_standard_model(javastics, "modulostics"), "modulostics")
+})
+
+test_that("select_stics_exe selects the OS specific standard model", {
+  local_mocked_bindings(user_os = function() "lin", .package = "SticsRFiles")
+  javastics <- local_fake_javastics_dir(
+    current = "stics_custom_test",
+    models = c(
+      modulostics_linux = "stics_modulo",
+      stics_custom_test = "stics_custom"
+    )
+  )
+
+  # Failed before: "modulostics" is not listed in a Linux configuration
+  select_stics_exe(javastics, "modulostics")
+  expect_equal(read_current_stics_name(javastics), "modulostics_linux")
+
+  select_stics_exe(javastics, "stics_custom_test")
+  select_stics_exe(javastics, "stics_modulo")
+  expect_equal(read_current_stics_name(javastics), "modulostics_linux")
+})
+
+test_that("set_stics_exe accepts modulostics in an OS specific configuration", {
+  local_mocked_bindings(user_os = function() "mac", .package = "SticsRFiles")
+  javastics <- local_fake_javastics_dir(
+    current = "stics_custom_test",
+    models = c(
+      modulostics_mac = "stics_modulo_mac",
+      stics_custom_test = "stics_custom"
+    )
+  )
+
+  set_stics_exe(javastics, "modulostics", verbose = FALSE)
+
+  expect_equal(read_current_stics_name(javastics), "modulostics_mac")
+})
