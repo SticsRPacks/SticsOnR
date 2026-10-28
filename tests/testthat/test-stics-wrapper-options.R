@@ -5,8 +5,7 @@ test_that("stics_wrapper_options returns a template without arguments", {
   options <- stics_wrapper_options()
 
   expect_type(options, "list")
-  # NB: `successive` is documented in the template but assigning NULL to a
-  # list element drops it, so it is absent from the returned template.
+  # `successive` is part of the template, as documented, even if NULL
   expect_named(
     options,
     c(
@@ -17,9 +16,11 @@ test_that("stics_wrapper_options returns a template without arguments", {
       "cores",
       "time_display",
       "verbose",
+      "successive",
       "force"
     )
   )
+  expect_true("successive" %in% names(options))
 
   expect_equal(options$javastics, "unknown")
   expect_equal(options$stics_exe, "unknown")
@@ -78,15 +79,33 @@ test_that("stics_wrapper_options errors on an unknown executable", {
   )
 })
 
-test_that("stics_wrapper_options drops extra arguments when force is TRUE", {
-  # The forced branch returns early: the `...` arguments are not appended.
+test_that("stics_wrapper_options keeps extra arguments when force is TRUE", {
+  # As when not forced, the `...` arguments are appended to the options
   options <- stics_wrapper_options(
     workspace = "/unknown/workspace",
     force = TRUE,
     a_new_option = "a_value"
   )
 
-  expect_null(options$a_new_option)
+  expect_equal(options$a_new_option, "a_value")
+  # successive is kept in the list, even if NULL
+  expect_true("successive" %in% names(options))
+  expect_null(options$successive)
+})
+
+test_that("stics_wrapper_options forced options can be checked again", {
+  # Forced options are typically sent to a remote, then given to
+  # stics_wrapper() which calls stics_wrapper_options() on them again
+  options <- stics_wrapper_options(
+    workspace = "/unknown/workspace",
+    stics_exe = "/unknown/stics_exe",
+    force = TRUE,
+    a_new_option = "a_value"
+  )
+
+  options_again <- do.call(stics_wrapper_options, options)
+
+  expect_equal(options_again, options)
 })
 
 # The following tests use a fake JavaStics directory and fake stics

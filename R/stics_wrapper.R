@@ -1135,7 +1135,8 @@ stics_wrapper_options <- function(
     options$cores <- NA
     options$time_display <- FALSE
     options$verbose <- TRUE
-    options$successive <- NULL
+    # NB: options$successive <- NULL would not create the element
+    options["successive"] <- list(NULL)
     options$force <- FALSE
     return(options)
   }
@@ -1149,8 +1150,10 @@ stics_wrapper_options <- function(
     options$cores <- cores
     options$time_display <- time_display
     options$verbose <- verbose
-    options$successive <- successive
+    options["successive"] <- list(successive)
     options$force <- force
+    # Adding future-proof optional fields, as done when not forced
+    options <- c(options, list(...))
     return(options)
   }
 
