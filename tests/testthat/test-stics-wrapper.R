@@ -450,6 +450,12 @@ test_that("stics_wrapper warns on an inconsistent use of the snow module", {
   expect_named(out$value$messages, "usm2")
   expect_match(out$value$messages$usm2, "snow_variables1.txt")
   expect_match(out$value$messages$usm2, "snow module is not used")
+  # usm1 ran fine: only the snow variables file is missing
+  expect_match(
+    out$value$messages$usm2,
+    "did not create the snow variables file"
+  )
+  expect_no_match(out$value$messages$usm2, "usm1 failed")
   expect_warned(out$warnings, "snow module is not used in the current USM")
 })
 
