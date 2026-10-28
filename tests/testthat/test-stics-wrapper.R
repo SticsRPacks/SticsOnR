@@ -349,43 +349,108 @@ test_that("stics_wrapper handles a succession of usms", {
   expect_true(file.exists(file.path(workspace, "usm1", "recup1.tmp")))
 })
 
-test_that("stics_wrapper fails when the previous usm creates no recup file", {
+test_that("stics_wrapper reports an error when the previous usm creates no recup file", {
   workspace <- local_wrapper_workspace(c("usm1", "usm2"))
-  local_wrapper_mocks(create_recup = FALSE)
+  calls <- local_wrapper_mocks(create_recup = FALSE)
 
-  expect_error(
+  out <- run_with_warnings(
     stics_wrapper(
       model_options = wrapper_options(
         workspace,
         successive = list(c("usm1", "usm2"))
       )
-    ),
-    regexp = "recup.tmp file not found"
+    )
   )
+
+  # The rotation is not stopped by an error, it is reported instead
+  expect_true(out$value$error)
+  # The second usm is not run, since the first one failed
+  expect_equal(calls$run_dirs, "usm1")
+  expect_named(out$value$messages, c("usm1", "usm2"))
+  expect_match(out$value$messages$usm1, "recup.tmp file not found")
+  expect_match(out$value$messages$usm1, "rotation: usm1 -> usm2")
+  expect_match(out$value$messages$usm2, "Previous USM usm1 failed")
+  expect_warned(out$warnings, "recup.tmp file not found")
+})
+
+test_that("stics_wrapper reports the model error of a usm of a rotation", {
+  workspace <- local_wrapper_workspace(c("usm1", "usm2"))
+  calls <- local_wrapper_mocks(create_recup = TRUE, error = c(TRUE, FALSE))
+
+  out <- run_with_warnings(
+    stics_wrapper(
+      model_options = wrapper_options(
+        workspace,
+        successive = list(c("usm1", "usm2"))
+      )
+    )
+  )
+
+  expect_true(out$value$error)
+  expect_equal(calls$run_dirs, "usm1")
+  # The model error is reported, rather than a missing recup.tmp file
+  expect_match(out$value$messages$usm1, "Stics stopped")
+  expect_no_match(out$value$messages$usm1, "recup.tmp")
+  expect_match(out$value$messages$usm2, "Previous USM usm1 failed")
+})
+
+test_that("stics_wrapper ignores the recup file kept from a previous call", {
+  workspace <- local_wrapper_workspace(c("usm1", "usm2"))
+  # recup file renamed by a previous call of the wrapper
+  stale_recup <- file.path(workspace, "usm1", "recup1.tmp")
+  file.create(stale_recup)
+  calls <- local_wrapper_mocks(create_recup = FALSE)
+
+  out <- run_with_warnings(
+    stics_wrapper(
+      model_options = wrapper_options(
+        workspace,
+        successive = list(c("usm1", "usm2"))
+      )
+    )
+  )
+
+  # The stale file is removed before the run, so the failure of usm1 is
+  # detected and usm2 is not run with outdated initial conditions
+  expect_false(file.exists(stale_recup))
+  expect_equal(calls$run_dirs, "usm1")
+  expect_true(out$value$error)
+  expect_match(out$value$messages$usm2, "recup1.tmp")
+})
+
+test_that("stics_wrapper returns an empty messages list without error", {
+  workspace <- local_wrapper_workspace(c("usm1", "usm2"))
+  local_wrapper_mocks()
+
+  res <- stics_wrapper(model_options = wrapper_options(workspace))
+
+  expect_false(res$error)
+  expect_equal(res$messages, setNames(list(), character(0)))
 })
 
 test_that("stics_wrapper warns on an inconsistent use of the snow module", {
   workspace <- local_wrapper_workspace(c("usm1", "usm2"))
   # The snow module is used by the first usm only
-  local_wrapper_mocks(
+  calls <- local_wrapper_mocks(
     create_recup = TRUE,
     codesnow = list(usm1 = 1, usm2 = 0)
   )
 
   out <- run_with_warnings(
-    expect_error(
-      stics_wrapper(
-        model_options = wrapper_options(
-          workspace,
-          successive = list(c("usm1", "usm2"))
-        )
-      ),
-      regexp = "snow module"
+    stics_wrapper(
+      model_options = wrapper_options(
+        workspace,
+        successive = list(c("usm1", "usm2"))
+      )
     )
   )
 
+  expect_true(out$value$error)
+  expect_equal(calls$run_dirs, "usm1")
+  expect_named(out$value$messages, "usm2")
+  expect_match(out$value$messages$usm2, "snow_variables1.txt")
+  expect_match(out$value$messages$usm2, "snow module is not used")
   expect_warned(out$warnings, "snow module is not used in the current USM")
-  expect_warned(out$warnings, "snow_variables.txt")
 })
 
 test_that("stics_wrapper drops the successions with a missing usm", {

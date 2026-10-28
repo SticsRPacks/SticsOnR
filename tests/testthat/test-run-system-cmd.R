@@ -43,3 +43,24 @@ test_that("run_system_cmd fails on a file that is not executable", {
 
   expect_false(as.logical(status))
 })
+
+test_that("run_system_cmd reports the exit status of a failing command without output", {
+  false_cmd <- Sys.which("false")
+  skip_if(false_cmd == "", "No false command available on this system")
+
+  status <- suppressWarnings(run_system_cmd(false_cmd))
+
+  expect_match(attr(status, "message"), "Command execution ended with status 1")
+})
+
+test_that("run_system_cmd keeps the whole output of a failing command", {
+  sh_cmd <- Sys.which("sh")
+  skip_if(sh_cmd == "", "No sh command available on this system")
+
+  status <- suppressWarnings(
+    run_system_cmd(sh_cmd, com_args = c("-c", shQuote("echo line1; echo line2; exit 2")))
+  )
+
+  expect_false(as.logical(status))
+  expect_equal(attr(status, "message"), "line1\nline2")
+})
