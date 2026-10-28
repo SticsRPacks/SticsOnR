@@ -88,6 +88,41 @@ test_that("remove_stics_exe removes an executable from the list", {
   expect_equal(read_current_stics_name(javastics), "modulostics")
 })
 
+test_that("remove_stics_exe only removes the given executable", {
+  # A model whose name contains the name of the removed one
+  javastics <- local_fake_javastics_dir(
+    current = "modulostics",
+    models = c(
+      modulostics = "stics_modulo",
+      stics_custom = "stics_custom",
+      stics_custom_2 = "stics_custom_2"
+    )
+  )
+
+  remove_stics_exe(javastics, "stics_custom")
+
+  expect_equal(
+    list_stics_exe(javastics)$stics_list,
+    list(modulostics = "stics_modulo", stics_custom_2 = "stics_custom_2")
+  )
+})
+
+test_that("remove_stics_exe unsets the executable used by JavaStics", {
+  javastics <- local_fake_javastics_dir(current = "stics_custom_test")
+
+  expect_warning(
+    remove_stics_exe(javastics, "stics_custom_test"),
+    regexp = "JavaStics was using this Stics executable"
+  )
+
+  expect_equal(
+    list_stics_exe(javastics)$stics_list,
+    list(modulostics = "stics_modulo")
+  )
+  # No model is selected anymore
+  expect_equal(read_current_stics_name(javastics), "")
+})
+
 test_that("set_stics_exe stops when the executable is not found", {
   javastics <- local_fake_javastics_dir()
 
@@ -105,19 +140,44 @@ test_that("set_stics_exe selects an already listed executable", {
 })
 
 test_that("set_stics_exe informs the user about the selected executable", {
-  skip(
-    paste(
-      "Fails on an undefined `exe_name` variable in set_stics_exe():",
-      "to be enabled once the bug is fixed."
-    )
-  )
-
   javastics <- local_fake_javastics_dir()
 
+  # Both the model name and its executable file name are displayed
   expect_message(
     set_stics_exe(javastics, "stics_custom_test", verbose = TRUE),
-    regexp = "Using stics"
+    regexp = "stics_custom_test.*stics_custom"
   )
+})
+
+test_that("set_stics_exe accepts the standard model name synonyms", {
+  # The OS specific model name is used, as in the preferences templates
+  os_model_name <- switch(SticsRFiles:::user_os(),
+    lin = "modulostics_linux",
+    mac = "modulostics_mac",
+    "modulostics"
+  )
+  models <- c("stics_modulo", "stics_custom")
+  names(models) <- c(os_model_name, "stics_custom_test")
+
+  for (name in c("stics_modulo", "sticsmodulo")) {
+    javastics <- local_fake_javastics_dir(
+      current = "stics_custom_test",
+      models = models
+    )
+
+    set_stics_exe(javastics, name, verbose = FALSE)
+
+    expect_equal(read_current_stics_name(javastics), os_model_name)
+  }
+})
+
+test_that("set_stics_exe falls back on the generic standard model name", {
+  # Only the generic name is listed (e.g. a Windows like configuration)
+  javastics <- local_fake_javastics_dir(current = "stics_custom_test")
+
+  set_stics_exe(javastics, "stics_modulo", verbose = FALSE)
+
+  expect_equal(read_current_stics_name(javastics), "modulostics")
 })
 
 test_that("set_stics_exe adds a new executable from a path", {

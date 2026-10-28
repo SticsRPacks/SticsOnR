@@ -9,6 +9,8 @@
 #' accepted as a JavaStics installation.
 #'
 #' @param current Identifier of the executable used by JavaStics.
+#' @param models Named character vector of the listed executables: names are
+#'   the model identifiers, values the executable file names.
 #' @param envir Environment the mocks and directory life cycle is bound to.
 #'
 #' @return The path of the created directory.
@@ -16,6 +18,7 @@
 #' @noRd
 local_fake_javastics_dir <- function(
   current = "modulostics",
+  models = c(modulostics = "stics_modulo", stics_custom_test = "stics_custom"),
   envir = parent.frame()
 ) {
   javastics <- tempfile("fake_javastics_")
@@ -31,8 +34,9 @@ local_fake_javastics_dir <- function(
       "<entry key=\"workingDirectory.current\">example</entry>",
       paste0("<entry key=\"model.last\">", current, "</entry>"),
       paste0(
-        "<entry key=\"model.list\">{modulostics\tstics_modulo},",
-        "{stics_custom_test\tstics_custom},</entry>"
+        "<entry key=\"model.list\">",
+        paste0("{", names(models), "\t", models, "},", collapse = ""),
+        "</entry>"
       ),
       "</properties>"
     ),

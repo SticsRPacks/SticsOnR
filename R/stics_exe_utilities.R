@@ -62,23 +62,30 @@ set_stics_exe <- function(
   SticsRFiles:::check_java_path(javastics)
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
-    # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
-      lin = {
-        "modulostics_linux"
-      },
-      mac = {
-        "modulostics_mac"
-      },
-      {
-        "modulostics"
-      }
+    # Help people that don't remember well the standard model name: use the
+    # OS specific one (as in the preferences templates) if it is listed,
+    # or the generic one. If none is listed, stics_exe is kept unchanged and
+    # is then looked for as an executable of the JavaStics bin directory.
+    os_model_name <- switch(SticsRFiles:::user_os(),
+      lin = "modulostics_linux",
+      mac = "modulostics_mac",
+      "modulostics"
     )
+    model_names <- unique(c(os_model_name, "modulostics"))
+    model_exist <- vapply(
+      model_names,
+      function(x) exist_stics_exe(javastics, x),
+      logical(1)
+    )
+    if (any(model_exist)) {
+      stics_exe <- model_names[model_exist][1]
+    }
   }
 
   # Case 1: stics_exe is a model name
   if (exist_stics_exe(javastics, stics_exe)) {
     if (verbose) {
+      exe_name <- list_stics_exe(javastics)$stics_list[[stics_exe]]
       cli::cli_alert_success(
         "Using stics {.val {stics_exe}} (exe: {.val {exe_name}})"
       )
@@ -739,12 +746,10 @@ remove_stics_exe <- function(javastics, stics_exe) {
 
   stics_exe_list <- list_stics_exe(javastics)
 
-  # Remove the model version:
+  # Remove the model version (exact name matching, a regular expression
+  # would also remove the models whose name contains stics_exe):
   stics_exe_list$stics_list <- stics_exe_list$stics_list[
-    -grep(
-      stics_exe,
-      names(stics_exe_list$stics_list)
-    )
+    names(stics_exe_list$stics_list) != stics_exe
   ]
 
   # writing models list string
@@ -760,7 +765,9 @@ remove_stics_exe <- function(javastics, stics_exe) {
   xml_pref <- get_xml_doc(xml_path)
 
   # removing model from last if needed
-  if (stics_exe_list$current == stics_exe) {
+  # (current is a named list: its name is the model name, its value the
+  # executable file name)
+  if (isTRUE(names(stics_exe_list$current)[1] == stics_exe)) {
     warning(
       "JavaStics was using this Stics executable currently",
       " Please set a new model executable to use using
