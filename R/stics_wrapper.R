@@ -295,15 +295,9 @@ stics_wrapper <- function(
         progress = progress
       )
     },
-    handlers = progressr::handler_cli(
-      format = paste(
-        "{cli::pb_spin} Simulating USMs {cli::pb_bar} {cli::pb_percent}",
-        "| {cli::pb_current}/{cli::pb_total} USMs | ETA: {cli::pb_eta}"
-      ),
-      format_done = paste(
-        "{cli::pb_bar} {cli::pb_percent}",
-        "| {cli::pb_current}/{cli::pb_total} USMs"
-      )
+    # progress package bar (no spinner, does not flicker in RStudio console)
+    handlers = progressr::handler_progress(
+      format = "Simulating USMs [:bar] :percent | :current/:total | ETA: :eta"
     ),
     enable = verbose
   )
