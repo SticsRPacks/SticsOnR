@@ -237,6 +237,14 @@ stics_wrapper <- function(
   # Run Stics and store results ------------------------------------------------
 
   if (parallel) {
+    # Rotations are processed in one chunk per worker. Successive USMs
+    # (longer rotations) being first in rotations, they are distributed
+    # round-robin over the chunks to balance the workers load (results are
+    # returned in the original order).
+    # NB: smaller chunks are not used, since each chunk is sent all the
+    # shared arguments (e.g. sit_var_dates_mask) and has a fixed overhead.
+    chunk_ordering <- order((seq_along(rotations) - 1) %% cores_nb)
+
     apply_fun <- function(X, FUN, ...) {
       future.apply::future_lapply(
         X,
@@ -244,9 +252,7 @@ stics_wrapper <- function(
         ...,
         future.packages = "SticsRFiles",
         future.seed = NULL,
-        # One rotation per future: workers take the next rotation as soon as
-        # they are free (rotations are of uneven length, successive first)
-        future.chunk.size = 1
+        future.scheduling = structure(1, ordering = chunk_ordering)
       )
     }
   } else {
