@@ -94,6 +94,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
+#' @importFrom progressr progressor with_progress
 #'
 stics_wrapper <- function(
   model_options,

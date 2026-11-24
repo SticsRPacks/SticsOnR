@@ -7,3 +7,7 @@ export(stics_wrapper)
 export(stics_wrapper_options)
 importFrom(magrittr,"%>%")
 importFrom(parallel,detectCores)
+importFrom(progressr,
+  progressor,
+  with_progress
+)
