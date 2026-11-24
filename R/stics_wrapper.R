@@ -275,8 +275,7 @@ stics_wrapper <- function(
     }
   }
 
-  # Progress bar (one step per USM, with the name of the last simulated USM),
-  # displayed when verbose is TRUE
+  # Progress bar (one step per USM), displayed when verbose is TRUE
   out <- progressr::with_progress(
     {
       progress <- progressr::progressor(steps = length(sit2simulate))
@@ -299,8 +298,7 @@ stics_wrapper <- function(
     handlers = progressr::handler_cli(
       format = paste(
         "{cli::pb_spin} Simulating USMs {cli::pb_bar} {cli::pb_percent}",
-        "| {cli::pb_current}/{cli::pb_total} USMs | ETA: {cli::pb_eta}",
-        "| {cli::pb_status}"
+        "| {cli::pb_current}/{cli::pb_total} USMs | ETA: {cli::pb_eta}"
       ),
       format_done = paste(
         "{cli::pb_bar} {cli::pb_percent}",
@@ -783,7 +781,7 @@ run_rotation <- function(
       }
     }
     rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
-    progress(message = situation)
+    progress()
   }
   return(rotation_out)
 }
