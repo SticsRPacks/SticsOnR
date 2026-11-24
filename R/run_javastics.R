@@ -56,11 +56,6 @@ run_javastics <- function(
   stics_exe = "modulostics",
   java_cmd = "java"
 ) {
-  # Ensure that the user working directory is unchanged after
-  # the function has run
-  current_wd <- getwd()
-  on.exit(setwd(current_wd))
-
   # Use absolute path from now on:
   javastics <- normalizePath(javastics, winslash = "/")
   workspace <- normalizePath(

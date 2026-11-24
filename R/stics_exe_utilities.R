@@ -507,10 +507,6 @@ check_stics_exe <- function(
   stop_on_error = TRUE,
   verbose = FALSE
 ) {
-  # Need to set the directory to the one of the exe for system calls
-  start_dir <- getwd()
-  on.exit(setwd(start_dir))
-
   # Check that file exist:
   if (!file.exists(model_path)) {
     if (stop_on_error) {

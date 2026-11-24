@@ -59,8 +59,6 @@ run_system <- function(
   check = TRUE,
   verbose = FALSE
 ) {
-  first_wd <- getwd()
-  on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(workspace, winslash = "/")
 
