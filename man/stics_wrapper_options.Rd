@@ -11,7 +11,7 @@ stics_wrapper_options(
   parallel = FALSE,
   cores = NA,
   time_display = FALSE,
-  verbose = TRUE,
+  verbose = FALSE,
   force = FALSE,
   successive = NULL,
   ...
@@ -101,7 +101,7 @@ stics_wrapper_options()
 #> [1] FALSE
 #>
 #> $verbose
-#> [1] TRUE
+#> [1] FALSE
 #>
 #> $force
 #> [1] FALSE
@@ -140,7 +140,7 @@ sim_options <- stics_wrapper_options(
 #> [1] FALSE
 #>
 #> $verbose
-#> [1] TRUE
+#> [1] FALSE
 #>
 #> $force
 #> [1] FALSE
@@ -171,7 +171,7 @@ sim_options <- stics_wrapper_options(
 #> [1] FALSE
 #>
 #> $verbose
-#> [1] TRUE
+#> [1] FALSE
 #>
 #> $force
 #> [1] TRUE
@@ -198,7 +198,7 @@ do.call(stics_wrapper_options, model_options)
 #> [1] FALSE
 #>
 #> $verbose
-#> [1] TRUE
+#> [1] FALSE
 #>
 #> $force
 #> [1] FALSE
