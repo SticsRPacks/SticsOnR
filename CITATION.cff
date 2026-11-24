@@ -156,6 +156,31 @@ references:
   year: '2026'
   doi: 10.32614/R.manuals
 - type: software
+  title: 'progress: Terminal Progress Bars'
+  notes: Imports
+  url: https://github.com/r-lib/progress#readme
+  repository: https://CRAN.R-project.org/package=progress
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+  - family-names: FitzJohn
+    given-names: Rich
+  year: '2023'
+  doi: 10.32614/CRAN.package.progress
+- type: software
+  title: 'progressr: An Inclusive, Unifying API for Progress Updates'
+  notes: Imports
+  url: https://progressr.futureverse.org
+  repository: https://CRAN.R-project.org/package=progressr
+  authors:
+  - family-names: Bengtsson
+    given-names: Henrik
+    email: henrikb@braju.com
+    orcid: https://orcid.org/0000-0002-7579-5165
+  year: '2026'
+  doi: 10.32614/CRAN.package.progressr
+- type: software
   title: 'rstudioapi: Safely Access the RStudio API'
   notes: Imports
   url: https://rstudio.github.io/rstudioapi/

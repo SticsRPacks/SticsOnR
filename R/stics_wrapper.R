@@ -237,32 +237,69 @@ stics_wrapper <- function(
   # Run Stics and store results ------------------------------------------------
 
   if (parallel) {
+    # Rotations are processed in one chunk per worker. Successive USMs
+    # (longer rotations) being first in rotations, they are distributed
+    # round-robin over the chunks to balance the workers load (results are
+    # returned in the original order).
+    # NB: smaller chunks are not used, since each chunk is sent all the
+    # shared arguments (e.g. sit_var_dates_mask) and has a fixed overhead.
+    chunk_ordering <- order((seq_along(rotations) - 1) %% cores_nb)
+
     apply_fun <- function(X, FUN, ...) {
       future.apply::future_lapply(
         X,
         FUN,
         ...,
         future.packages = "SticsRFiles",
-        future.seed = NULL
+        future.seed = NULL,
+        future.scheduling = structure(1, ordering = chunk_ordering)
       )
     }
   } else {
     apply_fun <- lapply
   }
 
-  out <- apply_fun(
-    rotations,
-    run_rotation,
-    workspace = workspace,
-    stics_exe = stics_exe,
-    javastics = javastics,
-    successive = successive,
-    verbose = verbose,
-    param_values = param_values,
-    keep_all_data = keep_all_data,
-    sit_var_dates_mask = sit_var_dates_mask,
-    var = var,
-    dates = dates
+  run_start <- Sys.time()
+
+  if (verbose) {
+    nb_usms <- length(sit2simulate)
+    nb_successive <- length(successive)
+    cli::cli_alert_info(paste0(
+      "Running {nb_usms} USM{?s}",
+      if (nb_successive > 0) " ({nb_successive} rotation{?s} of successive USMs)"
+    ))
+    if (parallel) {
+      cli::cli_alert_info("Parallel mode: {cores_nb} worker{?s}")
+    } else {
+      cli::cli_alert_info("Sequential mode")
+    }
+  }
+
+  # Progress bar (one step per USM), displayed when verbose is TRUE
+  out <- progressr::with_progress(
+    {
+      progress <- progressr::progressor(steps = length(sit2simulate))
+      apply_fun(
+        rotations,
+        run_rotation,
+        workspace = workspace,
+        stics_exe = stics_exe,
+        javastics = javastics,
+        successive = successive,
+        verbose = verbose,
+        param_values = param_values,
+        keep_all_data = keep_all_data,
+        sit_var_dates_mask = sit_var_dates_mask,
+        var = var,
+        dates = dates,
+        progress = progress
+      )
+    },
+    # progress package bar (no spinner, does not flicker in RStudio console)
+    handlers = progressr::handler_progress(
+      format = "Simulating USMs [:bar] :percent | :current/:total | ETA: :eta"
+    ),
+    enable = verbose
   )
 
   # One element per USM (rotations are flattened)
@@ -312,6 +349,21 @@ stics_wrapper <- function(
   })
   res$messages <- res$messages[lengths(res$messages) > 0]
 
+  if (verbose) {
+    nb_failed <- sum(vapply(out, function(x) any(x[[2]]), logical(1)))
+    run_duration <- format(round(Sys.time() - run_start, 1))
+    cli::cli_alert_success(paste(
+      "{nb_usms - nb_failed}/{nb_usms} USM{?s} simulated successfully",
+      "in {run_duration}"
+    ))
+    if (nb_failed > 0) {
+      cli::cli_alert_danger(paste(
+        "{nb_failed} USM{?s} failed",
+        "(see the {.code messages} element of the result)"
+      ))
+    }
+  }
+
   # Calculating and printing duration
   if (time_display) {
     duration <- Sys.time() - start_time
@@ -329,6 +381,7 @@ stics_wrapper <- function(
 #' `stics_wrapper_options()`
 #' @param param_values,sit_var_dates_mask,var,dates See `stics_wrapper()`
 #' @param keep_all_data Logical, TRUE if all simulated data must be returned
+#' @param progress A `progressr::progressor()` function, called once per USM
 #'
 #' @return A list with one element per USM of the rotation, each one being a
 #' list of: simulated outputs, error flags, required results flags and
@@ -348,7 +401,8 @@ run_rotation <- function(
   keep_all_data,
   sit_var_dates_mask,
   var,
-  dates
+  dates,
+  progress = function(...) NULL
 ) {
   ## Loops on the USMs that can be simulated
   ## out is a list containing vectors of:
@@ -598,7 +652,7 @@ run_rotation <- function(
         usm_out <- run_stics(
           stics_exe,
           run_dir,
-          verbose = verbose,
+          verbose = FALSE,
           check = FALSE
         )
 
@@ -664,7 +718,7 @@ run_rotation <- function(
         }
 
         # Get results
-        sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = verbose)[[1]]
+        sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = FALSE)[[1]]
 
         # Any error reading output file ... go to next simulation
         if (is.null(sim_tmp)) {
@@ -721,6 +775,7 @@ run_rotation <- function(
       }
     }
     rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
+    progress()
   }
   return(rotation_out)
 }
