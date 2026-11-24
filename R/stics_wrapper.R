@@ -243,7 +243,10 @@ stics_wrapper <- function(
         FUN,
         ...,
         future.packages = "SticsRFiles",
-        future.seed = NULL
+        future.seed = NULL,
+        # One rotation per future: workers take the next rotation as soon as
+        # they are free (rotations are of uneven length, successive first)
+        future.chunk.size = 1
       )
     }
   } else {
