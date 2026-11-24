@@ -2,8 +2,8 @@
 # CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
 # ------------------------------------------------
- 
-cff-version: 1.2.0
+
+cff-version: 1.5.0
 message: 'To cite package "SticsOnR" in publications use:'
 type: software
 license: LGPL-3.0-or-later

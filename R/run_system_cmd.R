@@ -27,7 +27,6 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
     ),
     silent = TRUE
   )
-  # 'print(ret)
 
   # if any error, storing message as an attribute
   if (

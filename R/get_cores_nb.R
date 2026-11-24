@@ -4,7 +4,7 @@
 #' @param required_nb Wanted number of cores
 #' @param ... To pass additional arguments (i.e. cores_nb, fake machine cores)
 #'
-#' @return Available cores number tu use
+#' @return Available cores number to use
 #'
 #' @keywords internal
 #'
