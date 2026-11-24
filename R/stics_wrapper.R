@@ -369,8 +369,7 @@ stics_wrapper <- function(
 
   # Calculating and printing duration
   if (time_display) {
-    duration <- Sys.time() - start_time
-    print(duration)
+    message(Sys.time() - start_time)
   }
 
   return(invisible(res))

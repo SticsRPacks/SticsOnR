@@ -182,7 +182,7 @@ run_javastics <- function(
       file.remove(histo_copy)
     }
 
-    print(usm_name)
+    message(usm_name)
 
     if (optim) {
       system2(
@@ -207,7 +207,7 @@ run_javastics <- function(
       )
 
       if (verbose) {
-        print(status)
+        message(status)
       }
 
       # err <- grep(pattern = "[eE]rror", tolower(status))
