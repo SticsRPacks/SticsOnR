@@ -266,7 +266,8 @@ stics_wrapper <- function(
     nb_successive <- length(successive)
     cli::cli_alert_info(paste0(
       "Running {nb_usms} USM{?s}",
-      if (nb_successive > 0) " ({nb_successive} rotation{?s} of successive USMs)"
+      if (nb_successive > 0)
+        " ({nb_successive} rotation{?s} of successive USMs)"
     ))
     if (parallel) {
       cli::cli_alert_info("Parallel mode: {cores_nb} worker{?s}")
@@ -478,9 +479,13 @@ run_rotation <- function(
     for (ip in seq_len(nrow(param_values_sit))) {
       # Context used in error messages for successive USMs
       usm_context <- paste0(
-        "USM ", situation,
-        " (rotation: ", paste(rotation, collapse = " -> "),
-        ", parameter set: ", ip, ")"
+        "USM ",
+        situation,
+        " (rotation: ",
+        paste(rotation, collapse = " -> "),
+        ", parameter set: ",
+        ip,
+        ")"
       )
 
       # Force parameters values
@@ -580,8 +585,10 @@ run_rotation <- function(
           # The previous USM failed: go to next simulation
           if (!all(f_exist)) {
             mess <- warning(paste(
-              "Error running the Stics model for", usm_context,
-              ". \n Previous USM", rotation[j - 1],
+              "Error running the Stics model for",
+              usm_context,
+              ". \n Previous USM",
+              rotation[j - 1],
               "failed, recup.tmp or snow_variables.txt",
               "file(s) not available: \n",
               paste(f_recup_prev[!f_exist], collapse = ", "),
@@ -690,7 +697,8 @@ run_rotation <- function(
           # recup.tmp not created ... go to next simulation
           if (!file.exists(recup_curr)) {
             mess <- warning(paste(
-              "Error running the Stics model for", usm_context,
+              "Error running the Stics model for",
+              usm_context,
               ". \n recup.tmp file not found, it is needed by the",
               "next USM of the rotation."
             ))
@@ -810,6 +818,8 @@ run_rotation <- function(
 #'    o message: a string containing a message if a warning occurs
 #'    o varmod_modified: a logical indicating if the var.mod file has been
 #'    modified
+#'
+#' @keywords internal
 #'
 #' @noRd
 

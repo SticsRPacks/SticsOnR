@@ -63,7 +63,8 @@ set_stics_exe <- function(
 
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
     # ' stics_exe= "modulostics"
-    switch(SticsRFiles:::user_os(),
+    switch(
+      SticsRFiles:::user_os(),
       lin = {
         "modulostics_linux"
       },
@@ -337,7 +338,7 @@ list_stics_exe <- function(javastics) {
 #' @param numeric Logical, `TRUE` (default) to return a numeric version as a
 #' semver class vector, or `FALSE` to return a character string with the version
 #'
-#' @returns a semver class vector if `numeric = TRUE` (default),
+#' @return a semver class vector if `numeric = TRUE` (default),
 #' or a character string if `numeric = FALSE`, with an attribute "date" if
 #' the version date is provided in the system command output.
 #' Or a hash string if the system command output contains a hash.
@@ -598,7 +599,7 @@ check_stics_exe <- function(
 #' @note "stics_modulo", "sticsmodulo" and "modulostics" are synonyms for
 #' the standard STICS executable.
 #'
-#' @return Nothing. Update the "preference.xml" file in the config of JavaStics.
+#' @return None
 #'
 #' @examples
 #' \dontrun{
@@ -700,7 +701,7 @@ exist_stics_exe <- function(javastics, stics_exe) {
 #' executables, and `set_stics_exe()` to add a new one. The identification names
 #' can be retreived using `names(list_stics_exe(javastics)$stics_list)`
 #'
-#' @return Nothing. Update the "preference.xml" file in the config of JavaStics.
+#' @return None
 #'
 #' @examples
 #' \dontrun{
