@@ -6,10 +6,14 @@ export(run_stics)
 export(stics_wrapper)
 export(stics_wrapper_options)
 importFrom(doParallel,registerDoParallel)
-importFrom(foreach,"%do%")
-importFrom(foreach,"%dopar%")
+importFrom(foreach,
+  "%do%",
+  "%dopar%"
+)
 importFrom(magrittr,"%>%")
-importFrom(parallel,clusterCall)
-importFrom(parallel,detectCores)
-importFrom(parallel,makeCluster)
-importFrom(parallel,stopCluster)
+importFrom(parallel,
+  clusterCall,
+  detectCores,
+  makeCluster,
+  stopCluster
+)
