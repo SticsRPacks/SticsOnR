@@ -6,13 +6,14 @@
 #' @param javastics Path of JavaStics
 #' @param workspace Path of a JavaStics workspace
 #' @param usm Vector of USM names. Optional, if provided, the function runs
-#' only the given USMs.
-#' If not provided, the function runs all the USMs included in workspace.
+#' only the given USMs. If not provided, the function runs all the USMs
+#' included in workspace.
 #' @param keep_history Logical value (optional) to keep a copy of history file
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
 #' `FALSE` otherwise (default)
-#' @param verbose Logical value for displaying information while running
+#' @param verbose Optional logical value for displaying information while running
+#' (TRUE, default) or not (FALSE)
 #' @param stics_exe The name, executable or path of the stics executable to use
 #'  (optional, default to "modulostics", see details)
 #' @param java_cmd The java virtual machine command name or executable path
@@ -24,11 +25,11 @@
 #' 2. a stics executable file available from the bin folder in JavaStics, e.g.
 #' "stics_modulo.exe";
 #' 3. a path to a stics executable file, eg.
-#' "C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+#' "path/to/executable/dir/stics.exe". NB: this file cannot be named
 #' `stics_modulo.exe` because it is the name of the standard STICS shipping
 #' with JavaStics (overwriting is not allowed).
 #'
-#' @return A list in which each element contains: usm "name", "error" status
+#' @return A named list in which each element contains: usm "name", "error" status
 #' (logical) and an output "message" (JavaStics commandline execution output)
 #'
 #'
@@ -47,7 +48,7 @@
 #'
 run_javastics <- function(
   javastics,
-  workspace = NULL,
+  workspace,
   usm = NULL,
   keep_history = TRUE,
   optim = FALSE,
@@ -67,6 +68,14 @@ run_javastics <- function(
     winslash = "/",
     mustWork = FALSE
   )
+  # Checking paths existence
+  dir_exist <- dir.exists(c(javastics, workspace))
+  if (!all(dir_exist)) {
+    stop(
+      "At least a directory does not exist: ",
+      sprintf("%s, ", c(javastics, workspace)[!dir_exist])
+    )
+  }
 
   # Help people that don't remember well the standard name:
   if (stics_exe == "stics_modulo" || stics_exe == "sticsmodulo") {
@@ -127,11 +136,11 @@ run_javastics <- function(
     }
 
     # Selecting existing usms
-    if (sum(usm_exist) != length(usm)) {
-      unknown_usms <- setdiff(full_usms_list[usm_exist], usm)
+    unknown_usms <- setdiff(usm, full_usms_list)
+    if (length(unknown_usms) > 0) {
       warning(
         "At least one usm does not exist in the usms.xml file : ",
-        unknown_usms
+        paste(unknown_usms, collapse = ", ")
       )
       usm <- full_usms_list[usm_exist]
     }
@@ -206,16 +215,17 @@ run_javastics <- function(
         print(status)
       }
 
-      err <- grep(pattern = "[eE]rror", tolower(status))
-      if (length(err) > 0) {
-        # Any error, keeping the line with Error message
-        usm_out$error <- TRUE
-        usm_out$message <- status
-      } else {
-        # No errors: keeping lines of JavaSticsCmd execution
-        usm_out$error <- FALSE
-        usm_out$message <- paste(status, sep = "\n")
-      }
+      # err <- grep(pattern = "[eE]rror", tolower(status))
+      # if (length(err) > 0) {
+      #   # Any error, keeping the line with Error message
+      #   usm_out$error <- TRUE
+      #   usm_out$message <- status
+      # } else {
+      #   # No errors: keeping lines of JavaSticsCmd execution
+      #   usm_out$error <- FALSE
+      #   usm_out$message <- paste(status, sep = "\n")
+      # }
+      usm_out <- detect_javastics_error(workspace = workspace, usm = usm_name)
     }
 
     # Keeping a copy of modhistory file !
@@ -226,6 +236,9 @@ run_javastics <- function(
     # Storing usm output infos
     usms_out[[i]] <- usm_out
   }
+
+  # Set to named list using usms names
+  names(usms_out) <- usm
 
   # Naming the list elements
   # Final message:
@@ -243,4 +256,16 @@ run_javastics <- function(
 
   # Returning usms list with execution return
   return(invisible(usms_out))
+}
+
+detect_javastics_error <- function(workspace, usm) {
+  mod_hist_file <- file.path(workspace, "modhistory.sti")
+  mod_s_file <- file.path(workspace, paste0("mod_s", usm, ".sti"))
+
+  err <- FALSE
+  message <- paste("Successful run for usm: ", usm)
+  if (!any(file.exists(c(mod_hist_file, mod_s_file)))) {
+    err <- TRUE
+  }
+  list(error = err, message = message)
 }

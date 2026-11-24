@@ -6,7 +6,7 @@
 \usage{
 run_javastics(
   javastics,
-  workspace = NULL,
+  workspace,
   usm = NULL,
   keep_history = TRUE,
   optim = FALSE,
@@ -21,8 +21,8 @@ run_javastics(
 \item{workspace}{Path of a JavaStics workspace}
 
 \item{usm}{Vector of USM names. Optional, if provided, the function runs
-only the given USMs.
-If not provided, the function runs all the USMs included in workspace.}
+only the given USMs. If not provided, the function runs all the USMs
+included in workspace.}
 
 \item{keep_history}{Logical value (optional) to keep a copy of history file
 use \code{TRUE} (default), \code{FALSE} otherwise}
@@ -30,7 +30,8 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 \item{optim}{Logical value (optional), \code{TRUE} to force code_optim value to 1,
 \code{FALSE} otherwise (default)}
 
-\item{verbose}{Logical value for displaying information while running}
+\item{verbose}{Optional logical value for displaying information while running
+(TRUE, default) or not (FALSE)}
 
 \item{stics_exe}{The name, executable or path of the stics executable to use
 (optional, default to "modulostics", see details)}
@@ -38,7 +39,7 @@ use \code{TRUE} (default), \code{FALSE} otherwise}
 \item{java_cmd}{The java virtual machine command name or executable path}
 }
 \value{
-A list in which each element contains: usm "name", "error" status
+A named list in which each element contains: usm "name", "error" status
 (logical) and an output "message" (JavaStics commandline execution output)
 }
 \description{
@@ -54,7 +55,7 @@ shipping with JavaStics;
 \item a stics executable file available from the bin folder in JavaStics, e.g.
 "stics_modulo.exe";
 \item a path to a stics executable file, eg.
-"C:/Users/username/Desktop/stics.exe". NB: this file cannot be named
+"path/to/executable/dir/stics.exe". NB: this file cannot be named
 \code{stics_modulo.exe} because it is the name of the standard STICS shipping
 with JavaStics (overwriting is not allowed).
 }
