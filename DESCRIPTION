@@ -43,6 +43,8 @@ Imports:
     future.apply,
     magrittr,
     parallel,
+    progress,
+    progressr,
     rstudioapi,
     stats,
     tibble,
