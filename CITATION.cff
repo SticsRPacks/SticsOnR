@@ -59,8 +59,7 @@ references:
   doi: 10.32614/R.manuals
   version: '>= 3.6.0'
 - type: software
-  title: cli
-  abstract: 'cli: Helpers for Developing Command Line Interfaces'
+  title: 'cli: Helpers for Developing Command Line Interfaces'
   notes: Imports
   url: https://cli.r-lib.org
   repository: https://CRAN.R-project.org/package=cli
@@ -71,8 +70,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.cli
 - type: software
-  title: crayon
-  abstract: 'crayon: Colored Terminal Output'
+  title: 'crayon: Colored Terminal Output'
   notes: Imports
   url: https://r-lib.github.io/crayon/
   repository: https://CRAN.R-project.org/package=crayon
@@ -80,25 +78,11 @@ references:
   - family-names: Csárdi
     given-names: Gábor
     email: csardi.gabor@gmail.com
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.crayon
   version: '>= 1.3.4'
 - type: software
-  title: doParallel
-  abstract: 'doParallel: Foreach Parallel Adaptor for the ''parallel'' Package'
-  notes: Imports
-  url: https://github.com/RevolutionAnalytics/doparallel
-  repository: https://CRAN.R-project.org/package=doParallel
-  authors:
-  - family-names: Corporation
-    given-names: Microsoft
-  - family-names: Weston
-    given-names: Steve
-  year: '2026'
-  doi: 10.32614/CRAN.package.doParallel
-- type: software
-  title: dplyr
-  abstract: 'dplyr: A Grammar of Data Manipulation'
+  title: 'dplyr: A Grammar of Data Manipulation'
   notes: Imports
   url: https://dplyr.tidyverse.org
   repository: https://CRAN.R-project.org/package=dplyr
@@ -122,20 +106,31 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.dplyr
 - type: software
-  title: foreach
-  abstract: 'foreach: Provides Foreach Looping Construct'
+  title: 'future: Unified Parallel and Distributed Processing in R for Everyone'
   notes: Imports
-  url: https://github.com/RevolutionAnalytics/foreach
-  repository: https://CRAN.R-project.org/package=foreach
+  url: https://future.futureverse.org
+  repository: https://CRAN.R-project.org/package=future
   authors:
-  - name: Microsoft
-  - family-names: Weston
-    given-names: Steve
+  - family-names: Bengtsson
+    given-names: Henrik
+    email: henrikb@braju.com
+    orcid: https://orcid.org/0000-0002-7579-5165
   year: '2026'
-  doi: 10.32614/CRAN.package.foreach
+  doi: 10.32614/CRAN.package.future
 - type: software
-  title: magrittr
-  abstract: 'magrittr: A Forward-Pipe Operator for R'
+  title: 'future.apply: Apply Function to Elements in Parallel using Futures'
+  notes: Imports
+  url: https://future.apply.futureverse.org
+  repository: https://CRAN.R-project.org/package=future.apply
+  authors:
+  - family-names: Bengtsson
+    given-names: Henrik
+    email: henrikb@braju.com
+    orcid: https://orcid.org/0000-0002-7579-5165
+  year: '2026'
+  doi: 10.32614/CRAN.package.future.apply
+- type: software
+  title: 'magrittr: A Forward-Pipe Operator for R'
   notes: Imports
   url: https://magrittr.tidyverse.org
   repository: https://CRAN.R-project.org/package=magrittr
@@ -149,8 +144,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.magrittr
 - type: software
-  title: parallel
-  abstract: 'R: A Language and Environment for Statistical Computing'
+  title: 'R: A Language and Environment for Statistical Computing'
   notes: Imports
   authors:
   - name: R Core Team
@@ -162,8 +156,7 @@ references:
   year: '2026'
   doi: 10.32614/R.manuals
 - type: software
-  title: rstudioapi
-  abstract: 'rstudioapi: Safely Access the RStudio API'
+  title: 'rstudioapi: Safely Access the RStudio API'
   notes: Imports
   url: https://rstudio.github.io/rstudioapi/
   repository: https://CRAN.R-project.org/package=rstudioapi
@@ -183,21 +176,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.rstudioapi
 - type: software
-  title: stats
-  abstract: 'R: A Language and Environment for Statistical Computing'
-  notes: Imports
-  authors:
-  - name: R Core Team
-    website: https://ror.org/02zz1nj61
-  institution:
-    name: R Foundation for Statistical Computing
-    website: https://ror.org/05qewa988
-    address: Vienna, Austria
-  year: '2026'
-  doi: 10.32614/R.manuals
-- type: software
-  title: tibble
-  abstract: 'tibble: Simple Data Frames'
+  title: 'tibble: Simple Data Frames'
   notes: Imports
   url: https://tibble.tidyverse.org/
   repository: https://CRAN.R-project.org/package=tibble
@@ -212,8 +191,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.tibble
 - type: software
-  title: tidyr
-  abstract: 'tidyr: Tidy Messy Data'
+  title: 'tidyr: Tidy Messy Data'
   notes: Imports
   url: https://tidyr.tidyverse.org
   repository: https://CRAN.R-project.org/package=tidyr
@@ -226,11 +204,10 @@ references:
     email: davis@posit.co
   - family-names: Girlich
     given-names: Maximilian
-  year: '2026'
+  year: '2025'
   doi: 10.32614/CRAN.package.tidyr
 - type: software
-  title: SticsRFiles
-  abstract: 'SticsRFiles: Read and Modify ''STICS'' Input/Output Files'
+  title: 'SticsRFiles: Read and Modify STICS Input/Output Files'
   notes: Imports
   url: https://doi.org/10.5281/zenodo.4443206
   repository: https://CRAN.R-project.org/package=SticsRFiles
@@ -251,12 +228,18 @@ references:
     given-names: Michel
     email: michel.giner@cirad.fr
     orcid: https://orcid.org/0000-0002-9310-2377
+  - family-names: Flutre
+    given-names: Timothee
+    email: timothee.flutre@inrae.fr
+    orcid: https://orcid.org/0000-0003-4489-4782
+  - family-names: Rahier
+    given-names: Valentine
+    email: valentine.rahier@inrae.fr
   year: '2026'
   doi: 10.32614/CRAN.package.SticsRFiles
   version: '>= 1.1.3'
 - type: software
-  title: semver
-  abstract: 'semver: ''Semantic Versioning V2.0.0'' Parser'
+  title: 'semver: ''Semantic Versioning V2.0.0'' Parser'
   notes: Imports
   url: https://github.com/johndharrison/semver
   repository: https://CRAN.R-project.org/package=semver
@@ -269,8 +252,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.semver
 - type: software
-  title: covr
-  abstract: 'covr: Test Coverage for Packages'
+  title: 'covr: Test Coverage for Packages'
   notes: Suggests
   url: https://covr.r-lib.org
   repository: https://CRAN.R-project.org/package=covr
@@ -281,8 +263,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.covr
 - type: software
-  title: knitr
-  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  title: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
   notes: Suggests
   url: https://yihui.org/knitr/
   repository: https://CRAN.R-project.org/package=knitr
@@ -294,8 +275,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.knitr
 - type: software
-  title: rmarkdown
-  abstract: 'rmarkdown: Dynamic Documents for R'
+  title: 'rmarkdown: Dynamic Documents for R'
   notes: Suggests
   url: https://pkgs.rstudio.com/rmarkdown/
   repository: https://CRAN.R-project.org/package=rmarkdown
@@ -338,8 +318,7 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
-  title: spelling
-  abstract: 'spelling: Tools for Spell Checking in R'
+  title: 'spelling: Tools for Spell Checking in R'
   notes: Suggests
   url: https://ropensci.r-universe.dev/spelling
   repository: https://CRAN.R-project.org/package=spelling
@@ -351,11 +330,10 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.hester@rstudio.com
-  year: '2026'
+  year: '2025'
   doi: 10.32614/CRAN.package.spelling
 - type: software
-  title: testthat
-  abstract: 'testthat: Unit Testing for R'
+  title: 'testthat: Unit Testing for R'
   notes: Suggests
   url: https://testthat.r-lib.org
   repository: https://CRAN.R-project.org/package=testthat

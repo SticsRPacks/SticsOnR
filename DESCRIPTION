@@ -38,9 +38,9 @@ Depends:
 Imports:
     cli,
     crayon (>= 1.3.4),
-    doParallel,
     dplyr,
-    foreach,
+    future,
+    future.apply,
     magrittr,
     parallel,
     rstudioapi,
