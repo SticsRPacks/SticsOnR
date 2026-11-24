@@ -259,7 +259,24 @@ stics_wrapper <- function(
     apply_fun <- lapply
   }
 
-  # Progress bar (one step per USM), displayed when verbose is TRUE
+  run_start <- Sys.time()
+
+  if (verbose) {
+    nb_usms <- length(sit2simulate)
+    nb_successive <- length(successive)
+    cli::cli_alert_info(paste0(
+      "Running {nb_usms} USM{?s}",
+      if (nb_successive > 0) " ({nb_successive} rotation{?s} of successive USMs)"
+    ))
+    if (parallel) {
+      cli::cli_alert_info("Parallel mode: {cores_nb} worker{?s}")
+    } else {
+      cli::cli_alert_info("Sequential mode")
+    }
+  }
+
+  # Progress bar (one step per USM, with the name of the last simulated USM),
+  # displayed when verbose is TRUE
   out <- progressr::with_progress(
     {
       progress <- progressr::progressor(steps = length(sit2simulate))
@@ -279,6 +296,17 @@ stics_wrapper <- function(
         progress = progress
       )
     },
+    handlers = progressr::handler_cli(
+      format = paste(
+        "{cli::pb_spin} Simulating USMs {cli::pb_bar} {cli::pb_percent}",
+        "| {cli::pb_current}/{cli::pb_total} USMs | ETA: {cli::pb_eta}",
+        "| {cli::pb_status}"
+      ),
+      format_done = paste(
+        "{cli::pb_bar} {cli::pb_percent}",
+        "| {cli::pb_current}/{cli::pb_total} USMs"
+      )
+    ),
     enable = verbose
   )
 
@@ -328,6 +356,21 @@ stics_wrapper <- function(
     return(unlist(x[[4]][x[[2]]]))
   })
   res$messages <- res$messages[lengths(res$messages) > 0]
+
+  if (verbose) {
+    nb_failed <- sum(vapply(out, function(x) any(x[[2]]), logical(1)))
+    run_duration <- format(round(Sys.time() - run_start, 1))
+    cli::cli_alert_success(paste(
+      "{nb_usms - nb_failed}/{nb_usms} USM{?s} simulated successfully",
+      "in {run_duration}"
+    ))
+    if (nb_failed > 0) {
+      cli::cli_alert_danger(paste(
+        "{nb_failed} USM{?s} failed",
+        "(see the {.code messages} element of the result)"
+      ))
+    }
+  }
 
   # Calculating and printing duration
   if (time_display) {
