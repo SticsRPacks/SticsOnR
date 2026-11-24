@@ -250,19 +250,27 @@ stics_wrapper <- function(
     apply_fun <- lapply
   }
 
-  out <- apply_fun(
-    rotations,
-    run_rotation,
-    workspace = workspace,
-    stics_exe = stics_exe,
-    javastics = javastics,
-    successive = successive,
-    verbose = verbose,
-    param_values = param_values,
-    keep_all_data = keep_all_data,
-    sit_var_dates_mask = sit_var_dates_mask,
-    var = var,
-    dates = dates
+  # Progress bar (one step per USM), displayed when verbose is TRUE
+  out <- progressr::with_progress(
+    {
+      progress <- progressr::progressor(steps = length(sit2simulate))
+      apply_fun(
+        rotations,
+        run_rotation,
+        workspace = workspace,
+        stics_exe = stics_exe,
+        javastics = javastics,
+        successive = successive,
+        verbose = verbose,
+        param_values = param_values,
+        keep_all_data = keep_all_data,
+        sit_var_dates_mask = sit_var_dates_mask,
+        var = var,
+        dates = dates,
+        progress = progress
+      )
+    },
+    enable = verbose
   )
 
   # One element per USM (rotations are flattened)
@@ -329,6 +337,7 @@ stics_wrapper <- function(
 #' `stics_wrapper_options()`
 #' @param param_values,sit_var_dates_mask,var,dates See `stics_wrapper()`
 #' @param keep_all_data Logical, TRUE if all simulated data must be returned
+#' @param progress A `progressr::progressor()` function, called once per USM
 #'
 #' @return A list with one element per USM of the rotation, each one being a
 #' list of: simulated outputs, error flags, required results flags and
@@ -348,7 +357,8 @@ run_rotation <- function(
   keep_all_data,
   sit_var_dates_mask,
   var,
-  dates
+  dates,
+  progress = function(...) NULL
 ) {
   ## Loops on the USMs that can be simulated
   ## out is a list containing vectors of:
@@ -598,7 +608,7 @@ run_rotation <- function(
         usm_out <- run_stics(
           stics_exe,
           run_dir,
-          verbose = verbose,
+          verbose = FALSE,
           check = FALSE
         )
 
@@ -664,7 +674,7 @@ run_rotation <- function(
         }
 
         # Get results
-        sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = verbose)[[1]]
+        sim_tmp <- SticsRFiles::get_sim(run_dir, verbose = FALSE)[[1]]
 
         # Any error reading output file ... go to next simulation
         if (is.null(sim_tmp)) {
@@ -721,6 +731,7 @@ run_rotation <- function(
       }
     }
     rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
+    progress(message = situation)
   }
   return(rotation_out)
 }
