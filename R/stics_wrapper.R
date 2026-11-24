@@ -267,8 +267,9 @@ stics_wrapper <- function(
     nb_successive <- length(successive)
     cli::cli_alert_info(paste0(
       "Running {nb_usms} USM{?s}",
-      if (nb_successive > 0)
+      if (nb_successive > 0) {
         " ({nb_successive} rotation{?s} of successive USMs)"
+      }
     ))
     if (parallel) {
       cli::cli_alert_info("Parallel mode: {cores_nb} worker{?s}")
