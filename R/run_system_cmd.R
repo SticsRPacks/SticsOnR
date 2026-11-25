@@ -27,7 +27,6 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
     ),
     silent = TRUE
   )
-  # 'print(ret)
 
   # if any error, storing message as an attribute
   if (
@@ -49,7 +48,7 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
         attr(ret, "status")
       )
     }
-    return(err_status)
+    err_status
   }
 
   # Attaching the command output as a status attribute
@@ -57,5 +56,5 @@ run_system_cmd <- function(command, com_args = "", output = FALSE) {
     if (output) attr(err_status, "output") <- ret
   }
 
-  return(invisible(err_status))
+  invisible(err_status)
 }

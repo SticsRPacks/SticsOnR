@@ -64,7 +64,7 @@ test_that("remove_missing_usms emits a warning listing missing USMs", {
 })
 
 
-test_that("remove_missing_usms removes all successions if all USMs are missing", {
+test_that("removing all successions if all USMs are missing", {
   successive <- list(
     c("A1", "A2"),
     c("B1")

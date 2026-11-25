@@ -59,8 +59,6 @@ run_system <- function(
   check = TRUE,
   verbose = FALSE
 ) {
-  first_wd <- getwd()
-  on.exit(setwd(first_wd))
   # Default one usm directory
   run_dir <- normalizePath(workspace, winslash = "/")
 
@@ -79,8 +77,10 @@ run_system <- function(
   dirs_exist <- file.exists(run_dir)
 
   if (!all(dirs_exist)) {
-    print(paste0(run_dir[!dirs_exist], collapse = ", "))
-    stop("One or more directories does/do not exist !")
+    stop(
+      "One or more directories does/do not exist: ",
+      paste0(run_dir[!dirs_exist], collapse = ", ")
+    )
   }
 
   # optional model executable checking
@@ -92,12 +92,11 @@ run_system <- function(
   for (d in 1:nb_usms) {
     usm_out <- list()
     usm_dir <- run_dir[d]
-    # ' usm_out$name <- basename(usm_dir)
     setwd(usm_dir)
 
     usm_out$name <- SticsRFiles::get_usm_txt()$nom
 
-    if (verbose) print(usm_out$name)
+    if (verbose) message(usm_out$name)
 
     # new function call, keeping error message as attribute
     ret <- run_system_cmd(command = stics_exe, output = TRUE)
@@ -116,7 +115,7 @@ run_system <- function(
 
     # additional check for missing output files
     if (!usm_out$error && usm_chk_out$error) {
-      print(paste("Error, missing output file(s) : ", usm_dir))
+      message(paste("Error, missing output file(s) : ", usm_dir))
       usm_out$error <- TRUE
       usm_out$message <- paste("No output files: ", usm_chk_out$missing)
     }
@@ -124,5 +123,5 @@ run_system <- function(
     usms_out[[d]] <- usm_out
   }
 
-  return(invisible(usms_out))
+  invisible(usms_out)
 }
