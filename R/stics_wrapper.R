@@ -94,7 +94,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' @importFrom progressr progressor with_progress
+#' @importFrom progress progress_bar
 #'
 stics_wrapper <- function(
   model_options,
@@ -1105,7 +1105,7 @@ select_results <- function(
 #' #> [1] FALSE
 #' #>
 #' #> $verbose
-#' #> [1] TRUE
+#' #> [1] FALSE
 #' #>
 #' #> $force
 #' #> [1] FALSE
@@ -1144,7 +1144,7 @@ select_results <- function(
 #' #> [1] FALSE
 #' #>
 #' #> $verbose
-#' #> [1] TRUE
+#' #> [1] FALSE
 #' #>
 #' #> $force
 #' #> [1] FALSE
@@ -1175,7 +1175,7 @@ select_results <- function(
 #' #> [1] FALSE
 #' #>
 #' #> $verbose
-#' #> [1] TRUE
+#' #> [1] FALSE
 #' #>
 #' #> $force
 #' #> [1] TRUE
@@ -1202,7 +1202,7 @@ select_results <- function(
 #' #> [1] FALSE
 #' #>
 #' #> $verbose
-#' #> [1] TRUE
+#' #> [1] FALSE
 #' #>
 #' #> $force
 #' #> [1] FALSE
@@ -1220,7 +1220,7 @@ stics_wrapper_options <- function(
   parallel = FALSE,
   cores = NA,
   time_display = FALSE,
-  verbose = TRUE,
+  verbose = FALSE,
   force = FALSE,
   successive = NULL,
   ...
