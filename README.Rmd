@@ -38,7 +38,7 @@ if (linux) {
 }
 ```
 
-```{r error=FALSE, echo=FALSE, results='hide'}
+```{r error=FALSE, echo=FALSE, results='hide', include=FALSE}
 # For testing consistency between JavaSTICS and java version
 
 # Adding a test to see if javastics is compatible with java version
@@ -74,7 +74,7 @@ if (!is.null(try_err) && attr(try_err, "class") == "try-error") {
 }
 ```
 
-The R package for the [STICS](https://stics.inrae.fr/eng) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
+The R package for running the [STICS](https://stics.inrae.fr/eng) model <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
