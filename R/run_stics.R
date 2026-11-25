@@ -67,5 +67,5 @@ run_stics <- function(
     verbose
   )
 
-  return(invisible(usms_out))
+  invisible(usms_out)
 }

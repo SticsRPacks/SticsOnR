@@ -123,5 +123,5 @@ run_system <- function(
     usms_out[[d]] <- usm_out
   }
 
-  return(invisible(usms_out))
+  invisible(usms_out)
 }

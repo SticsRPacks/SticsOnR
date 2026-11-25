@@ -12,7 +12,8 @@
 #' use `TRUE` (default), `FALSE` otherwise
 #' @param optim Logical value (optional), `TRUE` to force code_optim value to 1,
 #' `FALSE` otherwise (default)
-#' @param verbose Optional logical value for displaying information while running
+#' @param verbose Optional logical value for displaying information
+#' while running
 #' (TRUE, default) or not (FALSE)
 #' @param stics_exe The name, executable or path of the stics executable to use
 #'  (optional, default to "modulostics", see details)
@@ -29,7 +30,8 @@
 #' `stics_modulo.exe` because it is the name of the standard STICS shipping
 #' with JavaStics (overwriting is not allowed).
 #'
-#' @return A named list in which each element contains: usm "name", "error" status
+#' @return A named list in which each element contains: usm "name",
+#' "error" status
 #' (logical) and an output "message" (JavaStics commandline execution output)
 #'
 #'
@@ -209,20 +211,8 @@ run_javastics <- function(
       if (verbose) {
         message(status)
       }
-
-      # err <- grep(pattern = "[eE]rror", tolower(status))
-      # if (length(err) > 0) {
-      #   # Any error, keeping the line with Error message
-      #   usm_out$error <- TRUE
-      #   usm_out$message <- status
-      # } else {
-      #   # No errors: keeping lines of JavaSticsCmd execution
-      #   usm_out$error <- FALSE
-      #   usm_out$message <- paste(status, sep = "\n")
-      # }
       usm_out <- detect_javastics_error(workspace = workspace, usm = usm_name)
     }
-
     # Keeping a copy of modhistory file !
     if (keep_history && file.exists(histo_file)) {
       file.copy(histo_file, histo_copy)
@@ -250,7 +240,7 @@ run_javastics <- function(
   }
 
   # Returning usms list with execution return
-  return(invisible(usms_out))
+  invisible(usms_out)
 }
 
 detect_javastics_error <- function(workspace, usm) {

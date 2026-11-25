@@ -43,7 +43,7 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
   }
 
   # Getting the right required cores number
-  return(required_nb)
+  required_nb
 }
 
 
@@ -75,5 +75,5 @@ get_cores <- function(...) {
   }
 
   # Returning a fake number of cores gave as an input
-  return(dot_args$cores_nb)
+  dot_args$cores_nb
 }
