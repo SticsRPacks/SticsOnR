@@ -4,7 +4,7 @@
 #' @param required_nb Wanted number of cores
 #' @param ... To pass additional arguments (i.e. cores_nb, fake machine cores)
 #'
-#' @return Available cores number tu use
+#' @return Available cores number to use
 #'
 #' @keywords internal
 #'
@@ -43,7 +43,7 @@ get_cores_nb <- function(parallel = FALSE, required_nb = NA, ...) {
   }
 
   # Getting the right required cores number
-  return(required_nb)
+  required_nb
 }
 
 
@@ -75,5 +75,5 @@ get_cores <- function(...) {
   }
 
   # Returning a fake number of cores gave as an input
-  return(dot_args$cores_nb)
+  dot_args$cores_nb
 }

@@ -1,7 +1,7 @@
 SticsOnR
 ================
 
-The R package for the [STICS](https://stics.inrae.fr/eng) model
+The R package for running the [STICS](https://stics.inrae.fr/eng) model
 <img src="man/figures/logo.png" alt="logo" width="150" align="right" />
 
 <!-- badges: start -->
@@ -233,69 +233,69 @@ run_javastics(
   verbose = FALSE,
   java_cmd = java_cmd
 )
-#> [1] "banana"
-#> [1] "wheat"
+#> banana
+#> wheat
 
 # Running all usms contained in the workspace
 run_javastics(javastics, workspace,
   verbose = FALSE, java_cmd = java_cmd
 )
-#> [1] "SugarCane"
-#> [1] "potato"
-#> [1] "banana"
-#> [1] "sorghum"
-#> [1] "barley"
-#> [1] "radish"
-#> [1] "winterbarley"
-#> [1] "sugarbeet"
-#> [1] "wheat"
-#> [1] "maize"
-#> [1] "soybean"
-#> [1] "lettuce"
-#> [1] "tomato"
-#> [1] "DurumWheat"
-#> [1] "rapeseed"
-#> [1] "sunflower"
-#> [1] "grass"
-#> [1] "BareSoil"
-#> [1] "demo_Wheat1"
-#> [1] "demo_BareSoil2"
-#> [1] "demo_maize3"
-#> [1] "DurumWheat_4years"
-#> [1] "maize_4years"
-#> [1] "strawberry"
-#> [1] "alfalfa"
-#> [1] "pea"
-#> [1] "vine"
-#> [1] "fescue"
-#> [1] "flax"
-#> [1] "intercrop_pea_barley"
-#> [1] "timothy"
-#> [1] "Turmeric"
-#> [1] "cc_BristleOat"
-#> [1] "cc_mustard"
-#> [1] "cc_ItalianRyegrass"
-#> [1] "cc_vetch"
-#> [1] "cc_CrimsonClover"
-#> [1] "proto_rice"
-#> [1] "Miscanthus_2006"
-#> [1] "Miscanthus_2007"
-#> [1] "Miscanthus_2008"
-#> [1] "Miscanthus_2009"
-#> [1] "Miscanthus_2010"
-#> [1] "Miscanthus_2011"
-#> [1] "Miscanthus_2012"
-#> [1] "Miscanthus_2013"
-#> [1] "Miscanthus_2014"
-#> [1] "Miscanthus_2015"
+#> SugarCane
+#> potato
+#> banana
+#> sorghum
+#> barley
+#> radish
+#> winterbarley
+#> sugarbeet
+#> wheat
+#> maize
+#> soybean
+#> lettuce
+#> tomato
+#> DurumWheat
+#> rapeseed
+#> sunflower
+#> grass
+#> BareSoil
+#> demo_Wheat1
+#> demo_BareSoil2
+#> demo_maize3
+#> DurumWheat_4years
+#> maize_4years
+#> strawberry
+#> alfalfa
+#> pea
+#> vine
+#> fescue
+#> flax
+#> intercrop_pea_barley
+#> timothy
+#> Turmeric
+#> cc_BristleOat
+#> cc_mustard
+#> cc_ItalianRyegrass
+#> cc_vetch
+#> cc_CrimsonClover
+#> proto_rice
+#> Miscanthus_2006
+#> Miscanthus_2007
+#> Miscanthus_2008
+#> Miscanthus_2009
+#> Miscanthus_2010
+#> Miscanthus_2011
+#> Miscanthus_2012
+#> Miscanthus_2013
+#> Miscanthus_2014
+#> Miscanthus_2015
 
 # Getting information about execution:
 runs_info <- run_javastics(javastics, workspace,
   usm = c("banana", "wheat"),
   verbose = FALSE, java_cmd = java_cmd
 )
-#> [1] "banana"
-#> [1] "wheat"
+#> banana
+#> wheat
 
 runs_info
 #> $banana
@@ -395,7 +395,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[1]]$message
-#> [1] " The execution was successful." " Duration = 50ms"              
+#> [1] " The execution was successful." " Duration = 57ms"              
 #> 
 #> 
 #> [[2]]
@@ -403,7 +403,7 @@ runs_info
 #> [1] FALSE
 #> 
 #> [[2]]$message
-#> [1] " The execution was successful." " Duration = 77ms"
+#> [1] " The execution was successful." " Duration = 85ms"
 ```
 
 ### Advanced simulations parameterization
@@ -619,8 +619,9 @@ results <- stics_wrapper(
 #> ✔ Using stics: "/tmp/JavaSTICS-v11.0.0/bin/stics_modulo"
 #> Warning in stics_wrapper(model_options = sim_options, sit_var_dates_mask = obs_list): No folder(s) found in /tmp/gen_usms_xml2txt for USMs maize
 #>  These USMs will not be simulated.
-#> NULL
-#> mod_swheat.sti
+#> ℹ Running 1 USM
+#> ℹ Sequential mode
+#> ✔ 1/1 USM simulated successfully in 0.1 secs
 head(results)
 #> $error
 #> [1] FALSE
@@ -736,8 +737,9 @@ results <- stics_wrapper(
 #> ✔ Using stics: "/tmp/JavaSTICS-v11.0.0/bin/stics_modulo"
 #> Warning in stics_wrapper(model_options = sim_options, param_values = param_values, : No folder(s) found in /tmp/gen_usms_xml2txt for USMs maize
 #>  These USMs will not be simulated.
-#> NULL
-#> mod_swheat.sti
+#> ℹ Running 1 USM
+#> ℹ Sequential mode
+#> ✔ 1/1 USM simulated successfully in 0.1 secs
 ```
 
 #### Simulations in successive mode

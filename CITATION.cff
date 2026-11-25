@@ -8,7 +8,7 @@ message: 'To cite package "SticsOnR" in publications use:'
 type: software
 license: LGPL-3.0-or-later
 title: 'SticsOnR: Manage STICS Simulations Running the Executable or JavaStics,'
-version: 1.4.0
+version: 1.5.0
 abstract: 'Running simulations with the ''STICS'' crop model. Different ways of performing
   simulations are available and based on three use-cases: 1/ Calling ''JavaStics''
   command line to run simulations on given situations. ''JavaStics'' handles text
@@ -35,6 +35,9 @@ authors:
   given-names: Michel
   email: michel.giner@cirad.fr
   orcid: https://orcid.org/0000-0002-9310-2377
+- family-names: Rahier
+  given-names: Valentine
+  email: valentine.rahier@inrae.fr
 repository-code: https://github.com/SticsRPacks/SticsOnR
 url: https://doi.org/10.5281/zenodo.4443130
 date-released: '2026-09-11'
@@ -201,36 +204,18 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.rstudioapi
 - type: software
-  title: 'tibble: Simple Data Frames'
+  title: 'semver: ''Semantic Versioning V2.0.0'' Parser'
   notes: Imports
-  url: https://tibble.tidyverse.org/
-  repository: https://CRAN.R-project.org/package=tibble
+  url: https://github.com/johndharrison/semver
+  repository: https://CRAN.R-project.org/package=semver
   authors:
-  - family-names: Müller
-    given-names: Kirill
-    email: kirill@cynkra.com
-    orcid: https://orcid.org/0000-0002-1416-3412
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
+  - family-names: Harrison
+    given-names: John
+    email: johndharrison0@gmail.com
+  - family-names: Živanović
+    given-names: Marko
   year: '2026'
-  doi: 10.32614/CRAN.package.tibble
-- type: software
-  title: 'tidyr: Tidy Messy Data'
-  notes: Imports
-  url: https://tidyr.tidyverse.org
-  repository: https://CRAN.R-project.org/package=tidyr
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  - family-names: Vaughan
-    given-names: Davis
-    email: davis@posit.co
-  - family-names: Girlich
-    given-names: Maximilian
-  year: '2025'
-  doi: 10.32614/CRAN.package.tidyr
+  doi: 10.32614/CRAN.package.semver
 - type: software
   title: 'SticsRFiles: Read and Modify STICS Input/Output Files'
   notes: Imports
@@ -264,18 +249,36 @@ references:
   doi: 10.32614/CRAN.package.SticsRFiles
   version: '>= 1.1.3'
 - type: software
-  title: 'semver: ''Semantic Versioning V2.0.0'' Parser'
+  title: 'tibble: Simple Data Frames'
   notes: Imports
-  url: https://github.com/johndharrison/semver
-  repository: https://CRAN.R-project.org/package=semver
+  url: https://tibble.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=tibble
   authors:
-  - family-names: Harrison
-    given-names: John
-    email: johndharrison0@gmail.com
-  - family-names: Živanović
-    given-names: Marko
+  - family-names: Müller
+    given-names: Kirill
+    email: kirill@cynkra.com
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
   year: '2026'
-  doi: 10.32614/CRAN.package.semver
+  doi: 10.32614/CRAN.package.tibble
+- type: software
+  title: 'tidyr: Tidy Messy Data'
+  notes: Imports
+  url: https://tidyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=tidyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+  - family-names: Girlich
+    given-names: Maximilian
+  year: '2025'
+  doi: 10.32614/CRAN.package.tidyr
 - type: software
   title: 'covr: Test Coverage for Packages'
   notes: Suggests

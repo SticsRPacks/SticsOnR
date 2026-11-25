@@ -246,10 +246,10 @@ stics_wrapper <- function(
     # shared arguments (e.g. sit_var_dates_mask) and has a fixed overhead.
     chunk_ordering <- order((seq_along(rotations) - 1) %% cores_nb)
 
-    apply_fun <- function(X, FUN, ...) {
+    apply_fun <- function(rotations_list, apply_function, ...) {
       future.apply::future_lapply(
-        X,
-        FUN,
+        rotations_list,
+        apply_function,
         ...,
         future.packages = "SticsRFiles",
         future.seed = NULL,
@@ -267,7 +267,9 @@ stics_wrapper <- function(
     nb_successive <- length(successive)
     cli::cli_alert_info(paste0(
       "Running {nb_usms} USM{?s}",
-      if (nb_successive > 0) " ({nb_successive} rotation{?s} of successive USMs)"
+      if (nb_successive > 0) {
+        " ({nb_successive} rotation{?s} of successive USMs)"
+      }
     ))
     if (parallel) {
       cli::cli_alert_info("Parallel mode: {cores_nb} worker{?s}")
@@ -340,13 +342,13 @@ stics_wrapper <- function(
   res$error <- any(unlist(lapply(
     out,
     function(x) {
-      return(any(x[[2]]) || !all(x[[3]]))
+      any(x[[2]]) || !all(x[[3]])
     }
   )))
 
   # Gathering error messages (only for situations having some)
   res$messages <- lapply(out, function(x) {
-    return(unlist(x[[4]][x[[2]]]))
+    unlist(x[[4]][x[[2]]])
   })
   res$messages <- res$messages[lengths(res$messages) > 0]
 
@@ -367,11 +369,9 @@ stics_wrapper <- function(
 
   # Calculating and printing duration
   if (time_display) {
-    duration <- Sys.time() - start_time
-    print(duration)
+    message(Sys.time() - start_time)
   }
-
-  return(invisible(res))
+  invisible(res)
 }
 
 #' Run the USMs of a rotation (or a single USM) and select the results
@@ -447,8 +447,8 @@ run_rotation <- function(
       param_values_sit <- tibble::tibble(!!!param_values)
       if ("situation" %in% names(param_values_sit)) {
         sit_name <- situation
-        param_values_sit <- param_values_sit %>%
-          dplyr::filter(situation == sit_name) %>%
+        param_values_sit <- param_values_sit |>
+          dplyr::filter(situation == sit_name) |
           dplyr::select(-situation)
       }
       if ("variete" %in% names(param_values_sit)) {
@@ -479,9 +479,13 @@ run_rotation <- function(
     for (ip in seq_len(nrow(param_values_sit))) {
       # Context used in error messages for successive USMs
       usm_context <- paste0(
-        "USM ", situation,
-        " (rotation: ", paste(rotation, collapse = " -> "),
-        ", parameter set: ", ip, ")"
+        "USM ",
+        situation,
+        " (rotation: ",
+        paste(rotation, collapse = " -> "),
+        ", parameter set: ",
+        ip,
+        ")"
       )
 
       # Force parameters values
@@ -581,8 +585,10 @@ run_rotation <- function(
           # The previous USM failed: go to next simulation
           if (!all(f_exist)) {
             mess <- warning(paste(
-              "Error running the Stics model for", usm_context,
-              ". \n Previous USM", rotation[j - 1],
+              "Error running the Stics model for",
+              usm_context,
+              ". \n Previous USM",
+              rotation[j - 1],
               "failed, recup.tmp or snow_variables.txt",
               "file(s) not available: \n",
               paste(f_recup_prev[!f_exist], collapse = ", "),
@@ -691,7 +697,8 @@ run_rotation <- function(
           # recup.tmp not created ... go to next simulation
           if (!file.exists(recup_curr)) {
             mess <- warning(paste(
-              "Error running the Stics model for", usm_context,
+              "Error running the Stics model for",
+              usm_context,
               ". \n recup.tmp file not found, it is needed by the",
               "next USM of the rotation."
             ))
@@ -742,14 +749,14 @@ run_rotation <- function(
         if (length(sim_tmp) > 0) {
           if (length(intersect(stages_list, names(sim_tmp)) > 0)) {
             sim_tmp <-
-              sim_tmp %>%
+              sim_tmp |>
               dplyr::mutate(
                 dplyr::across(
                   dplyr::all_of(
                     intersect(stages_list, names(.))
                   ),
                   ~ dplyr::na_if(., 0)
-                ) %>%
+                ) |>
                   tidyr::fill(tidyr::everything(), .direction = "up")
               )
           }
@@ -778,7 +785,7 @@ run_rotation <- function(
     rotation_out[[j]] <- list(sim_list, flag_error, flag_rqd_res, messages)
     progress()
   }
-  return(rotation_out)
+  rotation_out
 }
 
 
@@ -812,6 +819,8 @@ run_rotation <- function(
 #'    o varmod_modified: a logical indicating if the var.mod file has been
 #'    modified
 #'
+#' @keywords internal
+#'
 #' @noRd
 
 select_results <- function(
@@ -842,7 +851,7 @@ select_results <- function(
     res$flag_error <- FALSE
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
-    return(res)
+    res
   } else if (
     !is.null(sit_var_dates_mask) &&
       is.null(sit_var_dates_mask[[situation]])
@@ -854,7 +863,7 @@ select_results <- function(
     res$flag_error <- FALSE
     res$flag_rqd_res <- TRUE
     res$simulate <- FALSE
-    return(res)
+    res
   } else {
     # some variables/dates explicitely required
     # -> Select from sit_var_dates_mask, var, dates arguments
@@ -1018,8 +1027,7 @@ select_results <- function(
       res$flag_rqd_res <- FALSE
       res$simulate <- FALSE
     }
-
-    return(res)
+    res
   }
 }
 
@@ -1286,7 +1294,6 @@ stics_wrapper_options <- function(
     # Case 2: stics_exe is an executable from the bin directory in JavaStics:
     stics_exe <- file.path(javastics, "bin", basename(stics_exe))
   } else if (!check_stics_exe(stics_exe, stop_on_error = FALSE)) {
-    # } else if (!check_stics_exe(model_path = stics_exe, stop_on_error = FALSE)) {
     # Case were stics_exe was not found in case 1 and 2, and is not a valid
     # path to an executable either:
     stop(
@@ -1315,7 +1322,7 @@ stics_wrapper_options <- function(
   dot_args <- list(...)
   options <- c(options, dot_args)
 
-  return(options)
+  options
 }
 
 
